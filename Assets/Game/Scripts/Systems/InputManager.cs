@@ -5,10 +5,10 @@ using UnityEngine;
 public class InputManager : Singleton<InputManager>
 {
     // A list of all objects in the game that are controllable or interactable 
-    public List<PlayerControllerBase> controllableObjects;
+    public List<IPlayerControllable> controllableObjects;
 
     //The main player gameobject. Must have a PlayerControllableBase type component
-    public PlayerControllerBase player;
+    public IPlayerControllable player;
 
     void Update()
     {

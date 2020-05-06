@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlayerControllerBase : MonoBehaviour
+public abstract class IPlayerControllable : MonoBehaviour
 {
     public abstract void LeftAnalogStick();
     public abstract void RightAnalogStick();
