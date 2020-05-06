@@ -10,14 +10,21 @@ public class InputManager : Singleton<InputManager>
     //The main player gameobject. Must have a PlayerControllableBase type component
     public PlayerControllerBase player;
 
-    private Vector2 leftStickInput;
-    private Vector2 rightStickInput;
     void Update()
     {
-        player.LeftAnalogStick();
-        player.RightAnalogStick();
+        OnLeftAnalogStick();
+        OnRightAnalogStick();
     }
 
+    private void OnLeftAnalogStick()
+    {
+        player.LeftAnalogStick();
+    }
+
+    private void OnRightAnalogStick()
+    {
+        player.RightAnalogStick();
+    }
 
     private void OnNorthFaceButtonDown() { }
     private void OnNorthFaceButton() { }
