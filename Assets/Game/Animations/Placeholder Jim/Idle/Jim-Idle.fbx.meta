@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: e3219ddb30b69f04ca72ea0cd8b56491
+guid: 7d7fac9e24e2f1d4bbf0186d667e0512
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: IdleRight90
+    second: Jim-Idle
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -35,20 +35,20 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: IdleRight90
+      name: Jim-Idle
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
-      lastFrame: 62
+      lastFrame: 500
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
-      loopBlendOrientation: 0
+      loopBlendOrientation: 1
       loopBlendPositionY: 1
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 1

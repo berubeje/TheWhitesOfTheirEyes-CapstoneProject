@@ -231,10 +231,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9da92ef688179844a70da06e9803bd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 15
-  turnAroundThreshold: 5
+  rotationSpeed: 10
+  speedDampTime: 0.1
   directionDampTime: 0.5
   directionSpeed: 10
+  leftStickDeadzone: 0.05
 --- !u!136 &194144036
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -505,7 +506,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17074
+  m_Name: pb_Mesh17082
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
