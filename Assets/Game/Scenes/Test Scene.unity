@@ -235,7 +235,7 @@ MonoBehaviour:
   speedDampTime: 0.1
   directionDampTime: 0.5
   directionSpeed: 10
-  leftStickDeadzone: 0.05
+  leftStickDeadzone: 0.1
 --- !u!136 &194144036
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -506,7 +506,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17082
+  m_Name: pb_Mesh20166
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

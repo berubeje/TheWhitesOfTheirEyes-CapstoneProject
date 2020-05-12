@@ -64,25 +64,22 @@ public class JimController : IPlayerControllable
         Vector3 axisSign = Vector3.Cross(moveDirection, transform.forward);
 
         float angle = Vector3.Angle(transform.forward, moveDirection) * (axisSign.y > 0 ? -1.0f : 1.0f);
-
-        if (!IsInPivot())
-        {
-            _jimAnimator.SetFloat("angle", angle);
-        }
         
         float direction = (angle/180.0f) * directionSpeed;
         _jimAnimator.SetFloat("direction", direction, directionDampTime, Time.deltaTime);
 
-        // Directly rotate the player if the joystick is moving 
+       
+        // TO-DO: We might need to remove this if-else block. If we get the necessary turning animations, 
+        // this block will be unnecessary, as it is unwise to use root motion and physical rotation
         if (_leftStickInput.sqrMagnitude >= leftStickDeadzone)
         {
+            // Directly rotate the player if the joystick is moving 
             Quaternion targetRotation = Quaternion.LookRotation(leftStickDirection);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed);
-        }
-
-        // Set the direction and angle to 0 if the joystick is within deadzone
-        if (_leftStickInput.sqrMagnitude < leftStickDeadzone)
+        } 
+        else if (_leftStickInput.sqrMagnitude < leftStickDeadzone)
         {
+            // Set the direction and angle to 0 if the joystick is within deadzone
             _jimAnimator.SetFloat("direction", 0.0f);
             _jimAnimator.SetFloat("angle", 0.0f);
         }
