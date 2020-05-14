@@ -1198,7 +1198,17 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 841300336181460889, guid: 93d9e08aad5ae8d45894408c9c4e3234,
         type: 3}
+      propertyPath: controllables.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 841300336181460889, guid: 93d9e08aad5ae8d45894408c9c4e3234,
+        type: 3}
       propertyPath: player
+      value: 
+      objectReference: {fileID: 194144033}
+    - target: {fileID: 841300336181460889, guid: 93d9e08aad5ae8d45894408c9c4e3234,
+        type: 3}
+      propertyPath: controllables.Array.data[0]
       value: 
       objectReference: {fileID: 194144033}
     - target: {fileID: 4655042348104558899, guid: 93d9e08aad5ae8d45894408c9c4e3234,

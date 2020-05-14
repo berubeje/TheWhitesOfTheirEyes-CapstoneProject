@@ -4,30 +4,15 @@ using UnityEngine;
 
 public class ControllableBase : MonoBehaviour
 {
-    public virtual void OnNorthFaceButtonDown() { }
-    public virtual void OnNorthFaceButton() { }
-    public virtual void OnNorthFaceButtonUp() { }
-    public virtual void OnEastFaceButtonDown() { }
-    public virtual void OnEastFaceButton() { }
-    public virtual void OnEastFaceButtonUp() { }
-    public virtual void OnSouthFaceButtonDown() { }
-    public virtual void OnSouthFaceButton() { }
-    public virtual void OnSouthFaceButtonUp() { }
-    public virtual void OnWestFaceButtonDown() { }
-    public virtual void OnWestFaceButton() { }
-    public virtual void OnWestFaceButtonUp() { }
-    public virtual void OnLeftShoulderButtonDown() { }
-    public virtual void OnLeftShoulderButton() { }
-    public virtual void OnLeftShoulderButtonUp() { }
-    public virtual void OnLeftTriggerButtonDown() { }
-    public virtual void OnLeftTriggerButton() { }
-    public virtual void OnLeftTriggerButtonUp() { }
-    public virtual void OnRightShoulderButtonDown() { }
-    public virtual void OnRightShoulderButton() { }
-    public virtual void OnRightShoulderButtonUp() { }
-    public virtual void OnRightTriggerButtonDown() { }
-    public virtual void OnRightTriggerButton() { }
-    public virtual void OnRightTriggerButtonUp() { }
-
-
+    public virtual void LeftAnalogStick() { }
+    public virtual void RightAnalogStick() { }
+    public virtual void NorthFaceButton() { }
+    public virtual void EastFaceButton() { }
+    public virtual void SouthFaceButton() { }
+    public virtual void WestFaceButton() { }
+    public virtual void LeftShoulderButton() { }
+    public virtual void LeftTriggerButton() { }
+    public virtual void RightShoulderButton() { }
+    public virtual void RightTriggerButton() { }
+    public virtual void RightTriggerButtonUp() { }
 }

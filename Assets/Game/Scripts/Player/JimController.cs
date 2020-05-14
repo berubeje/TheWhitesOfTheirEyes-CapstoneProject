@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JimController : IPlayerControllable
+public class JimController : ControllableBase
 {
     public float rotationSpeed;
     public float speedDampTime;
@@ -37,7 +37,6 @@ public class JimController : IPlayerControllable
         stateInfo = _jimAnimator.GetCurrentAnimatorStateInfo(0);
     }
 
-   
     public override void LeftAnalogStick()
     {
         _leftStickInput.x = Input.GetAxis("Left Horizontal");
@@ -91,7 +90,15 @@ public class JimController : IPlayerControllable
         _rightStickInput.y = Input.GetAxis("Right Vertical");
     }
 
-    // Returns true if the animator is in either of the locomotion pivot states
+    public override void SouthFaceButton()
+    {
+        if(Input.GetButtonDown("South Face Button"))
+        {
+            _jimAnimator.SetTrigger("jump");
+        }
+    }
+
+    // Returns true if the animator is in the indicated state
     private bool IsInPivot()
     {
         return stateInfo.fullPathHash == locomotionPivotLeftID || stateInfo.fullPathHash == locomotionPivotRightID;
@@ -107,6 +114,4 @@ public class JimController : IPlayerControllable
         Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), moveDirection, Color.red);
         Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), leftStickDirection, Color.green);
     }
-
-    
 }
