@@ -99,6 +99,8 @@ public class GrapplingHookType2 : MonoBehaviour
 
     public void TargetReached()
     {
+        cursor.ChangeLength(0.0f);
+
         attached = true;
         launched = false;
         hookOut = true;
@@ -126,17 +128,14 @@ public class GrapplingHookType2 : MonoBehaviour
         // Pin both ends of the rope (this enables two-way interaction between character and rope):
         var pinConstraints = blueprint.GetConstraintsByType(Oni.ConstraintType.Pin) as ObiConstraints<ObiPinConstraintsBatch>;
         var batch = pinConstraints.batches[0];
-
         batch.AddConstraint(0, character, transform.localPosition, Quaternion.identity);
         batch.AddConstraint(blueprint.activeParticleCount - 1, launchedProjectile.GetComponent<ObiColliderBase>(),
                                                           Vector3.zero, Quaternion.identity);
         batch.activeConstraintCount = 2;
 
         // Set the blueprint (this adds particles/constraints to the solver and starts simulating them).
-
         rope.ropeBlueprint = blueprint;
         rope.GetComponent<MeshRenderer>().enabled = true;
-        cursor.ChangeLength(Vector3.Distance(character.transform.position, launchedProjectile.transform.position));
 
     }
 
@@ -181,10 +180,10 @@ public class GrapplingHookType2 : MonoBehaviour
             }
         }
 
-        if (attached == false && launched == true && rope.isLoaded)
-        {
-            cursor.ChangeLength(Vector3.Distance(character.transform.position, launchedProjectile.transform.position));
-        }
+        //if (attached == false && launched == true && rope.isLoaded)
+        //{
+        //    cursor.ChangeLength(Vector3.Distance(character.transform.position, launchedProjectile.transform.position));
+        //}
 
         //if (Input.GetKey(KeyCode.LeftShift) == false && attached == true)
         //{
