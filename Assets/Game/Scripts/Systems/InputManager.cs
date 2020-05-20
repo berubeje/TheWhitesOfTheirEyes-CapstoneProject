@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class InputManager : Singleton<InputManager>
 {
-    public ControllableBase player;
+    public List<ControllableBase> controllables;
 
     private MethodInfo[] methodInfo;
 
@@ -17,10 +17,14 @@ public class InputManager : Singleton<InputManager>
 
     void Update()
     {
-        foreach(MethodInfo mi in methodInfo)
+        foreach(ControllableBase cb in controllables)
         {
-            // Invoke every method from the ControllableBase class in the player object
-            player.Invoke(mi.Name, 0.0f);
+            foreach (MethodInfo mi in methodInfo)
+            {
+                // Invoke every method from the ControllableBase class in the player object
+                cb.Invoke(mi.Name, 0.0f);
+            }
         }
+        
     }
 }
