@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 02a80fb2935897640a3f2fc63fe85ecc
+guid: e1704cfaf8be558499b64dadf390ecdb
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: Jim-Sprint
+    second: RunJump
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -35,21 +35,21 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Jim-Sprint
+      name: RunJump
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
-      lastFrame: 38
+      lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 1
-      loopBlendPositionY: 1
+      loopBlendPositionY: 0
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 1
       keepOriginalPositionY: 1
@@ -521,48 +521,48 @@ ModelImporter:
         length: 0
         modified: 0
     skeleton:
-    - name: Placeholder Jim(Clone)
+    - name: Placeholder Jim Model(Clone)
       parentName: 
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Ch08_Body
-      parentName: Placeholder Jim(Clone)
+      parentName: Placeholder Jim Model(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Ch08_Sneakers
-      parentName: Placeholder Jim(Clone)
+      parentName: Placeholder Jim Model(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Ch08_Eyelashes
-      parentName: Placeholder Jim(Clone)
+      parentName: Placeholder Jim Model(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Ch08_Pants
-      parentName: Placeholder Jim(Clone)
+      parentName: Placeholder Jim Model(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Ch08_Hoodie
-      parentName: Placeholder Jim(Clone)
+      parentName: Placeholder Jim Model(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Ch08_Hair
-      parentName: Placeholder Jim(Clone)
+      parentName: Placeholder Jim Model(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Ch08_Beard
-      parentName: Placeholder Jim(Clone)
+      parentName: Placeholder Jim Model(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: mixamorig7:Hips
-      parentName: Placeholder Jim(Clone)
+      parentName: Placeholder Jim Model(Clone)
       position: {x: -0.00000035108795, y: 0.979916, z: -0.00964191}
       rotation: {x: 0.0000000085098515, y: -0.00000009466896, z: 0.0000032716414,
         w: 1}
