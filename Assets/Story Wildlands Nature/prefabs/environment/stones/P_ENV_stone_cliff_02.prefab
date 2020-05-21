@@ -10,9 +10,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 14
+  m_CookingOptions: 30
   m_Mesh: {fileID: -5390600171549686814, guid: 21446e064cce89d4f8adcd1fd3e8cce9, type: 3}
 --- !u!1 &6988370893119456359
 GameObject:
@@ -80,11 +80,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6242261306289059444}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: 21446e064cce89d4f8adcd1fd3e8cce9,
-        type: 3}
-      propertyPath: m_Name
-      value: SM_ENV_stone_cliff_02
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 21446e064cce89d4f8adcd1fd3e8cce9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -139,6 +134,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 21446e064cce89d4f8adcd1fd3e8cce9,
+        type: 3}
+      propertyPath: m_Name
+      value: SM_ENV_stone_cliff_02
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21446e064cce89d4f8adcd1fd3e8cce9, type: 3}
