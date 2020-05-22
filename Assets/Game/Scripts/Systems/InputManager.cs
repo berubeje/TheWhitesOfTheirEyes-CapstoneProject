@@ -1,53 +1,36 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 public class InputManager : Singleton<InputManager>
 {
-    // A list of all objects in the game that are controllable or interactable 
-    public List<IPlayerControllable> controllableObjects;
+    public List<ControllableBase> controllables;
+    public ControllableBase mainCamera; 
 
-    //The main player gameobject. Must have a PlayerControllableBase type component
-    public IPlayerControllable player;
+    private MethodInfo[] methodInfo;
+
+    private void Start()
+    {
+        // Get all the methods in the ControllableBase class
+        methodInfo = typeof(ControllableBase).GetMethods();    
+    }
 
     void Update()
     {
-        OnLeftAnalogStick();
-        OnRightAnalogStick();
+        foreach(ControllableBase cb in controllables)
+        {
+            foreach (MethodInfo mi in methodInfo)
+            {
+                // Invoke every method from the ControllableBase class in the player object
+                cb.Invoke(mi.Name, 0.0f);
+            }
+        }
+        
     }
 
-    private void OnLeftAnalogStick()
+    private void LateUpdate()
     {
-        player.LeftAnalogStick();
+        //mainCamera.RightAnalogStick();
     }
-
-    private void OnRightAnalogStick()
-    {
-        player.RightAnalogStick();
-    }
-
-    private void OnNorthFaceButtonDown() { }
-    private void OnNorthFaceButton() { }
-    private void OnNorthFaceButtonUp() { }
-    private void OnEastFaceButtonDown() { }
-    private void OnEastFaceButton() { }
-    private void OnEastFaceButtonUp() { }
-    private void OnSouthFaceButtonDown() { }
-    private void OnSouthFaceButton() { }
-    private void OnSouthFaceButtonUp() { }
-    private void OnWestFaceButtonDown() { }
-    private void OnWestFaceButton() { }
-    private void OnWestFaceButtonUp() { }
-    private void OnLeftShoulderButtonDown() { }
-    private void OnLeftShoulderButton() { }
-    private void OnLeftShoulderButtonUp() { }
-    private void OnLeftTriggerButtonDown() { }
-    private void OnLeftTriggerButton() { }
-    private void OnLeftTriggerButtonUp() { }
-    private void OnRightShoulderButtonDown() { }
-    private void OnRightShoulderButton() { }
-    private void OnRightShoulderButtonUp() { }
-    private void OnRightTriggerButtonDown() { }
-    private void OnRightTriggerButton() { }
-    private void OnRightTriggerButtonUp() { }
 }

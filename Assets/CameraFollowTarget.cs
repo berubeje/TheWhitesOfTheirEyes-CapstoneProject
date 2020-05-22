@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraFollowTarget : MonoBehaviour
+public class CameraFollowTarget : ControllableBase
 {
     public Transform followTarget;
     public float followSpeed;
-    public Vector3 offset;
+    public Vector3 followOffset;
 
-    void FixedUpdate()
+    void LateUpdate()
     {
-        transform.position = Vector3.Lerp(transform.position, followTarget.position + offset, Time.deltaTime * followSpeed);
+        transform.position = Vector3.Lerp(transform.position, followTarget.position + followOffset, Time.deltaTime * followSpeed);
     }
 
     private void OnDrawGizmos()
