@@ -12,29 +12,28 @@ public class JimController : ControllableBase
     public float leftStickDeadzone;
 
     private Animator _jimAnimator;
-    private AnimatorStateInfo stateInfo;
+    private AnimatorStateInfo _stateInfo;
 
     private Vector2 _leftStickInput;
-    private Vector2 _rightStickInput;
 
-    private Vector3 moveDirection;
-    private Vector3 leftStickDirection;
+    private Vector3 _moveDirection;
+    private Vector3 _leftStickDirection;
 
-    private int locomotionID;
-    private int locomotionPivotLeftID;
-    private int locomotionPivotRightID;
+    private int _locomotionID;
+    private int _locomotionPivotLeftID;
+    private int _locomotionPivotRightID;
     void Start()
     {
         _jimAnimator = GetComponent<Animator>();
 
-        locomotionID = Animator.StringToHash("Base Layer.Locomotion");
-        locomotionPivotLeftID = Animator.StringToHash("Base Layer.LocomotionPivotLeft");
-        locomotionPivotRightID = Animator.StringToHash("Base Layer.LocomotionPivotRight");
+        _locomotionID = Animator.StringToHash("Base Layer.Locomotion");
+        _locomotionPivotLeftID = Animator.StringToHash("Base Layer.LocomotionPivotLeft");
+        _locomotionPivotRightID = Animator.StringToHash("Base Layer.LocomotionPivotRight");
     }
 
     void Update()
     {
-        stateInfo = _jimAnimator.GetCurrentAnimatorStateInfo(0);
+        _stateInfo = _jimAnimator.GetCurrentAnimatorStateInfo(0);
     }
 
     public override void LeftAnalogStick()
@@ -47,23 +46,26 @@ public class JimController : ControllableBase
 
         _jimAnimator.SetFloat("leftInputMagnitude", _leftStickInput.sqrMagnitude, speedDampTime, Time.deltaTime);
 
-        leftStickDirection = new Vector3(_leftStickInput.x, 0.0f, _leftStickInput.y);
+        _leftStickDirection = new Vector3(_leftStickInput.x, 0.0f, _leftStickInput.y);
 
         // Get players forward and kill the y value
         Vector3 playerDirection = transform.forward;
         playerDirection.y = 0.0f;
 
+        // Get camera's forward and kill the y value
+        Vector3 cameraDirection = Camera.main.transform.forward;
+        cameraDirection.y = 0.0f;
+
         // Create rotation from the players forward to the direction the joystick is being held
-        Quaternion referenceShift = Quaternion.FromToRotation(playerDirection, leftStickDirection);
+        Quaternion referenceShift = Quaternion.FromToRotation(Vector3.forward, cameraDirection);
 
         // Convert joystick input to world space
-        moveDirection = referenceShift * leftStickDirection;
+        _moveDirection = referenceShift * _leftStickDirection;
 
         // y value of this vector is used to figure out if the direction is left or right of the player
-        Vector3 axisSign = Vector3.Cross(moveDirection, transform.forward);
+        Vector3 axisSign = Vector3.Cross(_moveDirection, playerDirection);
 
-        float angle = Vector3.Angle(transform.forward, moveDirection) * (axisSign.y > 0 ? -1.0f : 1.0f);
-        
+        float angle = Vector3.Angle(playerDirection, _moveDirection) * (axisSign.y > 0 ? -1.0f : 1.0f);
         float direction = (angle/180.0f) * directionSpeed;
         _jimAnimator.SetFloat("direction", direction, directionDampTime, Time.deltaTime);
 
@@ -73,7 +75,7 @@ public class JimController : ControllableBase
         if (_leftStickInput.sqrMagnitude >= leftStickDeadzone)
         {
             // Directly rotate the player if the joystick is moving 
-            Quaternion targetRotation = Quaternion.LookRotation(leftStickDirection);
+            Quaternion targetRotation = Quaternion.LookRotation(_moveDirection);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed);
         } 
         else if (_leftStickInput.sqrMagnitude < leftStickDeadzone)
@@ -84,11 +86,7 @@ public class JimController : ControllableBase
         }
     }
 
-    public override void RightAnalogStick()
-    {
-        _rightStickInput.x = Input.GetAxis("Right Horizontal");
-        _rightStickInput.y = Input.GetAxis("Right Vertical");
-    }
+    
 
     public override void SouthFaceButton()
     {
@@ -101,17 +99,17 @@ public class JimController : ControllableBase
     // Returns true if the animator is in the indicated state
     private bool IsInPivot()
     {
-        return stateInfo.fullPathHash == locomotionPivotLeftID || stateInfo.fullPathHash == locomotionPivotRightID;
+        return _stateInfo.fullPathHash == _locomotionPivotLeftID || _stateInfo.fullPathHash == _locomotionPivotRightID;
     }
 
     private bool IsInLocomotion()
     {
-        return stateInfo.fullPathHash == locomotionID;
+        return _stateInfo.fullPathHash == _locomotionID;
     }
 
     private void OnDrawGizmos()
     {
-        Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), moveDirection, Color.red);
-        Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), leftStickDirection, Color.green);
+        Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), _moveDirection, Color.red);
+        Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), _leftStickDirection, Color.green);
     }
 }
