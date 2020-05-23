@@ -2146,7 +2146,7 @@ GameObject:
   - component: {fileID: 3183961136142715236}
   - component: {fileID: 3183961136142715237}
   - component: {fileID: 3183961136142715232}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Placeholder Jim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
