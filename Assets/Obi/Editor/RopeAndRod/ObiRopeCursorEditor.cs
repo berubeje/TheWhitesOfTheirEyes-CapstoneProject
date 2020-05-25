@@ -18,7 +18,7 @@ namespace Obi
         {
             cursorMu = serializedObject.FindProperty("m_CursorMu");
             sourceMu = serializedObject.FindProperty("m_SourceMu");
-            direction = serializedObject.FindProperty("direction"); 
+            direction = serializedObject.FindProperty("direction");
         }
 
         public override void OnInspectorGUI()
@@ -64,6 +64,8 @@ namespace Obi
         [DrawGizmo(GizmoType.Selected)]
         private static void DrawGizmos(ObiRopeCursor cursor, GizmoType gizmoType)
         {
+            try
+            {
                 var rope = cursor.GetComponent<ObiRope>();
                 if (rope.solver != null)
                 {
@@ -92,6 +94,11 @@ namespace Obi
                         DrawArrow();
                     }
                 }
+            }
+            catch (Exception e)
+            {
+               
+            }
         }
     }
 }

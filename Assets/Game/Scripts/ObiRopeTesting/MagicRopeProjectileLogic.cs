@@ -6,19 +6,18 @@ using UnityEngine;
 public class MagicRopeProjectileLogic : MonoBehaviour
 {
     public float projectileSpeed;
-    public GrapplingHookType1 grapplingHookLogic1;
-    public GrapplingHookType2 grapplingHookLogic2;
 
-    private Vector3 targetPosition;
-    private GameObject targetGameObject;
-    private bool targetReached = false;
-    private Rigidbody rigidBody;
+    private PlayerGrapplingHook _grapplingHookLogic;
+    private Vector3 _targetPosition;
+    private GameObject _targetGameObject;
+    private bool _targetReached = false;
+    private Rigidbody _rigidBody;
 
 
 
     void Start()
     {
-        rigidBody = GetComponent<Rigidbody>();
+        _rigidBody = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -28,53 +27,31 @@ public class MagicRopeProjectileLogic : MonoBehaviour
 
     private void MoveToTarget()
     {
-        if (targetReached == false)
+        if (_targetReached == false)
         {
             float step = projectileSpeed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
+            transform.position = Vector3.MoveTowards(transform.position, _targetPosition, step);
 
-            if (Vector3.Distance(transform.position, targetPosition) < 0.001f)
+            if (Vector3.Distance(transform.position, _targetPosition) < 0.001f)
             {
-                if (grapplingHookLogic1 != null)
+                _grapplingHookLogic.TargetReached();
+                _targetReached = true;
+
+                if (_targetGameObject.GetComponent<BoxScript>() != null)
                 {
-                    grapplingHookLogic1.TargetReached();
-                    targetReached = true;
-                    
-                    if(targetGameObject.GetComponent<BoxScript>() != null)
-                    {
-                       // rigidBody.isKinematic = false;
-                        transform.parent = targetGameObject.transform;
-                    }
+                    // rigidBody.isKinematic = false;
+                    transform.parent = _targetGameObject.transform;
 
                 }
-                else
-                {
-                    grapplingHookLogic2.TargetReached();
-                    targetReached = true;
 
-                    if (targetGameObject.GetComponent<BoxScript>() != null)
-                    {
-                       // rigidBody.isKinematic = false;
-                        transform.parent = targetGameObject.transform;
-
-                    }
-                }
             }
         }
     }
 
-    public void SetupProjectile(Vector3 position, GrapplingHookType1 grappling, GameObject target)
+    public void SetupProjectile(Vector3 position, PlayerGrapplingHook grappling, GameObject target)
     {
-        targetPosition = position;
-        grapplingHookLogic1 = grappling;
-        targetGameObject = target;
-    }
-
-    public void SetupProjectile(Vector3 position, GrapplingHookType2 grappling, GameObject target)
-    {
-        targetPosition = position;
-        grapplingHookLogic2 = grappling;
-        targetGameObject = target;
-
+        _targetPosition = position;
+        _grapplingHookLogic = grappling;
+        _targetGameObject = target;
     }
 }
