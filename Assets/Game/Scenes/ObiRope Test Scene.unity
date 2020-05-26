@@ -953,7 +953,7 @@ PrefabInstance:
     - target: {fileID: 4800749148657922651, guid: 2215598de0694ef4399aba4c41349859,
         type: 3}
       propertyPath: ropeMass
-      value: 0.1
+      value: 0.05
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2215598de0694ef4399aba4c41349859, type: 3}
