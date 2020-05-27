@@ -7,26 +7,42 @@ public class JimController : ControllableBase
 {
     public float rotationSpeed;
     public float speedDampTime;
+
     public float directionDampTime;
     public float directionSpeed;
+    
     public float leftStickDeadzone;
 
-    private Animator _jimAnimator;
-    private AnimatorStateInfo _stateInfo;
+    public float jumpHeight;
+    public float jumpDistance;
+
 
     private Vector2 _leftStickInput;
 
     private Vector3 _moveDirection;
     private Vector3 _leftStickDirection;
 
+    private CapsuleCollider _capsuleCollider;
+    private float _capsuleColliderHeight;
+    
+    private Animator _jimAnimator;
+    private AnimatorStateInfo _stateInfo;
     private int _locomotionID;
+    private int _idleID;
+    private int _idleJumpID;
+    private int _runJumpID;
     private int _locomotionPivotLeftID;
     private int _locomotionPivotRightID;
     void Start()
     {
         _jimAnimator = GetComponent<Animator>();
+        _capsuleCollider = GetComponent<CapsuleCollider>();
+        _capsuleColliderHeight = _capsuleCollider.height;
 
         _locomotionID = Animator.StringToHash("Base Layer.Locomotion");
+        _idleID = Animator.StringToHash("Base Layer.Idle");
+        _idleJumpID = Animator.StringToHash("Base Layer.IdleJump");
+        _runJumpID = Animator.StringToHash("Base Layer.RunJump");
         _locomotionPivotLeftID = Animator.StringToHash("Base Layer.LocomotionPivotLeft");
         _locomotionPivotRightID = Animator.StringToHash("Base Layer.LocomotionPivotRight");
     }
@@ -34,8 +50,25 @@ public class JimController : ControllableBase
     void Update()
     {
         _stateInfo = _jimAnimator.GetCurrentAnimatorStateInfo(0);
+        
     }
 
+    private void FixedUpdate()
+    {
+        if (IsInIdleJump())
+        {
+            transform.Translate(Vector3.up * jumpHeight * _jimAnimator.GetFloat("jumpCurve"));
+            _capsuleCollider.height = _capsuleColliderHeight + (_jimAnimator.GetFloat("colliderCurve") * 0.5f);
+        }
+
+        if (IsInRunJump())
+        {
+            transform.Translate(Vector3.up * jumpHeight * _jimAnimator.GetFloat("jumpCurve"));
+            transform.Translate(Vector3.forward * jumpDistance * Time.deltaTime);
+
+            _capsuleCollider.height = _capsuleColliderHeight + (_jimAnimator.GetFloat("colliderCurve") * 0.5f);
+        }
+    }
     public override void LeftAnalogStick()
     {
         _leftStickInput.x = Input.GetAxis("Left Horizontal");
@@ -74,9 +107,13 @@ public class JimController : ControllableBase
         // this block will be unnecessary, as it is unwise to use root motion and physical rotation
         if (_leftStickInput.sqrMagnitude >= leftStickDeadzone)
         {
-            // Directly rotate the player if the joystick is moving 
-            Quaternion targetRotation = Quaternion.LookRotation(_moveDirection);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed);
+            // Directly rotate the player if the joystick is moving and they are in the idel or locomotion state
+            if (IsInIdle() || IsInLocomotion()) 
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(_moveDirection);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed);
+            }
+            
         } 
         else if (_leftStickInput.sqrMagnitude < leftStickDeadzone)
         {
@@ -92,7 +129,10 @@ public class JimController : ControllableBase
     {
         if(Input.GetButtonDown("South Face Button"))
         {
-            _jimAnimator.SetTrigger("jump");
+            if (IsInLocomotion() || IsInIdle())
+            {
+                _jimAnimator.SetTrigger("jump");
+            }
         }
     }
 
@@ -102,9 +142,22 @@ public class JimController : ControllableBase
         return _stateInfo.fullPathHash == _locomotionPivotLeftID || _stateInfo.fullPathHash == _locomotionPivotRightID;
     }
 
+    private bool IsInIdle()
+    {
+        return _stateInfo.fullPathHash == _idleID;
+    }
+
     private bool IsInLocomotion()
     {
         return _stateInfo.fullPathHash == _locomotionID;
+    }
+    private bool IsInIdleJump()
+    {
+        return _stateInfo.fullPathHash == _idleJumpID;
+    }
+    private bool IsInRunJump()
+    {
+        return _stateInfo.fullPathHash == _runJumpID;
     }
 
     private void OnDrawGizmos()
