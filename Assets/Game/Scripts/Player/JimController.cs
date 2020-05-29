@@ -16,6 +16,9 @@ public class JimController : ControllableBase
     public float jumpHeight;
     public float jumpDistance;
 
+    public float swingArcWidth;
+    public float swingArcHeight;
+    public float swingSpeed;
 
     private Vector2 _leftStickInput;
 
@@ -24,7 +27,8 @@ public class JimController : ControllableBase
 
     private CapsuleCollider _capsuleCollider;
     private float _capsuleColliderHeight;
-    
+    private Rigidbody _rigidbody;
+
     private Animator _jimAnimator;
     private AnimatorStateInfo _stateInfo;
     private int _locomotionID;
@@ -33,11 +37,15 @@ public class JimController : ControllableBase
     private int _runJumpID;
     private int _locomotionPivotLeftID;
     private int _locomotionPivotRightID;
+    private int _swingStartID;
+    private int _swingIdleID;
     void Start()
     {
         _jimAnimator = GetComponent<Animator>();
         _capsuleCollider = GetComponent<CapsuleCollider>();
         _capsuleColliderHeight = _capsuleCollider.height;
+
+        _rigidbody = GetComponent<Rigidbody>();
 
         _locomotionID = Animator.StringToHash("Base Layer.Locomotion");
         _idleID = Animator.StringToHash("Base Layer.Idle");
@@ -45,6 +53,8 @@ public class JimController : ControllableBase
         _runJumpID = Animator.StringToHash("Base Layer.RunJump");
         _locomotionPivotLeftID = Animator.StringToHash("Base Layer.LocomotionPivotLeft");
         _locomotionPivotRightID = Animator.StringToHash("Base Layer.LocomotionPivotRight");
+        _swingStartID = Animator.StringToHash("Base Layer.swingStart");
+        _swingIdleID = Animator.StringToHash("Base Layer.swingIdle");
     }
 
     void Update()
@@ -57,17 +67,18 @@ public class JimController : ControllableBase
     {
         if (IsInIdleJump())
         {
-            transform.Translate(Vector3.up * jumpHeight * _jimAnimator.GetFloat("jumpCurve"));
+            _rigidbody.MovePosition(Vector3.up * jumpHeight * _jimAnimator.GetFloat("jumpCurve"));
             _capsuleCollider.height = _capsuleColliderHeight + (_jimAnimator.GetFloat("colliderCurve") * 0.5f);
         }
 
         if (IsInRunJump())
         {
-            transform.Translate(Vector3.up * jumpHeight * _jimAnimator.GetFloat("jumpCurve"));
-            transform.Translate(Vector3.forward * jumpDistance * Time.deltaTime);
+            _rigidbody.MovePosition(Vector3.up * jumpHeight * _jimAnimator.GetFloat("jumpCurve"));
+            _rigidbody.MovePosition(Vector3.forward * jumpDistance * Time.deltaTime);
 
             _capsuleCollider.height = _capsuleColliderHeight + (_jimAnimator.GetFloat("colliderCurve") * 0.5f);
         }
+
     }
     public override void LeftAnalogStick()
     {
@@ -136,7 +147,16 @@ public class JimController : ControllableBase
         }
     }
 
-    // Returns true if the animator is in the indicated state
+    private Vector3 CalculateArcPosition()
+    {
+        Vector3 currentPosition = transform.position;
+        Vector3 newPosition = Vector3.forward;
+
+        newPosition.y = currentPosition.x - newPosition.x;
+        return newPosition;
+    }
+
+    #region Utility functions to see if the animator is in the indicated state
     private bool IsInPivot()
     {
         return _stateInfo.fullPathHash == _locomotionPivotLeftID || _stateInfo.fullPathHash == _locomotionPivotRightID;
@@ -159,6 +179,7 @@ public class JimController : ControllableBase
     {
         return _stateInfo.fullPathHash == _runJumpID;
     }
+    #endregion
 
     private void OnDrawGizmos()
     {
