@@ -11,6 +11,7 @@ public class RopeController : ControllableBase
     public bool lockXOnSwing = true;
     public bool pullRopeIn;
     public float startingLengthOffset;
+    public float breakPullDistance = 2.0f;
 
     public float pullStrainThreshold = 1.15f;
 
@@ -44,15 +45,26 @@ public class RopeController : ControllableBase
         if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull)
         {
             _ropeStrain = ropeLogic.CalculateStrain();
-            AdjustStrain();
         }
     }
 
     void FixedUpdate()
     {
-        if (_pullObject)
+        if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull && _targetTransform != null)
         {
-            PullObject();
+            AdjustStrain();
+
+            if (ropeLogic.GetRopeLength() <= breakPullDistance)
+            {
+                return;
+            }
+
+            if (_pullObject)
+            {
+                PullObject();
+            }
+
+
         }
     }
 
@@ -111,6 +123,21 @@ public class RopeController : ControllableBase
         }
     }
 
+    public override void RightTriggerButton()
+    {
+        if(ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Idle)
+        {
+            if (Input.GetButtonDown("Right Trigger") || Input.GetKeyDown(KeyCode.RightShift))
+            {
+                ropeLogic.ActivateTargeting();
+            }
+            else if(Input.GetButtonUp("Right Trigger") || Input.GetKeyUp(KeyCode.RightShift))
+            {
+                ropeLogic.LaunchHook();
+            }
+        }
+    }
+
 
     private void CheckRopeState()
     {
@@ -142,15 +169,23 @@ public class RopeController : ControllableBase
                         _playerRigidBody.isKinematic = true;
                         _animator.applyRootMotion = true;
 
-                        _targetRigidBody = ropeLogic.targetAnchor.GetComponent<Rigidbody>();
-                        _targetTransform = _targetRigidBody.transform;
+                        if (ropeLogic.targetAnchor.transform.parent != null)
+                        {
+                            _targetRigidBody = ropeLogic.targetAnchor.transform.parent.GetComponent<Rigidbody>();
+                        }
 
                         if (_targetRigidBody == null)
                         {
-                            Debug.LogError("The pull target does not have a rigid body");
-                            return;
+                            _targetRigidBody = ropeLogic.targetAnchor.transform.GetComponent<Rigidbody>();
+
+                            if(_targetRigidBody == null)
+                            {
+                                Debug.LogError("The pull target does not have a rigid body");
+                                return;
+                            }
                         }
 
+                        _targetTransform = _targetRigidBody.transform;
                         break;
                     }
 
