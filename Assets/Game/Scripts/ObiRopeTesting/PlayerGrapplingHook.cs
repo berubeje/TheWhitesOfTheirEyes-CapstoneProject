@@ -14,7 +14,9 @@ public class PlayerGrapplingHook : MonoBehaviour
     public float ropeMass = 0.1f;
     public float resolution = 0.5f;
     public GameObject ropeProjectile;
-
+    public RopeAnchorPoint targetAnchor;
+    public TargetingConeLogic targetCone;
+    public bool mouseTargeting = false;
 
     private ObiRope _rope;
     private ObiRopeBlueprint _blueprint;
@@ -23,7 +25,6 @@ public class PlayerGrapplingHook : MonoBehaviour
     private ObiRopeCursor _cursor;
 
     private RaycastHit _hookAttachment;
-    private RopeAnchorPoint _targetAnchor;
     private bool _attached = false;
 
     private GameObject _launchedProjectile;
@@ -69,37 +70,52 @@ public class PlayerGrapplingHook : MonoBehaviour
         DestroyImmediate(_blueprint);
     }
 
+    public void ActivateTargeting()
+    {
+        targetCone.gameObject.SetActive(true);
+    }
+
     /**
 	 * Raycast against the scene to see if we can attach the hook to something.
 	 */
-    private void LaunchHook()
+    public void LaunchHook()
     {
         if (ropeState == RopeState.Launched)
         {
             return;
         }
-        // Get the mouse position in the scene, in the same XY plane as this object:
-        Vector3 mouse = Input.mousePosition;
-        Vector3 mouseInScene = Camera.main.ScreenToWorldPoint(mouse);
 
-        // Get a ray from the character to the mouse:
-        Ray ray = Camera.main.ScreenPointToRay(mouse);
-
-        // Raycast to see what we hit:
-        if (Physics.Raycast(ray, out _hookAttachment))
+        if(mouseTargeting)
         {
-            _targetAnchor = _hookAttachment.transform.GetComponent<RopeAnchorPoint>();
+            // Get the mouse position in the scene, in the same XY plane as this object:
+            Vector3 mouse = Input.mousePosition;
+            Vector3 mouseInScene = Camera.main.ScreenToWorldPoint(mouse);
 
-            if (_targetAnchor != null)
+            // Get a ray from the character to the mouse:
+            Ray ray = Camera.main.ScreenPointToRay(mouse);
+
+            // Raycast to see what we hit:
+            if (Physics.Raycast(ray, out _hookAttachment))
             {
-                _launchedProjectile = Instantiate(ropeProjectile, character.transform.position, ropeProjectile.transform.rotation);
-                MagicRopeProjectileLogic projectileLogic = _launchedProjectile.GetComponent<MagicRopeProjectileLogic>();
-                projectileLogic.SetupProjectile(_hookAttachment.point, this, _hookAttachment.collider.gameObject);
-                ropeState = RopeState.Launched;
-                StartCoroutine(AttachHook());
+                targetAnchor = _hookAttachment.transform.GetComponent<RopeAnchorPoint>();
             }
         }
+        else
+        {
+            targetAnchor = targetCone.GetTarget();
+            targetCone.gameObject.SetActive(false);
+        }
 
+
+
+        if (targetAnchor != null)
+        {
+            _launchedProjectile = Instantiate(ropeProjectile, character.transform.position, ropeProjectile.transform.rotation);
+            MagicRopeProjectileLogic projectileLogic = _launchedProjectile.GetComponent<MagicRopeProjectileLogic>();
+            projectileLogic.SetupProjectile(targetAnchor.transform.position, this, targetAnchor.gameObject);
+            ropeState = RopeState.Launched;
+            StartCoroutine(AttachHook());
+        }
     }
 
     public void TargetReached()
@@ -113,7 +129,7 @@ public class PlayerGrapplingHook : MonoBehaviour
         _rope.ropeBlueprint = null;
         StartCoroutine(AttachHook());
 
-        if(_targetAnchor.anchorType == RopeAnchorPoint.AnchorType.Swing)
+        if(targetAnchor.anchorType == RopeAnchorPoint.AnchorType.Swing)
         {
             ropeState = RopeState.Swing;
         }
@@ -126,7 +142,7 @@ public class PlayerGrapplingHook : MonoBehaviour
     private IEnumerator AttachHook()
     {
         yield return 0;
-        Vector3 localHit = _rope.transform.InverseTransformPoint(_hookAttachment.point);
+        Vector3 localHit = _rope.transform.InverseTransformPoint(targetAnchor.transform.position);
 
         // Procedurally generate the rope path (a simple straight line):
         _blueprint.path.Clear();
@@ -140,7 +156,7 @@ public class PlayerGrapplingHook : MonoBehaviour
         // Pin both ends of the rope (this enables two-way interaction between character and rope):
         var pinConstraints = _blueprint.GetConstraintsByType(Oni.ConstraintType.Pin) as ObiConstraints<ObiPinConstraintsBatch>;
         var batch = pinConstraints.batches[0];
-        batch.AddConstraint(0, character, transform.localPosition, Quaternion.identity);
+        batch.AddConstraint(0, character, Vector3.zero, Quaternion.identity);
         batch.AddConstraint(_blueprint.activeParticleCount - 1, _launchedProjectile.GetComponent<ObiColliderBase>(),
                                                           Vector3.zero, Quaternion.identity);
         batch.activeConstraintCount = 2;
@@ -164,8 +180,26 @@ public class PlayerGrapplingHook : MonoBehaviour
         Destroy(_launchedProjectile);
         _attached = false;
         ropeState = RopeState.Idle;
+        targetAnchor = null;
+    }
 
+    public float GetRopeLength()
+    {
+        return _rope.CalculateLength();
+    }
+    public float GetDistanceBetweenEnds()
+    {
+        return Vector3.Distance(character.transform.position, targetAnchor.transform.position);
+    }
 
+    public float CalculateStrain()
+    {
+        return _rope.CalculateLength() / _rope.restLength;
+    }
+
+    public void AdjustRopeLength(float length)
+    {
+        _cursor.ChangeLength(length);
     }
 
 
@@ -191,13 +225,6 @@ public class PlayerGrapplingHook : MonoBehaviour
                 _cursor.ChangeLength(_rope.restLength + hookExtendRetractSpeed * Time.deltaTime);
             }
         }
-
-
-
-        //if (Input.GetKey(KeyCode.LeftShift) == false && attached == true)
-        //{
-        //    cursor.ChangeLength(Vector3.Distance(character.transform.position, launchedProjectile.transform.position));
-        //}
     }
 
     private void FixedUpdate()
