@@ -137,7 +137,7 @@ public class PlayerGrapplingHook : MonoBehaviour
 
     public void TargetReached()
     {
-        _cursor.ChangeLength(0.0f);
+        // _cursor.ChangeLength(0.0f);
 
         _attached = true;
         ropeState = RopeState.Landed;
@@ -222,6 +222,11 @@ public class PlayerGrapplingHook : MonoBehaviour
 
     public void AdjustRopeLength(float length)
     {
+        if(_rope.ropeBlueprint == null)
+        {
+            return;
+        }
+
         _cursor.ChangeLength(length);
     }
 
@@ -237,24 +242,24 @@ public class PlayerGrapplingHook : MonoBehaviour
                 DetachHook();
         }
 
-        if (_rope.isLoaded && _attached == true)
-        {
-            if (Input.GetKey(KeyCode.I))
-            {
-                _cursor.ChangeLength(_rope.restLength - hookExtendRetractSpeed * Time.deltaTime);
-            }
-            if (Input.GetKey(KeyCode.O))
-            {
-                _cursor.ChangeLength(_rope.restLength + hookExtendRetractSpeed * Time.deltaTime);
-            }
-        }
+        //if (_rope.isLoaded && _attached == true)
+        //{
+        //    if (Input.GetKey(KeyCode.I))
+        //    {
+        //        _cursor.ChangeLength(_rope.restLength - hookExtendRetractSpeed * Time.deltaTime);
+        //    }
+        //    if (Input.GetKey(KeyCode.O))
+        //    {
+        //        _cursor.ChangeLength(_rope.restLength + hookExtendRetractSpeed * Time.deltaTime);
+        //    }
+        //}
     }
 
     private void FixedUpdate()
     {
-        if (_attached == false && ropeState == RopeState.Launched && _rope.isLoaded)
+        if (ropeState == RopeState.Launched && _rope.isLoaded)
         {
-            _cursor.ChangeLength(Vector3.Distance(character.transform.position, _launchedProjectile.transform.position));
+            AdjustRopeLength(Vector3.Distance(character.transform.position, _launchedProjectile.transform.position));
         }
     }
 }
