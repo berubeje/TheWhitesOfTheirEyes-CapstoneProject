@@ -26,6 +26,7 @@ public class RopeController : ControllableBase
     private float _ropeStrain;
     private float _currentLengthOffset;
     private float _playerXRotation;
+    private bool _targeting;
 
     // Start is called before the first frame update
 
@@ -50,10 +51,13 @@ public class RopeController : ControllableBase
 
     void FixedUpdate()
     {
-        if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull && _targetTransform != null)
+        if((ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Swing) && _targetTransform != null)
         {
             AdjustStrain();
+        }
 
+        if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull && _targetTransform != null)
+        {
             if (ropeLogic.GetRopeLength() <= breakPullDistance)
             {
                 return;
@@ -129,11 +133,23 @@ public class RopeController : ControllableBase
         {
             if (Input.GetButtonDown("Right Trigger") || Input.GetKeyDown(KeyCode.RightShift))
             {
+                _targeting = true;
                 ropeLogic.ActivateTargeting();
             }
             else if(Input.GetButtonUp("Right Trigger") || Input.GetKeyUp(KeyCode.RightShift))
             {
-                ropeLogic.LaunchHook();
+                if (_targeting)
+                {
+                    _targeting = false;
+                    ropeLogic.LaunchHook();
+                }
+            }
+        }
+        else if(ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Swing)
+        {
+            if (Input.GetButtonDown("Right Trigger") || Input.GetKeyDown(KeyCode.RightShift))
+            {
+                ropeLogic.DetachHook();
             }
         }
     }
@@ -161,6 +177,9 @@ public class RopeController : ControllableBase
                     {
                         _playerRigidBody.isKinematic = true;
                         _animator.applyRootMotion = false;
+
+                        _targetTransform = ropeLogic.targetAnchor.transform;
+
                         break;
                     }
 

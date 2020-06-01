@@ -187,18 +187,21 @@ public class PlayerGrapplingHook : MonoBehaviour
 
     }
 
-    private void DetachHook()
+    public void DetachHook()
     {
-        if (ropeState == RopeState.Launched || ropeState == RopeState.Idle)
-        {
-            return;
-        }
-
         // Set the rope blueprint to null (automatically removes the previous blueprint from the solver, if any).
         _rope.ropeBlueprint = null;
         _rope.GetComponent<MeshRenderer>().enabled = false;
         Destroy(_launchedProjectile);
         _attached = false;
+
+        if(ropeState == RopeState.Swing)
+        {
+            _jimAnimator.SetTrigger("swingLand");
+            _jimAnimator.SetBool("swingIdle", false);
+        }
+
+
         ropeState = RopeState.Idle;
         targetAnchor = null;
     }

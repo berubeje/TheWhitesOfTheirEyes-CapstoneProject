@@ -48,7 +48,10 @@ public class TargetingConeLogic : MonoBehaviour
 
     public RopeAnchorPoint GetTarget()
     {
-        return _targetedAnchor;
+        //This is done so the same target cannot accidently be regotten without using the targeting cone fully
+        RopeAnchorPoint returnAnchor = _targetedAnchor;
+        _targetedAnchor = null;
+        return returnAnchor;
     }
 
     private void OnTriggerEnter(Collider other)
