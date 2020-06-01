@@ -95,6 +95,12 @@ public class JimController : ControllableBase
 
         if (IsInSwingStart())
         {
+            _arcOrigin = new Vector3(
+                   anchor.position.x,
+                   anchor.position.y - swingRadius,
+                   anchor.position.z
+                   );
+
             Vector3 reelDirection = anchor.transform.position - transform.position;
             transform.Translate(reelDirection.normalized * reelInSpeed * Time.fixedDeltaTime, Space.World);
             reelDirection.y = 0;  
@@ -119,6 +125,7 @@ public class JimController : ControllableBase
         }
 
     }
+
     public override void LeftAnalogStick()
     {
         _leftStickInput.x = Input.GetAxis("Left Horizontal");
@@ -188,11 +195,7 @@ public class JimController : ControllableBase
                 _jimAnimator.SetTrigger("swingStart");
                 _rigidbody.useGravity = false;
 
-                _arcOrigin = new Vector3(
-                anchor.position.x,
-                anchor.position.y - swingRadius,
-                anchor.position.z
-                );
+                
             }
         }
     }

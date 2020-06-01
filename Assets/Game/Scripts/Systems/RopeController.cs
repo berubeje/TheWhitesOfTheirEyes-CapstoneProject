@@ -159,7 +159,7 @@ public class RopeController : ControllableBase
 
                 case PlayerGrapplingHook.RopeState.Swing:
                     {
-                        _playerRigidBody.isKinematic = false;
+                        _playerRigidBody.isKinematic = true;
                         _animator.applyRootMotion = false;
                         break;
                     }

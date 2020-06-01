@@ -28,6 +28,9 @@ public class PlayerGrapplingHook : MonoBehaviour
     private bool _attached = false;
 
     private GameObject _launchedProjectile;
+    private JimController _jimController;
+    private Animator _jimAnimator;
+            
 
     public RopeState ropeState;
     public enum RopeState
@@ -43,6 +46,7 @@ public class PlayerGrapplingHook : MonoBehaviour
 
     void Awake()
     {
+        
         // Create both the rope and the solver:	
         _rope = gameObject.AddComponent<ObiRope>();
         _ropeRenderer = gameObject.AddComponent<ObiRopeExtrudedRenderer>();
@@ -63,6 +67,19 @@ public class PlayerGrapplingHook : MonoBehaviour
         _cursor = _rope.gameObject.AddComponent<ObiRopeCursor>();
         _cursor.cursorMu = 0;
         _cursor.direction = true;
+
+        //Grab a reference to the player controller and animator
+        _jimController = GetComponentInParent<JimController>();
+        if(_jimController == null)
+        {
+            Debug.LogError("No Jim Controller found in any parent.");
+        }
+
+        _jimAnimator = GetComponentInParent<Animator>();
+        if (_jimAnimator == null)
+        {
+            Debug.LogError("No animator found in any parent.");
+        }
     }
 
     private void OnDestroy()
@@ -132,6 +149,9 @@ public class PlayerGrapplingHook : MonoBehaviour
         if(targetAnchor.anchorType == RopeAnchorPoint.AnchorType.Swing)
         {
             ropeState = RopeState.Swing;
+            _jimController.anchor = targetAnchor.transform;
+            _jimAnimator.SetTrigger("swingStart");
+
         }
         else
         {
