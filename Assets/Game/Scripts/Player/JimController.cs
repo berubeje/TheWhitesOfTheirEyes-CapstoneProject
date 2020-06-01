@@ -1,24 +1,35 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using UnityEngine;
 
 public class JimController : ControllableBase
 {
+    [Header("Locomotion Settings")]
     public float rotationSpeed;
     public float speedDampTime;
-
     public float directionDampTime;
     public float directionSpeed;
-    
     public float leftStickDeadzone;
 
+    [Header("Jump Settings")]
     public float jumpHeight;
     public float jumpDistance;
 
+    [Header("Swing Settings")]
+    public Transform anchor; 
+    public float faceAnchorSpeed;
+    public float swingRadius;
+    public float reelInSpeed;
     public float swingArcWidth;
-    public float swingArcHeight;
+    public float swingArcLimit;
     public float swingSpeed;
+    public float landingForce;
+
+    private float _speedMultiplier;
+    private int _direction = 1;
+    private Vector3 _arcOrigin;
 
     private Vector2 _leftStickInput;
 
@@ -39,6 +50,8 @@ public class JimController : ControllableBase
     private int _locomotionPivotRightID;
     private int _swingStartID;
     private int _swingIdleID;
+    private int _swingLandID;
+
     void Start()
     {
         _jimAnimator = GetComponent<Animator>();
@@ -53,8 +66,9 @@ public class JimController : ControllableBase
         _runJumpID = Animator.StringToHash("Base Layer.RunJump");
         _locomotionPivotLeftID = Animator.StringToHash("Base Layer.LocomotionPivotLeft");
         _locomotionPivotRightID = Animator.StringToHash("Base Layer.LocomotionPivotRight");
-        _swingStartID = Animator.StringToHash("Base Layer.swingStart");
-        _swingIdleID = Animator.StringToHash("Base Layer.swingIdle");
+        _swingStartID = Animator.StringToHash("Base Layer.SwingStart");
+        _swingIdleID = Animator.StringToHash("Base Layer.SwingIdle");
+        _swingLandID = Animator.StringToHash("Base Layer.SwingLand");
     }
 
     void Update()
@@ -67,16 +81,41 @@ public class JimController : ControllableBase
     {
         if (IsInIdleJump())
         {
-            _rigidbody.MovePosition(Vector3.up * jumpHeight * _jimAnimator.GetFloat("jumpCurve"));
+            transform.Translate(Vector3.up * jumpHeight * _jimAnimator.GetFloat("jumpCurve"));
             _capsuleCollider.height = _capsuleColliderHeight + (_jimAnimator.GetFloat("colliderCurve") * 0.5f);
         }
 
         if (IsInRunJump())
         {
-            _rigidbody.MovePosition(Vector3.up * jumpHeight * _jimAnimator.GetFloat("jumpCurve"));
-            _rigidbody.MovePosition(Vector3.forward * jumpDistance * Time.deltaTime);
+            transform.Translate(Vector3.up * jumpHeight * _jimAnimator.GetFloat("jumpCurve"));
+            transform.Translate(Vector3.forward * jumpDistance * Time.fixedDeltaTime);
 
             _capsuleCollider.height = _capsuleColliderHeight + (_jimAnimator.GetFloat("colliderCurve") * 0.5f);
+        }
+
+        if (IsInSwingStart())
+        {
+            Vector3 reelDirection = anchor.transform.position - transform.position;
+            transform.Translate(reelDirection.normalized * reelInSpeed * Time.fixedDeltaTime, Space.World);
+            reelDirection.y = 0;  
+            Quaternion targetRotation = Quaternion.LookRotation(reelDirection);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, faceAnchorSpeed);
+            
+            if(Vector3.Distance(transform.position, anchor.position) <= swingRadius)
+            {
+                _jimAnimator.SetBool("swingIdle", true);
+            }
+            
+        }
+
+        if (IsInSwingIdle())
+        {
+            _rigidbody.MovePosition(CalculateArcPosition());
+        }
+
+        if (IsInSwingLand())
+        {
+            _rigidbody.AddForce(transform.forward * landingForce, ForceMode.Impulse);
         }
 
     }
@@ -100,7 +139,7 @@ public class JimController : ControllableBase
         Vector3 cameraDirection = Camera.main.transform.forward;
         cameraDirection.y = 0.0f;
 
-        // Create rotation from the players forward to the direction the joystick is being held
+        // Create rotation from the players forward to the direction the camera is facing
         Quaternion referenceShift = Quaternion.FromToRotation(Vector3.forward, cameraDirection);
 
         // Convert joystick input to world space
@@ -118,7 +157,7 @@ public class JimController : ControllableBase
         // this block will be unnecessary, as it is unwise to use root motion and physical rotation
         if (_leftStickInput.sqrMagnitude >= leftStickDeadzone)
         {
-            // Directly rotate the player if the joystick is moving and they are in the idel or locomotion state
+            // Directly rotate the player if the joystick is moving and they are in the idle or locomotion state
             if (IsInIdle() || IsInLocomotion()) 
             {
                 Quaternion targetRotation = Quaternion.LookRotation(_moveDirection);
@@ -134,7 +173,29 @@ public class JimController : ControllableBase
         }
     }
 
-    
+    public override void EastFaceButton()
+    {
+        if(Input.GetButtonDown("East Face Button"))
+        {
+            if (IsInSwingIdle())
+            {
+                _jimAnimator.SetTrigger("swingLand");
+                _jimAnimator.SetBool("swingIdle", false);
+                _rigidbody.useGravity = true;
+            }
+            else
+            {
+                _jimAnimator.SetTrigger("swingStart");
+                _rigidbody.useGravity = false;
+
+                _arcOrigin = new Vector3(
+                anchor.position.x,
+                anchor.position.y - swingRadius,
+                anchor.position.z
+                );
+            }
+        }
+    }
 
     public override void SouthFaceButton()
     {
@@ -147,12 +208,27 @@ public class JimController : ControllableBase
         }
     }
 
-    private Vector3 CalculateArcPosition()
+    public Vector3 CalculateArcPosition()
     {
-        Vector3 currentPosition = transform.position;
-        Vector3 newPosition = Vector3.forward;
+        Vector3 pendulumArm = anchor.position - transform.position;
+        float angle = Vector3.Angle(Vector3.up, pendulumArm);
 
-        newPosition.y = currentPosition.x - newPosition.x;
+        if (angle >= swingArcLimit)
+        {
+             angle = swingArcLimit;
+            _direction = _direction == 1 ? -1 : 1;
+        }
+        float anglePercent = angle / swingArcLimit;
+
+        _speedMultiplier = _direction * (1.05f - Mathf.Round(anglePercent * 100f) / 100f);
+
+        Vector3 moveAmount = transform.forward * swingSpeed * _speedMultiplier;
+        Vector3 newPosition = transform.position + moveAmount;
+        newPosition.y = _arcOrigin.y;
+        newPosition.y += swingArcWidth * (_arcOrigin - newPosition).sqrMagnitude;
+
+        _jimAnimator.SetFloat("swingDirection", _direction * _speedMultiplier);
+        
         return newPosition;
     }
 
@@ -161,12 +237,10 @@ public class JimController : ControllableBase
     {
         return _stateInfo.fullPathHash == _locomotionPivotLeftID || _stateInfo.fullPathHash == _locomotionPivotRightID;
     }
-
     private bool IsInIdle()
     {
         return _stateInfo.fullPathHash == _idleID;
     }
-
     private bool IsInLocomotion()
     {
         return _stateInfo.fullPathHash == _locomotionID;
@@ -179,6 +253,18 @@ public class JimController : ControllableBase
     {
         return _stateInfo.fullPathHash == _runJumpID;
     }
+    private bool IsInSwingStart()
+    {
+        return _stateInfo.fullPathHash == _swingStartID;
+    }
+    private bool IsInSwingIdle()
+    {
+        return _stateInfo.fullPathHash == _swingIdleID;
+    }
+    private bool IsInSwingLand()
+    {
+        return _stateInfo.fullPathHash == _swingLandID;
+    }
     #endregion
 
     private void OnDrawGizmos()
@@ -186,5 +272,10 @@ public class JimController : ControllableBase
         Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), _moveDirection, Color.red);
         Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), _leftStickDirection, Color.green);
         Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), transform.forward, Color.blue);
+
+        if(anchor != null)
+        {
+            Debug.DrawLine(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), anchor.position, Color.white);
+        }
     }
 }
