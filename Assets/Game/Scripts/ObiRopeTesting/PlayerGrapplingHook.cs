@@ -43,7 +43,6 @@ public class PlayerGrapplingHook : MonoBehaviour
 
     void Awake()
     {
-
         // Create both the rope and the solver:	
         _rope = gameObject.AddComponent<ObiRope>();
         _ropeRenderer = gameObject.AddComponent<ObiRopeExtrudedRenderer>();

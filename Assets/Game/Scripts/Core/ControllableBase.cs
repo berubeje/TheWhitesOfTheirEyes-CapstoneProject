@@ -14,5 +14,4 @@ public class ControllableBase : MonoBehaviour
     public virtual void LeftTriggerButton() { }
     public virtual void RightShoulderButton() { }
     public virtual void RightTriggerButton() { }
-    public virtual void RightTriggerButtonUp() { }
 }
