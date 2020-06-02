@@ -180,22 +180,6 @@ public class JimController : ControllableBase
         }
     }
 
-    public override void EastFaceButton()
-    {
-        if(Input.GetButtonDown("East Face Button"))
-        {
-            if (IsInSwingIdle())
-            {
-                _jimAnimator.SetTrigger("swingLand");
-                _jimAnimator.SetBool("swingIdle", false);
-            }
-            else
-            {
-                _jimAnimator.SetTrigger("swingStart");
-            }
-        }
-    }
-
     public override void SouthFaceButton()
     {
         if(Input.GetButtonDown("South Face Button"))
@@ -226,7 +210,7 @@ public class JimController : ControllableBase
         newPosition.y = _arcOrigin.y;
         newPosition.y += swingArcWidth * (_arcOrigin - newPosition).sqrMagnitude;
 
-        _jimAnimator.SetFloat("swingDirection", _direction * _speedMultiplier);
+        _jimAnimator.SetFloat("swingDirection", _speedMultiplier);
         
         return newPosition;
     }
