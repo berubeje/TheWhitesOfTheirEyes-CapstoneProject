@@ -9,6 +9,7 @@ public class PlayerGrapplingHook : MonoBehaviour
     public ObiCollider character;
     public Material material;
     public ObiRopeSection section;
+    public float ropeThickness;
 
     public GameObject ropeProjectile;
     public RopeAnchorPoint targetAnchor;
@@ -58,6 +59,7 @@ public class PlayerGrapplingHook : MonoBehaviour
         // Setup a blueprint for the rope:
         _blueprint = ScriptableObject.CreateInstance<ObiRopeBlueprint>();
         _blueprint.resolution = _resolution;
+        _blueprint.thickness = ropeThickness;
 
         // Tweak rope parameters:
         _rope.maxBending = 0.02f;
@@ -221,7 +223,7 @@ public class PlayerGrapplingHook : MonoBehaviour
 
     public void AdjustRopeLength(float length)
     {
-        if(_rope.ropeBlueprint == null)
+        if(_rope.ropeBlueprint == null || length < 0)
         {
             return;
         }
