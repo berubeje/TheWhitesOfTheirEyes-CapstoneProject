@@ -37,12 +37,12 @@ public class MagicRopeProjectileLogic : MonoBehaviour
                 _grapplingHookLogic.TargetReached();
                 _targetReached = true;
 
-                if (_targetGameObject.GetComponent<BoxScript>() != null)
-                {
-                    // rigidBody.isKinematic = false;
-                    transform.parent = _targetGameObject.transform;
+                //if (_targetGameObject.GetComponent<BoxScript>() != null)
+                //{
+                // rigidBody.isKinematic = false;
+                transform.parent = _targetGameObject.transform;
 
-                }
+                //}
 
             }
         }
