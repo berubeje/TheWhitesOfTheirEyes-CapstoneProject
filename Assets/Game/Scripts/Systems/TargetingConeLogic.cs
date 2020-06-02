@@ -54,11 +54,11 @@ public class TargetingConeLogic : MonoBehaviour
         return returnAnchor;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         RopeAnchorPoint anchorPoint = other.gameObject.GetComponent<RopeAnchorPoint>();
 
-        if(anchorPoint == null)
+        if(anchorPoint == null || anchorPoint.gameObject == _targetedAnchor)
         {
             return;
         }
@@ -82,6 +82,17 @@ public class TargetingConeLogic : MonoBehaviour
             if (hit.transform == anchorPoint.transform)
             {
                 _targetedAnchor = anchorPoint;
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (_targetedAnchor != null)
+        {
+            if (other.gameObject == _targetedAnchor.gameObject)
+            {
+                _targetedAnchor = null;
             }
         }
     }
