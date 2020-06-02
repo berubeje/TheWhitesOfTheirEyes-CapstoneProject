@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ using UnityEngine;
 public class RopeController : ControllableBase
 {
     public PlayerGrapplingHook ropeLogic;
+    public CinemachineVirtualCamera aimCamera;
     public float swingAcceleration;
     public bool lockXOnSwing = true;
     public bool pullRopeIn;
@@ -135,9 +137,11 @@ public class RopeController : ControllableBase
             {
                 _targeting = true;
                 ropeLogic.ActivateTargeting();
+                aimCamera.Priority = 15;
             }
             else if(Input.GetButtonUp("Right Trigger") || Input.GetKeyUp(KeyCode.RightShift))
             {
+                aimCamera.Priority = 5;
                 if (_targeting)
                 {
                     _targeting = false;

@@ -188,14 +188,10 @@ public class JimController : ControllableBase
             {
                 _jimAnimator.SetTrigger("swingLand");
                 _jimAnimator.SetBool("swingIdle", false);
-                _rigidbody.useGravity = true;
             }
             else
             {
                 _jimAnimator.SetTrigger("swingStart");
-                _rigidbody.useGravity = false;
-
-                
             }
         }
     }
