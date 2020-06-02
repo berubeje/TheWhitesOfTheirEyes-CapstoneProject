@@ -5,19 +5,18 @@ using Obi;
 
 public class PlayerGrapplingHook : MonoBehaviour
 {
-
     public ObiSolver solver;
     public ObiCollider character;
-    public float hookExtendRetractSpeed = 2;
     public Material material;
     public ObiRopeSection section;
-    public float ropeMass = 0.1f;
-    public float resolution = 0.5f;
+
     public GameObject ropeProjectile;
     public RopeAnchorPoint targetAnchor;
     public TargetingConeLogic targetCone;
     public bool mouseTargeting = false;
 
+    private float _ropeMass = 0.1f;
+    private float _resolution = 0.5f;
     private ObiRope _rope;
     private ObiRopeBlueprint _blueprint;
     private ObiRopeExtrudedRenderer _ropeRenderer;
@@ -58,7 +57,7 @@ public class PlayerGrapplingHook : MonoBehaviour
 
         // Setup a blueprint for the rope:
         _blueprint = ScriptableObject.CreateInstance<ObiRopeBlueprint>();
-        _blueprint.resolution = resolution;
+        _blueprint.resolution = _resolution;
 
         // Tweak rope parameters:
         _rope.maxBending = 0.02f;
@@ -166,8 +165,8 @@ public class PlayerGrapplingHook : MonoBehaviour
 
         // Procedurally generate the rope path (a simple straight line):
         _blueprint.path.Clear();
-        _blueprint.path.AddControlPoint(Vector3.zero, -localHit.normalized, localHit.normalized, Vector3.up, ropeMass, 0.1f, 1, 1, Color.white, "Hook start");
-        _blueprint.path.AddControlPoint(localHit, -localHit.normalized, localHit.normalized, Vector3.up, ropeMass, 0.1f, 1, 1, Color.white, "Hook end");
+        _blueprint.path.AddControlPoint(Vector3.zero, -localHit.normalized, localHit.normalized, Vector3.up, _ropeMass, 0.1f, 1, 1, Color.white, "Hook start");
+        _blueprint.path.AddControlPoint(localHit, -localHit.normalized, localHit.normalized, Vector3.up, _ropeMass, 0.1f, 1, 1, Color.white, "Hook end");
         _blueprint.path.FlushEvents();
 
         // Generate the particle representation of the rope (wait until it has finished):
@@ -233,7 +232,6 @@ public class PlayerGrapplingHook : MonoBehaviour
 
     void Update()
     {
-
         if (Input.GetMouseButtonDown(0))
         {
             if (!_rope.isLoaded)
@@ -241,18 +239,6 @@ public class PlayerGrapplingHook : MonoBehaviour
             else
                 DetachHook();
         }
-
-        //if (_rope.isLoaded && _attached == true)
-        //{
-        //    if (Input.GetKey(KeyCode.I))
-        //    {
-        //        _cursor.ChangeLength(_rope.restLength - hookExtendRetractSpeed * Time.deltaTime);
-        //    }
-        //    if (Input.GetKey(KeyCode.O))
-        //    {
-        //        _cursor.ChangeLength(_rope.restLength + hookExtendRetractSpeed * Time.deltaTime);
-        //    }
-        //}
     }
 
     private void FixedUpdate()

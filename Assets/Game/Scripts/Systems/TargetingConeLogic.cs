@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TargetingConeLogic : MonoBehaviour
 {
-    public float scaleSpeed;
+    public Vector3 scaleSpeed;
     public Vector3 maxScale;
     public JimController player;
 
@@ -31,12 +31,12 @@ public class TargetingConeLogic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float speed = scaleSpeed * Time.deltaTime;
+        Vector3 speed = scaleSpeed * Time.deltaTime;
 
         Vector3 newScale = new Vector3();
-        newScale.x = Mathf.Clamp(_pivotTransform.localScale.x + speed, _startingScale.x, maxScale.x);
-        newScale.y = Mathf.Clamp(_pivotTransform.localScale.y + speed, _startingScale.y, maxScale.y);
-        newScale.z = Mathf.Clamp(_pivotTransform.localScale.z + speed, _startingScale.z, maxScale.z);
+        newScale.x = Mathf.Clamp(_pivotTransform.localScale.x + speed.x, _startingScale.x, maxScale.x);
+        newScale.y = Mathf.Clamp(_pivotTransform.localScale.y + speed.y, _startingScale.y, maxScale.y);
+        newScale.z = Mathf.Clamp(_pivotTransform.localScale.z + speed.z, _startingScale.z, maxScale.z);
 
         _pivotTransform.localScale = newScale;
     }
@@ -54,11 +54,11 @@ public class TargetingConeLogic : MonoBehaviour
         return returnAnchor;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         RopeAnchorPoint anchorPoint = other.gameObject.GetComponent<RopeAnchorPoint>();
 
-        if(anchorPoint == null)
+        if(anchorPoint == null || anchorPoint.gameObject == _targetedAnchor)
         {
             return;
         }
@@ -82,6 +82,17 @@ public class TargetingConeLogic : MonoBehaviour
             if (hit.transform == anchorPoint.transform)
             {
                 _targetedAnchor = anchorPoint;
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (_targetedAnchor != null)
+        {
+            if (other.gameObject == _targetedAnchor.gameObject)
+            {
+                _targetedAnchor = null;
             }
         }
     }
