@@ -9,15 +9,9 @@ public class RopeController : ControllableBase
 {
     public PlayerGrapplingHook ropeLogic;
     public CinemachineVirtualCamera aimCamera;
-    public float swingAcceleration;
-    public bool lockXOnSwing = true;
-    public bool pullRopeIn;
     public float startingLengthOffset;
     public float breakPullDistance = 2.0f;
-
     public float pullStrainThreshold = 1.15f;
-
-
 
     private Rigidbody _playerRigidBody;
     private Rigidbody _targetRigidBody;
@@ -27,7 +21,6 @@ public class RopeController : ControllableBase
     private bool _pullObject;
     private float _ropeStrain;
     private float _currentLengthOffset;
-    private float _playerXRotation;
     private bool _targeting;
 
     // Start is called before the first frame update
@@ -93,24 +86,6 @@ public class RopeController : ControllableBase
         if (_ropeStrain < pullStrainThreshold)
         {
             _currentLengthOffset -= 0.5f;
-        }
-    }
-
-    public override void LeftAnalogStick()
-    {
-        if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Swing)
-        {
-            _playerRigidBody.AddForce(new Vector3(0, 0, Input.GetAxis("Left Vertical") * swingAcceleration), ForceMode.Acceleration);
-
-            // If enabled, this will keep the rope from sometimes starting to swing left to right, instead of forwards and backwards
-            if (lockXOnSwing)
-            {
-                Vector3 currentVelocty = _playerRigidBody.velocity;
-
-                currentVelocty.x = 0.0f;
-
-                _playerRigidBody.velocity = currentVelocty;
-            }
         }
     }
 
