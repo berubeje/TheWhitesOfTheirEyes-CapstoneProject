@@ -280,10 +280,40 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5148154313980185928, guid: 315594546cb607e489e0d429197320e7,
+        type: 3}
+      propertyPath: swingRadius
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5148154313980185928, guid: 315594546cb607e489e0d429197320e7,
+        type: 3}
+      propertyPath: swingArcLimit
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 7736718903272414580, guid: 315594546cb607e489e0d429197320e7,
+        type: 3}
+      propertyPath: ropeThickness
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 7736718903272414580, guid: 315594546cb607e489e0d429197320e7,
+        type: 3}
+      propertyPath: material
+      value: 
+      objectReference: {fileID: 2100000, guid: 44ab0cc40b59345718856f6e1c1225f3, type: 2}
+    - target: {fileID: 7736718903579281802, guid: 315594546cb607e489e0d429197320e7,
+        type: 3}
+      propertyPath: startingLengthOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7736718903579281802, guid: 315594546cb607e489e0d429197320e7,
+        type: 3}
+      propertyPath: pullStrainThreshold
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7736718904542989073, guid: 315594546cb607e489e0d429197320e7,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7736718904542989074, guid: 315594546cb607e489e0d429197320e7,
         type: 3}
@@ -293,17 +323,17 @@ PrefabInstance:
     - target: {fileID: 7736718904542989075, guid: 315594546cb607e489e0d429197320e7,
         type: 3}
       propertyPath: scaleSpeed.x
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7736718904542989075, guid: 315594546cb607e489e0d429197320e7,
         type: 3}
       propertyPath: scaleSpeed.y
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7736718904542989075, guid: 315594546cb607e489e0d429197320e7,
         type: 3}
       propertyPath: scaleSpeed.z
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7736718904542989075, guid: 315594546cb607e489e0d429197320e7,
         type: 3}
@@ -313,12 +343,12 @@ PrefabInstance:
     - target: {fileID: 7736718904542989075, guid: 315594546cb607e489e0d429197320e7,
         type: 3}
       propertyPath: maxScale.y
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7736718904542989075, guid: 315594546cb607e489e0d429197320e7,
         type: 3}
       propertyPath: maxScale.z
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7736718904542989079, guid: 315594546cb607e489e0d429197320e7,
         type: 3}
@@ -339,7 +369,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh25686
+  m_Name: pb_Mesh17776
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1142,7 +1172,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-32778
+  m_Name: pb_Mesh-2292
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

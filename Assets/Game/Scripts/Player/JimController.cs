@@ -95,23 +95,24 @@ public class JimController : ControllableBase
 
         if (IsInSwingStart())
         {
-            _arcOrigin = new Vector3(
-                   anchor.position.x,
-                   anchor.position.y - swingRadius,
-                   anchor.position.z
-                   );
-
-            Vector3 reelDirection = anchor.transform.position - transform.position;
-            transform.Translate(reelDirection.normalized * reelInSpeed * Time.fixedDeltaTime, Space.World);
-            reelDirection.y = 0;  
-            Quaternion targetRotation = Quaternion.LookRotation(reelDirection);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, faceAnchorSpeed);
-            
             if(Vector3.Distance(transform.position, anchor.position) <= swingRadius)
             {
                 _jimAnimator.SetBool("swingIdle", true);
             }
-            
+            else
+            {
+                _arcOrigin = new Vector3(
+                       anchor.position.x,
+                       anchor.position.y - swingRadius,
+                       anchor.position.z
+                       );
+
+                Vector3 reelDirection = anchor.transform.position - transform.position;
+                transform.Translate(reelDirection.normalized * reelInSpeed * Time.fixedDeltaTime, Space.World);
+                reelDirection.y = 0;
+                Quaternion targetRotation = Quaternion.LookRotation(reelDirection);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, faceAnchorSpeed);
+            }
         }
 
         if (IsInSwingIdle())
@@ -179,7 +180,6 @@ public class JimController : ControllableBase
             _jimAnimator.SetFloat("angle", 0.0f);
         }
     }
-
     public override void SouthFaceButton()
     {
         if(Input.GetButtonDown("South Face Button"))
@@ -204,12 +204,14 @@ public class JimController : ControllableBase
         float anglePercent = angle / swingArcLimit;
 
         _speedMultiplier = _direction * (1.05f - Mathf.Round(anglePercent * 100f) / 100f);
-
         Vector3 moveAmount = transform.forward * swingSpeed * _speedMultiplier;
         Vector3 newPosition = transform.position + moveAmount;
         newPosition.y = _arcOrigin.y;
-        newPosition.y += swingArcWidth * (_arcOrigin - newPosition).sqrMagnitude;
 
+        Debug.Log(-Mathf.Pow((swingRadius * swingRadius) - (_arcOrigin - newPosition).sqrMagnitude, 0.5f));
+
+        //newPosition.y += swingArcWidth * (_arcOrigin - newPosition).sqrMagnitude;
+        newPosition.y += -Mathf.Pow((swingRadius*swingRadius) - (_arcOrigin - newPosition).sqrMagnitude, 0.5f) + swingRadius;
         _jimAnimator.SetFloat("swingDirection", _speedMultiplier);
         
         return newPosition;
