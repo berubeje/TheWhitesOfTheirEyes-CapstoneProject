@@ -75,7 +75,8 @@ public class RopeController : ControllableBase
 
         Vector3 direction = (_playerTransform.position - _targetTransform.position).normalized;
         direction.y = 0;
-        _targetRigidBody.MovePosition(_targetTransform.position + direction * pullSpeed * Time.deltaTime);
+        //_targetRigidBody.MovePosition(_targetTransform.position + direction * pullSpeed * Time.deltaTime);
+        _targetRigidBody.velocity = direction * pullSpeed;
     }
 
     private void AdjustStrain()
@@ -92,7 +93,7 @@ public class RopeController : ControllableBase
     {
         if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull)
         {
-            if (Input.GetButton("Left Trigger") || Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetButton("Left Trigger") || Input.GetAxisRaw("Left Trigger") >= 0.8 || Input.GetKey(KeyCode.LeftShift))
             {
                 _pullObject = true;
             }
@@ -107,12 +108,12 @@ public class RopeController : ControllableBase
     {
         if(ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Idle)
         {
-            if (Input.GetButtonDown("Right Trigger") || Input.GetKeyDown(KeyCode.RightShift))
+            if (Input.GetButtonDown("Right Trigger") || Input.GetAxisRaw("Right Trigger") >= 0.8 || Input.GetKeyDown(KeyCode.RightShift))
             {
                 _targeting = true;
                 ropeLogic.ActivateTargeting();
             }
-            else if(Input.GetButtonUp("Right Trigger") || Input.GetKeyUp(KeyCode.RightShift))
+            else if(Input.GetButtonUp("Right Trigger") || Input.GetAxisRaw("Right Trigger") < 0.8 || Input.GetKeyUp(KeyCode.RightShift))
             {
                 if (_targeting)
                 {
@@ -123,7 +124,7 @@ public class RopeController : ControllableBase
         }
         else if(ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Swing)
         {
-            if (Input.GetButtonDown("Right Trigger") || Input.GetKeyDown(KeyCode.RightShift))
+            if (Input.GetButtonDown("Right Trigger") || Input.GetAxisRaw("Right Trigger") >= 0.8 || Input.GetKeyDown(KeyCode.RightShift))
             {
                 ropeLogic.DetachHook();
             }
