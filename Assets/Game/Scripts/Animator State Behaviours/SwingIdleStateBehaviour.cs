@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using UnityEngine;
 
 public class SwingIdleStateBehaviour : StateMachineBehaviour
@@ -15,8 +16,12 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
 
     private int _direction = 1;
     private Vector3 _arcOrigin;
+    private Vector3 _pendulumArm;
+    private float _angle;
     private float _speedMultiplier;
     private Vector3 _releaseDirection;
+    private Vector3 _forwardArcLimit;
+    private Vector3 _backwardArcLimit;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -42,16 +47,33 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
                        _anchor.position.y - swingRadius,
                        _anchor.position.z
                        );
+
+        float xLimit = Mathf.Sin(swingArcLimit * Mathf.Deg2Rad) * swingRadius;
+        float yLimit = Mathf.Cos(swingArcLimit * Mathf.Deg2Rad) * swingRadius;
+
+        _forwardArcLimit = _anchor.position + (_animator.transform.forward * xLimit);
+        _forwardArcLimit.y -= yLimit;
+
+        _backwardArcLimit = _anchor.position - (_animator.transform.forward * xLimit);
+        _backwardArcLimit.y -= yLimit;
+
+        _pendulumArm = _anchor.position - _animator.transform.position;
+        _angle = Vector3.Angle(Vector3.up, _pendulumArm);
+
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _rigidbody.MovePosition(CalculateArcPosition());
 
+        Debug.DrawLine(_anchor.position, _forwardArcLimit, Color.green);
+
+        Debug.DrawLine(_anchor.position, _backwardArcLimit, Color.red);
+
         Debug.DrawRay(new Vector3(_animator.transform.position.x,
-            _animator.transform.position.y + 1.0f, 
-            _animator.transform.position.z), 
-            _releaseDirection.normalized, 
+            _animator.transform.position.y + 1.0f,
+            _animator.transform.position.z),
+            _releaseDirection,
             Color.cyan);
     }
 
@@ -79,22 +101,34 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
 
     public Vector3 CalculateArcPosition()
     {
-        Vector3 pendulumArm = _anchor.position - _animator.transform.position;
+        _pendulumArm = _anchor.position - _animator.transform.position;
 
-        float angle = Vector3.Angle(Vector3.up, pendulumArm);
-
-        if (angle >= swingArcLimit)
+        _angle = Vector3.Angle(Vector3.up, _pendulumArm);
+        
+        if (_angle > swingArcLimit)
         {
-            angle = swingArcLimit;
-            _direction = _direction == 1 ? -1 : 1;
+            _angle = swingArcLimit;
+            switch (_direction)
+            {
+                case -1:
+                    _animator.transform.position = _backwardArcLimit;
+                    _direction = 1;
+                    break;
+                case 1:
+                    _animator.transform.position = _forwardArcLimit;
+                    _direction = -1;
+                    break;
+            }
         }
-        float anglePercent = angle / swingArcLimit;
+
+        float anglePercent = _angle / swingArcLimit;
 
 
         _speedMultiplier = (1.05f - Mathf.Round(anglePercent * 100f) / 100f);
-        _releaseDirection = _direction * Vector3.Cross(pendulumArm, -_animator.transform.right);
 
-        Vector3 moveAmount = _animator.transform.forward * swingSpeed * _speedMultiplier * _direction;
+        _releaseDirection = _direction * Vector3.Cross(_pendulumArm, -_animator.transform.right);
+
+        Vector3 moveAmount = (_direction * _animator.transform.forward) * swingSpeed * _speedMultiplier;
         Vector3 newPosition = _animator.transform.position + moveAmount;
         newPosition.y = _arcOrigin.y;
 
