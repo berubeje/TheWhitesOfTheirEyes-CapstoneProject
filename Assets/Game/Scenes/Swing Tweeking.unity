@@ -280,6 +280,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3769519505712730618, guid: 315594546cb607e489e0d429197320e7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5148154313980185928, guid: 315594546cb607e489e0d429197320e7,
         type: 3}
       propertyPath: swingRadius
@@ -289,6 +294,16 @@ PrefabInstance:
         type: 3}
       propertyPath: swingArcLimit
       value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 5148154313980185928, guid: 315594546cb607e489e0d429197320e7,
+        type: 3}
+      propertyPath: releaseForce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5148154313980185932, guid: 315594546cb607e489e0d429197320e7,
+        type: 3}
+      propertyPath: m_Mass
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7736718903272414580, guid: 315594546cb607e489e0d429197320e7,
         type: 3}
@@ -363,13 +378,13 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 309978275}
   m_PrefabAsset: {fileID: 0}
---- !u!43 &384796483
+--- !u!43 &586689867
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17776
+  m_Name: pb_Mesh17124
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -592,7 +607,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 384796483}
+  m_Mesh: {fileID: 586689867}
 --- !u!114 &883736730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -857,7 +872,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 919527400385370734}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 883736728}
-  m_Mesh: {fileID: 384796483}
+  m_Mesh: {fileID: 586689867}
 --- !u!114 &883736733
 MonoBehaviour:
   m_ObjectHideFlags: 0
