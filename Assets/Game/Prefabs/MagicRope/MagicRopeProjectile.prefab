@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4293263786591559087}
   - component: {fileID: -7945769560444332906}
   - component: {fileID: 7719432065655455587}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MagicRopeProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,8 +95,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileSpeed: 20
-  grapplingHookLogic1: {fileID: 0}
-  grapplingHookLogic2: {fileID: 0}
 --- !u!135 &-7945769560444332906
 SphereCollider:
   m_ObjectHideFlags: 0

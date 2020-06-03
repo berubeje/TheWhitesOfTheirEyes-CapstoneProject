@@ -22,6 +22,9 @@ public class RopeController : ControllableBase
     private float _currentLengthOffset;
     private bool _targeting;
 
+    private bool _isLeftTriggerInUse = false;
+    private bool _isRightTriggerInUse = false;
+
     // Start is called before the first frame update
 
     private void Awake()
@@ -75,7 +78,8 @@ public class RopeController : ControllableBase
 
         Vector3 direction = (_playerTransform.position - _targetTransform.position).normalized;
         direction.y = 0;
-        _targetRigidBody.MovePosition(_targetTransform.position + direction * pullSpeed * Time.deltaTime);
+        //_targetRigidBody.MovePosition(_targetTransform.position + direction * pullSpeed * Time.deltaTime);
+        _targetRigidBody.velocity = direction * pullSpeed;
     }
 
     private void AdjustStrain()
@@ -92,13 +96,18 @@ public class RopeController : ControllableBase
     {
         if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull)
         {
-            if (Input.GetButton("Left Trigger") || Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetAxisRaw("Left Trigger") > 0)
             {
-                _pullObject = true;
+                if (_isLeftTriggerInUse == false)
+                {
+                    _pullObject = true;
+                    _isLeftTriggerInUse = true;
+                }
             }
-            else
+            if (Input.GetAxisRaw("Left Trigger") <= 0)
             {
                 _pullObject = false;
+                _isLeftTriggerInUse = false;
             }
         }
     }
@@ -107,25 +116,38 @@ public class RopeController : ControllableBase
     {
         if(ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Idle)
         {
-            if (Input.GetButtonDown("Right Trigger") || Input.GetKeyDown(KeyCode.RightShift))
+            if (Input.GetAxisRaw("Right Trigger") > 0)
             {
-                _targeting = true;
-                ropeLogic.ActivateTargeting();
+                if (_isRightTriggerInUse == false)
+                {
+                    _targeting = true;
+                    ropeLogic.ActivateTargeting();
+                    _isRightTriggerInUse = true;
+                }
             }
-            else if(Input.GetButtonUp("Right Trigger") || Input.GetKeyUp(KeyCode.RightShift))
+            if (Input.GetAxisRaw("Right Trigger") <= 0)
             {
                 if (_targeting)
                 {
                     _targeting = false;
                     ropeLogic.LaunchHook();
                 }
+                _isRightTriggerInUse = false;
             }
         }
         else if(ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Swing)
         {
-            if (Input.GetButtonDown("Right Trigger") || Input.GetKeyDown(KeyCode.RightShift))
+            if (Input.GetAxisRaw("Right Trigger") > 0)
             {
-                ropeLogic.DetachHook();
+                if (_isRightTriggerInUse == false)
+                {
+                    ropeLogic.DetachHook();
+                    _isRightTriggerInUse = true;
+                }
+            }
+            if (Input.GetAxisRaw("Right Trigger") <= 0)
+            {
+                _isRightTriggerInUse = false;
             }
         }
     }
