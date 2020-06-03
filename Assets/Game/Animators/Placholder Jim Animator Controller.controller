@@ -603,7 +603,6 @@ MonoBehaviour:
   swingArcLimit: 0
   swingSpeed: 0
   swingRadius: 0
-  releaseForce: 0
 --- !u!114 &-1873988012886117884
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -619,7 +618,6 @@ MonoBehaviour:
   swingArcLimit: 65
   swingSpeed: 0.2
   swingRadius: 5
-  releaseForce: 0.1
 --- !u!1101 &-1854269154634779653
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -786,20 +784,20 @@ AnimatorStateMachine:
     m_Position: {x: -150, y: -130, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8305684381575614273}
-    m_Position: {x: -460, y: -70, z: 0}
+    m_Position: {x: -370, y: 10, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7782196974868876379}
-    m_Position: {x: -460, y: -140, z: 0}
+    m_Position: {x: -370, y: -60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5773733519275075838}
-    m_Position: {x: -460, y: -210, z: 0}
+    m_Position: {x: -370, y: -130, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: -8367061626941199798}
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: -440, y: 0, z: 0}
+  m_AnyStatePosition: {x: -350, y: 80, z: 0}
   m_EntryPosition: {x: 160, y: -50, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}

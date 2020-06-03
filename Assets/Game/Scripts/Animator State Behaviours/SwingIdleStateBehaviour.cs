@@ -7,7 +7,6 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
     public float swingArcLimit;
     public float swingSpeed;
     public float swingRadius;
-    public float releaseForce;
 
     private Animator _animator;
     private Rigidbody _rigidbody;
