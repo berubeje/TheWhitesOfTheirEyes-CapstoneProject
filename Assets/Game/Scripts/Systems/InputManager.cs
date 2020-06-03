@@ -6,7 +6,6 @@ using UnityEngine;
 public class InputManager : Singleton<InputManager>
 {
     public List<ControllableBase> controllables;
-    public ControllableBase mainCamera; 
 
     private MethodInfo[] methodInfo;
 
@@ -29,8 +28,4 @@ public class InputManager : Singleton<InputManager>
         
     }
 
-    private void LateUpdate()
-    {
-        //mainCamera.RightAnalogStick();
-    }
 }
