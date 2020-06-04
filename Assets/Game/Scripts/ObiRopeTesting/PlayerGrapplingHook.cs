@@ -17,11 +17,7 @@ public class PlayerGrapplingHook : MonoBehaviour
     public bool mouseTargeting = false;
 
     [Header("Swing Strain")]
-    public float swingStrain;
-    public float swingStrainDeadzone;
-    public float swingStrainAdjustSpeed = 0.5f;
-    public float currentStrain;
-    public float _currentRopeLengthOffset;
+    public float currentRopeLengthOffset;
 
     private bool _adjustSwingLength = false;
     private float _ropeMass = 0.1f;
@@ -245,20 +241,7 @@ public class PlayerGrapplingHook : MonoBehaviour
         
         if(ropeState == RopeState.Swing)
         {
-            currentStrain = CalculateStrain();
-
-            if(currentStrain < swingStrain - swingStrainDeadzone)
-            {
-                _currentRopeLengthOffset -= swingStrainAdjustSpeed;
-                //AdjustRopeLength(GetRopeLength() - swingStrainAdjustSpeed);
-            }
-            else if(currentStrain > swingStrain + swingStrainDeadzone)
-            {
-                _currentRopeLengthOffset += swingStrainAdjustSpeed;
-                //AdjustRopeLength(GetRopeLength() + swingStrainAdjustSpeed);
-            }
-
-            AdjustRopeLength(Vector3.Distance(character.transform.position, targetAnchor.transform.position) + _currentRopeLengthOffset);
+            AdjustRopeLength(Vector3.Distance(character.transform.position, targetAnchor.transform.position) + currentRopeLengthOffset);
         }
     }
 }
