@@ -231,18 +231,6 @@ public class PlayerGrapplingHook : MonoBehaviour
         _cursor.ChangeLength(length);
     }
 
-
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (!_rope.isLoaded)
-                LaunchHook();
-            else
-                DetachHook();
-        }
-    }
-
     private void FixedUpdate()
     {
         if (ropeState == RopeState.Launched && _rope.isLoaded)

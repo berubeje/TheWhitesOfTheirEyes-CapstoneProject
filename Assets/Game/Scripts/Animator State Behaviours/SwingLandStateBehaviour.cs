@@ -15,12 +15,16 @@ public class SwingLandStateBehaviour : StateMachineBehaviour
         {
             Debug.LogError("Unable to find Rigidbody component");
         }
+
+        _rigidbody.isKinematic = false;
+       
+        _rigidbody.AddForce(animator.transform.up * forwardForce, ForceMode.Impulse);
+        _rigidbody.AddForce(animator.transform.forward * forwardForce, ForceMode.Impulse);
     }
 
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        _rigidbody.AddForce(animator.transform.forward * forwardForce, ForceMode.Impulse);
     }
 
 

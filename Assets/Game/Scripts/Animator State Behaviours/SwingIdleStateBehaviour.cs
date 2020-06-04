@@ -95,10 +95,8 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //_rigidbody.isKinematic = false;
-       // Debug.Log(_releaseDirection);
+        //Debug.Log(_releaseDirection);
         //_rigidbody.AddForce(_releaseDirection, ForceMode.Impulse);
-        
-        
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
@@ -118,7 +116,7 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         // Get the vector between the player and the anchor and use that to get the angle
         _pendulumArm = _anchor.position - _animator.transform.position;
         _angle = Vector3.Angle(Vector3.up, _pendulumArm);
-        _angle = Mathf.Round(_angle);
+        _angle = Mathf.Round(_angle * 10.0f) / 10.0f;
 
         // Snap to the appropriate limit and change the direction paramater if we swing beyong the arc limit
         if (_angle > swingArcLimit)
