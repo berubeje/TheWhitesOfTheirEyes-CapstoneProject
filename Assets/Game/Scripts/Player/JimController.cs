@@ -22,14 +22,6 @@ public class JimController : ControllableBase
     public float faceAnchorSpeed;
     public float swingRadius;
     public float reelInSpeed;
-    public float swingArcWidth;
-    public float swingArcLimit;
-    public float swingSpeed;
-    public float releaseForce;
-
-    private float _speedMultiplier;
-    private int _direction = 1;
-    private Vector3 _arcOrigin;
 
     private Vector2 _leftStickInput;
 
@@ -40,6 +32,7 @@ public class JimController : ControllableBase
     private CapsuleCollider _capsuleCollider;
     private float _capsuleColliderHeight;
     private Rigidbody _rigidbody;
+    private Vector3 _reelDirection;
 
     private Animator _jimAnimator;
     private AnimatorStateInfo _stateInfo;
@@ -94,38 +87,24 @@ public class JimController : ControllableBase
             _capsuleCollider.height = _capsuleColliderHeight + (_jimAnimator.GetFloat("colliderCurve") * 0.5f);
         }
 
+        //TO-DO move this if block to statebehaviour
         if (IsInSwingStart())
         {
             if(Vector3.Distance(transform.position, anchor.position) <= swingRadius)
             {
                 _jimAnimator.SetBool("swingIdle", true);
+                _reelDirection = transform.position - anchor.transform.position;
+                transform.position = anchor.position + (_reelDirection.normalized * swingRadius);
             }
             else
             {
-                _arcOrigin = new Vector3(
-                       anchor.position.x,
-                       anchor.position.y - swingRadius,
-                       anchor.position.z
-                       );
+                _reelDirection = anchor.transform.position - transform.position;
+                transform.Translate(_reelDirection.normalized * reelInSpeed * Time.fixedDeltaTime, Space.World);
 
-                Vector3 reelDirection = anchor.transform.position - transform.position;
-                transform.Translate(reelDirection.normalized * reelInSpeed * Time.fixedDeltaTime, Space.World);
-                reelDirection.y = 0;
-                Quaternion targetRotation = Quaternion.LookRotation(reelDirection);
+                _reelDirection.y = 0;
+                Quaternion targetRotation = Quaternion.LookRotation(_reelDirection);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, faceAnchorSpeed);
             }
-        }
-
-        if (IsInSwingIdle())
-        {
-            //_rigidbody.MovePosition(CalculateArcPosition());
-        }
-
-        if (IsInSwingLand())
-        {
-            //_releaseDirection.x *= releaseForce;
-            //_releaseDirection.z *= releaseForce;
-           // _rigidbody.AddForce(_releaseDirection, ForceMode.Impulse);
         }
 
     }
@@ -194,38 +173,6 @@ public class JimController : ControllableBase
         }
     }
 
-    public Vector3 CalculateArcPosition()
-    {
-        Vector3 pendulumArm = anchor.position - transform.position;
-        
-        float angle = Vector3.Angle(Vector3.up, pendulumArm);
-
-        if (angle >= swingArcLimit)
-        {
-             angle = swingArcLimit;
-            _direction = _direction == 1 ? -1 : 1;
-        }
-        float anglePercent = angle / swingArcLimit;
-
-
-        _speedMultiplier = (1.05f - Mathf.Round(anglePercent * 100f) / 100f);
-        _releaseDirection = _direction * (_speedMultiplier) * Vector3.Cross(pendulumArm, -transform.right);
-
-
-        Vector3 moveAmount = transform.forward * swingSpeed * _speedMultiplier * _direction;
-        Vector3 newPosition = transform.position + moveAmount;
-        newPosition.y = _arcOrigin.y;
-
-        //Debug.Log(-Mathf.Pow((swingRadius * swingRadius) - (_arcOrigin - newPosition).sqrMagnitude, 0.5f));
-        //newPosition.y += swingArcWidth * (_arcOrigin - newPosition).sqrMagnitude;
-
-        newPosition.y += -Mathf.Pow((swingRadius * swingRadius) - (_arcOrigin - newPosition).sqrMagnitude, 0.5f) + swingRadius;
-
-        _jimAnimator.SetFloat("swingDirection", _speedMultiplier * _direction);
-        
-        return newPosition;
-    }
-
     #region Utility functions to see if the animator is in the indicated state
     private bool IsInPivot()
     {
@@ -251,14 +198,6 @@ public class JimController : ControllableBase
     {
         return _stateInfo.fullPathHash == _swingStartID;
     }
-    private bool IsInSwingIdle()
-    {
-        return _stateInfo.fullPathHash == _swingIdleID;
-    }
-    private bool IsInSwingLand()
-    {
-        return _stateInfo.fullPathHash == _swingLandID;
-    }
     #endregion
 
     private void OnDrawGizmos()
@@ -268,12 +207,5 @@ public class JimController : ControllableBase
         Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), _leftStickDirection, Color.green);
 
         Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), transform.forward, Color.blue);
-
-        Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), _releaseDirection, Color.cyan);
-
-        if(anchor != null)
-        {
-            Debug.DrawLine(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), anchor.position, Color.white);
-        }
     }
 }

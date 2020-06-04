@@ -615,7 +615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e16192a2f98d4334a97c120f0bbba2b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swingArcLimit: 65
+  swingArcLimit: 70
   swingSpeed: 0.2
   swingRadius: 5
 --- !u!1101 &-1854269154634779653
@@ -635,7 +635,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0.1
   m_TransitionOffset: 0
   m_ExitTime: 0
   m_HasExitTime: 0
@@ -784,20 +784,20 @@ AnimatorStateMachine:
     m_Position: {x: -150, y: -130, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8305684381575614273}
-    m_Position: {x: -370, y: 10, z: 0}
+    m_Position: {x: -370, y: 20, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7782196974868876379}
-    m_Position: {x: -370, y: -60, z: 0}
+    m_Position: {x: -370, y: -50, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5773733519275075838}
-    m_Position: {x: -370, y: -130, z: 0}
+    m_Position: {x: -370, y: -120, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: -8367061626941199798}
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: -350, y: 80, z: 0}
+  m_AnyStatePosition: {x: -350, y: 90, z: 0}
   m_EntryPosition: {x: 160, y: -50, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
@@ -1016,7 +1016,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba1cd5e0b27e38647a3b2883ba3b03b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forwardForce: 1
+  forwardForce: 5
 --- !u!206 &1146154070533483146
 BlendTree:
   m_ObjectHideFlags: 1
