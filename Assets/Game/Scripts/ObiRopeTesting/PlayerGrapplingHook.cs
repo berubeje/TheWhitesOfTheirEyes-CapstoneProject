@@ -16,6 +16,14 @@ public class PlayerGrapplingHook : MonoBehaviour
     public TargetingConeLogic targetCone;
     public bool mouseTargeting = false;
 
+    [Header("Swing Strain")]
+    public float swingStrain;
+    public float swingStrainDeadzone;
+    public float swingStrainAdjustSpeed = 0.5f;
+    public float currentStrain;
+    public float _currentRopeLengthOffset;
+
+    private bool _adjustSwingLength = false;
     private float _ropeMass = 0.1f;
     private float _resolution = 0.5f;
     private ObiRope _rope;
@@ -25,7 +33,6 @@ public class PlayerGrapplingHook : MonoBehaviour
     private ObiRopeCursor _cursor;
 
     private RaycastHit _hookAttachment;
-    private bool _attached = false;
 
     private GameObject _launchedProjectile;
     private JimController _jimController;
@@ -140,7 +147,6 @@ public class PlayerGrapplingHook : MonoBehaviour
     {
         // _cursor.ChangeLength(0.0f);
 
-        _attached = true;
         ropeState = RopeState.Landed;
 
 
@@ -194,7 +200,6 @@ public class PlayerGrapplingHook : MonoBehaviour
         _rope.ropeBlueprint = null;
         _rope.GetComponent<MeshRenderer>().enabled = false;
         Destroy(_launchedProjectile);
-        _attached = false;
 
         if(ropeState == RopeState.Swing)
         {
@@ -231,23 +236,29 @@ public class PlayerGrapplingHook : MonoBehaviour
         _cursor.ChangeLength(length);
     }
 
-
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (!_rope.isLoaded)
-                LaunchHook();
-            else
-                DetachHook();
-        }
-    }
-
     private void FixedUpdate()
     {
         if (ropeState == RopeState.Launched && _rope.isLoaded)
         {
             AdjustRopeLength(Vector3.Distance(character.transform.position, _launchedProjectile.transform.position));
+        }
+        
+        if(ropeState == RopeState.Swing)
+        {
+            currentStrain = CalculateStrain();
+
+            if(currentStrain < swingStrain - swingStrainDeadzone)
+            {
+                _currentRopeLengthOffset -= swingStrainAdjustSpeed;
+                //AdjustRopeLength(GetRopeLength() - swingStrainAdjustSpeed);
+            }
+            else if(currentStrain > swingStrain + swingStrainDeadzone)
+            {
+                _currentRopeLengthOffset += swingStrainAdjustSpeed;
+                //AdjustRopeLength(GetRopeLength() + swingStrainAdjustSpeed);
+            }
+
+            AdjustRopeLength(Vector3.Distance(character.transform.position, targetAnchor.transform.position) + _currentRopeLengthOffset);
         }
     }
 }
