@@ -42,15 +42,18 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
             Debug.LogError("Unable to find Rigidbody component");
         }
 
+        // Set the origin of the arc, just below the anchor point
         _arcOrigin = new Vector3(
                        _anchor.position.x,
                        _anchor.position.y - swingRadius,
                        _anchor.position.z
                        );
 
+        // Calculate the max x and y distance away from the origin, based on swing radius
         float xLimit = Mathf.Sin(swingArcLimit * Mathf.Deg2Rad) * swingRadius;
         float yLimit = Mathf.Cos(swingArcLimit * Mathf.Deg2Rad) * swingRadius;
 
+        // Calculate the end positions of the arc, based on the swing arc limit
         _forwardArcLimit = _anchor.position + (_animator.transform.forward * xLimit);
         _forwardArcLimit.y -= yLimit;
 
@@ -60,9 +63,10 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         _pendulumArm = _anchor.position - _animator.transform.position;
         _angle = Vector3.Angle(Vector3.up, _pendulumArm);
 
+        // Snap to the backward limit if the approach angle was too high
         if(_angle > swingArcLimit)
         {
-            InterpolateToArcLimit(_backwardArcLimit);
+            _animator.transform.position = _backwardArcLimit;
         }
     }
 
@@ -70,7 +74,7 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
     {
         _rigidbody.MovePosition(CalculateArcPosition());
 
-        Debug.DrawLine(_anchor.position, _forwardArcLimit, Color.green);
+        Debug.DrawLine(_anchor.position, _forwardArcLimit, Color.yellow);
 
         Debug.DrawLine(_anchor.position, _backwardArcLimit, Color.red);
 
@@ -109,58 +113,45 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
     //    // Implement code that sets up animation IK (inverse kinematics)
     //}
 
-    public Vector3 CalculateArcPosition()
+    private Vector3 CalculateArcPosition()
     {
+        // Get the vector between the player and the anchor and use that to get the angle
         _pendulumArm = _anchor.position - _animator.transform.position;
-
         _angle = Vector3.Angle(Vector3.up, _pendulumArm);
+        _angle = Mathf.Round(_angle);
+
+        // Snap to the appropriate limit and change the direction paramater if we swing beyong the arc limit
         if (_angle > swingArcLimit)
         {
-            _angle = swingArcLimit;
-            float interpolant = 0.1f;
             switch (_direction)
             {
                 case -1:
-                    InterpolateToArcLimit(_backwardArcLimit);
+                    _animator.transform.position = _backwardArcLimit;
                     _direction = 1;
                     break;
                 case 1:
-                    InterpolateToArcLimit(_forwardArcLimit);
+                    _animator.transform.position = _forwardArcLimit;
                     _direction = -1;
                     break;
             }
+            _angle = swingArcLimit;
         }
 
         float anglePercent = _angle / swingArcLimit;
 
-
-        _speedMultiplier = (1.05f - Mathf.Round(anglePercent * 100f) / 100f);
+        // Speed multiplier is based off position. The closer we are to the origin, the higher it is, and the faster we will move
+        _speedMultiplier = _direction * (1.05f - Mathf.Round(anglePercent * 100f) / 100f);
 
         _releaseDirection = _direction * Vector3.Cross(_pendulumArm, -_animator.transform.right);
 
 
-        Vector3 moveAmount = (_direction * _animator.transform.forward) * swingSpeed * _speedMultiplier;
+        Vector3 moveAmount = _animator.transform.forward * swingSpeed * _speedMultiplier;
         Vector3 newPosition = _animator.transform.position + moveAmount;
         newPosition.y = _arcOrigin.y;
 
-        //Debug.Log(-Mathf.Pow((swingRadius * swingRadius) - (_arcOrigin - newPosition).sqrMagnitude, 0.5f));
-        //newPosition.y += swingArcWidth * (_arcOrigin - newPosition).sqrMagnitude;
-
         newPosition.y += -Mathf.Pow((swingRadius * swingRadius) - (_arcOrigin - newPosition).sqrMagnitude, 0.5f) + swingRadius;
-
-        _animator.SetFloat("swingDirection", _speedMultiplier * _direction);
+        _animator.SetFloat("swingDirection", _speedMultiplier);
 
         return newPosition;
-    }
-
-    private void InterpolateToArcLimit(Vector3 arcLimit) 
-    {
-        float interpolant = 0.1f;
-        while (interpolant <= 1.0f)
-        {
-            _rigidbody.MovePosition(Vector3.Lerp(_animator.transform.position, arcLimit, interpolant));
-            interpolant += 0.1f;
-            interpolant = Mathf.Round(interpolant * 10f) / 10f;
-        }
     }
 }

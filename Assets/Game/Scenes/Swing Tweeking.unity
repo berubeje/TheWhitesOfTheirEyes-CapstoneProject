@@ -1594,6 +1594,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1784193672}
+    - target: {fileID: 8060021248563665241, guid: 1f4ceec7d99c9ec4787af1205d7d3d61,
+        type: 3}
+      propertyPath: swingRadius
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f4ceec7d99c9ec4787af1205d7d3d61, type: 3}
 --- !u!1001 &3775316111917190385
