@@ -615,7 +615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e16192a2f98d4334a97c120f0bbba2b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swingArcLimit: 75
+  swingArcLimit: 55
   swingSpeed: 0.2
   swingRadius: 5
 --- !u!1101 &-1854269154634779653

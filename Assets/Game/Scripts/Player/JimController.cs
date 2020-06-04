@@ -268,12 +268,5 @@ public class JimController : ControllableBase
         Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), _leftStickDirection, Color.green);
 
         Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), transform.forward, Color.blue);
-
-        Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), _releaseDirection, Color.cyan);
-
-        if(anchor != null)
-        {
-            Debug.DrawLine(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), anchor.position, Color.white);
-        }
     }
 }

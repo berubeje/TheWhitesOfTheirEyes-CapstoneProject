@@ -60,6 +60,10 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         _pendulumArm = _anchor.position - _animator.transform.position;
         _angle = Vector3.Angle(Vector3.up, _pendulumArm);
 
+        if(_angle > swingArcLimit)
+        {
+            InterpolateToArcLimit(_backwardArcLimit);
+        }
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -70,11 +74,17 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
 
         Debug.DrawLine(_anchor.position, _backwardArcLimit, Color.red);
 
-        Debug.DrawRay(new Vector3(_animator.transform.position.x,
-            _animator.transform.position.y + 1.0f,
-            _animator.transform.position.z),
+        Debug.DrawLine(_animator.transform.position, _anchor.position, Color.white);
+
+        Debug.DrawRay(
+            new Vector3(
+                _animator.transform.position.x,
+                _animator.transform.position.y + 1.0f,
+                _animator.transform.position.z
+                ),
             _releaseDirection,
-            Color.cyan);
+            Color.cyan
+            );
     }
 
 
@@ -104,18 +114,18 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         _pendulumArm = _anchor.position - _animator.transform.position;
 
         _angle = Vector3.Angle(Vector3.up, _pendulumArm);
-        
         if (_angle > swingArcLimit)
         {
             _angle = swingArcLimit;
+            float interpolant = 0.1f;
             switch (_direction)
             {
                 case -1:
-                    _animator.transform.position = _backwardArcLimit;
+                    InterpolateToArcLimit(_backwardArcLimit);
                     _direction = 1;
                     break;
                 case 1:
-                    _animator.transform.position = _forwardArcLimit;
+                    InterpolateToArcLimit(_forwardArcLimit);
                     _direction = -1;
                     break;
             }
@@ -127,6 +137,7 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         _speedMultiplier = (1.05f - Mathf.Round(anglePercent * 100f) / 100f);
 
         _releaseDirection = _direction * Vector3.Cross(_pendulumArm, -_animator.transform.right);
+
 
         Vector3 moveAmount = (_direction * _animator.transform.forward) * swingSpeed * _speedMultiplier;
         Vector3 newPosition = _animator.transform.position + moveAmount;
@@ -140,5 +151,16 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         _animator.SetFloat("swingDirection", _speedMultiplier * _direction);
 
         return newPosition;
+    }
+
+    private void InterpolateToArcLimit(Vector3 arcLimit) 
+    {
+        float interpolant = 0.1f;
+        while (interpolant <= 1.0f)
+        {
+            _rigidbody.MovePosition(Vector3.Lerp(_animator.transform.position, arcLimit, interpolant));
+            interpolant += 0.1f;
+            interpolant = Mathf.Round(interpolant * 10f) / 10f;
+        }
     }
 }
