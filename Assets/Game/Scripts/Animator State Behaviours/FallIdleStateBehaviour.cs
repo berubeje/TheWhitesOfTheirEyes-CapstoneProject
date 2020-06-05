@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwingLandStateBehaviour : StateMachineBehaviour
+public class FallIdleStateBehaviour : StateMachineBehaviour
 {
     public float forwardForce;
+    public GameObject splineRoute;
     private Rigidbody _rigidbody;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -15,12 +16,16 @@ public class SwingLandStateBehaviour : StateMachineBehaviour
         {
             Debug.LogError("Unable to find Rigidbody component");
         }
+
+        _rigidbody.isKinematic = false;
+       
+        _rigidbody.AddForce(animator.transform.up * forwardForce, ForceMode.Impulse);
+        _rigidbody.AddForce(animator.transform.forward * forwardForce, ForceMode.Impulse);
     }
 
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        _rigidbody.AddForce(animator.transform.forward * forwardForce, ForceMode.Impulse);
     }
 
 
