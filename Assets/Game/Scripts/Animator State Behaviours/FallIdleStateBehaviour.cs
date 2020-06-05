@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwingLandStateBehaviour : StateMachineBehaviour
+public class FallIdleStateBehaviour : StateMachineBehaviour
 {
     public float forwardForce;
+    public GameObject splineRoute;
     private Rigidbody _rigidbody;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

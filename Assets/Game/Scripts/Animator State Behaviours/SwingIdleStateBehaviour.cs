@@ -64,7 +64,7 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         _angle = Vector3.Angle(Vector3.up, _pendulumArm);
 
         // Snap to the backward limit if the approach angle was too high
-        if(_angle > swingArcLimit)
+        if(_angle >= swingArcLimit)
         {
             _animator.transform.position = _backwardArcLimit;
         }
@@ -72,7 +72,10 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        _rigidbody.MovePosition(CalculateArcPosition());
+        if(!_animator.GetAnimatorTransitionInfo(0).IsName("SwingIdle -> FallIdle"))
+        {
+            _rigidbody.MovePosition(CalculateArcPosition());
+        }
 
         Debug.DrawLine(_anchor.position, _forwardArcLimit, Color.yellow);
 

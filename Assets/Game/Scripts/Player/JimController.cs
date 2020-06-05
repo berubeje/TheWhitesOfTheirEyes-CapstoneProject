@@ -18,10 +18,8 @@ public class JimController : ControllableBase
     public float jumpDistance;
 
     [Header("Swing Settings")]
-    public Transform anchor; 
-    public float faceAnchorSpeed;
-    public float swingRadius;
-    public float reelInSpeed;
+    public Transform anchor;
+    public GameObject splineRoute;
 
     private Vector2 _leftStickInput;
 

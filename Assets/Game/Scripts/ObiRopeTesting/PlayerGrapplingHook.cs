@@ -20,8 +20,8 @@ public class PlayerGrapplingHook : MonoBehaviour
     public float currentRopeLengthOffset;
 
     private bool _adjustSwingLength = false;
-    private float _ropeMass = 0.1f;
-    private float _resolution = 0.5f;
+    private float _ropeMass = 0.5f;
+    private float _resolution = 0.05f;
     private ObiRope _rope;
     private ObiRopeBlueprint _blueprint;
     private ObiRopeExtrudedRenderer _ropeRenderer;
@@ -63,6 +63,7 @@ public class PlayerGrapplingHook : MonoBehaviour
         _blueprint = ScriptableObject.CreateInstance<ObiRopeBlueprint>();
         _blueprint.resolution = _resolution;
         _blueprint.thickness = ropeThickness;
+        _blueprint.pooledParticles = 500;
 
         // Tweak rope parameters:
         _rope.maxBending = 0.02f;
@@ -131,6 +132,9 @@ public class PlayerGrapplingHook : MonoBehaviour
 
         if (targetAnchor != null)
         {
+            _jimController.anchor = targetAnchor.transform;
+            _jimAnimator.SetTrigger("swingStart");
+
             _launchedProjectile = Instantiate(ropeProjectile, character.transform.position, ropeProjectile.transform.rotation);
             MagicRopeProjectileLogic projectileLogic = _launchedProjectile.GetComponent<MagicRopeProjectileLogic>();
             projectileLogic.SetupProjectile(targetAnchor.transform.position, this, targetAnchor.gameObject);
@@ -152,8 +156,6 @@ public class PlayerGrapplingHook : MonoBehaviour
         if(targetAnchor.anchorType == RopeAnchorPoint.AnchorType.Swing)
         {
             ropeState = RopeState.Swing;
-            _jimController.anchor = targetAnchor.transform;
-            _jimAnimator.SetTrigger("swingStart");
 
         }
         else
@@ -200,7 +202,6 @@ public class PlayerGrapplingHook : MonoBehaviour
         if(ropeState == RopeState.Swing)
         {
             _jimAnimator.SetTrigger("swingLand");
-            _jimAnimator.SetBool("swingIdle", false);
         }
 
 
