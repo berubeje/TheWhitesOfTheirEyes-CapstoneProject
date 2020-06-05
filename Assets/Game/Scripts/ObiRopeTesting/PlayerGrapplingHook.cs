@@ -5,11 +5,11 @@ using Obi;
 
 public class PlayerGrapplingHook : MonoBehaviour
 {
+    public ObiRopeBlueprint blueprint;
     public ObiSolver solver;
     public ObiCollider character;
     public Material material;
     public ObiRopeSection section;
-    public float ropeThickness;
 
     public GameObject ropeProjectile;
     public RopeAnchorPoint targetAnchor;
@@ -21,9 +21,7 @@ public class PlayerGrapplingHook : MonoBehaviour
 
     private bool _adjustSwingLength = false;
     private float _ropeMass = 0.1f;
-    private float _resolution = 0.5f;
     private ObiRope _rope;
-    private ObiRopeBlueprint _blueprint;
     private ObiRopeExtrudedRenderer _ropeRenderer;
 
     private ObiRopeCursor _cursor;
@@ -59,11 +57,6 @@ public class PlayerGrapplingHook : MonoBehaviour
         _ropeRenderer.uvAnchor = 1;
         _rope.GetComponent<MeshRenderer>().material = material;
 
-        // Setup a blueprint for the rope:
-        _blueprint = ScriptableObject.CreateInstance<ObiRopeBlueprint>();
-        _blueprint.resolution = _resolution;
-        _blueprint.thickness = ropeThickness;
-
         // Tweak rope parameters:
         _rope.maxBending = 0.02f;
 
@@ -88,7 +81,7 @@ public class PlayerGrapplingHook : MonoBehaviour
 
     private void OnDestroy()
     {
-        DestroyImmediate(_blueprint);
+        DestroyImmediate(blueprint);
     }
 
     public void ActivateTargeting()
@@ -146,8 +139,8 @@ public class PlayerGrapplingHook : MonoBehaviour
         ropeState = RopeState.Landed;
 
 
-        _rope.ropeBlueprint = null;
-        StartCoroutine(AttachHook());
+        //_rope.ropeBlueprint = null;
+        //StartCoroutine(AttachHook());
 
         if(targetAnchor.anchorType == RopeAnchorPoint.AnchorType.Swing)
         {
@@ -168,24 +161,24 @@ public class PlayerGrapplingHook : MonoBehaviour
         Vector3 localHit = _rope.transform.InverseTransformPoint(targetAnchor.transform.position);
 
         // Procedurally generate the rope path (a simple straight line):
-        _blueprint.path.Clear();
-        _blueprint.path.AddControlPoint(Vector3.zero, -localHit.normalized, localHit.normalized, Vector3.up, _ropeMass, 0.1f, 1, 1, Color.white, "Hook start");
-        _blueprint.path.AddControlPoint(localHit, -localHit.normalized, localHit.normalized, Vector3.up, _ropeMass, 0.1f, 1, 1, Color.white, "Hook end");
-        _blueprint.path.FlushEvents();
+        blueprint.path.Clear();
+        blueprint.path.AddControlPoint(Vector3.zero, -localHit.normalized, localHit.normalized, Vector3.up, _ropeMass, 0.1f, 1, 1, Color.white, "Hook start");
+        blueprint.path.AddControlPoint(localHit, -localHit.normalized, localHit.normalized, Vector3.up, _ropeMass, 0.1f, 1, 1, Color.white, "Hook end");
+        blueprint.path.FlushEvents();
 
         // Generate the particle representation of the rope (wait until it has finished):
-        yield return _blueprint.Generate();
+        yield return blueprint.Generate();
 
         // Pin both ends of the rope (this enables two-way interaction between character and rope):
-        var pinConstraints = _blueprint.GetConstraintsByType(Oni.ConstraintType.Pin) as ObiConstraints<ObiPinConstraintsBatch>;
+        var pinConstraints = blueprint.GetConstraintsByType(Oni.ConstraintType.Pin) as ObiConstraints<ObiPinConstraintsBatch>;
         var batch = pinConstraints.batches[0];
         batch.AddConstraint(0, character, Vector3.zero, Quaternion.identity);
-        batch.AddConstraint(_blueprint.activeParticleCount - 1, _launchedProjectile.GetComponent<ObiColliderBase>(),
+        batch.AddConstraint(blueprint.activeParticleCount - 1, _launchedProjectile.GetComponent<ObiColliderBase>(),
                                                           Vector3.zero, Quaternion.identity);
         batch.activeConstraintCount = 2;
 
         // Set the blueprint (this adds particles/constraints to the solver and starts simulating them).
-        _rope.ropeBlueprint = _blueprint;
+        _rope.ropeBlueprint = blueprint;
         _rope.GetComponent<MeshRenderer>().enabled = true;
 
     }
