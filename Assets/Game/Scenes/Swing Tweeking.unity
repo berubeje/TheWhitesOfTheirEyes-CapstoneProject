@@ -320,7 +320,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17144
+  m_Name: pb_Mesh17330
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -489,7 +489,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17160
+  m_Name: pb_Mesh17346
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -658,7 +658,7 @@ GameObject:
   m_Layer: 0
   m_Name: ControlPoint 2
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 5cbb736fc86b64409b40fe7050933899, type: 3}
+  m_Icon: {fileID: 2800000, guid: 42279466e4f354e708eb1084c665053e, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -670,7 +670,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 685854754}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.93, z: 1.5}
+  m_LocalPosition: {x: -0, y: 2.24, z: 1.63}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 272681407}
@@ -1573,7 +1573,7 @@ GameObject:
   m_Layer: 0
   m_Name: ControlPoint 3
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 5cbb736fc86b64409b40fe7050933899, type: 3}
+  m_Icon: {fileID: 2800000, guid: 42279466e4f354e708eb1084c665053e, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1585,7 +1585,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1337774290}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 3.86, z: 4.12}
+  m_LocalPosition: {x: 0, y: 2.2, z: 2.13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 272681407}
@@ -1711,7 +1711,7 @@ GameObject:
   m_Layer: 0
   m_Name: ControlPoint 1
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 5cbb736fc86b64409b40fe7050933899, type: 3}
+  m_Icon: {fileID: 2800000, guid: 42279466e4f354e708eb1084c665053e, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1741,7 +1741,7 @@ GameObject:
   m_Layer: 0
   m_Name: ControlPoint 4
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 5cbb736fc86b64409b40fe7050933899, type: 3}
+  m_Icon: {fileID: 2800000, guid: 42279466e4f354e708eb1084c665053e, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1753,7 +1753,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1754780449}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.13, z: 6.76}
+  m_LocalPosition: {x: -0, y: 0, z: 3.38}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 272681407}
@@ -2241,6 +2241,12 @@ PrefabInstance:
       propertyPath: currentRopeLengthOffset
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 4896892014496958821, guid: 1f4ceec7d99c9ec4787af1205d7d3d61,
+        type: 3}
+      propertyPath: blueprint
+      value: 
+      objectReference: {fileID: 11400000, guid: ab312de414ed84d4dbe475b39901e2db,
+        type: 2}
     - target: {fileID: 4896892014739021211, guid: 1f4ceec7d99c9ec4787af1205d7d3d61,
         type: 3}
       propertyPath: pullStrainThreshold
@@ -2280,7 +2286,7 @@ PrefabInstance:
         type: 3}
       propertyPath: splineRoute
       value: 
-      objectReference: {fileID: 272681406}
+      objectReference: {fileID: 272681408}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f4ceec7d99c9ec4787af1205d7d3d61, type: 3}
 --- !u!1001 &3775316111917190385
@@ -2679,12 +2685,12 @@ PrefabInstance:
     - target: {fileID: 8454427368587269874, guid: 9438b4bbcb121f94abc1e998c0e0c4e1,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000016125325
+      value: 0.000000016125313
       objectReference: {fileID: 0}
     - target: {fileID: 8454427368587269874, guid: 9438b4bbcb121f94abc1e998c0e0c4e1,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000060028253
+      value: -0.00000000600279
       objectReference: {fileID: 0}
     - target: {fileID: 8454427368587269874, guid: 9438b4bbcb121f94abc1e998c0e0c4e1,
         type: 3}

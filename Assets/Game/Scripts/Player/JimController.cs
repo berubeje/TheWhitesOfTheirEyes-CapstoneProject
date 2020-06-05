@@ -19,7 +19,7 @@ public class JimController : ControllableBase
 
     [Header("Swing Settings")]
     public Transform anchor;
-    public GameObject splineRoute;
+    public SplineRoute splineRoute;
 
     private Vector2 _leftStickInput;
 
