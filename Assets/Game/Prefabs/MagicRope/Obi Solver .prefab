@@ -549,7 +549,7 @@ GameObject:
   - component: {fileID: 7736718903272414581}
   - component: {fileID: 7736718903272414580}
   m_Layer: 0
-  m_Name: Hook 2
+  m_Name: Hook
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -581,6 +581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eefad83f4fd11aa4089863f3fd85da96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blueprint: {fileID: 11400000, guid: ab312de414ed84d4dbe475b39901e2db, type: 2}
   solver: {fileID: 392019060138856471}
   character: {fileID: 8523739201326445035}
   material: {fileID: 2100000, guid: fc3471413290e114c928d844fe787bf1, type: 2}
@@ -590,6 +591,7 @@ MonoBehaviour:
   targetAnchor: {fileID: 0}
   targetCone: {fileID: 7736718904542989075}
   mouseTargeting: 0
+  currentRopeLengthOffset: 0
   ropeState: 0
 --- !u!1 &7736718903579281800
 GameObject:
@@ -636,10 +638,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ropeLogic: {fileID: 7736718903272414580}
-  aimCamera: {fileID: 0}
   startingLengthOffset: 0
-  breakPullDistance: 2
-  pullStrainThreshold: 1.2
+  stopPullingDistance: 2
+  pullStrain: 1.15
+  breakRopeLenth: 10
 --- !u!1 &7736718904542989073
 GameObject:
   m_ObjectHideFlags: 0
@@ -1101,7 +1103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66c3debae7cf88b46b0863a3ff5a32d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleSpeed: {x: 0, y: 0, z: 0}
+  scaleSpeed: {x: 2, y: 2, z: 2}
   maxScale: {x: 5, y: 5, z: 5}
   player: {fileID: 5148154313980185928}
 --- !u!1 &7736718905261439871
