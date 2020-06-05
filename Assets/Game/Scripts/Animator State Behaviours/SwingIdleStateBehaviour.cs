@@ -17,6 +17,7 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
     private PlayerGrapplingHook _grapplingHook;
     private Transform _anchor;
     private SplineRoute _splineRoute;
+    private JimController _jimController;
 
     private int _direction;
     private Vector3 _arcOrigin;
@@ -51,6 +52,12 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         {
             Debug.LogError("Unable to find Spline Route object");
         }
+
+        _jimController = animator.GetComponent<JimController>();
+        _jimController.minReleaseDistanceX = minReleaseDistanceX;
+        _jimController.maxReleaseDistanceX = maxReleaseDistanceX;
+        _jimController.minReleaseDistanceY = minReleaseDistanceY;
+        _jimController.maxReleaseDistanceY = maxReleaseDistanceY;
 
         _direction = 1;
 
@@ -104,6 +111,11 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
             _releaseDirection,
             Color.cyan
             );
+
+        _jimController.speedMultiplier = _speedMultiplier;
+        _jimController.direction = _direction;
+
+        
     }
 
 

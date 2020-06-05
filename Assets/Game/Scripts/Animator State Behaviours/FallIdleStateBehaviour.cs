@@ -32,6 +32,7 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
             Debug.LogError("Unable to find Spline Route object");
         }
 
+
         _t = 0.0f;
     }
 
@@ -58,7 +59,6 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
                  Mathf.Pow(_t, 3) * _p3;
 
             animator.transform.Translate(target - animator.transform.position, Space.World);
-
         }
     }
 

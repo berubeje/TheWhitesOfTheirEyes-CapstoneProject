@@ -21,6 +21,14 @@ public class JimController : ControllableBase
     public Transform anchor;
     public SplineRoute splineRoute;
 
+    [Header("Settings recieved from the animator. Modifying these has no effect")]
+    public int direction;
+    public float speedMultiplier;
+    public float minReleaseDistanceX;
+    public float maxReleaseDistanceX;
+    public float minReleaseDistanceY;
+    public float maxReleaseDistanceY;
+
     private Vector2 _leftStickInput;
 
     private Vector3 _moveDirection;
@@ -206,5 +214,34 @@ public class JimController : ControllableBase
         Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), _leftStickDirection, Color.green);
 
         Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), transform.forward, Color.blue);
+
+        float releaseDistanceX = Mathf.Lerp(minReleaseDistanceX, maxReleaseDistanceX, speedMultiplier);
+        float releaseDistanceY = Mathf.Lerp(minReleaseDistanceY, maxReleaseDistanceY, 1 - speedMultiplier);
+
+        Vector3 p0 = transform.position;
+        Vector3 p1 = transform.position + _releaseDirection;
+
+        Vector3 p3 = transform.position +
+            (transform.forward * releaseDistanceX) * direction +
+            (Vector3.up * releaseDistanceY);
+
+        Vector3 p2 = p3 + new Vector3(0, 2.0f * (1 - speedMultiplier), 0);
+
+        Gizmos.color = Color.green;
+        for (float t = 0.0f; t <= 1; t += 0.05f)
+        {
+            Vector3 gizmosPosition = Mathf.Pow(1 - t, 3) * p0 +
+                3 * Mathf.Pow(1 - t, 2) * t * p1 +
+                3 * (1 - t) * Mathf.Pow(t, 2) * p2 +
+                Mathf.Pow(t, 3) * p3;
+
+            Gizmos.DrawSphere(gizmosPosition, 0.05f);
+        }
+
+        Gizmos.color = Color.white;
+
+        Gizmos.DrawLine(p0, p1);
+
+        Gizmos.DrawLine(p2, p3);
     }
 }
