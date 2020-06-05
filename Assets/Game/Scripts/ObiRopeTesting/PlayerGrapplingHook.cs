@@ -79,10 +79,6 @@ public class PlayerGrapplingHook : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
-    {
-        DestroyImmediate(blueprint);
-    }
 
     public void ActivateTargeting()
     {

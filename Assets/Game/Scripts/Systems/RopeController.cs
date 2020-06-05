@@ -11,7 +11,7 @@ public class RopeController : ControllableBase
     public float startingLengthOffset;
     public float stopPullingDistance = 2.0f;
     public float pullStrain = 1.15f;
-    public float breakRopeLenth = 10.0f;
+    public float breakRopeLength = 10.0f;
 
     private Rigidbody _playerRigidBody;
     private Rigidbody _targetRigidBody;
@@ -58,7 +58,7 @@ public class RopeController : ControllableBase
                 return;
             }
 
-            if(ropeLogic.GetRopeLength() > breakRopeLenth)
+            if(Vector3.Distance(ropeLogic.character.transform.position, ropeLogic.targetAnchor.transform.position) > breakRopeLength)
             {
                 ropeLogic.DetachHook();
             }
