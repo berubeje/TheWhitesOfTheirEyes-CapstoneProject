@@ -87,26 +87,27 @@ public class JimController : ControllableBase
             _capsuleCollider.height = _capsuleColliderHeight + (_jimAnimator.GetFloat("colliderCurve") * 0.5f);
         }
 
+        #region Old reel in code. Moved to animation state behaviour
         //TO-DO move this if block to statebehaviour
-        if (IsInSwingStart())
-        {
-            if(Vector3.Distance(transform.position, anchor.position) <= swingRadius)
-            {
-                _jimAnimator.SetBool("swingIdle", true);
-                _reelDirection = transform.position - anchor.transform.position;
-                transform.position = anchor.position + (_reelDirection.normalized * swingRadius);
-            }
-            else
-            {
-                _reelDirection = anchor.transform.position - transform.position;
-                transform.Translate(_reelDirection.normalized * reelInSpeed * Time.fixedDeltaTime, Space.World);
+        //if (IsInSwingStart())
+        //{
+        //    if(Vector3.Distance(transform.position, anchor.position) <= swingRadius)
+        //    {
+        //        _jimAnimator.SetBool("swingIdle", true);
+        //        _reelDirection = transform.position - anchor.transform.position;
+        //        transform.position = anchor.position + (_reelDirection.normalized * swingRadius);
+        //    }
+        //    else
+        //    {
+        //        _reelDirection = anchor.transform.position - transform.position;
+        //        transform.Translate(_reelDirection.normalized * reelInSpeed * Time.fixedDeltaTime, Space.World);
 
-                _reelDirection.y = 0;
-                Quaternion targetRotation = Quaternion.LookRotation(_reelDirection);
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, faceAnchorSpeed);
-            }
-        }
-
+        //        _reelDirection.y = 0;
+        //        Quaternion targetRotation = Quaternion.LookRotation(_reelDirection);
+        //        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, faceAnchorSpeed);
+        //    }
+        //}
+        #endregion
     }
 
     public override void LeftAnalogStick()

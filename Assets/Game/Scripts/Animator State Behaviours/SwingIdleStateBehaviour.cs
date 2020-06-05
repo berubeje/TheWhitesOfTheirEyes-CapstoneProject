@@ -94,9 +94,7 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        //_rigidbody.isKinematic = false;
-        //Debug.Log(_releaseDirection);
-        //_rigidbody.AddForce(_releaseDirection, ForceMode.Impulse);
+        _direction = 1;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
@@ -118,7 +116,7 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         _angle = Vector3.Angle(Vector3.up, _pendulumArm);
         _angle = Mathf.Round(_angle * 10.0f) / 10.0f;
 
-        // Snap to the appropriate limit and change the direction paramater if we swing beyong the arc limit
+        // Snap to the appropriate limit and change the direction parameter if we swing beyong the arc limit
         if (_angle > swingArcLimit)
         {
             switch (_direction)
