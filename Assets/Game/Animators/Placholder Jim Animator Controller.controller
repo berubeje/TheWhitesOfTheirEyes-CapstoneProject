@@ -617,7 +617,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   swingArcLimit: 65
   swingSpeed: 0.2
-  swingRadius: 5
+  swingRadius: 6
 --- !u!1101 &-1854269154634779653
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
