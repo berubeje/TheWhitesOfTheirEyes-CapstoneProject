@@ -597,7 +597,7 @@ PlayerSettings:
     14: CROSS_PLATFORM_INPUT;MOBILE_INPUT
   platformArchitecture: {}
   scriptingBackend:
-    Standalone: 1
+    Standalone: 0
   il2cppCompilerConfiguration: {}
   managedStrippingLevel: {}
   incrementalIl2cppBuild: {}
