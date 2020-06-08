@@ -1,14 +1,11 @@
 fileFormatVersion: 2
-guid: e3c5e15fb211b0140bd78d9f18930a1d
+guid: 129ff196333f35b4dacc0b1e9a34aede
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: SwingStart
-  - first:
-      74: 4061839508520268033
-    second: SwingIdleForward
+    second: DodgeRoll
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -38,11 +35,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: SwingStart
+      name: DodgeRoll
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 13
-      lastFrame: 65
+      firstFrame: 0
+      lastFrame: 84
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -53,8 +50,8 @@ ModelImporter:
       loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
-      loopBlendPositionXZ: 1
-      keepOriginalOrientation: 1
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
       keepOriginalPositionY: 0
       keepOriginalPositionXZ: 0
       heightFromFeet: 1

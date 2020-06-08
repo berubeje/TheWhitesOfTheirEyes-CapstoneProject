@@ -9,8 +9,9 @@ public class RopeController : ControllableBase
 {
     public PlayerGrapplingHook ropeLogic;
     public float startingLengthOffset;
-    public float breakPullDistance = 2.0f;
-    public float pullStrainThreshold = 1.15f;
+    public float stopPullingDistance = 2.0f;
+    public float pullStrain = 1.15f;
+    public float breakRopeLength = 10.0f;
 
     private Rigidbody _playerRigidBody;
     private Rigidbody _targetRigidBody;
@@ -48,16 +49,18 @@ public class RopeController : ControllableBase
 
     void FixedUpdate()
     {
-        if((ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Swing) && _targetTransform != null)
-        {
-            AdjustStrain();
-        }
-
         if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull && _targetTransform != null)
         {
-            if (ropeLogic.GetRopeLength() <= breakPullDistance)
+            AdjustStrain();
+
+            if (ropeLogic.GetRopeLength() <= stopPullingDistance)
             {
                 return;
+            }
+
+            if(Vector3.Distance(ropeLogic.character.transform.position, ropeLogic.targetAnchor.transform.position) > breakRopeLength)
+            {
+                ropeLogic.DetachHook();
             }
 
             if (_pullObject)
@@ -86,7 +89,7 @@ public class RopeController : ControllableBase
     {
         ropeLogic.AdjustRopeLength(Vector3.Distance(_playerTransform.position, _targetTransform.position) + _currentLengthOffset);
 
-        if (_ropeStrain < pullStrainThreshold)
+        if (_ropeStrain < pullStrain)
         {
             _currentLengthOffset -= 0.5f;
         }

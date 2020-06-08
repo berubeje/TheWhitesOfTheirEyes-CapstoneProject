@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwingingControl : MonoBehaviour
+public class GroundedCheck : MonoBehaviour
 {
+    public float checkDistance;
+
     // Start is called before the first frame update
     void Start()
     {

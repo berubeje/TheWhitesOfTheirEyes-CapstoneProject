@@ -18,16 +18,25 @@ public class JimController : ControllableBase
     public float jumpDistance;
 
     [Header("Swing Settings")]
-    public Transform anchor; 
-    public float faceAnchorSpeed;
-    public float swingRadius;
-    public float reelInSpeed;
+    public Transform anchor;
+    public SplineRoute splineRoute;
+
+    [Header("Settings recieved from the animator. Modifying these has no effect")]
+    public int direction;
+    public float speedMultiplier;
+    public Vector3 releaseDirection;
+    public float releaseDirectionOffset;
+    public float minDestinationAngle;
+    public float maxDestinationAngle;
+    public float minReleaseDistanceX;
+    public float maxReleaseDistanceX;
+    public float minReleaseDistanceY;
+    public float maxReleaseDistanceY;
 
     private Vector2 _leftStickInput;
 
     private Vector3 _moveDirection;
     private Vector3 _leftStickDirection;
-    private Vector3 _releaseDirection;
 
     private CapsuleCollider _capsuleCollider;
     private float _capsuleColliderHeight;
@@ -87,26 +96,27 @@ public class JimController : ControllableBase
             _capsuleCollider.height = _capsuleColliderHeight + (_jimAnimator.GetFloat("colliderCurve") * 0.5f);
         }
 
+        #region Old reel in code. Moved to animation state behaviour
         //TO-DO move this if block to statebehaviour
-        if (IsInSwingStart())
-        {
-            if(Vector3.Distance(transform.position, anchor.position) <= swingRadius)
-            {
-                _jimAnimator.SetBool("swingIdle", true);
-                _reelDirection = transform.position - anchor.transform.position;
-                transform.position = anchor.position + (_reelDirection.normalized * swingRadius);
-            }
-            else
-            {
-                _reelDirection = anchor.transform.position - transform.position;
-                transform.Translate(_reelDirection.normalized * reelInSpeed * Time.fixedDeltaTime, Space.World);
+        //if (IsInSwingStart())
+        //{
+        //    if(Vector3.Distance(transform.position, anchor.position) <= swingRadius)
+        //    {
+        //        _jimAnimator.SetBool("swingIdle", true);
+        //        _reelDirection = transform.position - anchor.transform.position;
+        //        transform.position = anchor.position + (_reelDirection.normalized * swingRadius);
+        //    }
+        //    else
+        //    {
+        //        _reelDirection = anchor.transform.position - transform.position;
+        //        transform.Translate(_reelDirection.normalized * reelInSpeed * Time.fixedDeltaTime, Space.World);
 
-                _reelDirection.y = 0;
-                Quaternion targetRotation = Quaternion.LookRotation(_reelDirection);
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, faceAnchorSpeed);
-            }
-        }
-
+        //        _reelDirection.y = 0;
+        //        Quaternion targetRotation = Quaternion.LookRotation(_reelDirection);
+        //        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, faceAnchorSpeed);
+        //    }
+        //}
+        #endregion
     }
 
     public override void LeftAnalogStick()
@@ -173,6 +183,14 @@ public class JimController : ControllableBase
         }
     }
 
+    public override void EastFaceButton()
+    {
+        if(Input.GetButtonDown("East Face Button"))
+        {
+            _jimAnimator.SetTrigger("dodgeRoll");
+        }
+    }
+
     #region Utility functions to see if the animator is in the indicated state
     private bool IsInPivot()
     {
@@ -207,5 +225,35 @@ public class JimController : ControllableBase
         Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), _leftStickDirection, Color.green);
 
         Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), transform.forward, Color.blue);
+
+        float releaseDistanceX = Mathf.Lerp(minReleaseDistanceX, maxReleaseDistanceX, speedMultiplier);
+        float releaseDistanceY = Mathf.Lerp(minReleaseDistanceY, maxReleaseDistanceY, 1 - speedMultiplier);
+        float releaseDestinationAngle = Mathf.Lerp(minDestinationAngle, maxDestinationAngle, speedMultiplier);
+
+        Vector3 p0 = transform.position; 
+        Vector3 p1 = transform.position + releaseDirection + (Vector3.up * releaseDirectionOffset);
+
+        Vector3 p3 = transform.position +
+            (transform.forward * releaseDistanceX) * direction +
+            (Vector3.up * releaseDistanceY * Mathf.Sign(releaseDirection.y));
+        
+        Vector3 p2 = (Quaternion.AngleAxis(releaseDestinationAngle * -direction, transform.right) * Vector3.up) + p3;
+
+        Gizmos.color = Color.green;
+        for (float t = 0.0f; t <= 1; t += 0.05f)
+        {
+            Vector3 gizmosPosition = Mathf.Pow(1 - t, 3) * p0 +
+                3 * Mathf.Pow(1 - t, 2) * t * p1 +
+                3 * (1 - t) * Mathf.Pow(t, 2) * p2 +
+                Mathf.Pow(t, 3) * p3;
+
+            Gizmos.DrawSphere(gizmosPosition, 0.05f);
+        }
+
+        Gizmos.color = Color.white;
+
+        Gizmos.DrawLine(p0, p1);
+
+        Gizmos.DrawLine(p2, p3);
     }
 }
