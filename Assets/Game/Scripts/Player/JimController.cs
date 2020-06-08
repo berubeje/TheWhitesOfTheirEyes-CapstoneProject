@@ -24,6 +24,10 @@ public class JimController : ControllableBase
     [Header("Settings recieved from the animator. Modifying these has no effect")]
     public int direction;
     public float speedMultiplier;
+    public Vector3 releaseDirection;
+    public float releaseDirectionOffset;
+    public float minDestinationAngle;
+    public float maxDestinationAngle;
     public float minReleaseDistanceX;
     public float maxReleaseDistanceX;
     public float minReleaseDistanceY;
@@ -33,7 +37,6 @@ public class JimController : ControllableBase
 
     private Vector3 _moveDirection;
     private Vector3 _leftStickDirection;
-    private Vector3 _releaseDirection;
 
     private CapsuleCollider _capsuleCollider;
     private float _capsuleColliderHeight;
@@ -217,15 +220,16 @@ public class JimController : ControllableBase
 
         float releaseDistanceX = Mathf.Lerp(minReleaseDistanceX, maxReleaseDistanceX, speedMultiplier);
         float releaseDistanceY = Mathf.Lerp(minReleaseDistanceY, maxReleaseDistanceY, 1 - speedMultiplier);
+        float releaseDestinationAngle = Mathf.Lerp(minDestinationAngle, maxDestinationAngle, speedMultiplier);
 
-        Vector3 p0 = transform.position;
-        Vector3 p1 = transform.position + _releaseDirection;
+        Vector3 p0 = transform.position; 
+        Vector3 p1 = transform.position + releaseDirection + (Vector3.up * releaseDirectionOffset);
 
         Vector3 p3 = transform.position +
             (transform.forward * releaseDistanceX) * direction +
-            (Vector3.up * releaseDistanceY);
-
-        Vector3 p2 = p3 + new Vector3(0, 2.0f * (1 - speedMultiplier), 0);
+            (Vector3.up * releaseDistanceY * Mathf.Sign(releaseDirection.y));
+        
+        Vector3 p2 = (Quaternion.AngleAxis(releaseDestinationAngle * -direction, transform.right) * Vector3.up) + p3;
 
         Gizmos.color = Color.green;
         for (float t = 0.0f; t <= 1; t += 0.05f)

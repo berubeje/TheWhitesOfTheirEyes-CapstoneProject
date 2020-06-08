@@ -8,6 +8,9 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
     public float swingArcLimit;
     public float swingSpeed;
     public float swingRadius;
+    public float releaseDirectionOffset; 
+    public float minDestinationAngle;
+    public float maxDestinationAngle;
     public float minReleaseDistanceX;
     public float maxReleaseDistanceX;
     public float minReleaseDistanceY;
@@ -53,7 +56,11 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
             Debug.LogError("Unable to find Spline Route object");
         }
 
+        //Pass tunable paramters to the player controller, to draw the spline curve
         _jimController = animator.GetComponent<JimController>();
+        _jimController.releaseDirectionOffset = releaseDirectionOffset;
+        _jimController.minDestinationAngle = minDestinationAngle;
+        _jimController.maxDestinationAngle = maxDestinationAngle;
         _jimController.minReleaseDistanceX = minReleaseDistanceX;
         _jimController.maxReleaseDistanceX = maxReleaseDistanceX;
         _jimController.minReleaseDistanceY = minReleaseDistanceY;
@@ -102,17 +109,10 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
 
         Debug.DrawLine(animator.transform.position, _anchor.position, Color.white);
 
-        Debug.DrawRay(
-            new Vector3(
-                animator.transform.position.x,
-                animator.transform.position.y + 1.0f,
-                animator.transform.position.z
-                ),
-            _releaseDirection,
-            Color.cyan
-            );
+        Debug.DrawRay(animator.transform.position, _releaseDirection, Color.cyan);
 
         _jimController.speedMultiplier = _speedMultiplier;
+        _jimController.releaseDirection = _releaseDirection;
         _jimController.direction = _direction;
 
         
@@ -123,14 +123,17 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
     {
         float releaseDistanceX = Mathf.Lerp(minReleaseDistanceX, maxReleaseDistanceX, _speedMultiplier);
         float releaseDistanceY = Mathf.Lerp(minReleaseDistanceY, maxReleaseDistanceY, 1 -_speedMultiplier);
+        float releaseDestinationAngle = Mathf.Lerp(minDestinationAngle, maxDestinationAngle, _speedMultiplier);
 
         _splineRoute.controlPoints[0].position = animator.transform.position;
-        _splineRoute.controlPoints[1].position = animator.transform.position + _releaseDirection;
+        _splineRoute.controlPoints[1].position = animator.transform.position + _releaseDirection + (Vector3.up * releaseDirectionOffset);
 
         _splineRoute.controlPoints[3].position = animator.transform.position + 
             (animator.transform.forward * releaseDistanceX) * _direction +
-            (Vector3.up * releaseDistanceY);
-        _splineRoute.controlPoints[2].position = _splineRoute.controlPoints[3].position + new Vector3(0, 2.0f * (1 - _speedMultiplier), 0);
+            (Vector3.up * releaseDistanceY * Mathf.Sign(_releaseDirection.y));
+
+        _splineRoute.controlPoints[2].position = (Quaternion.AngleAxis(releaseDestinationAngle * -_direction, animator.transform.right) * Vector3.up) + 
+            _splineRoute.controlPoints[3].position;
 
     }
 
@@ -175,7 +178,8 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         // Speed multiplier is based off position. The closer we are to the origin, the higher it is, and the faster we will move
         _speedMultiplier = (1.05f - Mathf.Round(anglePercent * 100f) / 100f);
 
-        _releaseDirection = _direction * Vector3.Cross(_pendulumArm, -animator.transform.right);
+        // Calculate the direction the player should be launched when releasing the rope
+        _releaseDirection = (_direction * Vector3.Cross(_pendulumArm, -animator.transform.right)) + (Vector3.up * releaseDirectionOffset);
 
 
         Vector3 moveAmount = animator.transform.forward * swingSpeed * _speedMultiplier *_direction;
