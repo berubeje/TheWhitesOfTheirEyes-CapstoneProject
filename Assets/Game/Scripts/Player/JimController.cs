@@ -183,6 +183,14 @@ public class JimController : ControllableBase
         }
     }
 
+    public override void EastFaceButton()
+    {
+        if(Input.GetButtonDown("East Face Button"))
+        {
+            _jimAnimator.SetTrigger("dodgeRoll");
+        }
+    }
+
     #region Utility functions to see if the animator is in the indicated state
     private bool IsInPivot()
     {

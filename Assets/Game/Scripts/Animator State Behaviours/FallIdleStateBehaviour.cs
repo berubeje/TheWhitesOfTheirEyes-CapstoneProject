@@ -6,9 +6,12 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
 {
     [Range(0.0f, 2.0f)]
     public float splineSpeed;
+    public float splineAcceleration;
+    public float groundCheckDistance;
 
     private SplineRoute _splineRoute;
     private Rigidbody _rigidbody;
+    private bool _splineComplete;
     private float _t;
 
     private Vector3 _p0;
@@ -32,7 +35,7 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
             Debug.LogError("Unable to find Spline Route object");
         }
 
-
+        _splineComplete = false;
         _t = 0.0f;
     }
 
@@ -41,24 +44,34 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
     {
         if (!animator.GetAnimatorTransitionInfo(0).IsName("SwingIdle -> FallIdle"))
         {
-            _p0 = _splineRoute.controlPoints[0].position;
-            _p1 = _splineRoute.controlPoints[1].position;
-            _p2 = _splineRoute.controlPoints[2].position;
-            _p3 = _splineRoute.controlPoints[3].position;
+            if(!_splineComplete)
+            {
+                _p0 = _splineRoute.controlPoints[0].position;
+                _p1 = _splineRoute.controlPoints[1].position;
+                _p2 = _splineRoute.controlPoints[2].position;
+                _p3 = _splineRoute.controlPoints[3].position;
 
-            _t += splineSpeed * Time.deltaTime;
+                splineSpeed += splineAcceleration;
+                _t += splineSpeed * Time.deltaTime;
 
-            if (_t >= 1)
+                if (_t >= 1)
+                {
+                    _splineComplete = true;
+                }
+
+                Vector3 target = Mathf.Pow(1 - _t, 3) * _p0 +
+                     3 * Mathf.Pow(1 - _t, 2) * _t * _p1 +
+                     3 * (1 - _t) * Mathf.Pow(_t, 2) * _p2 +
+                     Mathf.Pow(_t, 3) * _p3;
+
+                animator.transform.Translate(target - animator.transform.position, Space.World);
+            }
+
+            RaycastHit hit;
+            if (Physics.Raycast(animator.transform.position, Vector3.down, out hit, groundCheckDistance))
             {
                 animator.SetTrigger("fallLand");
             }
-
-            Vector3 target = Mathf.Pow(1 - _t, 3) * _p0 +
-                 3 * Mathf.Pow(1 - _t, 2) * _t * _p1 +
-                 3 * (1 - _t) * Mathf.Pow(_t, 2) * _p2 +
-                 Mathf.Pow(_t, 3) * _p3;
-
-            animator.transform.Translate(target - animator.transform.position, Space.World);
         }
     }
 

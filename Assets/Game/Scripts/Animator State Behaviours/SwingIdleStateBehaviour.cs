@@ -132,6 +132,7 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
             (animator.transform.forward * releaseDistanceX) * _direction +
             (Vector3.up * releaseDistanceY * Mathf.Sign(_releaseDirection.y));
 
+        Debug.Log(releaseDestinationAngle);
         _splineRoute.controlPoints[2].position = (Quaternion.AngleAxis(releaseDestinationAngle * -_direction, animator.transform.right) * Vector3.up) + 
             _splineRoute.controlPoints[3].position;
 
