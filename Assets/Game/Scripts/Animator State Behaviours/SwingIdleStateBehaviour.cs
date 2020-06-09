@@ -8,6 +8,8 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
     public float swingArcLimit;
     public float swingSpeed;
     public float swingRadius;
+    [Range(1.0f, 10.0f)]
+    public float releaseDirectionMagnitude; 
     public float releaseDirectionOffset; 
     public float minDestinationAngle;
     public float maxDestinationAngle;
@@ -30,6 +32,8 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
     private Vector3 _releaseDirection;
     private Vector3 _forwardArcLimit;
     private Vector3 _backwardArcLimit;
+    private float _percentOfSwing;
+    private Vector3 _swingStartVector;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -87,13 +91,19 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         _backwardArcLimit.y -= yLimit;
 
         _pendulumArm = _anchor.position - animator.transform.position;
+
         _angle = Vector3.Angle(Vector3.up, _pendulumArm);
+
+        _swingStartVector = _backwardArcLimit;
+        _percentOfSwing = Vector3.Angle(_swingStartVector - _anchor.position, -_pendulumArm) / (swingArcLimit*2);
+        animator.SetFloat("percentOfSwing", _percentOfSwing);
 
         // Snap to the backward limit if the approach angle was too high
         if(_angle >= swingArcLimit)
         {
             animator.transform.position = _backwardArcLimit;
         }
+
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -121,18 +131,18 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        float releaseDistanceX = Mathf.Lerp(minReleaseDistanceX, maxReleaseDistanceX, _speedMultiplier);
-        float releaseDistanceY = Mathf.Lerp(minReleaseDistanceY, maxReleaseDistanceY, 1 -_speedMultiplier);
-        float releaseDestinationAngle = Mathf.Lerp(minDestinationAngle, maxDestinationAngle, _speedMultiplier);
+        float releaseDistanceX = Mathf.Lerp(minReleaseDistanceX, maxReleaseDistanceX, _percentOfSwing);
+        float releaseDistanceY = Mathf.Lerp(minReleaseDistanceY, maxReleaseDistanceY, _percentOfSwing);
+        float releaseDestinationAngle = Mathf.Lerp(minDestinationAngle, maxDestinationAngle, _percentOfSwing);
 
         _splineRoute.controlPoints[0].position = animator.transform.position;
         _splineRoute.controlPoints[1].position = animator.transform.position + _releaseDirection + (Vector3.up * releaseDirectionOffset);
 
         _splineRoute.controlPoints[3].position = animator.transform.position + 
             (animator.transform.forward * releaseDistanceX) * _direction +
-            (Vector3.up * releaseDistanceY * Mathf.Sign(_releaseDirection.y));
+            (Vector3.up * releaseDistanceY);
 
-        Debug.Log(releaseDestinationAngle);
+
         _splineRoute.controlPoints[2].position = (Quaternion.AngleAxis(releaseDestinationAngle * -_direction, animator.transform.right) * Vector3.up) + 
             _splineRoute.controlPoints[3].position;
 
@@ -164,10 +174,12 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
             {
                 case -1:
                     animator.transform.position = _backwardArcLimit;
+                    _swingStartVector = _backwardArcLimit;
                     _direction = 1;
                     break;
                 case 1:
                     animator.transform.position = _forwardArcLimit;
+                    _swingStartVector = _forwardArcLimit;
                     _direction = -1;
                     break;
             }
@@ -175,12 +187,15 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         }
 
         float anglePercent = _angle / swingArcLimit;
+        _percentOfSwing = Vector3.Angle(_swingStartVector - _anchor.position, -_pendulumArm) / (swingArcLimit * 2);
+        animator.SetFloat("percentOfSwing", _percentOfSwing);
 
         // Speed multiplier is based off position. The closer we are to the origin, the higher it is, and the faster we will move
         _speedMultiplier = (1.05f - Mathf.Round(anglePercent * 100f) / 100f);
 
         // Calculate the direction the player should be launched when releasing the rope
-        _releaseDirection = (_direction * Vector3.Cross(_pendulumArm, -animator.transform.right)) + (Vector3.up * releaseDirectionOffset);
+        Vector3 normalizedDirection = Vector3.Cross(_pendulumArm, -animator.transform.right).normalized;
+        _releaseDirection = (_direction * normalizedDirection * releaseDirectionMagnitude) + (Vector3.up * releaseDirectionOffset);
 
 
         Vector3 moveAmount = animator.transform.forward * swingSpeed * _speedMultiplier *_direction;
