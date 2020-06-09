@@ -119,22 +119,35 @@ public class RopeController : ControllableBase
     {
         if(ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Idle)
         {
+            //if (Input.GetAxisRaw("Right Trigger") > 0)
+            //{
+            //    if (_isRightTriggerInUse == false)
+            //    {
+            //        _targeting = true;
+            //        ropeLogic.ActivateTargeting();
+            //        _isRightTriggerInUse = true;
+            //    }
+            //}
+            //if (Input.GetAxisRaw("Right Trigger") <= 0)
+            //{
+            //    if (_targeting)
+            //    {
+            //        _targeting = false;
+            //        ropeLogic.LaunchHook();
+            //    }
+            //    _isRightTriggerInUse = false;
+            //}
+
             if (Input.GetAxisRaw("Right Trigger") > 0)
             {
                 if (_isRightTriggerInUse == false)
                 {
-                    _targeting = true;
-                    ropeLogic.ActivateTargeting();
+                    ropeLogic.LaunchHook();
                     _isRightTriggerInUse = true;
                 }
             }
             if (Input.GetAxisRaw("Right Trigger") <= 0)
             {
-                if (_targeting)
-                {
-                    _targeting = false;
-                    ropeLogic.LaunchHook();
-                }
                 _isRightTriggerInUse = false;
             }
         }
@@ -154,6 +167,22 @@ public class RopeController : ControllableBase
             }
         }
     }
+
+    //public override void LeftShoulderButton()
+    //{
+    //    if(Input.GetButtonDown("Left Bumper"))
+    //    {
+    //        targetingCone.PreviousTarget();
+    //    }
+    //}
+
+    //public override void RightShoulderButton()
+    //{
+    //    if (Input.GetButtonDown("Right Bumper"))
+    //    {
+    //        targetingCone.NextTarget();
+    //    }
+    //}
 
 
     private void CheckRopeState()

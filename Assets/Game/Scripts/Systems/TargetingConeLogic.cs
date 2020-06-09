@@ -4,61 +4,147 @@ using UnityEngine;
 
 public class TargetingConeLogic : MonoBehaviour
 {
-    public Vector3 scaleSpeed;
-    public Vector3 maxScale;
     public JimController player;
+    public Material targetedMaterial;
+    public Material anchorPointMaterial;
 
-    private Vector3 _startingScale;
+    [Header("Leave set to 'Player'")]
+    public LayerMask playerMask;
+
+    //public List<RopeAnchorPoint> _anchorTargets = new List<RopeAnchorPoint>();
+    // private int _currentTargetIndex = 0;
     private RopeAnchorPoint _targetedAnchor;
     private Transform _pivotTransform;
-    
+
     private void Awake()
     {
         _pivotTransform = transform.parent;
-        _startingScale = _pivotTransform.localScale;
     }
 
     private void OnEnable()
     {
-        ResetScale();
-
-        if(player == null)
+        if (player == null)
         {
             Debug.LogError("Player is null in the TargetingConeLogic script attached to " + gameObject.name);
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        Vector3 speed = scaleSpeed * Time.deltaTime;
-
-        Vector3 newScale = new Vector3();
-        newScale.x = Mathf.Clamp(_pivotTransform.localScale.x + speed.x, _startingScale.x, maxScale.x);
-        newScale.y = Mathf.Clamp(_pivotTransform.localScale.y + speed.y, _startingScale.y, maxScale.y);
-        newScale.z = Mathf.Clamp(_pivotTransform.localScale.z + speed.z, _startingScale.z, maxScale.z);
-
-        _pivotTransform.localScale = newScale;
-    }
-
-    public void ResetScale()
-    {
-        _pivotTransform.localScale = _startingScale;
-    }
-
     public RopeAnchorPoint GetTarget()
     {
-        //This is done so the same target cannot accidently be regotten without using the targeting cone fully
         RopeAnchorPoint returnAnchor = _targetedAnchor;
-        _targetedAnchor = null;
         return returnAnchor;
+    }
+
+    //public void NextTarget()
+    //{
+    //    int startingIndex = _currentTargetIndex;
+    //    _currentTargetIndex++;
+
+    //    if(_currentTargetIndex + 1 > _anchorTargets.Count)
+    //    {
+    //        _currentTargetIndex = 0;
+    //    }
+
+    //    while (CheckLineOfSight(_anchorTargets[_currentTargetIndex]) == false)
+    //    {
+    //        _currentTargetIndex++;
+
+    //        if (_currentTargetIndex == startingIndex)
+    //        {
+    //            break;
+    //        }
+
+    //        if (_currentTargetIndex + 1 > _anchorTargets.Count)
+    //        {
+    //            _currentTargetIndex = 0;
+    //        }
+
+    //    }
+
+    //    if (_anchorTargets[_currentTargetIndex] != null)
+    //    {
+    //        ChangeTarget();
+    //    }
+
+    //}
+
+    //public void PreviousTarget()
+    //{
+    //    int startingIndex = _currentTargetIndex;
+    //    _currentTargetIndex--;
+
+    //    if (_currentTargetIndex < 0)
+    //    {
+    //        _currentTargetIndex = _anchorTargets.Count - 1;
+    //    }
+
+    //    while (CheckLineOfSight(_anchorTargets[_currentTargetIndex]) == false)
+    //    {
+    //        _currentTargetIndex--;
+
+    //        if (_currentTargetIndex == startingIndex)
+    //        {
+    //            break;
+    //        }
+
+    //        if (_currentTargetIndex < 0)
+    //        {
+    //            _currentTargetIndex = _anchorTargets.Count - 1;
+    //        }
+
+    //    }
+
+    //    if (_anchorTargets[_currentTargetIndex] != null)
+    //    {
+    //        ChangeTarget();
+    //    }
+    //}
+
+    private void ChangeTarget(RopeAnchorPoint anchorPoint)
+    {
+        MeshRenderer mRender = null;
+        if (_targetedAnchor != null)
+        {
+            mRender = _targetedAnchor.GetComponent<MeshRenderer>();
+
+            if (mRender != null)
+            {
+                mRender.material = anchorPointMaterial;
+            }
+        }
+
+        _targetedAnchor = anchorPoint;
+
+        mRender = _targetedAnchor.GetComponent<MeshRenderer>();
+        mRender.material = targetedMaterial;
+    }
+
+    private bool CheckLineOfSight(RopeAnchorPoint anchorPoint)
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(player.transform.position, (anchorPoint.transform.position - player.transform.position), out hit, Vector3.Distance(player.transform.position, anchorPoint.transform.position), ~playerMask))
+        {
+            if (hit.transform == anchorPoint.transform)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private void OnTriggerStay(Collider other)
     {
         RopeAnchorPoint anchorPoint = other.gameObject.GetComponent<RopeAnchorPoint>();
 
-        if(anchorPoint == null || anchorPoint.gameObject == _targetedAnchor)
+        if (anchorPoint == null || anchorPoint.gameObject == _targetedAnchor)
         {
             return;
         }
@@ -69,29 +155,43 @@ public class TargetingConeLogic : MonoBehaviour
         {
             float currentAnchorDistance = Vector3.Distance(player.transform.position, _targetedAnchor.transform.position);
 
+
             if (newAnchorDistance >= currentAnchorDistance)
             {
                 return;
             }
-        }
-
-        RaycastHit hit;
-
-        if (Physics.Raycast(player.transform.position, (anchorPoint.transform.position - player.transform.position), out hit, newAnchorDistance))
-        {
-            if (hit.transform == anchorPoint.transform)
+            else
             {
-                _targetedAnchor = anchorPoint;
+                if (CheckLineOfSight(anchorPoint) == true)
+                {
+                    ChangeTarget(anchorPoint);
+                }
+            }
+        }
+        else
+        {
+            if (CheckLineOfSight(anchorPoint) == true)
+            {
+                ChangeTarget(anchorPoint);
             }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
+        RopeAnchorPoint anchorPoint = other.gameObject.GetComponent<RopeAnchorPoint>();
+
         if (_targetedAnchor != null)
         {
-            if (other.gameObject == _targetedAnchor.gameObject)
+            if (anchorPoint == _targetedAnchor)
             {
+                MeshRenderer mRender = _targetedAnchor.GetComponent<MeshRenderer>();
+
+                if (mRender != null)
+                {
+                    mRender.material = anchorPointMaterial;
+                }
+
                 _targetedAnchor = null;
             }
         }
