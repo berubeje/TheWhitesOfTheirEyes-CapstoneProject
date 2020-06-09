@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Obi;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Sockets;
@@ -218,6 +219,8 @@ public class JimController : ControllableBase
     }
     #endregion
 
+   
+
     private void OnDrawGizmos()
     {
         Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), _moveDirection, Color.red);
@@ -226,16 +229,18 @@ public class JimController : ControllableBase
 
         Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), transform.forward, Color.blue);
 
-        float releaseDistanceX = Mathf.Lerp(minReleaseDistanceX, maxReleaseDistanceX, speedMultiplier);
-        float releaseDistanceY = Mathf.Lerp(minReleaseDistanceY, maxReleaseDistanceY, 1 - speedMultiplier);
-        float releaseDestinationAngle = Mathf.Lerp(minDestinationAngle, maxDestinationAngle, speedMultiplier);
+        float releaseDistanceX = Mathf.Lerp(minReleaseDistanceX, maxReleaseDistanceX, _jimAnimator.GetFloat("percentOfSwing")); 
+        float releaseDistanceY = Mathf.Lerp(minReleaseDistanceY, maxReleaseDistanceY, _jimAnimator.GetFloat("percentOfSwing"));
+        float releaseDestinationAngle = Mathf.Lerp(minDestinationAngle, maxDestinationAngle, _jimAnimator.GetFloat("percentOfSwing")); 
+
+        
 
         Vector3 p0 = transform.position; 
         Vector3 p1 = transform.position + releaseDirection + (Vector3.up * releaseDirectionOffset);
 
         Vector3 p3 = transform.position +
             (transform.forward * releaseDistanceX) * direction +
-            (Vector3.up * releaseDistanceY * Mathf.Sign(releaseDirection.y));
+            (Vector3.up * releaseDistanceY);
         
         Vector3 p2 = (Quaternion.AngleAxis(releaseDestinationAngle * -direction, transform.right) * Vector3.up) + p3;
 
