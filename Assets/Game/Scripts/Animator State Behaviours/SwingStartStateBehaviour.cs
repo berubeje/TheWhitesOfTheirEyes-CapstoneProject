@@ -7,6 +7,7 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
     public float swingRadius;
     public float faceAnchorSpeed;
     public float reelInSpeed;
+    public float swingArcLimit;
 
     private PlayerGrapplingHook _grapplingHook;
     private Transform _anchor;
@@ -39,7 +40,7 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
 
         // Grab the direction from the player to the anchor and kill the y value
         _lookDirection = _anchor.position - animator.transform.position;
-        _lookDirection.y = 0.0f;
+        _lookDirection.y *= -1;
 
         // Grab the direction from the anchor to the player and normalize it 
         _reelDirection = (animator.transform.position - _anchor.position).normalized;
@@ -60,6 +61,8 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
         if (Vector3.Distance(animator.transform.position, _anchor.position) <= swingRadius)
         {
             animator.transform.position = _reelLocation;
+            float cycleOffset = (swingArcLimit - Vector3.Angle(_anchor.position - animator.transform.position, Vector3.up)) / (swingArcLimit * 2);
+            animator.SetFloat("cycleOffset", cycleOffset);
             animator.SetTrigger("swingIdle");
         }
     }
