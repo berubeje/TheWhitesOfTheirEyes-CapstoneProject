@@ -164,6 +164,7 @@ public class RopeController : ControllableBase
                 {
                     ropeLogic.DetachHook();
                     _isRightTriggerInUse = true;
+                    _playerLogic.isPulling = false;
                 }
             }
             if (Input.GetAxisRaw("Right Trigger") <= 0)
