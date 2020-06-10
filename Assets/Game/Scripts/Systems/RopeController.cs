@@ -211,7 +211,8 @@ public class RopeController : ControllableBase
 
                 case PlayerGrapplingHook.RopeState.Swing:
                     {
-                        _playerRigidBody.isKinematic = true;
+                        _playerRigidBody.isKinematic = false;
+                        _playerRigidBody.useGravity = false;
                         _animator.applyRootMotion = false;
 
                         _targetTransform = ropeLogic.targetAnchor.transform;
@@ -248,6 +249,7 @@ public class RopeController : ControllableBase
                     {
                         _playerRigidBody.isKinematic = false;
                         _animator.applyRootMotion = true;
+                        _playerRigidBody.useGravity = true;
                         _targetRigidBody = null;
                         _targetTransform = null;
                         _currentLengthOffset = startingLengthOffset;
