@@ -13,6 +13,7 @@ public class RopeController : ControllableBase
     public float pullStrain = 1.15f;
     public float breakRopeLength = 10.0f;
 
+    private JimController _playerLogic;
     private Rigidbody _playerRigidBody;
     private Rigidbody _targetRigidBody;
     private Transform _playerTransform;
@@ -31,6 +32,7 @@ public class RopeController : ControllableBase
     private void Awake()
     {
         _playerRigidBody = GetComponentInParent<Rigidbody>();
+        _playerLogic = _playerRigidBody.GetComponent<JimController>();
         _playerTransform = _playerRigidBody.transform;
         _animator = GetComponentInParent<Animator>();
         _currentLengthOffset = startingLengthOffset;
@@ -69,6 +71,7 @@ public class RopeController : ControllableBase
             }
 
 
+
         }
     }
 
@@ -104,12 +107,14 @@ public class RopeController : ControllableBase
                 if (_isLeftTriggerInUse == false)
                 {
                     _pullObject = true;
+                    _playerLogic.isPulling = true;
                     _isLeftTriggerInUse = true;
                 }
             }
             if (Input.GetAxisRaw("Left Trigger") <= 0)
             {
                 _pullObject = false;
+                _playerLogic.isPulling = false;
                 _isLeftTriggerInUse = false;
             }
         }

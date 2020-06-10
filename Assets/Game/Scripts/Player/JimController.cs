@@ -13,6 +13,7 @@ public class JimController : ControllableBase
     public float directionDampTime;
     public float directionSpeed;
     public float leftStickDeadzone;
+    public bool isPulling = false;
 
     [Header("Jump Settings")]
     public float jumpHeight;
@@ -123,8 +124,15 @@ public class JimController : ControllableBase
 
     public override void LeftAnalogStick()
     {
-        _leftStickInput.x = Input.GetAxis("Left Horizontal");
-        _leftStickInput.y = Input.GetAxis("Left Vertical");
+        if (!isPulling)
+        {
+            _leftStickInput.x = Input.GetAxis("Left Horizontal");
+            _leftStickInput.y = Input.GetAxis("Left Vertical");
+        }
+        else
+        {
+            _leftStickInput = Vector2.zero;
+        }
 
         _jimAnimator.SetFloat("leftInputX", _leftStickInput.x);
         _jimAnimator.SetFloat("leftInputY", _leftStickInput.y);
