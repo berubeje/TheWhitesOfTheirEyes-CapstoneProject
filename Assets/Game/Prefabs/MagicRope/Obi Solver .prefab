@@ -685,7 +685,6 @@ GameObject:
   - component: {fileID: 7736718904542989075}
   - component: {fileID: 4897389346364004609}
   - component: {fileID: 6490632439266613098}
-  - component: {fileID: 1967983660}
   - component: {fileID: 1967983661}
   m_Layer: 8
   m_Name: Targeting Cone
@@ -773,22 +772,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7736718904542989073}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &1967983660
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7736718904542989073}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!65 &1967983661
 BoxCollider:
   m_ObjectHideFlags: 0
