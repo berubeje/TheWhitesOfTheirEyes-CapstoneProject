@@ -80,10 +80,10 @@ public class PlayerGrapplingHook : MonoBehaviour
     }
 
 
-    public void ActivateTargeting()
-    {
-        targetCone.gameObject.SetActive(true);
-    }
+    //public void ActivateTargeting()
+    //{
+    //    targetCone.gameObject.SetActive(true);
+    //}
 
     /**
 	 * Raycast against the scene to see if we can attach the hook to something.
@@ -113,7 +113,6 @@ public class PlayerGrapplingHook : MonoBehaviour
         else
         {
             targetAnchor = targetCone.GetTarget();
-            targetCone.gameObject.SetActive(false);
         }
 
 

@@ -425,6 +425,8 @@ GameObject:
   - component: {fileID: 8143608535359609921}
   - component: {fileID: 923376024033417758}
   - component: {fileID: 8523739201326445035}
+  - component: {fileID: 794186147}
+  - component: {fileID: 2277285800982281598}
   m_Layer: 0
   m_Name: MagicRopeBase
   m_TagString: Untagged
@@ -525,6 +527,35 @@ MonoBehaviour:
   accurateContacts: 0
   useDistanceFields: 0
   distanceField: {fileID: 0}
+--- !u!54 &794186147
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2814353408534275106}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &2277285800982281598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2814353408534275106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62359d80fdc0e4315ab6331b78ec5b90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kinematicForParticles: 0
 --- !u!114 &7736718904392756788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,7 +672,7 @@ MonoBehaviour:
   startingLengthOffset: 0
   stopPullingDistance: 2
   pullStrain: 1.15
-  breakRopeLenth: 10
+  breakRopeLength: 10
 --- !u!1 &7736718904542989073
 GameObject:
   m_ObjectHideFlags: 0
@@ -656,13 +687,13 @@ GameObject:
   - component: {fileID: 7736718904542989077}
   - component: {fileID: 7736718904542989074}
   - component: {fileID: 7736718904542989075}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Targeting Cone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7736718904542989072
 Transform:
   m_ObjectHideFlags: 0
@@ -1103,9 +1134,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66c3debae7cf88b46b0863a3ff5a32d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleSpeed: {x: 2, y: 2, z: 2}
-  maxScale: {x: 5, y: 5, z: 5}
   player: {fileID: 5148154313980185928}
+  targetedMaterial: {fileID: 2100000, guid: 8be2c95718fc126408c032bfa59f1c63, type: 2}
+  anchorPointMaterial: {fileID: 2100000, guid: 4ea297d4cfe59d145b339b7e243f719d, type: 2}
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &7736718905261439871
 GameObject:
   m_ObjectHideFlags: 0
@@ -1115,7 +1149,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7736718905261439870}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Targeting Cone Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1129,14 +1163,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7736718905261439871}
-  m_LocalRotation: {x: -0.122787856, y: 0.6963643, z: -0.122787856, w: 0.6963643}
+  m_LocalRotation: {x: -0.06162845, y: 0.70441604, z: -0.06162845, w: 0.70441604}
   m_LocalPosition: {x: -0.039998982, y: 1.0363936, z: 0.18999961}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.1, y: 3.03, z: 7.98}
   m_Children:
   - {fileID: 7736718904542989072}
   m_Father: {fileID: 147316811996537833}
   m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: -20}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: -10}
 --- !u!1001 &7736718904264786984
 PrefabInstance:
   m_ObjectHideFlags: 0
