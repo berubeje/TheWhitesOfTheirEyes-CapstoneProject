@@ -8,13 +8,15 @@ public class TargetingConeLogic : MonoBehaviour
     public Material targetedMaterial;
     public Material anchorPointMaterial;
 
-    [Header("Leave set to 'Player'")]
-    public LayerMask playerMask;
+    public int playerMaskNum = 8;
+    public int targetIgnoreMaskNum = 10;
 
     //public List<RopeAnchorPoint> _anchorTargets = new List<RopeAnchorPoint>();
     // private int _currentTargetIndex = 0;
     private RopeAnchorPoint _targetedAnchor;
     private Transform _pivotTransform;
+
+
 
     private void Awake()
     {
@@ -121,9 +123,12 @@ public class TargetingConeLogic : MonoBehaviour
 
     private bool CheckLineOfSight(RopeAnchorPoint anchorPoint)
     {
+
+        LayerMask mask = ~(1 << playerMaskNum | 1 << targetIgnoreMaskNum);
+
         RaycastHit hit;
 
-        if (Physics.Raycast(player.transform.position, (anchorPoint.transform.position - player.transform.position), out hit, Vector3.Distance(player.transform.position, anchorPoint.transform.position), ~playerMask))
+        if (Physics.Raycast(player.transform.position, (anchorPoint.transform.position - player.transform.position), out hit, Vector3.Distance(player.transform.position, anchorPoint.transform.position), mask))
         {
             if (hit.transform == anchorPoint.transform)
             {
