@@ -39,7 +39,7 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
 
         // Grab the direction from the player to the anchor and kill the y value
         _lookDirection = _anchor.position - animator.transform.position;
-        _lookDirection.y = 0.0f;
+        _lookDirection.y *= -1;
 
         // Grab the direction from the anchor to the player and normalize it 
         _reelDirection = (animator.transform.position - _anchor.position).normalized;

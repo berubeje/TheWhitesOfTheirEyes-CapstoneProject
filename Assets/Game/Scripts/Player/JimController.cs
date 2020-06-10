@@ -25,6 +25,7 @@ public class JimController : ControllableBase
     [Header("Settings recieved from the animator. Modifying these has no effect")]
     public int direction;
     public float speedMultiplier;
+    public Vector3 swingForward;
     public Vector3 releaseDirection;
     public float releaseDirectionOffset;
     public float minDestinationAngle;
@@ -239,7 +240,7 @@ public class JimController : ControllableBase
         Vector3 p1 = transform.position + releaseDirection + (Vector3.up * releaseDirectionOffset);
 
         Vector3 p3 = transform.position +
-            (transform.forward * releaseDistanceX) * direction +
+            (swingForward * releaseDistanceX) * direction +
             (Vector3.up * releaseDistanceY);
         
         Vector3 p2 = (Quaternion.AngleAxis(releaseDestinationAngle * -direction, transform.right) * Vector3.up) + p3;

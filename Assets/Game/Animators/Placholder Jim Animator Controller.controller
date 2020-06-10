@@ -461,6 +461,7 @@ MonoBehaviour:
   swingRadius: 5
   faceAnchorSpeed: 20
   reelInSpeed: 10
+  swingArcLimit: 65
 --- !u!206 &-5005420556278115733
 BlendTree:
   m_ObjectHideFlags: 1
@@ -994,6 +995,12 @@ AnimatorController:
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
   - m_Name: colliderCurve
+    m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: cycleOffset
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -1653,14 +1660,14 @@ AnimatorState:
   m_Mirror: 0
   m_SpeedParameterActive: 1
   m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
+  m_CycleOffsetParameterActive: 1
   m_TimeParameterActive: 0
   m_Motion: {fileID: -203655887218126122, guid: 1599e6ee1f258bd4a8ebbdd18f4405f9,
     type: 3}
   m_Tag: 
   m_SpeedParameter: swingDirection
   m_MirrorParameter: 
-  m_CycleOffsetParameter: animationOffset
+  m_CycleOffsetParameter: cycleOffset
   m_TimeParameter: 
 --- !u!1102 &8305684381575614273
 AnimatorState:

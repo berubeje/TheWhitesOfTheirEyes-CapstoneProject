@@ -33,7 +33,8 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
     private Vector3 _forwardArcLimit;
     private Vector3 _backwardArcLimit;
     private float _percentOfSwing;
-    private Vector3 _swingStartVector;
+    private Vector3 _swingStartPoint;
+    private Vector3 _swingForward;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -60,8 +61,14 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
             Debug.LogError("Unable to find Spline Route object");
         }
 
+        // Create forward vector because player is rotated
+        _swingForward = _anchor.position - animator.transform.position;
+        _swingForward.y = 0;
+        _swingForward = _swingForward.normalized;
+
         //Pass tunable paramters to the player controller, to draw the spline curve
         _jimController = animator.GetComponent<JimController>();
+        _jimController.swingForward = _swingForward;
         _jimController.releaseDirectionOffset = releaseDirectionOffset;
         _jimController.minDestinationAngle = minDestinationAngle;
         _jimController.maxDestinationAngle = maxDestinationAngle;
@@ -70,7 +77,10 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         _jimController.minReleaseDistanceY = minReleaseDistanceY;
         _jimController.maxReleaseDistanceY = maxReleaseDistanceY;
 
+        // Initialize direction to forward
         _direction = 1;
+
+        
 
         // Set the origin of the arc, just below the anchor point
         _arcOrigin = new Vector3(
@@ -84,18 +94,18 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         float yLimit = Mathf.Cos(swingArcLimit * Mathf.Deg2Rad) * swingRadius;
 
         // Calculate the end positions of the arc, based on the swing arc limit
-        _forwardArcLimit = _anchor.position + (animator.transform.forward * xLimit);
+        _forwardArcLimit = _anchor.position + (_swingForward * xLimit);
         _forwardArcLimit.y -= yLimit;
 
-        _backwardArcLimit = _anchor.position - (animator.transform.forward * xLimit);
+        _backwardArcLimit = _anchor.position - (_swingForward * xLimit);
         _backwardArcLimit.y -= yLimit;
 
         _pendulumArm = _anchor.position - animator.transform.position;
 
         _angle = Vector3.Angle(Vector3.up, _pendulumArm);
 
-        _swingStartVector = _backwardArcLimit;
-        _percentOfSwing = Vector3.Angle(_swingStartVector - _anchor.position, -_pendulumArm) / (swingArcLimit*2);
+        _swingStartPoint = _backwardArcLimit;
+        _percentOfSwing = Vector3.Angle(_swingStartPoint - _anchor.position, -_pendulumArm) / (swingArcLimit*2);
         animator.SetFloat("percentOfSwing", _percentOfSwing);
 
         // Snap to the backward limit if the approach angle was too high
@@ -139,7 +149,7 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         _splineRoute.controlPoints[1].position = animator.transform.position + _releaseDirection + (Vector3.up * releaseDirectionOffset);
 
         _splineRoute.controlPoints[3].position = animator.transform.position + 
-            (animator.transform.forward * releaseDistanceX) * _direction +
+            (_swingForward * releaseDistanceX) * _direction +
             (Vector3.up * releaseDistanceY);
 
 
@@ -174,12 +184,12 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
             {
                 case -1:
                     animator.transform.position = _backwardArcLimit;
-                    _swingStartVector = _backwardArcLimit;
+                    _swingStartPoint = _backwardArcLimit;
                     _direction = 1;
                     break;
                 case 1:
                     animator.transform.position = _forwardArcLimit;
-                    _swingStartVector = _forwardArcLimit;
+                    _swingStartPoint = _forwardArcLimit;
                     _direction = -1;
                     break;
             }
@@ -187,7 +197,7 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         }
 
         float anglePercent = _angle / swingArcLimit;
-        _percentOfSwing = Vector3.Angle(_swingStartVector - _anchor.position, -_pendulumArm) / (swingArcLimit * 2);
+        _percentOfSwing = Vector3.Angle(_swingStartPoint - _anchor.position, -_pendulumArm) / (swingArcLimit * 2);
         animator.SetFloat("percentOfSwing", _percentOfSwing);
 
         // Speed multiplier is based off position. The closer we are to the origin, the higher it is, and the faster we will move
@@ -198,7 +208,7 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         _releaseDirection = (_direction * normalizedDirection * releaseDirectionMagnitude) + (Vector3.up * releaseDirectionOffset);
 
 
-        Vector3 moveAmount = animator.transform.forward * swingSpeed * _speedMultiplier *_direction;
+        Vector3 moveAmount = _swingForward * swingSpeed * _speedMultiplier *_direction;
         Vector3 newPosition = animator.transform.position + moveAmount;
         newPosition.y = _arcOrigin.y;
 
