@@ -461,7 +461,7 @@ MonoBehaviour:
   swingRadius: 5
   faceAnchorSpeed: 20
   reelInSpeed: 10
-  swingArcLimit: 70
+  swingArcLimit: 65
 --- !u!206 &-5005420556278115733
 BlendTree:
   m_ObjectHideFlags: 1
@@ -777,13 +777,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e16192a2f98d4334a97c120f0bbba2b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swingArcLimit: 70
+  swingArcLimit: 65
   swingSpeed: 0.3
   swingRadius: 5
-  releaseDirectionMagnitude: 1.5
-  releaseDirectionOffset: 0
-  minDestinationAngle: 30
-  maxDestinationAngle: 75
+  releaseDirectionMagnitude: 1.46
+  releaseDirectionOffset: 1
+  minDestinationAngle: 0
+  maxDestinationAngle: 45
   minReleaseDistanceX: 1
   maxReleaseDistanceX: 6
   minReleaseDistanceY: -3
