@@ -4,9 +4,21 @@ using UnityEngine;
 
 public class FallIdleStateBehaviour : StateMachineBehaviour
 {
-    public float forwardForce;
-    public GameObject splineRoute;
+    [Range(0.0f, 10.0f)]
+    public float splineSpeed;
+    public float splineAcceleration;
+    public float groundCheckDistance;
+
+    private SplineRoute _splineRoute;
     private Rigidbody _rigidbody;
+    private bool _splineComplete;
+    private float _initialSplineSpeed;
+    private float _t;
+
+    private Vector3 _p0;
+    private Vector3 _p1;
+    private Vector3 _p2;
+    private Vector3 _p3;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -17,21 +29,63 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
             Debug.LogError("Unable to find Rigidbody component");
         }
 
-        _rigidbody.isKinematic = false;
-       
-        _rigidbody.AddForce(animator.transform.up * forwardForce, ForceMode.Impulse);
-        _rigidbody.AddForce(animator.transform.forward * forwardForce, ForceMode.Impulse);
+        _splineRoute = animator.GetComponent<JimController>().splineRoute;
+
+        if(_splineRoute == null)
+        {
+            Debug.LogError("Unable to find Spline Route object");
+        }
+
+        // Cache the spline speed so we can reset it later
+        _initialSplineSpeed = splineSpeed;
+
+        _splineComplete = false;
+        _t = 0.0f;
     }
 
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (!animator.GetAnimatorTransitionInfo(0).IsName("SwingIdle -> FallIdle"))
+        {
+            if(!_splineComplete)
+            {
+                _p0 = _splineRoute.controlPoints[0].position;
+                _p1 = _splineRoute.controlPoints[1].position;
+                _p2 = _splineRoute.controlPoints[2].position;
+                _p3 = _splineRoute.controlPoints[3].position;
+
+                splineSpeed += splineAcceleration;
+                _t += splineSpeed * Time.deltaTime;
+
+                if (_t >= 1)
+                {
+                    _splineComplete = true;
+                }
+
+                Vector3 target = Mathf.Pow(1 - _t, 3) * _p0 +
+                     3 * Mathf.Pow(1 - _t, 2) * _t * _p1 +
+                     3 * (1 - _t) * Mathf.Pow(_t, 2) * _p2 +
+                     Mathf.Pow(_t, 3) * _p3;
+
+                animator.transform.Translate(target - animator.transform.position, Space.World);
+            }
+
+            RaycastHit hit;
+            if (Physics.Raycast(animator.transform.position, Vector3.down, out hit, groundCheckDistance))
+            {
+                splineSpeed = _initialSplineSpeed;
+                animator.SetTrigger("fallLand");
+            }
+        }
     }
 
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        splineSpeed = _initialSplineSpeed;
+        _splineComplete = false;
+        _t = 0.0f;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
