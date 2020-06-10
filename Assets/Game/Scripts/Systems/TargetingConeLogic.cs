@@ -14,13 +14,18 @@ public class TargetingConeLogic : MonoBehaviour
     //public List<RopeAnchorPoint> _anchorTargets = new List<RopeAnchorPoint>();
     // private int _currentTargetIndex = 0;
     private RopeAnchorPoint _targetedAnchor;
-    private Transform _pivotTransform;
+    private Vector3 _startRot;
 
-
-
-    private void Awake()
+    private void Start()
     {
-        _pivotTransform = transform.parent;
+        _startRot = transform.eulerAngles;
+    }
+
+    private void LateUpdate()
+    {
+        _startRot.y = transform.eulerAngles.y; // keep current rotation about Y
+        _startRot.z = transform.eulerAngles.z; // keep current rotation about Y
+        transform.rotation = Quaternion.Euler(_startRot); // restore original rotation with new Y
     }
 
     private void OnEnable()
@@ -30,6 +35,7 @@ public class TargetingConeLogic : MonoBehaviour
             Debug.LogError("Player is null in the TargetingConeLogic script attached to " + gameObject.name);
         }
     }
+
 
     public RopeAnchorPoint GetTarget()
     {
