@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FallIdleStateBehaviour : StateMachineBehaviour
 {
-    [Range(0.0f, 2.0f)]
+    [Range(0.0f, 10.0f)]
     public float splineSpeed;
     public float splineAcceleration;
     public float groundCheckDistance;
@@ -12,6 +12,7 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
     private SplineRoute _splineRoute;
     private Rigidbody _rigidbody;
     private bool _splineComplete;
+    private float _initialSplineSpeed;
     private float _t;
 
     private Vector3 _p0;
@@ -34,6 +35,9 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
         {
             Debug.LogError("Unable to find Spline Route object");
         }
+
+        // Cache the spline speed so we can reset it later
+        _initialSplineSpeed = splineSpeed;
 
         _splineComplete = false;
         _t = 0.0f;
@@ -70,6 +74,7 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
             RaycastHit hit;
             if (Physics.Raycast(animator.transform.position, Vector3.down, out hit, groundCheckDistance))
             {
+                splineSpeed = _initialSplineSpeed;
                 animator.SetTrigger("fallLand");
             }
         }
@@ -78,7 +83,9 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        splineSpeed = _initialSplineSpeed;
+        _splineComplete = false;
+        _t = 0.0f;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

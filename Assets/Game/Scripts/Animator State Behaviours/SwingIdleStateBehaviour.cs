@@ -121,6 +121,11 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         if(!animator.GetAnimatorTransitionInfo(0).IsName("SwingIdle -> FallIdle"))
         {
             _rigidbody.MovePosition(CalculateArcPosition(animator));
+            _rigidbody.MoveRotation(Quaternion.LookRotation(_releaseDirection * _direction));
+        }
+        else
+        {
+            _rigidbody.MoveRotation(Quaternion.LookRotation(_swingForward));
         }
 
         Debug.DrawLine(_anchor.position, _forwardArcLimit, Color.yellow);
