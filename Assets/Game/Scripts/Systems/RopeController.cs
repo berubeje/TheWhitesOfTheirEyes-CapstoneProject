@@ -215,7 +215,7 @@ public class RopeController : ControllableBase
 
                 case PlayerGrapplingHook.RopeState.Pull:
                     {
-                        _playerRigidBody.isKinematic = true;
+                        _playerRigidBody.isKinematic = false;
                         _animator.applyRootMotion = true;
 
                         if (ropeLogic.targetAnchor.transform.parent != null)
