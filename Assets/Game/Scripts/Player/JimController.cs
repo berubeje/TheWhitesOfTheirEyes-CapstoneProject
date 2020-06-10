@@ -129,6 +129,10 @@ public class JimController : ControllableBase
             _leftStickInput.x = Input.GetAxis("Left Horizontal");
             _leftStickInput.y = Input.GetAxis("Left Vertical");
         }
+        else
+        {
+            _leftStickInput = Vector2.zero;
+        }
 
         _jimAnimator.SetFloat("leftInputX", _leftStickInput.x);
         _jimAnimator.SetFloat("leftInputY", _leftStickInput.y);
