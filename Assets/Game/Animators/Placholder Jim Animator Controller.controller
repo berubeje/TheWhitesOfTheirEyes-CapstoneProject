@@ -1217,7 +1217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba1cd5e0b27e38647a3b2883ba3b03b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  splineSpeed: 1.75
+  splineSpeed: 2
   splineAcceleration: -0.02
   groundCheckDistance: 1
 --- !u!206 &1146154070533483146
