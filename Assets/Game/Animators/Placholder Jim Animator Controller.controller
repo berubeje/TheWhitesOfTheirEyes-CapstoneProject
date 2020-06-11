@@ -460,7 +460,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   swingRadius: 5
   faceAnchorSpeed: 20
-  reelInSpeed: 10
+  reelInSpeed: 5
   swingArcLimit: 70
 --- !u!206 &-5005420556278115733
 BlendTree:
