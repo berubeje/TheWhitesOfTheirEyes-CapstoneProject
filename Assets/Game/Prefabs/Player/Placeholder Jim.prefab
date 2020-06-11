@@ -2241,6 +2241,55 @@ MonoBehaviour:
   directionDampTime: 0.5
   directionSpeed: 10
   leftStickDeadzone: 0.1
+  isPulling: 0
+  virtualCamera: {fileID: 0}
+  jumpHeight: 0
+  jumpDistance: 0
+  anchor: {fileID: 0}
+  splineRoute: {fileID: 0}
+  direction: 0
+  speedMultiplier: 0
+  swingForward: {x: 0, y: 0, z: 0}
+  releaseDirection: {x: 0, y: 0, z: 0}
+  releaseDirectionOffset: 0
+  minDestinationAngle: 0
+  maxDestinationAngle: 0
+  minReleaseDistanceX: 0
+  maxReleaseDistanceX: 0
+  minReleaseDistanceY: 0
+  maxReleaseDistanceY: 0
+  movementAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 44e30e9f-79eb-41ad-89e8-e073e42a1935
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+  cameraAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 72c1384b-0091-426c-9471-78d822af7e10
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+  rollAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 462350d9-4506-40eb-b3c9-45b096ccc31f
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+  jumpAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: abc36c13-3c47-4363-8aea-604786633a70
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
 --- !u!1 &7320592885122906579
 GameObject:
   m_ObjectHideFlags: 0
