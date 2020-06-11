@@ -15,7 +15,7 @@ public class CameraFollowTarget : ControllableBase
 
     private void OnDrawGizmos()
     {
-        //Gizmos.color = Color.white;
-        //Gizmos.DrawWireSphere(transform.position, 0.5f);
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(transform.position, 0.5f);
     }
 }

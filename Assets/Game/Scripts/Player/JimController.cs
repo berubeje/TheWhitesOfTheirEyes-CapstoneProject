@@ -4,8 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class JimController : ControllableBase
+public class JimController : MonoBehaviour
 {
     [Header("Locomotion Settings")]
     public float rotationSpeed;
@@ -58,6 +59,17 @@ public class JimController : ControllableBase
     private int _swingIdleID;
     private int _swingLandID;
 
+    [SerializeField] private InputAction movement;
+    [SerializeField] private InputAction roll;
+    [SerializeField] private InputAction jump;
+    private void Awake()
+    {
+        movement.performed += OnLeftStick;
+        movement.canceled += OnLeftStick;
+
+        roll.performed += OnEastButtonDown;
+        jump.performed += OnSouthButtonDown;
+    }
     void Start()
     {
         _jimAnimator = GetComponent<Animator>();
@@ -85,6 +97,8 @@ public class JimController : ControllableBase
 
     private void FixedUpdate()
     {
+        LeftAnalogStick();
+
         if (IsInIdleJump())
         {
             transform.Translate(Vector3.up * jumpHeight * _jimAnimator.GetFloat("jumpCurve"));
@@ -122,18 +136,10 @@ public class JimController : ControllableBase
         #endregion
     }
 
-    public override void LeftAnalogStick()
-    {
-        if (!isPulling)
-        {
-            _leftStickInput.x = Input.GetAxis("Left Horizontal");
-            _leftStickInput.y = Input.GetAxis("Left Vertical");
-        }
-        else
-        {
-            _leftStickInput = Vector2.zero;
-        }
+  
 
+    private void LeftAnalogStick()
+    {
         _jimAnimator.SetFloat("leftInputX", _leftStickInput.x);
         _jimAnimator.SetFloat("leftInputY", _leftStickInput.y);
 
@@ -182,23 +188,45 @@ public class JimController : ControllableBase
             _jimAnimator.SetFloat("angle", 0.0f);
         }
     }
-    public override void SouthFaceButton()
+
+    private void OnLeftStick(InputAction.CallbackContext context)
     {
-        if(Input.GetButtonDown("South Face Button"))
+        if (!isPulling)
         {
-            if (IsInLocomotion() || IsInIdle())
-            {
-                _jimAnimator.SetTrigger("jump");
-            }
+            _leftStickInput = context.ReadValue<Vector2>();
+        }
+        else
+        {
+            _leftStickInput = Vector2.zero;
         }
     }
 
-    public override void EastFaceButton()
+    private void OnEastButtonDown(InputAction.CallbackContext context)
     {
-        if(Input.GetButtonDown("East Face Button"))
+        _jimAnimator.SetTrigger("dodgeRoll");
+    }
+
+    private void OnSouthButtonDown(InputAction.CallbackContext context)
+    {
+        if (IsInLocomotion() || IsInIdle())
         {
-            _jimAnimator.SetTrigger("dodgeRoll");
+            _jimAnimator.SetTrigger("jump");
         }
+        
+    }
+
+    private void OnEnable()
+    {
+        movement.Enable();
+        roll.Enable();
+        jump.Enable();
+    }
+
+    private void OnDisable()
+    {
+        movement.Disable();
+        roll.Disable();
+        jump.Disable();
     }
 
     #region Utility functions to see if the animator is in the indicated state
