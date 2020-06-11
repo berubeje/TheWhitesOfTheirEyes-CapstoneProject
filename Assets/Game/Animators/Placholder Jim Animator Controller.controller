@@ -814,9 +814,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   swingArcLimit: 70
-  swingSpeed: 0.3
+  swingSpeed: 10
   swingRadius: 5
-  rotationSpeed: 3
+  rotationSpeed: 10
   releaseDirectionMagnitude: 1.5
   releaseDirectionOffset: 0
   minDestinationAngle: 30
@@ -842,7 +842,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0.1
   m_TransitionOffset: 0
   m_ExitTime: 0
   m_HasExitTime: 0
@@ -1256,7 +1256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   splineSpeed: 1.75
   splineAcceleration: -0.02
-  groundCheckDistance: 1
+  groundCheckDistance: 0.75
 --- !u!206 &1146154070533483146
 BlendTree:
   m_ObjectHideFlags: 1

@@ -214,7 +214,7 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         _releaseDirection = (_direction * normalizedDirection * releaseDirectionMagnitude) + (Vector3.up * releaseDirectionOffset);
 
 
-        Vector3 moveAmount = _swingForward * swingSpeed * _speedMultiplier *_direction;
+        Vector3 moveAmount = _swingForward * swingSpeed * _speedMultiplier *_direction * Time.deltaTime;
         Vector3 newPosition = animator.transform.position + moveAmount;
         newPosition.y = _arcOrigin.y;
 
