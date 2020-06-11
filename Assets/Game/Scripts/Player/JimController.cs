@@ -1,11 +1,13 @@
-﻿using Obi;
+﻿using Cinemachine;
+using Obi;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class JimController : ControllableBase
+public class JimController : MonoBehaviour
 {
     [Header("Locomotion Settings")]
     public float rotationSpeed;
@@ -14,6 +16,9 @@ public class JimController : ControllableBase
     public float directionSpeed;
     public float leftStickDeadzone;
     public bool isPulling = false;
+
+    [Header("Camera Settings")]
+    public CinemachineFreeLook virtualCamera;
 
     [Header("Jump Settings")]
     public float jumpHeight;
@@ -37,6 +42,7 @@ public class JimController : ControllableBase
     public float maxReleaseDistanceY;
 
     private Vector2 _leftStickInput;
+    private Vector2 _rightStickInput;
 
     private Vector3 _moveDirection;
     private Vector3 _leftStickDirection;
@@ -58,6 +64,21 @@ public class JimController : ControllableBase
     private int _swingIdleID;
     private int _swingLandID;
 
+    [SerializeField] private InputAction movementAction;
+    [SerializeField] private InputAction cameraAction;
+    [SerializeField] private InputAction rollAction;
+    [SerializeField] private InputAction jumpAction;
+    private void Awake()
+    {
+        movementAction.performed += OnLeftStick;
+        movementAction.canceled += OnLeftStick;
+
+        cameraAction.performed += OnRightStick;
+        cameraAction.canceled += OnRightStick;
+
+        rollAction.performed += OnEastButtonDown;
+        jumpAction.performed += OnSouthButtonDown;
+    }
     void Start()
     {
         _jimAnimator = GetComponent<Animator>();
@@ -85,6 +106,8 @@ public class JimController : ControllableBase
 
     private void FixedUpdate()
     {
+        LeftAnalogStick();
+
         if (IsInIdleJump())
         {
             transform.Translate(Vector3.up * jumpHeight * _jimAnimator.GetFloat("jumpCurve"));
@@ -122,18 +145,10 @@ public class JimController : ControllableBase
         #endregion
     }
 
-    public override void LeftAnalogStick()
-    {
-        if (!isPulling)
-        {
-            _leftStickInput.x = Input.GetAxis("Left Horizontal");
-            _leftStickInput.y = Input.GetAxis("Left Vertical");
-        }
-        else
-        {
-            _leftStickInput = Vector2.zero;
-        }
+  
 
+    private void LeftAnalogStick()
+    {
         _jimAnimator.SetFloat("leftInputX", _leftStickInput.x);
         _jimAnimator.SetFloat("leftInputY", _leftStickInput.y);
 
@@ -182,23 +197,53 @@ public class JimController : ControllableBase
             _jimAnimator.SetFloat("angle", 0.0f);
         }
     }
-    public override void SouthFaceButton()
+
+    private void OnLeftStick(InputAction.CallbackContext context)
     {
-        if(Input.GetButtonDown("South Face Button"))
+        if (!isPulling)
         {
-            if (IsInLocomotion() || IsInIdle())
-            {
-                _jimAnimator.SetTrigger("jump");
-            }
+            _leftStickInput = context.ReadValue<Vector2>();
+        }
+        else
+        {
+            _leftStickInput = Vector2.zero;
         }
     }
 
-    public override void EastFaceButton()
+    private void OnRightStick(InputAction.CallbackContext context)
     {
-        if(Input.GetButtonDown("East Face Button"))
+        _rightStickInput = context.ReadValue<Vector2>();
+        virtualCamera.m_XAxis.m_InputAxisValue = _rightStickInput.x;
+    }
+
+    private void OnEastButtonDown(InputAction.CallbackContext context)
+    {
+        _jimAnimator.SetTrigger("dodgeRoll");
+    }
+
+    private void OnSouthButtonDown(InputAction.CallbackContext context)
+    {
+        if (IsInLocomotion() || IsInIdle())
         {
-            _jimAnimator.SetTrigger("dodgeRoll");
+            _jimAnimator.SetTrigger("jump");
         }
+        
+    }
+
+    private void OnEnable()
+    {
+        movementAction.Enable();
+        cameraAction.Enable();
+        rollAction.Enable();
+        jumpAction.Enable();
+    }
+
+    private void OnDisable()
+    {
+        movementAction.Disable();
+        cameraAction.Disable();
+        rollAction.Disable();
+        jumpAction.Disable();
     }
 
     #region Utility functions to see if the animator is in the indicated state

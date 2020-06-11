@@ -8,6 +8,7 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
     public float swingArcLimit;
     public float swingSpeed;
     public float swingRadius;
+    public float rotationSpeed;
     [Range(1.0f, 10.0f)]
     public float releaseDirectionMagnitude; 
     public float releaseDirectionOffset; 
@@ -125,7 +126,8 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         }
         else
         {
-            _rigidbody.MoveRotation(Quaternion.LookRotation(_swingForward));
+            Quaternion targetRotation = Quaternion.LookRotation(_swingForward);
+            animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, targetRotation, rotationSpeed);
         }
 
         Debug.DrawLine(_anchor.position, _forwardArcLimit, Color.yellow);
@@ -160,7 +162,6 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
 
         _splineRoute.controlPoints[2].position = (Quaternion.AngleAxis(releaseDestinationAngle * -_direction, animator.transform.right) * Vector3.up) + 
             _splineRoute.controlPoints[3].position;
-
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
