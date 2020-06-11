@@ -12,6 +12,7 @@ public class RopeController : ControllableBase
     public float stopPullingDistance = 2.0f;
     public float pullStrain = 1.15f;
     public float breakRopeLength = 10.0f;
+    public float holdToPullTime = 1.0f;
 
     private JimController _playerLogic;
     private Rigidbody _playerRigidBody;
@@ -26,6 +27,9 @@ public class RopeController : ControllableBase
 
     private bool _isLeftTriggerInUse = false;
     private bool _isRightTriggerInUse = false;
+
+    private float _currentLeftTriggerHoldTime = 0.0f;
+
 
     // Start is called before the first frame update
 
@@ -104,17 +108,31 @@ public class RopeController : ControllableBase
         {
             if (Input.GetAxisRaw("Left Trigger") > 0)
             {
+                _currentLeftTriggerHoldTime += Time.deltaTime;
+
                 if (_isLeftTriggerInUse == false)
+                {
+                        _isLeftTriggerInUse = true;                   
+                }
+
+                if (_currentLeftTriggerHoldTime >= holdToPullTime && _isLeftTriggerInUse == true)
                 {
                     _pullObject = true;
                     _playerLogic.isPulling = true;
-                    _isLeftTriggerInUse = true;
                 }
             }
             if (Input.GetAxisRaw("Left Trigger") <= 0)
             {
-                _pullObject = false;
-                _playerLogic.isPulling = false;
+                if(_currentLeftTriggerHoldTime >= holdToPullTime)
+                {
+                    _pullObject = false;
+                    _playerLogic.isPulling = false;
+                }
+                else
+                {
+                    //tying stuff here
+                }
+                _currentLeftTriggerHoldTime = 0.0f;
                 _isLeftTriggerInUse = false;
             }
         }

@@ -4977,6 +4977,11 @@ PrefabInstance:
       propertyPath: targetingCone
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7736718903579281802, guid: 315594546cb607e489e0d429197320e7,
+        type: 3}
+      propertyPath: holdToPullTime
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 7736718904542989073, guid: 315594546cb607e489e0d429197320e7,
         type: 3}
       propertyPath: m_IsActive
