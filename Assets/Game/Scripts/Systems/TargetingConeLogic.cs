@@ -18,14 +18,14 @@ public class TargetingConeLogic : MonoBehaviour
 
     private void Start()
     {
-        _startRot = transform.eulerAngles;
+        //_startRot = transform.eulerAngles;
     }
 
     private void LateUpdate()
     {
-        _startRot.y = transform.eulerAngles.y; // keep current rotation about Y
-        _startRot.z = transform.eulerAngles.z; // keep current rotation about Y
-        transform.rotation = Quaternion.Euler(_startRot); // restore original rotation with new Y
+        //_startRot.y = transform.eulerAngles.y; // keep current rotation about Y
+       // _startRot.z = transform.eulerAngles.z; // keep current rotation about Y
+        //transform.rotation = Quaternion.Euler(_startRot); // restore original rotation with new Y
     }
 
     private void OnEnable()
