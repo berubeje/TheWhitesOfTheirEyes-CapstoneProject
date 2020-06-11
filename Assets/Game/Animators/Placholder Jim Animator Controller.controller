@@ -458,7 +458,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bf722d6f87886e48aaaef12c2832985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swingRadius: 5
+  swingRadius: 6
   faceAnchorSpeed: 20
   reelInSpeed: 10
   swingArcLimit: 65
@@ -779,7 +779,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   swingArcLimit: 65
   swingSpeed: 0.3
-  swingRadius: 5
+  swingRadius: 6
   releaseDirectionMagnitude: 1.46
   releaseDirectionOffset: 1
   minDestinationAngle: 0
