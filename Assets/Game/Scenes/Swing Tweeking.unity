@@ -2008,6 +2008,56 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 620066806533383260, guid: 3146dfbb6587e9240825118ac05ff3e9,
+        type: 3}
+      propertyPath: rightTriggerAction.m_SingletonActionBindings.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 620066806533383260, guid: 3146dfbb6587e9240825118ac05ff3e9,
+        type: 3}
+      propertyPath: leftTriggerAction.m_SingletonActionBindings.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 620066806533383260, guid: 3146dfbb6587e9240825118ac05ff3e9,
+        type: 3}
+      propertyPath: rightTriggerAction.m_SingletonActionBindings.Array.data[1].m_Id
+      value: 3ee2b41b-7216-47d3-b34f-9ebc53ccc24b
+      objectReference: {fileID: 0}
+    - target: {fileID: 620066806533383260, guid: 3146dfbb6587e9240825118ac05ff3e9,
+        type: 3}
+      propertyPath: rightTriggerAction.m_SingletonActionBindings.Array.data[1].m_Action
+      value: Right Trigger
+      objectReference: {fileID: 0}
+    - target: {fileID: 620066806533383260, guid: 3146dfbb6587e9240825118ac05ff3e9,
+        type: 3}
+      propertyPath: rightTriggerAction.m_SingletonActionBindings.Array.data[0].m_Id
+      value: 3ee2b41b-7216-47d3-b34f-9ebc53ccc24b
+      objectReference: {fileID: 0}
+    - target: {fileID: 620066806533383260, guid: 3146dfbb6587e9240825118ac05ff3e9,
+        type: 3}
+      propertyPath: rightTriggerAction.m_SingletonActionBindings.Array.data[0].m_Path
+      value: <Gamepad>/rightTrigger
+      objectReference: {fileID: 0}
+    - target: {fileID: 620066806533383260, guid: 3146dfbb6587e9240825118ac05ff3e9,
+        type: 3}
+      propertyPath: leftTriggerAction.m_SingletonActionBindings.Array.data[0].m_Id
+      value: 5664b7df-3ff6-4b4f-b2a3-d6a9e41a10b6
+      objectReference: {fileID: 0}
+    - target: {fileID: 620066806533383260, guid: 3146dfbb6587e9240825118ac05ff3e9,
+        type: 3}
+      propertyPath: leftTriggerAction.m_SingletonActionBindings.Array.data[0].m_Path
+      value: <Gamepad>/leftTrigger
+      objectReference: {fileID: 0}
+    - target: {fileID: 620066806533383260, guid: 3146dfbb6587e9240825118ac05ff3e9,
+        type: 3}
+      propertyPath: leftTriggerAction.m_SingletonActionBindings.Array.data[1].m_Id
+      value: 084ee8c8-d335-4da1-8a87-14c7aa056e41
+      objectReference: {fileID: 0}
+    - target: {fileID: 620066806533383260, guid: 3146dfbb6587e9240825118ac05ff3e9,
+        type: 3}
+      propertyPath: leftTriggerAction.m_SingletonActionBindings.Array.data[1].m_Action
+      value: Left Trigger
+      objectReference: {fileID: 0}
     - target: {fileID: 2645117874307686558, guid: 3146dfbb6587e9240825118ac05ff3e9,
         type: 3}
       propertyPath: virtualCamera
@@ -2291,12 +2341,12 @@ PrefabInstance:
     - target: {fileID: 8454427368587269874, guid: 9438b4bbcb121f94abc1e998c0e0c4e1,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000016125313
+      value: -0.000000016125325
       objectReference: {fileID: 0}
     - target: {fileID: 8454427368587269874, guid: 9438b4bbcb121f94abc1e998c0e0c4e1,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00000000600279
+      value: 0.0000000060028253
       objectReference: {fileID: 0}
     - target: {fileID: 8454427368587269874, guid: 9438b4bbcb121f94abc1e998c0e0c4e1,
         type: 3}
