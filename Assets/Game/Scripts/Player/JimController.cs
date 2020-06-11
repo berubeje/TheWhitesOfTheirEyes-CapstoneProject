@@ -1,4 +1,5 @@
-﻿using Obi;
+﻿using Cinemachine;
+using Obi;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,6 +16,9 @@ public class JimController : MonoBehaviour
     public float directionSpeed;
     public float leftStickDeadzone;
     public bool isPulling = false;
+
+    [Header("Camera Settings")]
+    public CinemachineFreeLook virtualCamera;
 
     [Header("Jump Settings")]
     public float jumpHeight;
@@ -38,6 +42,7 @@ public class JimController : MonoBehaviour
     public float maxReleaseDistanceY;
 
     private Vector2 _leftStickInput;
+    private Vector2 _rightStickInput;
 
     private Vector3 _moveDirection;
     private Vector3 _leftStickDirection;
@@ -59,16 +64,20 @@ public class JimController : MonoBehaviour
     private int _swingIdleID;
     private int _swingLandID;
 
-    [SerializeField] private InputAction movement;
-    [SerializeField] private InputAction roll;
-    [SerializeField] private InputAction jump;
+    [SerializeField] private InputAction movementAction;
+    [SerializeField] private InputAction cameraAction;
+    [SerializeField] private InputAction rollAction;
+    [SerializeField] private InputAction jumpAction;
     private void Awake()
     {
-        movement.performed += OnLeftStick;
-        movement.canceled += OnLeftStick;
+        movementAction.performed += OnLeftStick;
+        movementAction.canceled += OnLeftStick;
 
-        roll.performed += OnEastButtonDown;
-        jump.performed += OnSouthButtonDown;
+        cameraAction.performed += OnRightStick;
+        cameraAction.canceled += OnRightStick;
+
+        rollAction.performed += OnEastButtonDown;
+        jumpAction.performed += OnSouthButtonDown;
     }
     void Start()
     {
@@ -201,6 +210,12 @@ public class JimController : MonoBehaviour
         }
     }
 
+    private void OnRightStick(InputAction.CallbackContext context)
+    {
+        _rightStickInput = context.ReadValue<Vector2>();
+        virtualCamera.m_XAxis.m_InputAxisValue = _rightStickInput.x;
+    }
+
     private void OnEastButtonDown(InputAction.CallbackContext context)
     {
         _jimAnimator.SetTrigger("dodgeRoll");
@@ -217,16 +232,18 @@ public class JimController : MonoBehaviour
 
     private void OnEnable()
     {
-        movement.Enable();
-        roll.Enable();
-        jump.Enable();
+        movementAction.Enable();
+        cameraAction.Enable();
+        rollAction.Enable();
+        jumpAction.Enable();
     }
 
     private void OnDisable()
     {
-        movement.Disable();
-        roll.Disable();
-        jump.Disable();
+        movementAction.Disable();
+        cameraAction.Disable();
+        rollAction.Disable();
+        jumpAction.Disable();
     }
 
     #region Utility functions to see if the animator is in the indicated state

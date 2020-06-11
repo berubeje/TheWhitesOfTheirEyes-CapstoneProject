@@ -28,8 +28,8 @@ public class RopeController : MonoBehaviour
     private bool _isLeftTriggerInUse = false;
     private bool _isRightTriggerInUse = false;
 
-    [SerializeField] private InputAction rightTrigger;
-    [SerializeField] private InputAction leftTrigger;
+    [SerializeField] private InputAction rightTriggerAction;
+    [SerializeField] private InputAction leftTriggerAction;
 
     // Start is called before the first frame update
 
@@ -41,11 +41,11 @@ public class RopeController : MonoBehaviour
         _animator = GetComponentInParent<Animator>();
         _currentLengthOffset = startingLengthOffset;
 
-        rightTrigger.performed += OnRightTriggerDown;
-        rightTrigger.canceled += OnRightTriggerUp;
+        rightTriggerAction.performed += OnRightTriggerDown;
+        rightTriggerAction.canceled += OnRightTriggerUp;
 
-        leftTrigger.performed += OnLeftTriggerDown;
-        leftTrigger.canceled += OnLeftTriggerUp;
+        leftTriggerAction.performed += OnLeftTriggerDown;
+        leftTriggerAction.canceled += OnLeftTriggerUp;
     }
 
     // Update is called once per frame
@@ -277,7 +277,6 @@ public class RopeController : MonoBehaviour
         if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Idle)
         {
             ropeLogic.LaunchHook();
-            Debug.Log("moo");
         }
         else if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Swing)
         {
@@ -311,13 +310,13 @@ public class RopeController : MonoBehaviour
 
     private void OnEnable()
     {
-        rightTrigger.Enable();
-        leftTrigger.Enable();
+        rightTriggerAction.Enable();
+        leftTriggerAction.Enable();
     }
 
     private void OnDisable()
     {
-        rightTrigger.Disable();
-        leftTrigger.Disable();
+        rightTriggerAction.Disable();
+        leftTriggerAction.Disable();
     }
 }
