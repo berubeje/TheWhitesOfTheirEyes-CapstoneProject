@@ -6,11 +6,10 @@ using UnityEngine.InputSystem;
 
 public class UICanvas : MonoBehaviour
 {
-    public static bool isGamePaused = false;
-
     public GameObject pauseMenu;
     public GameObject controlsMenu;
     public GameObject settingsMenu;
+    public GameObject gameOverMenu;
 
     private Canvas _canvas;
     private GameObject _inputManager;
@@ -34,9 +33,18 @@ public class UICanvas : MonoBehaviour
         _pauseAction.started += OnPauseButtonDown;
     }
 
+    private void Update()
+    {
+        if(InputManager.Instance.currentGameState == InputManager.GameStates.GameOver)
+        {
+            gameOverMenu.SetActive(true); 
+            _inputManager.SetActive(false);
+        }    
+    }
+
     public void ResetLevel()
     {
-        isGamePaused = false;
+        InputManager.Instance.currentGameState = InputManager.GameStates.Playing;
         SceneManager.LoadScene(2);
         Time.timeScale = 1;
     }
@@ -47,7 +55,7 @@ public class UICanvas : MonoBehaviour
 
         pauseMenu.SetActive(true);
         Time.timeScale = 0;
-        isGamePaused = true;
+        InputManager.Instance.currentGameState = InputManager.GameStates.Paused;
     }
 
     public void ResumeGame()
@@ -60,7 +68,12 @@ public class UICanvas : MonoBehaviour
 
         Time.timeScale = 1;
 
-        isGamePaused = false;
+        InputManager.Instance.currentGameState = InputManager.GameStates.Playing;
+    }
+
+    public void ReturnToMenu()
+    {
+        SceneManager.LoadScene(1);
     }
 
     public void QuitGame()
@@ -70,11 +83,11 @@ public class UICanvas : MonoBehaviour
 
     private void OnPauseButtonDown(InputAction.CallbackContext context)
     {
-        if (!isGamePaused)
+        if (InputManager.Instance.currentGameState == InputManager.GameStates.Playing)
         {
             PauseGame();
         }
-        else
+        else if(InputManager.Instance.currentGameState == InputManager.GameStates.Paused)
         {
             ResumeGame();
         }

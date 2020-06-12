@@ -12,6 +12,15 @@ public class InputManager : Singleton<InputManager>
     public JimController jimController;
     public RopeController ropeController;
 
+    public enum GameStates
+    {
+        Playing,
+        Paused,
+        GameOver
+    }
+
+    public GameStates currentGameState = GameStates.Playing;
+
     [SerializeField] private PlayerControls _playerControls;
     [Space]
     [SerializeField] private InputAction _moveAction;
