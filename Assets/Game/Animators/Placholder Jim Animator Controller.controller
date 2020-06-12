@@ -458,10 +458,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bf722d6f87886e48aaaef12c2832985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swingRadius: 5
+  swingRadius: 6
   faceAnchorSpeed: 20
   reelInSpeed: 10
-  swingArcLimit: 70
+  swingArcLimit: 65
 --- !u!206 &-5005420556278115733
 BlendTree:
   m_ObjectHideFlags: 1
@@ -813,9 +813,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e16192a2f98d4334a97c120f0bbba2b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swingArcLimit: 70
-  swingSpeed: 0.3
-  swingRadius: 5
+  swingArcLimit: 65
+  swingSpeed: 15
+  swingRadius: 6
   rotationSpeed: 10
   releaseDirectionMagnitude: 1.5
   releaseDirectionOffset: 0
