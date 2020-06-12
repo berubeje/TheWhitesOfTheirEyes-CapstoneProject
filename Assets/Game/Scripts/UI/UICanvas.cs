@@ -27,11 +27,14 @@ public class UICanvas : MonoBehaviour
 
         _canvas.worldCamera = Camera.main;
         _canvas.planeDistance = 1;
+
         _pauseAction.started += OnPauseButtonDown;
     }
 
     public void ResetLevel()
     {
+        InputManager.Instance.gameObject.SetActive(true);
+
         SceneManager.LoadScene(1);
         SceneManager.LoadScene(2, LoadSceneMode.Additive);
         Time.timeScale = 1;
@@ -39,6 +42,8 @@ public class UICanvas : MonoBehaviour
 
     public void PauseGame()
     {
+        InputManager.Instance.gameObject.SetActive(false);
+
         pauseMenu.SetActive(true);
         Time.timeScale = 0;
         isGamePaused = true;
@@ -46,6 +51,8 @@ public class UICanvas : MonoBehaviour
 
     public void ResumeGame()
     {
+        InputManager.Instance.gameObject.SetActive(true);
+
         pauseMenu.SetActive(false);
         controlsMenu.SetActive(false);
         settingsMenu.SetActive(false);
