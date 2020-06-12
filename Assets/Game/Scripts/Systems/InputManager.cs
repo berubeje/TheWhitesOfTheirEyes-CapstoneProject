@@ -5,6 +5,7 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
+using UnityEngine.SceneManagement;
 
 public class InputManager : Singleton<InputManager>
 {
@@ -23,6 +24,10 @@ public class InputManager : Singleton<InputManager>
     
     private void Awake()
     {
+        applicationClosing = false;
+        // Load the UI scene before anything else
+        SceneManager.LoadScene(0, LoadSceneMode.Additive);
+
         _playerControls = new PlayerControls();
 
         _moveAction = _playerControls.Player.Move;
@@ -39,6 +44,7 @@ public class InputManager : Singleton<InputManager>
         _fireAction = _playerControls.Player.Fire;
         _fireAction.performed += ropeController.OnRightTriggerDown;
         _fireAction.canceled += ropeController.OnRightTriggerUp;
+
         //TO DO: ADD CALLBACKS FOR ROPE FIRE AND RELEASE
 
         //_pullTiePressAction = _playerControls.Player.PullTiePress;
@@ -50,12 +56,14 @@ public class InputManager : Singleton<InputManager>
         _pullTieAction.canceled += ropeController.OnLeftTriggerTie;
     }
 
+
     private void OnEnable()
     {
         _moveAction.Enable();
         _lookAction.Enable();
         _fireAction.Enable();
         _pullTieAction.Enable();
+        _rollAction.Enable();
     }
 
     private void OnDisable()
@@ -64,5 +72,6 @@ public class InputManager : Singleton<InputManager>
         _lookAction.Disable();
         _fireAction.Disable();
         _pullTieAction.Disable();
+        _rollAction.Disable();
     }
 }

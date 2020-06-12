@@ -13,11 +13,14 @@ public class UICanvas : MonoBehaviour
     public GameObject settingsMenu;
 
     private Canvas _canvas;
+    private GameObject _inputManager;
 
     [SerializeField] private InputAction _pauseAction;
 
     private void Awake()
     {
+        _inputManager = InputManager.Instance.gameObject;
+
         _canvas = GetComponent<Canvas>();
         
         if(_canvas == null)
@@ -33,16 +36,14 @@ public class UICanvas : MonoBehaviour
 
     public void ResetLevel()
     {
-        InputManager.Instance.gameObject.SetActive(true);
-
-        SceneManager.LoadScene(1);
-        SceneManager.LoadScene(2, LoadSceneMode.Additive);
+        isGamePaused = false;
+        SceneManager.LoadScene(2);
         Time.timeScale = 1;
     }
 
     public void PauseGame()
     {
-        InputManager.Instance.gameObject.SetActive(false);
+        _inputManager.SetActive(false);
 
         pauseMenu.SetActive(true);
         Time.timeScale = 0;
@@ -51,7 +52,7 @@ public class UICanvas : MonoBehaviour
 
     public void ResumeGame()
     {
-        InputManager.Instance.gameObject.SetActive(true);
+        _inputManager.SetActive(true);
 
         pauseMenu.SetActive(false);
         controlsMenu.SetActive(false);
