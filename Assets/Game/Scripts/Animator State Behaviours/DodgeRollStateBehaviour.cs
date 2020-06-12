@@ -7,6 +7,9 @@ public class DodgeRollStateBehaviour : StateMachineBehaviour
     [Range(0.0f, 1.0f)]
     public float colliderSizeMultiplier;
 
+    [Range(0.0f, 1.0f)]
+    public float colliderYOffsetMultiplier;
+
     private CapsuleCollider _capsuleCollider;
     private float _capsuleColliderHeight;
     private Vector3 _capsuleColliderCenter;
@@ -26,7 +29,7 @@ public class DodgeRollStateBehaviour : StateMachineBehaviour
     {
         _capsuleCollider.height = _capsuleColliderHeight + (animator.GetFloat("colliderCurve") * colliderSizeMultiplier);
         Vector3 newCenter = _capsuleColliderCenter;
-        newCenter.y += (animator.GetFloat("colliderCurve") * colliderSizeMultiplier);
+        newCenter.y += (animator.GetFloat("colliderCurve") * colliderYOffsetMultiplier);
         _capsuleCollider.center = newCenter;
     }
 

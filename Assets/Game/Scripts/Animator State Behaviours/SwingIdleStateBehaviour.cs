@@ -39,6 +39,9 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // Reset the fall trigger so the spline curve can finish 
+        animator.ResetTrigger("fallLand");
+
         _grapplingHook = animator.GetComponentInChildren<PlayerGrapplingHook>();
 
         if(_grapplingHook == null)
@@ -214,7 +217,7 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         _releaseDirection = (_direction * normalizedDirection * releaseDirectionMagnitude) + (Vector3.up * releaseDirectionOffset);
 
 
-        Vector3 moveAmount = _swingForward * swingSpeed * _speedMultiplier *_direction *Time.deltaTime;
+        Vector3 moveAmount = _swingForward * swingSpeed * _speedMultiplier *_direction * Time.deltaTime;
         Vector3 newPosition = animator.transform.position + moveAmount;
         newPosition.y = _arcOrigin.y;
 

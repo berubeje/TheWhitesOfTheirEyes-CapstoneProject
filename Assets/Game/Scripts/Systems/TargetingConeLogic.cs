@@ -7,6 +7,7 @@ public class TargetingConeLogic : MonoBehaviour
     public JimController player;
     public Material targetedMaterial;
     public Material anchorPointMaterial;
+    public Vector3 tieTargetSize;
 
     public int playerMaskNum = 8;
     public int targetIgnoreMaskNum = 10;
@@ -15,9 +16,11 @@ public class TargetingConeLogic : MonoBehaviour
     // private int _currentTargetIndex = 0;
     private RopeAnchorPoint _targetedAnchor;
     private Vector3 _startRot;
+    private Vector3 _startSize;
 
     private void Start()
     {
+        _startSize = transform.localScale;
         //_startRot = transform.eulerAngles;
     }
 
@@ -41,6 +44,18 @@ public class TargetingConeLogic : MonoBehaviour
     {
         RopeAnchorPoint returnAnchor = _targetedAnchor;
         return returnAnchor;
+    }
+
+    public void TieSizeToggle(bool set)
+    {
+        if(set)
+        {
+            transform.localScale = tieTargetSize;
+        }
+        else
+        {
+            transform.localScale = _startSize;
+        }
     }
 
     //public void NextTarget()

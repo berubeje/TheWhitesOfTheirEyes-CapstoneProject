@@ -64,21 +64,6 @@ public class JimController : MonoBehaviour
     private int _swingIdleID;
     private int _swingLandID;
 
-    [SerializeField] private InputAction movementAction;
-    [SerializeField] private InputAction cameraAction;
-    [SerializeField] private InputAction rollAction;
-    [SerializeField] private InputAction jumpAction;
-    private void Awake()
-    {
-        movementAction.performed += OnLeftStick;
-        movementAction.canceled += OnLeftStick;
-
-        cameraAction.performed += OnRightStick;
-        cameraAction.canceled += OnRightStick;
-
-        rollAction.performed += OnEastButtonDown;
-        jumpAction.performed += OnSouthButtonDown;
-    }
     void Start()
     {
         _jimAnimator = GetComponent<Animator>();
@@ -106,7 +91,7 @@ public class JimController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        LeftAnalogStick();
+        MoveAndRotatePlayer();
 
         if (IsInIdleJump())
         {
@@ -145,9 +130,7 @@ public class JimController : MonoBehaviour
         #endregion
     }
 
-  
-
-    private void LeftAnalogStick()
+    private void MoveAndRotatePlayer ()
     {
         _jimAnimator.SetFloat("leftInputX", _leftStickInput.x);
         _jimAnimator.SetFloat("leftInputY", _leftStickInput.y);
@@ -198,7 +181,7 @@ public class JimController : MonoBehaviour
         }
     }
 
-    private void OnLeftStick(InputAction.CallbackContext context)
+    public void OnLeftStick(InputAction.CallbackContext context)
     {
         if (!isPulling)
         {
@@ -210,41 +193,17 @@ public class JimController : MonoBehaviour
         }
     }
 
-    private void OnRightStick(InputAction.CallbackContext context)
+    public void OnRightStick(InputAction.CallbackContext context)
     {
         _rightStickInput = context.ReadValue<Vector2>();
         virtualCamera.m_XAxis.m_InputAxisValue = _rightStickInput.x;
     }
 
-    private void OnEastButtonDown(InputAction.CallbackContext context)
+    public void OnEastButtonDown(InputAction.CallbackContext context)
     {
         _jimAnimator.SetTrigger("dodgeRoll");
     }
 
-    private void OnSouthButtonDown(InputAction.CallbackContext context)
-    {
-        if (IsInLocomotion() || IsInIdle())
-        {
-            _jimAnimator.SetTrigger("jump");
-        }
-        
-    }
-
-    private void OnEnable()
-    {
-        movementAction.Enable();
-        cameraAction.Enable();
-        rollAction.Enable();
-        jumpAction.Enable();
-    }
-
-    private void OnDisable()
-    {
-        movementAction.Disable();
-        cameraAction.Disable();
-        rollAction.Disable();
-        jumpAction.Disable();
-    }
 
     #region Utility functions to see if the animator is in the indicated state
     private bool IsInPivot()
@@ -283,11 +242,16 @@ public class JimController : MonoBehaviour
 
         Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), transform.forward, Color.blue);
 
-        float releaseDistanceX = Mathf.Lerp(minReleaseDistanceX, maxReleaseDistanceX, _jimAnimator.GetFloat("percentOfSwing")); 
-        float releaseDistanceY = Mathf.Lerp(minReleaseDistanceY, maxReleaseDistanceY, _jimAnimator.GetFloat("percentOfSwing"));
-        float releaseDestinationAngle = Mathf.Lerp(minDestinationAngle, maxDestinationAngle, _jimAnimator.GetFloat("percentOfSwing")); 
+        float releaseDistanceX = 0;
+        float releaseDistanceY = 0;
+        float releaseDestinationAngle = 0;
 
-        
+        if (_jimAnimator != null)
+        {
+            releaseDistanceX = Mathf.Lerp(minReleaseDistanceX, maxReleaseDistanceX, _jimAnimator.GetFloat("percentOfSwing"));
+            releaseDistanceY = Mathf.Lerp(minReleaseDistanceY, maxReleaseDistanceY, _jimAnimator.GetFloat("percentOfSwing"));
+            releaseDestinationAngle = Mathf.Lerp(minDestinationAngle, maxDestinationAngle, _jimAnimator.GetFloat("percentOfSwing"));
+        }
 
         Vector3 p0 = transform.position; 
         Vector3 p1 = transform.position + releaseDirection + (Vector3.up * releaseDirectionOffset);

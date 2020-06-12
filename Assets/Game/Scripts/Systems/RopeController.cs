@@ -27,12 +27,12 @@ public class RopeController : MonoBehaviour
 
     private bool _isLeftTriggerInUse = false;
     private float _leftTriggerInput;
-    
+
+
     private bool _isRightTriggerInUse = false;
     private float _rightTriggerInput;
 
-    [SerializeField] private InputAction rightTriggerAction;
-    [SerializeField] private InputAction leftTriggerAction;
+
 
     // Start is called before the first frame update
 
@@ -43,13 +43,9 @@ public class RopeController : MonoBehaviour
         _playerTransform = _playerRigidBody.transform;
         _animator = GetComponentInParent<Animator>();
         _currentLengthOffset = startingLengthOffset;
-
-        rightTriggerAction.performed += OnRightTriggerDown;
-        rightTriggerAction.canceled += OnRightTriggerUp;
-
-        leftTriggerAction.performed += OnLeftTriggerDown;
-        leftTriggerAction.canceled += OnLeftTriggerUp;
     }
+
+
 
     // Update is called once per frame
     void Update()
@@ -73,7 +69,7 @@ public class RopeController : MonoBehaviour
                 return;
             }
 
-            if(Vector3.Distance(ropeLogic.character.transform.position, ropeLogic.targetAnchor.transform.position) > breakRopeLength)
+            if (Vector3.Distance(ropeLogic.character.transform.position, ropeLogic.targetAnchor.transform.position) > breakRopeLength)
             {
                 ropeLogic.DetachHook();
             }
@@ -111,81 +107,81 @@ public class RopeController : MonoBehaviour
         }
     }
 
-    public void LeftTriggerButton()
-    {
-        if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull)
-        {
-            if (Input.GetAxisRaw("Left Trigger") > 0)
-            {
-                if (_isLeftTriggerInUse == false)
-                {
-                    _pullObject = true;
-                    _playerLogic.isPulling = true;
-                    _isLeftTriggerInUse = true;
-                }
-            }
-            if (Input.GetAxisRaw("Left Trigger") <= 0)
-            {
-                _pullObject = false;
-                _playerLogic.isPulling = false;
-                _isLeftTriggerInUse = false;
-            }
-        }
-    }
+    //public void LeftTriggerButton()
+    //{
+    //    if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull)
+    //    {
+    //        if (Input.GetAxisRaw("Left Trigger") > 0)
+    //        {
+    //            if (_isLeftTriggerInUse == false)
+    //            {
+    //                _pullObject = true;
+    //                _playerLogic.isPulling = true;
+    //                _isLeftTriggerInUse = true;
+    //            }
+    //        }
+    //        if (Input.GetAxisRaw("Left Trigger") <= 0)
+    //        {
+    //            _pullObject = false;
+    //            _playerLogic.isPulling = false;
+    //            _isLeftTriggerInUse = false;
+    //        }
+    //    }
+    //}
 
-    public void RightTriggerButton()
-    {
-        if(ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Idle)
-        {
-            //if (Input.GetAxisRaw("Right Trigger") > 0)
-            //{
-            //    if (_isRightTriggerInUse == false)
-            //    {
-            //        _targeting = true;
-            //        ropeLogic.ActivateTargeting();
-            //        _isRightTriggerInUse = true;
-            //    }
-            //}
-            //if (Input.GetAxisRaw("Right Trigger") <= 0)
-            //{
-            //    if (_targeting)
-            //    {
-            //        _targeting = false;
-            //        ropeLogic.LaunchHook();
-            //    }
-            //    _isRightTriggerInUse = false;
-            //}
+    //public void RightTriggerButton()
+    //{
+    //    if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Idle)
+    //    {
+    //        //if (Input.GetAxisRaw("Right Trigger") > 0)
+    //        //{
+    //        //    if (_isRightTriggerInUse == false)
+    //        //    {
+    //        //        _targeting = true;
+    //        //        ropeLogic.ActivateTargeting();
+    //        //        _isRightTriggerInUse = true;
+    //        //    }
+    //        //}
+    //        //if (Input.GetAxisRaw("Right Trigger") <= 0)
+    //        //{
+    //        //    if (_targeting)
+    //        //    {
+    //        //        _targeting = false;
+    //        //        ropeLogic.LaunchHook();
+    //        //    }
+    //        //    _isRightTriggerInUse = false;
+    //        //}
 
-            if (Input.GetAxisRaw("Right Trigger") > 0)
-            {
-                if (_isRightTriggerInUse == false)
-                {
-                    ropeLogic.LaunchHook();
-                    _isRightTriggerInUse = true;
-                }
-            }
-            if (Input.GetAxisRaw("Right Trigger") <= 0)
-            {
-                _isRightTriggerInUse = false;
-            }
-        }
-        else if(ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Swing)
-        {
-            if (Input.GetAxisRaw("Right Trigger") > 0)
-            {
-                if (_isRightTriggerInUse == false)
-                {
-                    ropeLogic.DetachHook();
-                    _isRightTriggerInUse = true;
-                    _playerLogic.isPulling = false;
-                }
-            }
-            if (Input.GetAxisRaw("Right Trigger") <= 0)
-            {
-                _isRightTriggerInUse = false;
-            }
-        }
-    }
+    //        if (Input.GetAxisRaw("Right Trigger") > 0)
+    //        {
+    //            if (_isRightTriggerInUse == false)
+    //            {
+    //                ropeLogic.LaunchHook();
+    //                _isRightTriggerInUse = true;
+    //            }
+    //        }
+    //        if (Input.GetAxisRaw("Right Trigger") <= 0)
+    //        {
+    //            _isRightTriggerInUse = false;
+    //        }
+    //    }
+    //    else if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Swing)
+    //    {
+    //        if (Input.GetAxisRaw("Right Trigger") > 0)
+    //        {
+    //            if (_isRightTriggerInUse == false)
+    //            {
+    //                ropeLogic.DetachHook();
+    //                _isRightTriggerInUse = true;
+    //                _playerLogic.isPulling = false;
+    //            }
+    //        }
+    //        if (Input.GetAxisRaw("Right Trigger") <= 0)
+    //        {
+    //            _isRightTriggerInUse = false;
+    //        }
+    //    }
+    //}
 
     //public override void LeftShoulderButton()
     //{
@@ -247,7 +243,7 @@ public class RopeController : MonoBehaviour
                         {
                             _targetRigidBody = ropeLogic.targetAnchor.transform.GetComponent<Rigidbody>();
 
-                            if(_targetRigidBody == null)
+                            if (_targetRigidBody == null)
                             {
                                 Debug.LogError("The pull target does not have a rigid body");
                                 return;
@@ -275,7 +271,7 @@ public class RopeController : MonoBehaviour
         }
     }
 
-    private void OnRightTriggerDown(InputAction.CallbackContext context)
+    public void OnRightTriggerDown(InputAction.CallbackContext context)
     {
         _rightTriggerInput = context.ReadValue<float>();
         if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Idle)
@@ -285,7 +281,7 @@ public class RopeController : MonoBehaviour
                 ropeLogic.LaunchHook();
                 _isRightTriggerInUse = true;
             }
-            
+
         }
         else if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Swing)
         {
@@ -295,46 +291,61 @@ public class RopeController : MonoBehaviour
                 _isRightTriggerInUse = true;
                 _playerLogic.isPulling = false;
             }
-            
+
         }
     }
 
-    private void OnRightTriggerUp(InputAction.CallbackContext context)
+    public void OnRightTriggerUp(InputAction.CallbackContext context)
     {
         _isRightTriggerInUse = false;
     }
 
-    private void OnLeftTriggerDown(InputAction.CallbackContext context)
-    {
-        _leftTriggerInput = context.ReadValue<float>();
+    //public void OnLeftTriggerDown(InputAction.CallbackContext context)
+    //{
+    //    Debug.Log("Left Down");
 
-        if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull)
-        {
-            if (_isLeftTriggerInUse == false)
-            {
-                _pullObject = true;
-                _playerLogic.isPulling = true;
-                _isLeftTriggerInUse = true;
-            }
-        }
-    }
-    private void OnLeftTriggerUp(InputAction.CallbackContext context)
+    //    _leftTriggerInput = context.ReadValue<float>();
+
+
+    //    if (_isLeftTriggerInUse == false)
+    //    {
+    //        _isLeftTriggerInUse = true;
+    //    }
+    //}
+
+    public void OnLeftTriggerUp(InputAction.CallbackContext context)
     {
-        _pullObject = false;
-        _playerLogic.isPulling = false;
+        Debug.Log("Left Up");
+
         _isLeftTriggerInUse = false;
     }
 
-
-    private void OnEnable()
+    public void OnLeftTriggerPull(InputAction.CallbackContext context)
     {
-        rightTriggerAction.Enable();
-        leftTriggerAction.Enable();
+        if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull)
+        {
+            Debug.Log("Pull");
+
+            _pullObject = true;
+            _playerLogic.isPulling = true;
+        }
     }
 
-    private void OnDisable()
-    {
-        rightTriggerAction.Disable();
-        leftTriggerAction.Disable();
+    public void OnLeftTriggerTie(InputAction.CallbackContext context)
+    {   
+        // For some reason, this will trigger regardless if you hold the trigger long enough or not
+        if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull)
+        {
+            if (_pullObject == true)
+            {
+                _pullObject = false;
+                _playerLogic.isPulling = false;
+            }
+            else
+            {
+                //ropeLogic.TieRope();
+                Debug.Log("Tie");
+            }
+        }
     }
 }
