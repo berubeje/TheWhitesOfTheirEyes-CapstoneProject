@@ -47,6 +47,7 @@ public class InputManager : Singleton<InputManager>
         _lookAction.Enable();
         _fireAction.Enable();
         _pullAction.Enable();
+        _rollAction.Enable();
     }
 
     private void OnDisable()
@@ -54,6 +55,7 @@ public class InputManager : Singleton<InputManager>
         _moveAction.Disable();
         _lookAction.Disable();
         _fireAction.Disable();
-        _pull.Disable();
+        _pullAction.Disable();
+        _rollAction.Disable();
     }
 }

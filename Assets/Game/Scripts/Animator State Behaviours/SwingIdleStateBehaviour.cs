@@ -39,6 +39,10 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // Reset the fall trigger so the spline curve can finish 
+
+        animator.ResetTrigger("fallLand");
+
         _grapplingHook = animator.GetComponentInChildren<PlayerGrapplingHook>();
 
         if(_grapplingHook == null)

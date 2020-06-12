@@ -2526,6 +2526,56 @@ PrefabInstance:
       propertyPath: ropeController
       value: 
       objectReference: {fileID: 248128059}
+    - target: {fileID: 8368620006233297883, guid: 46ce46dd8c3ff7041ab944eee4c36e91,
+        type: 3}
+      propertyPath: _moveAction.m_Name
+      value: Move
+      objectReference: {fileID: 0}
+    - target: {fileID: 8368620006233297883, guid: 46ce46dd8c3ff7041ab944eee4c36e91,
+        type: 3}
+      propertyPath: _moveAction.m_Id
+      value: d33a8112-4c3e-4643-bca1-20440ed86347
+      objectReference: {fileID: 0}
+    - target: {fileID: 8368620006233297883, guid: 46ce46dd8c3ff7041ab944eee4c36e91,
+        type: 3}
+      propertyPath: _rollAction.m_Name
+      value: Roll
+      objectReference: {fileID: 0}
+    - target: {fileID: 8368620006233297883, guid: 46ce46dd8c3ff7041ab944eee4c36e91,
+        type: 3}
+      propertyPath: _rollAction.m_Id
+      value: 5c3d34d2-a959-4715-9d35-3832392565d6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8368620006233297883, guid: 46ce46dd8c3ff7041ab944eee4c36e91,
+        type: 3}
+      propertyPath: _lookAction.m_Name
+      value: Look
+      objectReference: {fileID: 0}
+    - target: {fileID: 8368620006233297883, guid: 46ce46dd8c3ff7041ab944eee4c36e91,
+        type: 3}
+      propertyPath: _lookAction.m_Id
+      value: bf090fed-794c-431c-a255-999ad307102e
+      objectReference: {fileID: 0}
+    - target: {fileID: 8368620006233297883, guid: 46ce46dd8c3ff7041ab944eee4c36e91,
+        type: 3}
+      propertyPath: _fireAction.m_Name
+      value: Fire
+      objectReference: {fileID: 0}
+    - target: {fileID: 8368620006233297883, guid: 46ce46dd8c3ff7041ab944eee4c36e91,
+        type: 3}
+      propertyPath: _fireAction.m_Id
+      value: c3789ae7-f21c-4a84-b2d4-ec37650f1e0c
+      objectReference: {fileID: 0}
+    - target: {fileID: 8368620006233297883, guid: 46ce46dd8c3ff7041ab944eee4c36e91,
+        type: 3}
+      propertyPath: _pullAction.m_Id
+      value: 64670d82-b924-4488-b835-15f96fdacb77
+      objectReference: {fileID: 0}
+    - target: {fileID: 8368620006233297883, guid: 46ce46dd8c3ff7041ab944eee4c36e91,
+        type: 3}
+      propertyPath: _pullAction.m_Name
+      value: Pull
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46ce46dd8c3ff7041ab944eee4c36e91, type: 3}
 --- !u!1001 &8454427367363436307
@@ -2739,12 +2789,12 @@ PrefabInstance:
     - target: {fileID: 8454427368587269874, guid: 9438b4bbcb121f94abc1e998c0e0c4e1,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000016125313
+      value: -0.000000016125325
       objectReference: {fileID: 0}
     - target: {fileID: 8454427368587269874, guid: 9438b4bbcb121f94abc1e998c0e0c4e1,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00000000600279
+      value: 0.0000000060028253
       objectReference: {fileID: 0}
     - target: {fileID: 8454427368587269874, guid: 9438b4bbcb121f94abc1e998c0e0c4e1,
         type: 3}

@@ -17,6 +17,7 @@ public class FallLandStateBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.ResetTrigger("fallLand");
+        animator.ResetTrigger("dodgeRoll");
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
