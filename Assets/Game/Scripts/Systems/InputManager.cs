@@ -35,7 +35,7 @@ public class InputManager : Singleton<InputManager>
     {
         applicationClosing = false;
         // Load the UI scene before anything else
-        SceneManager.LoadScene(0, LoadSceneMode.Additive);
+        SceneManager.LoadScene(2, LoadSceneMode.Additive);
 
         _playerControls = new PlayerControls();
 

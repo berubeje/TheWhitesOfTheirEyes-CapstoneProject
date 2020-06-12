@@ -45,7 +45,7 @@ public class UICanvas : MonoBehaviour
     public void ResetLevel()
     {
         InputManager.Instance.currentGameState = InputManager.GameStates.Playing;
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(1);
         Time.timeScale = 1;
     }
 
@@ -73,7 +73,7 @@ public class UICanvas : MonoBehaviour
 
     public void ReturnToMenu()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
     }
 
     public void QuitGame()
