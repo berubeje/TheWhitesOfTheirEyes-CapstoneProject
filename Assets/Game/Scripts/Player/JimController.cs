@@ -283,11 +283,16 @@ public class JimController : MonoBehaviour
 
         Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), transform.forward, Color.blue);
 
-        float releaseDistanceX = Mathf.Lerp(minReleaseDistanceX, maxReleaseDistanceX, _jimAnimator.GetFloat("percentOfSwing")); 
-        float releaseDistanceY = Mathf.Lerp(minReleaseDistanceY, maxReleaseDistanceY, _jimAnimator.GetFloat("percentOfSwing"));
-        float releaseDestinationAngle = Mathf.Lerp(minDestinationAngle, maxDestinationAngle, _jimAnimator.GetFloat("percentOfSwing")); 
+        float releaseDistanceX = 0;
+        float releaseDistanceY = 0;
+        float releaseDestinationAngle = 0;
 
-        
+        if (_jimAnimator != null)
+        {
+            releaseDistanceX = Mathf.Lerp(minReleaseDistanceX, maxReleaseDistanceX, _jimAnimator.GetFloat("percentOfSwing"));
+            releaseDistanceY = Mathf.Lerp(minReleaseDistanceY, maxReleaseDistanceY, _jimAnimator.GetFloat("percentOfSwing"));
+            releaseDestinationAngle = Mathf.Lerp(minDestinationAngle, maxDestinationAngle, _jimAnimator.GetFloat("percentOfSwing"));
+        }
 
         Vector3 p0 = transform.position; 
         Vector3 p1 = transform.position + releaseDirection + (Vector3.up * releaseDirectionOffset);

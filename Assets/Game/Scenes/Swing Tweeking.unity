@@ -1900,6 +1900,11 @@ PrefabInstance:
       propertyPath: splineRoute
       value: 
       objectReference: {fileID: 272681408}
+    - target: {fileID: 3435305569752024420, guid: 3146dfbb6587e9240825118ac05ff3e9,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3146dfbb6587e9240825118ac05ff3e9, type: 3}
 --- !u!1001 &3775316111917190385
