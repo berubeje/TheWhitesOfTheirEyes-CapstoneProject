@@ -17,7 +17,8 @@ public class InputManager : Singleton<InputManager>
     [SerializeField] private InputAction _rollAction;
     [SerializeField] private InputAction _lookAction;
     [SerializeField] private InputAction _fireAction;
-    [SerializeField] private InputAction _pullAction;
+    [SerializeField] private InputAction _pullTieAction;
+
 
     
     private void Awake()
@@ -36,9 +37,17 @@ public class InputManager : Singleton<InputManager>
         _lookAction.canceled += jimController.OnRightStick;
 
         _fireAction = _playerControls.Player.Fire;
+        _fireAction.performed += ropeController.OnRightTriggerDown;
+        _fireAction.canceled += ropeController.OnRightTriggerUp;
         //TO DO: ADD CALLBACKS FOR ROPE FIRE AND RELEASE
 
-        _pullAction = _playerControls.Player.Pull;
+        //_pullTiePressAction = _playerControls.Player.PullTiePress;
+        //_pullTiePressAction.performed += ropeController.OnLeftTriggerDown;
+        //_pullTiePressAction.performed += ropeController.OnLeftTriggerUp;
+
+        _pullTieAction = _playerControls.Player.PullTie;
+        _pullTieAction.performed += ropeController.OnLeftTriggerPull;
+        _pullTieAction.canceled += ropeController.OnLeftTriggerTie;
     }
 
     private void OnEnable()
@@ -46,8 +55,7 @@ public class InputManager : Singleton<InputManager>
         _moveAction.Enable();
         _lookAction.Enable();
         _fireAction.Enable();
-        _pullAction.Enable();
-        _rollAction.Enable();
+        _pullTieAction.Enable();
     }
 
     private void OnDisable()
@@ -55,7 +63,6 @@ public class InputManager : Singleton<InputManager>
         _moveAction.Disable();
         _lookAction.Disable();
         _fireAction.Disable();
-        _pullAction.Disable();
-        _rollAction.Disable();
+        _pullTieAction.Disable();
     }
 }
