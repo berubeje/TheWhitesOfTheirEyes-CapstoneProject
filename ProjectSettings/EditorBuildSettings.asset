@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Game/Scenes/Swing Tweeking.unity
     guid: 6e0a8034f51589b4e94bc0959bd42306
+  - enabled: 1
+    path: Assets/Game/Scenes/UI.unity
+    guid: 451b32f898d20e6419d43a2d39bf3ce8
   m_configObjects: {}

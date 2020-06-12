@@ -64,20 +64,20 @@ public class JimController : MonoBehaviour
     private int _swingIdleID;
     private int _swingLandID;
 
-    [SerializeField] private InputAction movementAction;
-    [SerializeField] private InputAction cameraAction;
-    [SerializeField] private InputAction rollAction;
-    [SerializeField] private InputAction jumpAction;
+    [SerializeField] private InputAction _movementAction;
+    [SerializeField] private InputAction _cameraAction;
+    [SerializeField] private InputAction _rollAction;
+    [SerializeField] private InputAction _jumpAction;
     private void Awake()
     {
-        movementAction.performed += OnLeftStick;
-        movementAction.canceled += OnLeftStick;
-
-        cameraAction.performed += OnRightStick;
-        cameraAction.canceled += OnRightStick;
-
-        rollAction.performed += OnEastButtonDown;
-        jumpAction.performed += OnSouthButtonDown;
+        _movementAction.performed += OnLeftStick;
+        _movementAction.canceled += OnLeftStick;
+        
+        _cameraAction.performed += OnRightStick;
+        _cameraAction.canceled += OnRightStick;
+        
+        _rollAction.performed += OnEastButtonDown;
+        _jumpAction.performed += OnSouthButtonDown;
     }
     void Start()
     {
@@ -232,18 +232,18 @@ public class JimController : MonoBehaviour
 
     private void OnEnable()
     {
-        movementAction.Enable();
-        cameraAction.Enable();
-        rollAction.Enable();
-        jumpAction.Enable();
+        _movementAction.Enable();
+        _cameraAction.Enable();
+        _rollAction.Enable();
+        _jumpAction.Enable();
     }
 
     private void OnDisable()
     {
-        movementAction.Disable();
-        cameraAction.Disable();
-        rollAction.Disable();
-        jumpAction.Disable();
+        _movementAction.Disable();
+        _cameraAction.Disable();
+        _rollAction.Disable();
+        _jumpAction.Disable();
     }
 
     #region Utility functions to see if the animator is in the indicated state
