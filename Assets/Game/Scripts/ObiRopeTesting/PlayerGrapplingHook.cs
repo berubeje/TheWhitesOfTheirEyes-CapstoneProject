@@ -33,6 +33,7 @@ public class PlayerGrapplingHook : MonoBehaviour
     private Animator _jimAnimator;
 
     private Vector3 _startingBasePosition;
+    private Transform _startingBaseParent;
 
 
     public RopeState ropeState;
@@ -80,6 +81,7 @@ public class PlayerGrapplingHook : MonoBehaviour
         }
 
         _startingBasePosition = character.transform.localPosition;
+        _startingBaseParent = character.transform.parent;
     }
 
 
@@ -156,6 +158,7 @@ public class PlayerGrapplingHook : MonoBehaviour
         if (tieTarget != null)
         {
             character.transform.position = tieTarget.transform.position;
+            character.transform.parent = tieTarget.transform;
 
             ropeState = RopeState.Tied;
         }
@@ -206,6 +209,7 @@ public class PlayerGrapplingHook : MonoBehaviour
         }
         else if(ropeState == RopeState.Tied)
         {
+            character.transform.parent = _startingBaseParent;
             character.transform.localPosition = _startingBasePosition;
         }
 

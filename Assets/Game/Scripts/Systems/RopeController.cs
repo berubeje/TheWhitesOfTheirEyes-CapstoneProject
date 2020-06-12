@@ -283,7 +283,7 @@ public class RopeController : MonoBehaviour
             }
 
         }
-        else if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Swing)
+        else if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Swing || ropeLogic.ropeState ==  PlayerGrapplingHook.RopeState.Tied)
         {
             if (_isRightTriggerInUse == false)
             {
@@ -313,12 +313,12 @@ public class RopeController : MonoBehaviour
     //    }
     //}
 
-    public void OnLeftTriggerUp(InputAction.CallbackContext context)
-    {
-        Debug.Log("Left Up");
+    //public void OnLeftTriggerUp(InputAction.CallbackContext context)
+    //{
+    //    Debug.Log("Left Up");
 
-        _isLeftTriggerInUse = false;
-    }
+    //    _isLeftTriggerInUse = false;
+    //}
 
     public void OnLeftTriggerPull(InputAction.CallbackContext context)
     {
@@ -343,8 +343,8 @@ public class RopeController : MonoBehaviour
             }
             else
             {
-                //ropeLogic.TieRope();
-                Debug.Log("Tie");
+                ropeLogic.TieRope();
+                //Debug.Log("Tie");
             }
         }
     }

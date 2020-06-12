@@ -579,7 +579,7 @@ Transform:
   - {fileID: 3435305568224615653}
   - {fileID: 3435305569285165461}
   - {fileID: 3435305568577274086}
-  - {fileID: 3435305569752024419}
+  - {fileID: 2410695131820845930}
   m_Father: {fileID: 3435305567885927322}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
@@ -666,134 +666,6 @@ MonoBehaviour:
   maxReleaseDistanceX: 0
   minReleaseDistanceY: 0
   maxReleaseDistanceY: 0
-  movementAction:
-    m_Name: Movement
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 3d88490c-dd18-4a22-8296-830dd0c1d73c
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 2D Vector
-      m_Id: 7479a74e-7e12-4ec1-adb4-140a90a92a4f
-      m_Path: 2DVector
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Movement
-      m_Flags: 4
-    - m_Name: up
-      m_Id: 298dee42-c519-4161-864d-fe4cabe25ef4
-      m_Path: <Gamepad>/leftStick/up
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Movement
-      m_Flags: 8
-    - m_Name: down
-      m_Id: 7a2029aa-f825-4d8d-a781-d965222fd59d
-      m_Path: <Gamepad>/leftStick/down
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Movement
-      m_Flags: 8
-    - m_Name: left
-      m_Id: d912971e-2100-4a3f-a254-5d576e015939
-      m_Path: <Gamepad>/leftStick/left
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Movement
-      m_Flags: 8
-    - m_Name: right
-      m_Id: cfe5675d-fdd0-44b6-9820-85215cd2c68d
-      m_Path: <Gamepad>/leftStick/right
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Movement
-      m_Flags: 8
-  cameraAction:
-    m_Name: Camera
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 85d19a26-1a44-49db-b79f-5c62074813e5
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 2D Vector
-      m_Id: 16caa33a-5f6a-4c19-b731-c7c484a11dc4
-      m_Path: 2DVector
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Camera
-      m_Flags: 4
-    - m_Name: up
-      m_Id: c7d2ebc0-6d74-4b33-827f-5ecbd2a6dcf0
-      m_Path: <Gamepad>/rightStick/up
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Camera
-      m_Flags: 8
-    - m_Name: down
-      m_Id: e2f6d2f0-1784-48e9-a810-83b713631cd2
-      m_Path: <Gamepad>/rightStick/down
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Camera
-      m_Flags: 8
-    - m_Name: left
-      m_Id: dae8255f-5212-4c22-81a3-81d8f3692afa
-      m_Path: <Gamepad>/rightStick/left
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Camera
-      m_Flags: 8
-    - m_Name: right
-      m_Id: 19a8a9d2-e815-4c8f-9af7-40f6019ef497
-      m_Path: <Gamepad>/rightStick/right
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Camera
-      m_Flags: 8
-  rollAction:
-    m_Name: Roll
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: d6705f42-e9f0-427f-a403-30ad6d6a66ca
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 9e7b1bd1-b208-4424-9048-4f21f52d0744
-      m_Path: <Gamepad>/buttonEast
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Roll
-      m_Flags: 0
-  jumpAction:
-    m_Name: Jump
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 0a514cc9-74ec-420b-92e1-035861e07671
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: dc2f81ff-1a6c-4e76-bbfa-e22d791144f2
-      m_Path: <Gamepad>/buttonSouth
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Jump
-      m_Flags: 0
 --- !u!114 &3435305568003888531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1759,38 +1631,6 @@ MonoBehaviour:
   stopPullingDistance: 2
   pullStrain: 1.15
   breakRopeLength: 10
-  rightTriggerAction:
-    m_Name: Right Trigger
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: abcc92ef-23ce-43a8-95dd-b194dcf7b4dc
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 3ee2b41b-7216-47d3-b34f-9ebc53ccc24b
-      m_Path: <Gamepad>/rightTrigger
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Right Trigger
-      m_Flags: 0
-  leftTriggerAction:
-    m_Name: Left Trigger
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: e4f710b6-f5c2-4da1-abbb-222235ccd968
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 5664b7df-3ff6-4b4f-b2a3-d6a9e41a10b6
-      m_Path: <Gamepad>/leftTrigger
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Left Trigger
-      m_Flags: 0
 --- !u!1 &3435305568612368824
 GameObject:
   m_ObjectHideFlags: 0
@@ -3599,7 +3439,7 @@ GameObject:
   - component: {fileID: 3435305569752024421}
   - component: {fileID: 3435305569752024418}
   m_Layer: 8
-  m_Name: Targeting Cone
+  m_Name: Targeting Zone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3612,12 +3452,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3435305569752024416}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.04, y: 1.286, z: 5.21}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.5000007}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 3435305569145660787}
-  m_RootOrder: 9
+  m_Father: {fileID: 2410695131820845930}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3435305569752024423
 MonoBehaviour:
@@ -3634,6 +3474,7 @@ MonoBehaviour:
   player: {fileID: 3435305568003888528}
   targetedMaterial: {fileID: 2100000, guid: 8be2c95718fc126408c032bfa59f1c63, type: 2}
   anchorPointMaterial: {fileID: 2100000, guid: 4ea297d4cfe59d145b339b7e243f719d, type: 2}
+  tieTargetSize: {x: 0, y: 0, z: 0}
   playerMaskNum: 8
   targetIgnoreMaskNum: 10
 --- !u!23 &3435305569752024420
@@ -3788,4 +3629,35 @@ Transform:
   - {fileID: 3435305567917945926}
   m_Father: {fileID: 3435305568777095262}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8887254027265840088
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2410695131820845930}
+  m_Layer: 8
+  m_Name: Target Zone Pivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2410695131820845930
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8887254027265840088}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.040000055, y: 1.286, z: 0.25999996}
+  m_LocalScale: {x: 3, y: 5, z: 5}
+  m_Children:
+  - {fileID: 3435305569752024419}
+  m_Father: {fileID: 3435305569145660787}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
