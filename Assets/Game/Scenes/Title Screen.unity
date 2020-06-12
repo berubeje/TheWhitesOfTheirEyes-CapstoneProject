@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1041,6 +1041,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 682636387}
+  - component: {fileID: 682636388}
   m_Layer: 5
   m_Name: ControlsMenu
   m_TagString: Untagged
@@ -1070,6 +1071,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &682636388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 682636386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 780105b6ec469c54c91577467e2f11cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 1506610127}
 --- !u!1 &704514376
 GameObject:
   m_ObjectHideFlags: 0
@@ -1079,6 +1093,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 704514377}
+  - component: {fileID: 704514378}
   m_Layer: 5
   m_Name: SettingsMenu
   m_TagString: Untagged
@@ -1107,6 +1122,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &704514378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704514376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 780105b6ec469c54c91577467e2f11cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 1542001417}
 --- !u!1 &754270235
 GameObject:
   m_ObjectHideFlags: 0
@@ -1273,6 +1301,7 @@ GameObject:
   m_Component:
   - component: {fileID: 854916370}
   - component: {fileID: 854916371}
+  - component: {fileID: 854916372}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -1315,6 +1344,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfe1de795f821434d8f0626df228f312, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &854916372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 854916369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 780105b6ec469c54c91577467e2f11cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 1248594060}
 --- !u!1 &889660219
 GameObject:
   m_ObjectHideFlags: 0

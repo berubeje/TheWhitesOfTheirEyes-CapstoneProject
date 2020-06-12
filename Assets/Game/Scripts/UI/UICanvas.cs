@@ -9,6 +9,8 @@ public class UICanvas : MonoBehaviour
     public static bool isGamePaused = false;
 
     public GameObject pauseMenu;
+    public GameObject controlsMenu;
+    public GameObject settingsMenu;
 
     private Canvas _canvas;
 
@@ -45,7 +47,11 @@ public class UICanvas : MonoBehaviour
     public void ResumeGame()
     {
         pauseMenu.SetActive(false);
+        controlsMenu.SetActive(false);
+        settingsMenu.SetActive(false);
+
         Time.timeScale = 1;
+
         isGamePaused = false;
     }
 
