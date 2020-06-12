@@ -17,7 +17,7 @@ public class InputManager : Singleton<InputManager>
     [SerializeField] private InputAction _rollAction;
     [SerializeField] private InputAction _lookAction;
     [SerializeField] private InputAction _fireAction;
-    [SerializeField] private InputAction _releaseAction;
+    [SerializeField] private InputAction _pullAction;
 
     
     private void Awake()
@@ -38,7 +38,7 @@ public class InputManager : Singleton<InputManager>
         _fireAction = _playerControls.Player.Fire;
         //TO DO: ADD CALLBACKS FOR ROPE FIRE AND RELEASE
 
-        _releaseAction = _playerControls.Player.Release;
+        _pullAction = _playerControls.Player.Pull;
     }
 
     private void OnEnable()
@@ -46,7 +46,7 @@ public class InputManager : Singleton<InputManager>
         _moveAction.Enable();
         _lookAction.Enable();
         _fireAction.Enable();
-        _releaseAction.Enable();
+        _pullAction.Enable();
     }
 
     private void OnDisable()
@@ -54,6 +54,6 @@ public class InputManager : Singleton<InputManager>
         _moveAction.Disable();
         _lookAction.Disable();
         _fireAction.Disable();
-        _releaseAction.Disable();
+        _pull.Disable();
     }
 }
