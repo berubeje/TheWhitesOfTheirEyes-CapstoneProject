@@ -300,18 +300,18 @@ public class RopeController : MonoBehaviour
         _isRightTriggerInUse = false;
     }
 
-    public void OnLeftTriggerDown(InputAction.CallbackContext context)
-    {
-        Debug.Log("Left Down");
+    //public void OnLeftTriggerDown(InputAction.CallbackContext context)
+    //{
+    //    Debug.Log("Left Down");
 
-        _leftTriggerInput = context.ReadValue<float>();
+    //    _leftTriggerInput = context.ReadValue<float>();
 
 
-        if (_isLeftTriggerInUse == false)
-        {
-            _isLeftTriggerInUse = true;
-        }
-    }
+    //    if (_isLeftTriggerInUse == false)
+    //    {
+    //        _isLeftTriggerInUse = true;
+    //    }
+    //}
 
     public void OnLeftTriggerUp(InputAction.CallbackContext context)
     {
@@ -343,7 +343,8 @@ public class RopeController : MonoBehaviour
             }
             else
             {
-                ropeLogic.TieRope();
+                //ropeLogic.TieRope();
+                Debug.Log("Tie");
             }
         }
     }
