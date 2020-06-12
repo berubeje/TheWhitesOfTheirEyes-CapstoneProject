@@ -8,6 +8,13 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  m_configObjects:
-    com.unity.input.settings: {fileID: 11400000, guid: 07b19173d3dcd6a4aa31b418c5e54c66,
-      type: 2}
+  - enabled: 1
+    path: Assets/Game/Scenes/Title Screen.unity
+    guid: 35a97c96da98e8645b2ad1e0dc168efa
+  - enabled: 1
+    path: Assets/Game/Scenes/Swing Tweeking.unity
+    guid: 6e0a8034f51589b4e94bc0959bd42306
+  - enabled: 1
+    path: Assets/Game/Scenes/UI.unity
+    guid: 451b32f898d20e6419d43a2d39bf3ce8
+  m_configObjects: {}

@@ -1,31 +1,59 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
 
 public class InputManager : Singleton<InputManager>
 {
-    public List<ControllableBase> controllables;
+    public JimController jimController;
+    public RopeController ropeController;
 
-    private MethodInfo[] methodInfo;
+    [SerializeField] private PlayerControls _playerControls;
+    [Space]
+    [SerializeField] private InputAction _moveAction;
+    [SerializeField] private InputAction _rollAction;
+    [SerializeField] private InputAction _lookAction;
+    [SerializeField] private InputAction _fireAction;
+    [SerializeField] private InputAction _releaseAction;
 
-    private void Start()
+    
+    private void Awake()
     {
-        // Get all the methods in the ControllableBase class
-        methodInfo = typeof(ControllableBase).GetMethods();    
+        _playerControls = new PlayerControls();
+
+        _moveAction = _playerControls.Player.Move;
+        _moveAction.performed += jimController.OnLeftStick;
+        _moveAction.canceled += jimController.OnLeftStick;
+
+        _rollAction = _playerControls.Player.Roll;
+        _rollAction.performed += jimController.OnEastButtonDown;
+
+        _lookAction = _playerControls.Player.Look;
+        _lookAction.performed += jimController.OnRightStick;
+        _lookAction.canceled += jimController.OnRightStick;
+
+        _fireAction = _playerControls.Player.Fire;
+        //TO DO: ADD CALLBACKS FOR ROPE FIRE AND RELEASE
+
+        _releaseAction = _playerControls.Player.Release;
     }
 
-    void Update()
+    private void OnEnable()
     {
-        foreach(ControllableBase cb in controllables)
-        {
-            foreach (MethodInfo mi in methodInfo)
-            {
-                // Invoke every method from the ControllableBase class in the player object
-                cb.Invoke(mi.Name, 0.0f);
-            }
-        }
-        
+        _moveAction.Enable();
+        _lookAction.Enable();
+        _fireAction.Enable();
+        _releaseAction.Enable();
     }
 
+    private void OnDisable()
+    {
+        _moveAction.Disable();
+        _lookAction.Disable();
+        _fireAction.Disable();
+        _releaseAction.Disable();
+    }
 }

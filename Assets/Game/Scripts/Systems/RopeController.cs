@@ -122,81 +122,81 @@ public class RopeController : MonoBehaviour
         }
     }
 
-    public void LeftTriggerButton()
-    {
-        if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull)
-        {
-            if (Input.GetAxisRaw("Left Trigger") > 0)
-            {
-                if (_isLeftTriggerInUse == false)
-                {
-                    _pullObject = true;
-                    _playerLogic.isPulling = true;
-                    _isLeftTriggerInUse = true;
-                }
-            }
-            if (Input.GetAxisRaw("Left Trigger") <= 0)
-            {
-                _pullObject = false;
-                _playerLogic.isPulling = false;
-                _isLeftTriggerInUse = false;
-            }
-        }
-    }
+    //public void LeftTriggerButton()
+    //{
+    //    if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull)
+    //    {
+    //        if (Input.GetAxisRaw("Left Trigger") > 0)
+    //        {
+    //            if (_isLeftTriggerInUse == false)
+    //            {
+    //                _pullObject = true;
+    //                _playerLogic.isPulling = true;
+    //                _isLeftTriggerInUse = true;
+    //            }
+    //        }
+    //        if (Input.GetAxisRaw("Left Trigger") <= 0)
+    //        {
+    //            _pullObject = false;
+    //            _playerLogic.isPulling = false;
+    //            _isLeftTriggerInUse = false;
+    //        }
+    //    }
+    //}
 
-    public void RightTriggerButton()
-    {
-        if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Idle)
-        {
-            //if (Input.GetAxisRaw("Right Trigger") > 0)
-            //{
-            //    if (_isRightTriggerInUse == false)
-            //    {
-            //        _targeting = true;
-            //        ropeLogic.ActivateTargeting();
-            //        _isRightTriggerInUse = true;
-            //    }
-            //}
-            //if (Input.GetAxisRaw("Right Trigger") <= 0)
-            //{
-            //    if (_targeting)
-            //    {
-            //        _targeting = false;
-            //        ropeLogic.LaunchHook();
-            //    }
-            //    _isRightTriggerInUse = false;
-            //}
+    //public void RightTriggerButton()
+    //{
+    //    if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Idle)
+    //    {
+    //        //if (Input.GetAxisRaw("Right Trigger") > 0)
+    //        //{
+    //        //    if (_isRightTriggerInUse == false)
+    //        //    {
+    //        //        _targeting = true;
+    //        //        ropeLogic.ActivateTargeting();
+    //        //        _isRightTriggerInUse = true;
+    //        //    }
+    //        //}
+    //        //if (Input.GetAxisRaw("Right Trigger") <= 0)
+    //        //{
+    //        //    if (_targeting)
+    //        //    {
+    //        //        _targeting = false;
+    //        //        ropeLogic.LaunchHook();
+    //        //    }
+    //        //    _isRightTriggerInUse = false;
+    //        //}
 
-            if (Input.GetAxisRaw("Right Trigger") > 0)
-            {
-                if (_isRightTriggerInUse == false)
-                {
-                    ropeLogic.LaunchHook();
-                    _isRightTriggerInUse = true;
-                }
-            }
-            if (Input.GetAxisRaw("Right Trigger") <= 0)
-            {
-                _isRightTriggerInUse = false;
-            }
-        }
-        else if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Swing)
-        {
-            if (Input.GetAxisRaw("Right Trigger") > 0)
-            {
-                if (_isRightTriggerInUse == false)
-                {
-                    ropeLogic.DetachHook();
-                    _isRightTriggerInUse = true;
-                    _playerLogic.isPulling = false;
-                }
-            }
-            if (Input.GetAxisRaw("Right Trigger") <= 0)
-            {
-                _isRightTriggerInUse = false;
-            }
-        }
-    }
+    //        if (Input.GetAxisRaw("Right Trigger") > 0)
+    //        {
+    //            if (_isRightTriggerInUse == false)
+    //            {
+    //                ropeLogic.LaunchHook();
+    //                _isRightTriggerInUse = true;
+    //            }
+    //        }
+    //        if (Input.GetAxisRaw("Right Trigger") <= 0)
+    //        {
+    //            _isRightTriggerInUse = false;
+    //        }
+    //    }
+    //    else if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Swing)
+    //    {
+    //        if (Input.GetAxisRaw("Right Trigger") > 0)
+    //        {
+    //            if (_isRightTriggerInUse == false)
+    //            {
+    //                ropeLogic.DetachHook();
+    //                _isRightTriggerInUse = true;
+    //                _playerLogic.isPulling = false;
+    //            }
+    //        }
+    //        if (Input.GetAxisRaw("Right Trigger") <= 0)
+    //        {
+    //            _isRightTriggerInUse = false;
+    //        }
+    //    }
+    //}
 
     //public override void LeftShoulderButton()
     //{
@@ -358,7 +358,7 @@ public class RopeController : MonoBehaviour
             }
             else
             {
-                Debug.Log("Tie");
+                ropeLogic.TieRope();
             }
         }
     }
