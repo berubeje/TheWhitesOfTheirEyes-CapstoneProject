@@ -30,7 +30,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Release",
+                    "name": "Pull",
                     "type": "Button",
                     "id": "68967b1b-482a-42ca-861a-45886a620749",
                     "expectedControlType": "Button",
@@ -274,7 +274,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Release",
+                    "action": "Pull",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -285,7 +285,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Release",
+                    "action": "Pull",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

@@ -43,7 +43,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Release"",
+                    ""name"": ""Pull"",
                     ""type"": ""Button"",
                     ""id"": ""68967b1b-482a-42ca-861a-45886a620749"",
                     ""expectedControlType"": ""Button"",
@@ -287,7 +287,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Release"",
+                    ""action"": ""Pull"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -298,7 +298,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Release"",
+                    ""action"": ""Pull"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -901,7 +901,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
-        m_Player_Release = m_Player.FindAction("Release", throwIfNotFound: true);
+        m_Player_Pull = m_Player.FindAction("Pull", throwIfNotFound: true);
         m_Player_Roll = m_Player.FindAction("Roll", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
@@ -967,7 +967,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Fire;
-    private readonly InputAction m_Player_Release;
+    private readonly InputAction m_Player_Pull;
     private readonly InputAction m_Player_Roll;
     public struct PlayerActions
     {
@@ -976,7 +976,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
-        public InputAction @Release => m_Wrapper.m_Player_Release;
+        public InputAction @Pull => m_Wrapper.m_Player_Pull;
         public InputAction @Roll => m_Wrapper.m_Player_Roll;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -996,9 +996,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Fire.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
-                @Release.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRelease;
-                @Release.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRelease;
-                @Release.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRelease;
+                @Pull.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPull;
+                @Pull.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPull;
+                @Pull.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPull;
                 @Roll.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRoll;
                 @Roll.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRoll;
                 @Roll.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRoll;
@@ -1015,9 +1015,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Fire.started += instance.OnFire;
                 @Fire.performed += instance.OnFire;
                 @Fire.canceled += instance.OnFire;
-                @Release.started += instance.OnRelease;
-                @Release.performed += instance.OnRelease;
-                @Release.canceled += instance.OnRelease;
+                @Pull.started += instance.OnPull;
+                @Pull.performed += instance.OnPull;
+                @Pull.canceled += instance.OnPull;
                 @Roll.started += instance.OnRoll;
                 @Roll.performed += instance.OnRoll;
                 @Roll.canceled += instance.OnRoll;
@@ -1180,7 +1180,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
-        void OnRelease(InputAction.CallbackContext context);
+        void OnPull(InputAction.CallbackContext context);
         void OnRoll(InputAction.CallbackContext context);
     }
     public interface IUIActions
