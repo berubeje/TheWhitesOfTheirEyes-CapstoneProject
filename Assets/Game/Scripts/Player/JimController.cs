@@ -64,21 +64,6 @@ public class JimController : MonoBehaviour
     private int _swingIdleID;
     private int _swingLandID;
 
-    [SerializeField] private InputAction _movementAction;
-    [SerializeField] private InputAction _cameraAction;
-    [SerializeField] private InputAction _rollAction;
-    [SerializeField] private InputAction _jumpAction;
-    private void Awake()
-    {
-        _movementAction.performed += OnLeftStick;
-        _movementAction.canceled += OnLeftStick;
-        
-        _cameraAction.performed += OnRightStick;
-        _cameraAction.canceled += OnRightStick;
-        
-        _rollAction.performed += OnEastButtonDown;
-        _jumpAction.performed += OnSouthButtonDown;
-    }
     void Start()
     {
         _jimAnimator = GetComponent<Animator>();
@@ -106,7 +91,7 @@ public class JimController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        LeftAnalogStick();
+        MoveAndRotatePlayer();
 
         if (IsInIdleJump())
         {
@@ -145,9 +130,7 @@ public class JimController : MonoBehaviour
         #endregion
     }
 
-  
-
-    private void LeftAnalogStick()
+    private void MoveAndRotatePlayer ()
     {
         _jimAnimator.SetFloat("leftInputX", _leftStickInput.x);
         _jimAnimator.SetFloat("leftInputY", _leftStickInput.y);
@@ -198,7 +181,7 @@ public class JimController : MonoBehaviour
         }
     }
 
-    private void OnLeftStick(InputAction.CallbackContext context)
+    public void OnLeftStick(InputAction.CallbackContext context)
     {
         if (!isPulling)
         {
@@ -210,41 +193,17 @@ public class JimController : MonoBehaviour
         }
     }
 
-    private void OnRightStick(InputAction.CallbackContext context)
+    public void OnRightStick(InputAction.CallbackContext context)
     {
         _rightStickInput = context.ReadValue<Vector2>();
         virtualCamera.m_XAxis.m_InputAxisValue = _rightStickInput.x;
     }
 
-    private void OnEastButtonDown(InputAction.CallbackContext context)
+    public void OnEastButtonDown(InputAction.CallbackContext context)
     {
         _jimAnimator.SetTrigger("dodgeRoll");
     }
 
-    private void OnSouthButtonDown(InputAction.CallbackContext context)
-    {
-        if (IsInLocomotion() || IsInIdle())
-        {
-            _jimAnimator.SetTrigger("jump");
-        }
-        
-    }
-
-    private void OnEnable()
-    {
-        _movementAction.Enable();
-        _cameraAction.Enable();
-        _rollAction.Enable();
-        _jumpAction.Enable();
-    }
-
-    private void OnDisable()
-    {
-        _movementAction.Disable();
-        _cameraAction.Disable();
-        _rollAction.Disable();
-        _jumpAction.Disable();
-    }
 
     #region Utility functions to see if the animator is in the indicated state
     private bool IsInPivot()
