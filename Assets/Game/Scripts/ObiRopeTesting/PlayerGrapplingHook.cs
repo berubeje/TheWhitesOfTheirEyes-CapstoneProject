@@ -31,7 +31,9 @@ public class PlayerGrapplingHook : MonoBehaviour
     private GameObject _launchedProjectile;
     private JimController _jimController;
     private Animator _jimAnimator;
-            
+
+    private Vector3 _startingBasePosition;
+
 
     public RopeState ropeState;
     public enum RopeState
@@ -40,14 +42,13 @@ public class PlayerGrapplingHook : MonoBehaviour
         Launched,
         Landed,
         Swing,
-        Pull
+        Pull,
+        Tied
     }
-
-
 
     void Awake()
     {
-        
+
         // Create both the rope and the solver:	
         _rope = gameObject.AddComponent<ObiRope>();
         _ropeRenderer = gameObject.AddComponent<ObiRopeExtrudedRenderer>();
@@ -67,7 +68,7 @@ public class PlayerGrapplingHook : MonoBehaviour
 
         //Grab a reference to the player controller and animator
         _jimController = GetComponentInParent<JimController>();
-        if(_jimController == null)
+        if (_jimController == null)
         {
             Debug.LogError("No Jim Controller found in any parent.");
         }
@@ -77,6 +78,8 @@ public class PlayerGrapplingHook : MonoBehaviour
         {
             Debug.LogError("No animator found in any parent.");
         }
+
+        _startingBasePosition = character.transform.localPosition;
     }
 
 
@@ -95,7 +98,7 @@ public class PlayerGrapplingHook : MonoBehaviour
             return;
         }
 
-        if(mouseTargeting)
+        if (mouseTargeting)
         {
             // Get the mouse position in the scene, in the same XY plane as this object:
             Vector3 mouse = Input.mousePosition;
@@ -129,15 +132,9 @@ public class PlayerGrapplingHook : MonoBehaviour
 
     public void TargetReached()
     {
-        // _cursor.ChangeLength(0.0f);
-
         ropeState = RopeState.Landed;
 
-
-        //_rope.ropeBlueprint = null;
-        //StartCoroutine(AttachHook());
-
-        if(targetAnchor.anchorType == RopeAnchorPoint.AnchorType.Swing)
+        if (targetAnchor.anchorType == RopeAnchorPoint.AnchorType.Swing)
         {
             ropeState = RopeState.Swing;
             _jimController.anchor = targetAnchor.transform;
@@ -147,6 +144,20 @@ public class PlayerGrapplingHook : MonoBehaviour
         else
         {
             ropeState = RopeState.Pull;
+        }
+
+        targetCone.TieSizeToggle(true);
+    }
+
+    public void TieRope()
+    {
+        RopeAnchorPoint tieTarget = targetCone.GetTarget();
+
+        if (tieTarget != null)
+        {
+            character.transform.position = tieTarget.transform.position;
+
+            ropeState = RopeState.Tied;
         }
     }
 
@@ -181,25 +192,34 @@ public class PlayerGrapplingHook : MonoBehaviour
     public void DetachHook()
     {
         // Set the rope blueprint to null (automatically removes the previous blueprint from the solver, if any).
+
+
+
         _rope.ropeBlueprint = null;
         _rope.GetComponent<MeshRenderer>().enabled = false;
         Destroy(_launchedProjectile);
 
-        if(ropeState == RopeState.Swing)
+        if (ropeState == RopeState.Swing)
         {
             _jimAnimator.SetTrigger("swingLand");
             _jimAnimator.SetBool("swingIdle", false);
+        }
+        else if(ropeState == RopeState.Tied)
+        {
+            character.transform.localPosition = _startingBasePosition;
         }
 
 
         ropeState = RopeState.Idle;
         targetAnchor = null;
+        targetCone.TieSizeToggle(false);
     }
 
     public float GetRopeLength()
     {
         return _rope.CalculateLength();
     }
+
     public float GetDistanceBetweenEnds()
     {
         return Vector3.Distance(character.transform.position, targetAnchor.transform.position);
@@ -212,7 +232,7 @@ public class PlayerGrapplingHook : MonoBehaviour
 
     public void AdjustRopeLength(float length)
     {
-        if(_rope.ropeBlueprint == null || length < 0)
+        if (_rope.ropeBlueprint == null || length < 0)
         {
             return;
         }
@@ -226,8 +246,8 @@ public class PlayerGrapplingHook : MonoBehaviour
         {
             AdjustRopeLength(Vector3.Distance(character.transform.position, _launchedProjectile.transform.position));
         }
-        
-        if(ropeState == RopeState.Swing)
+
+        if (ropeState == RopeState.Swing)
         {
             AdjustRopeLength(Vector3.Distance(character.transform.position, targetAnchor.transform.position) + currentRopeLengthOffset);
         }
