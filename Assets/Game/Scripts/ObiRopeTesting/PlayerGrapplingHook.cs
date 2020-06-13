@@ -44,6 +44,7 @@ public class PlayerGrapplingHook : MonoBehaviour
         Landed,
         Swing,
         Pull,
+        Returning,
         Tied
     }
 
@@ -126,7 +127,7 @@ public class PlayerGrapplingHook : MonoBehaviour
         {
             _launchedProjectile = Instantiate(ropeProjectile, character.transform.position, ropeProjectile.transform.rotation);
             MagicRopeProjectileLogic projectileLogic = _launchedProjectile.GetComponent<MagicRopeProjectileLogic>();
-            projectileLogic.SetupProjectile(targetAnchor.transform.position, this, targetAnchor.gameObject);
+            projectileLogic.SetupProjectile(targetAnchor.transform, this, targetAnchor.gameObject);
             ropeState = RopeState.Launched;
             StartCoroutine(AttachHook());
         }
@@ -197,10 +198,11 @@ public class PlayerGrapplingHook : MonoBehaviour
         // Set the rope blueprint to null (automatically removes the previous blueprint from the solver, if any).
 
 
-
-        _rope.ropeBlueprint = null;
-        _rope.GetComponent<MeshRenderer>().enabled = false;
-        Destroy(_launchedProjectile);
+        if (ropeState == RopeState.Swing || ropeState == RopeState.Pull)
+        {
+            _launchedProjectile.GetComponent<MagicRopeProjectileLogic>().RopeReturn(character.transform);
+            ropeState = RopeState.Returning;
+        }
 
         if (ropeState == RopeState.Swing)
         {
@@ -211,12 +213,21 @@ public class PlayerGrapplingHook : MonoBehaviour
         {
             character.transform.parent = _startingBaseParent;
             character.transform.localPosition = _startingBasePosition;
+            ropeState = RopeState.Idle;
+
         }
 
 
-        ropeState = RopeState.Idle;
         targetAnchor = null;
         targetCone.TieSizeToggle(false);
+    }
+
+    public void RopeReturned()
+    {
+        _rope.ropeBlueprint = null;
+        _rope.GetComponent<MeshRenderer>().enabled = false;
+        ropeState = RopeState.Idle;
+
     }
 
     public float GetRopeLength()

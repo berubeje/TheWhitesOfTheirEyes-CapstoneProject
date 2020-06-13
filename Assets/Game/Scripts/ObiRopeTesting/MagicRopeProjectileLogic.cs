@@ -8,10 +8,11 @@ public class MagicRopeProjectileLogic : MonoBehaviour
     public float projectileSpeed;
 
     private PlayerGrapplingHook _grapplingHookLogic;
-    private Vector3 _targetPosition;
+    private Transform _targetTransform;
     private GameObject _targetGameObject;
     private bool _targetReached = false;
     private Rigidbody _rigidBody;
+    private bool _returning;
 
 
 
@@ -30,27 +31,36 @@ public class MagicRopeProjectileLogic : MonoBehaviour
         if (_targetReached == false)
         {
             float step = projectileSpeed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, _targetPosition, step);
+            transform.position = Vector3.MoveTowards(transform.position, _targetTransform.position, step);
 
-            if (Vector3.Distance(transform.position, _targetPosition) < 0.001f)
+            if (Vector3.Distance(transform.position, _targetTransform.position) < 0.001f)
             {
-                _grapplingHookLogic.TargetReached();
-                _targetReached = true;
-
-                //if (_targetGameObject.GetComponent<BoxScript>() != null)
-                //{
-                // rigidBody.isKinematic = false;
-                transform.parent = _targetGameObject.transform;
-
-                //}
+                if (!_returning)
+                {
+                    _grapplingHookLogic.TargetReached();
+                    _targetReached = true;
+                    transform.parent = _targetGameObject.transform;
+                }
+                else
+                {
+                    _grapplingHookLogic.RopeReturned();
+                    Destroy(this.gameObject);
+                }
 
             }
         }
     }
 
-    public void SetupProjectile(Vector3 position, PlayerGrapplingHook grappling, GameObject target)
+    public void RopeReturn(Transform ropeBase)
+    { 
+        _targetTransform = ropeBase;
+        _targetReached = false;
+        _returning = true;
+    }
+
+    public void SetupProjectile(Transform targetTransform, PlayerGrapplingHook grappling, GameObject target)
     {
-        _targetPosition = position;
+        _targetTransform = targetTransform;
         _grapplingHookLogic = grappling;
         _targetGameObject = target;
     }

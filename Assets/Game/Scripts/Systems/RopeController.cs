@@ -234,6 +234,7 @@ public class RopeController : MonoBehaviour
                         _playerRigidBody.isKinematic = false;
                         _animator.applyRootMotion = true;
 
+                        
                         if (ropeLogic.targetAnchor.transform.parent != null)
                         {
                             _targetRigidBody = ropeLogic.targetAnchor.transform.parent.GetComponent<Rigidbody>();
