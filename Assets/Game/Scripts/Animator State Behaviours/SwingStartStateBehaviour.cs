@@ -45,8 +45,8 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
         _initialRotation = animator.transform.rotation;
 
         // Grab the direction from the player to the anchor and kill the y value
-        _lookDirection = _anchor.position - animator.transform.position;
-        _lookDirection.y *= -1;
+        _lookDirection = Vector3.Cross(_anchor.position - animator.transform.position, -animator.transform.right);
+
 
         // Grab the direction from the anchor to the player and normalize it 
         _reelDirection = (animator.transform.position - _anchor.position).normalized;

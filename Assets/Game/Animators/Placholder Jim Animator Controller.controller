@@ -790,6 +790,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e16192a2f98d4334a97c120f0bbba2b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lerpToStartPointSpeed: 0
   swingArcLimit: 0
   swingSpeed: 0
   swingRadius: 0
@@ -814,6 +815,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e16192a2f98d4334a97c120f0bbba2b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lerpToStartPointSpeed: 15
   swingArcLimit: 70
   swingSpeed: 15
   swingRadius: 5

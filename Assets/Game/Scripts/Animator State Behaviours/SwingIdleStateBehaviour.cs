@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class SwingIdleStateBehaviour : StateMachineBehaviour
 {
+    public float lerpToStartPointSpeed;
     public float swingArcLimit;
     public float swingSpeed;
     public float swingRadius;
@@ -36,6 +37,11 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
     private float _percentOfSwing;
     private Vector3 _swingStartPoint;
     private Vector3 _swingForward;
+
+    private bool _isBeyondArcLimit;
+    private Vector3 _initialSwingPosition;
+    private float _lerpRate;
+    private float _interpolant;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -104,18 +110,23 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         _backwardArcLimit = _anchor.position - (_swingForward * xLimit);
         _backwardArcLimit.y -= yLimit;
 
+        _initialSwingPosition = animator.transform.position;
         _pendulumArm = _anchor.position - animator.transform.position;
 
         _angle = Vector3.Angle(Vector3.up, _pendulumArm);
+        _angle = Mathf.Round(_angle * 10.0f) / 10.0f;
 
         _swingStartPoint = _backwardArcLimit;
         _percentOfSwing = Vector3.Angle(_swingStartPoint - _anchor.position, -_pendulumArm) / (swingArcLimit*2);
         animator.SetFloat("percentOfSwing", _percentOfSwing);
 
-        // Snap to the backward limit if the approach angle was too high
-        if(_angle >= swingArcLimit)
+        // Lerp to the backward limit if the approach angle was too high
+        if(_angle > swingArcLimit)
         {
-            animator.transform.position = _backwardArcLimit;
+            Debug.Log(" START  " + _angle);
+            _lerpRate = (lerpToStartPointSpeed * Time.deltaTime) / swingRadius;
+            _interpolant = 0.0f;
+            _isBeyondArcLimit = true;
         }
 
     }
@@ -124,8 +135,24 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
     {
         if(!animator.GetAnimatorTransitionInfo(0).IsName("SwingIdle -> FallIdle"))
         {
-            _rigidbody.MovePosition(CalculateArcPosition(animator));
-            _rigidbody.MoveRotation(Quaternion.LookRotation(_releaseDirection * _direction));
+            if (_isBeyondArcLimit)
+            {
+                Vector3 targetPosition = Vector3.Lerp(_initialSwingPosition, _backwardArcLimit, _interpolant);
+                _rigidbody.MovePosition(targetPosition);
+                if (_interpolant >= 1)
+                {
+                    _isBeyondArcLimit = false;
+                    _interpolant = 0.0f;
+                }
+                _interpolant += _lerpRate;
+            }
+            else
+            {
+                _rigidbody.MovePosition(CalculateArcPosition(animator));
+                _rigidbody.MoveRotation(Quaternion.LookRotation(_releaseDirection * _direction));
+                Debug.Log(_angle);
+            }
+            
         }
         else
         {
