@@ -25,9 +25,7 @@ public class PlayerGrapplingHook : MonoBehaviour
     private ObiRopeExtrudedRenderer _ropeRenderer;
 
     private ObiRopeCursor _cursor;
-
     private RaycastHit _hookAttachment;
-
     private GameObject _launchedProjectile;
     private JimController _jimController;
     private Animator _jimAnimator;
@@ -35,6 +33,7 @@ public class PlayerGrapplingHook : MonoBehaviour
     private Vector3 _startingBasePosition;
     private Transform _startingBaseParent;
 
+    private bool _ropeReturning;
 
     public RopeState ropeState;
     public enum RopeState
@@ -44,7 +43,6 @@ public class PlayerGrapplingHook : MonoBehaviour
         Landed,
         Swing,
         Pull,
-        Returning,
         Tied
     }
 
@@ -83,6 +81,13 @@ public class PlayerGrapplingHook : MonoBehaviour
 
         _startingBasePosition = character.transform.localPosition;
         _startingBaseParent = character.transform.parent;
+
+        MagicRopeProjectileLogic ropeBaseLogic =  character.GetComponent<MagicRopeProjectileLogic>();
+
+        if(ropeBaseLogic != null)
+        {
+            ropeBaseLogic.SetupGrappleHook(this);
+        }
     }
 
 
@@ -125,6 +130,11 @@ public class PlayerGrapplingHook : MonoBehaviour
 
         if (targetAnchor != null)
         {
+            if(_ropeReturning == true)
+            {
+                RopeReturned();
+            }
+
             _launchedProjectile = Instantiate(ropeProjectile, character.transform.position, ropeProjectile.transform.rotation);
             MagicRopeProjectileLogic projectileLogic = _launchedProjectile.GetComponent<MagicRopeProjectileLogic>();
             projectileLogic.SetupProjectile(targetAnchor.transform, this, targetAnchor.gameObject);
@@ -201,19 +211,28 @@ public class PlayerGrapplingHook : MonoBehaviour
         if (ropeState == RopeState.Swing || ropeState == RopeState.Pull)
         {
             _launchedProjectile.GetComponent<MagicRopeProjectileLogic>().RopeReturn(character.transform);
-            ropeState = RopeState.Returning;
+            _ropeReturning = true;
+            ropeState = RopeState.Idle;
+
         }
 
         if (ropeState == RopeState.Swing)
         {
             _jimAnimator.SetTrigger("swingLand");
             _jimAnimator.SetBool("swingIdle", false);
+
         }
         else if(ropeState == RopeState.Tied)
         {
-            character.transform.parent = _startingBaseParent;
-            character.transform.localPosition = _startingBasePosition;
-            ropeState = RopeState.Idle;
+            MagicRopeProjectileLogic ropeBaseLogic = character.GetComponent<MagicRopeProjectileLogic>();
+            Destroy(_launchedProjectile);
+
+            if(ropeBaseLogic != null)
+            {
+                ropeBaseLogic.RopeReturn();
+                _rope.ropeBlueprint = null;
+                _rope.GetComponent<MeshRenderer>().enabled = false;
+            }
 
         }
 
@@ -224,6 +243,20 @@ public class PlayerGrapplingHook : MonoBehaviour
 
     public void RopeReturned()
     {
+        if (_launchedProjectile != null)
+        {
+            Destroy(_launchedProjectile);
+        }
+
+        if(ropeState == RopeState.Tied)
+        {
+            character.transform.parent = _startingBaseParent;
+            character.transform.localPosition = _startingBasePosition;
+
+
+        }
+
+        _ropeReturning = false;
         _rope.ropeBlueprint = null;
         _rope.GetComponent<MeshRenderer>().enabled = false;
         ropeState = RopeState.Idle;

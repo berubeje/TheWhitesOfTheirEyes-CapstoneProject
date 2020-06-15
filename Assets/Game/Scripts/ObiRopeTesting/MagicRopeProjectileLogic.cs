@@ -6,11 +6,12 @@ using UnityEngine;
 public class MagicRopeProjectileLogic : MonoBehaviour
 {
     public float projectileSpeed;
+    public Transform ropeBaseReturnTransform;
 
     private PlayerGrapplingHook _grapplingHookLogic;
     private Transform _targetTransform;
     private GameObject _targetGameObject;
-    private bool _targetReached = false;
+    private bool _targetReached = true;
     private Rigidbody _rigidBody;
     private bool _returning;
 
@@ -31,6 +32,8 @@ public class MagicRopeProjectileLogic : MonoBehaviour
         if (_targetReached == false)
         {
             float step = projectileSpeed * Time.deltaTime;
+
+
             transform.position = Vector3.MoveTowards(transform.position, _targetTransform.position, step);
 
             if (Vector3.Distance(transform.position, _targetTransform.position) < 0.001f)
@@ -44,16 +47,28 @@ public class MagicRopeProjectileLogic : MonoBehaviour
                 else
                 {
                     _grapplingHookLogic.RopeReturned();
-                    Destroy(this.gameObject);
-                }
 
+                    if(_targetTransform == ropeBaseReturnTransform)
+                    {
+                        _returning = false;
+                        _targetReached = true;
+                    }
+                }
             }
+
         }
     }
 
     public void RopeReturn(Transform ropeBase)
-    { 
+    {
         _targetTransform = ropeBase;
+        _targetReached = false;
+        _returning = true;
+    }
+
+    public void RopeReturn()
+    {
+        _targetTransform = ropeBaseReturnTransform;
         _targetReached = false;
         _returning = true;
     }
@@ -63,5 +78,11 @@ public class MagicRopeProjectileLogic : MonoBehaviour
         _targetTransform = targetTransform;
         _grapplingHookLogic = grappling;
         _targetGameObject = target;
+        _targetReached = false;
+    }
+
+    public void SetupGrappleHook(PlayerGrapplingHook grappling)
+    {
+        _grapplingHookLogic = grappling;
     }
 }
