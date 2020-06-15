@@ -123,7 +123,6 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         // Lerp to the backward limit if the approach angle was too high
         if(_angle > swingArcLimit)
         {
-            Debug.Log(" START  " + _angle);
             _lerpRate = (lerpToStartPointSpeed * Time.deltaTime) / swingRadius;
             _interpolant = 0.0f;
             _isBeyondArcLimit = true;
@@ -150,7 +149,6 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
             {
                 _rigidbody.MovePosition(CalculateArcPosition(animator));
                 _rigidbody.MoveRotation(Quaternion.LookRotation(_releaseDirection * _direction));
-                Debug.Log(_angle);
             }
             
         }
