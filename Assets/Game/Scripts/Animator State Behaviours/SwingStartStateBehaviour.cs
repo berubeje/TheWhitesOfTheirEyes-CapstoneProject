@@ -45,8 +45,8 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
         _initialRotation = animator.transform.rotation;
 
         // Grab the direction from the player to the anchor and kill the y value
-        _lookDirection = Vector3.Cross(_anchor.position - animator.transform.position, -animator.transform.right);
-
+        _lookDirection = (_anchor.position - animator.transform.position);
+        _lookDirection.y = Vector3.Cross(_lookDirection, -animator.transform.right).y;
 
         // Grab the direction from the anchor to the player and normalize it 
         _reelDirection = (animator.transform.position - _anchor.position).normalized;
@@ -64,7 +64,7 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Debug.DrawLine(_initialPosition, _reelLocation, Color.magenta);
-
+        Debug.DrawRay(_initialPosition, _lookDirection, Color.red);
 
         Vector3 targetPosition = Vector3.Lerp(_initialPosition, _reelLocation, _interpolant);
         Quaternion targetRotation = Quaternion.Lerp(_initialRotation, _lookRotation, _interpolant);

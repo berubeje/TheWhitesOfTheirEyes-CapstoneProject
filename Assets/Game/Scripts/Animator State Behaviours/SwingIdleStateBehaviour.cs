@@ -38,8 +38,12 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
     private Vector3 _swingStartPoint;
     private Vector3 _swingForward;
 
+    // Parameters to lerp to height of the swing if player begins from beyond the swing arc limit
     private bool _isBeyondArcLimit;
     private Vector3 _initialSwingPosition;
+    private Quaternion _initialSwingRotation;
+    private Vector3 _lookDirection;
+    private Quaternion _lookRotation;
     private float _lerpRate;
     private float _interpolant;
 
@@ -71,8 +75,11 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
             Debug.LogError("Unable to find Spline Route object");
         }
 
+        _initialSwingPosition = animator.transform.position;
+        _initialSwingRotation = animator.transform.rotation;
+
         // Create forward vector because player is rotated
-        _swingForward = _anchor.position - animator.transform.position;
+        _swingForward = _anchor.position - _initialSwingPosition;
         _swingForward.y = 0;
         _swingForward = _swingForward.normalized;
 
@@ -110,8 +117,7 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         _backwardArcLimit = _anchor.position - (_swingForward * xLimit);
         _backwardArcLimit.y -= yLimit;
 
-        _initialSwingPosition = animator.transform.position;
-        _pendulumArm = _anchor.position - animator.transform.position;
+        _pendulumArm = _anchor.position - _initialSwingPosition;
 
         _angle = Vector3.Angle(Vector3.up, _pendulumArm);
         _angle = Mathf.Round(_angle * 10.0f) / 10.0f;
@@ -124,6 +130,9 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         if(_angle > swingArcLimit)
         {
             _lerpRate = (lerpToStartPointSpeed * Time.deltaTime) / swingRadius;
+
+            _lookDirection = Quaternion.AngleAxis(90, animator.transform.right) * (_anchor.position - _backwardArcLimit);
+            _lookRotation = Quaternion.LookRotation(_lookDirection);
             _interpolant = 0.0f;
             _isBeyondArcLimit = true;
         }
@@ -136,8 +145,11 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         {
             if (_isBeyondArcLimit)
             {
+                Debug.DrawRay(_initialSwingPosition, _lookDirection, Color.blue);
                 Vector3 targetPosition = Vector3.Lerp(_initialSwingPosition, _backwardArcLimit, _interpolant);
+                Quaternion targetRotation = Quaternion.Lerp(_initialSwingRotation, _lookRotation, _interpolant);
                 _rigidbody.MovePosition(targetPosition);
+                _rigidbody.MoveRotation(targetRotation);
                 if (_interpolant >= 1)
                 {
                     _isBeyondArcLimit = false;
