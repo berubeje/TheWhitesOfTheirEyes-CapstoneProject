@@ -14,12 +14,17 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
     private Rigidbody _rigidbody;
 
     private Vector3 _initialPosition;
+    private Quaternion _initialRotation;
     private Vector3 _lookDirection;
     private Vector3 _reelDirection;
     private Vector3 _reelLocation;
-    private float _interpolant = 0.0f;
+    private Quaternion _lookRotation;
+    private float _interpolant;
+    private float _lerpRate;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        _interpolant = 0.0f;
+
         _grapplingHook = animator.GetComponentInChildren<PlayerGrapplingHook>();
 
         if (_grapplingHook == null)
@@ -37,34 +42,45 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
         }
 
         _initialPosition = animator.transform.position;
+        _initialRotation = animator.transform.rotation;
 
         // Grab the direction from the player to the anchor and kill the y value
-        _lookDirection = _anchor.position - animator.transform.position;
-        _lookDirection.y *= -1;
+        _lookDirection = (_anchor.position - animator.transform.position);
+        _lookDirection.y = Vector3.Cross(_lookDirection, -animator.transform.right).y;
 
         // Grab the direction from the anchor to the player and normalize it 
         _reelDirection = (animator.transform.position - _anchor.position).normalized;
 
         // Calculate the point to be reeled to
         _reelLocation = _anchor.position + (_reelDirection * swingRadius);
+
+        // Direction player needs to rotate to
+        _lookRotation = Quaternion.LookRotation(_lookDirection);
+
+        _lerpRate = (reelInSpeed * Time.deltaTime) / Vector3.Distance(_reelLocation, _initialPosition);
+
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Debug.DrawLine(_initialPosition, _reelLocation, Color.magenta);
+        Debug.DrawRay(_initialPosition, _lookDirection, Color.red);
 
-        animator.transform.Translate(-_reelDirection * reelInSpeed * Time.deltaTime, Space.World);
+        Vector3 targetPosition = Vector3.Lerp(_initialPosition, _reelLocation, _interpolant);
+        Quaternion targetRotation = Quaternion.Lerp(_initialRotation, _lookRotation, _interpolant);
 
-        Quaternion targetRotation = Quaternion.LookRotation(_lookDirection);
-        animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, targetRotation, faceAnchorSpeed);
+        _rigidbody.MovePosition(targetPosition);
+        _rigidbody.MoveRotation(targetRotation);
 
-        if (Vector3.Distance(animator.transform.position, _anchor.position) <= swingRadius)
+        if (_interpolant >= 1.0f)
         {
             animator.transform.position = _reelLocation;
             float cycleOffset = (swingArcLimit - Vector3.Angle(_anchor.position - animator.transform.position, Vector3.up)) / (swingArcLimit * 2);
             animator.SetFloat("cycleOffset", cycleOffset);
             animator.SetTrigger("swingIdle");
         }
+
+        _interpolant += _lerpRate;
     }
 
     //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
