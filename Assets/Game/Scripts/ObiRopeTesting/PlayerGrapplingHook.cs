@@ -212,16 +212,18 @@ public class PlayerGrapplingHook : MonoBehaviour
         {
             _launchedProjectile.GetComponent<MagicRopeProjectileLogic>().RopeReturn(character.transform);
             _ropeReturning = true;
+
+            if (ropeState == RopeState.Swing)
+            {
+                _jimAnimator.SetTrigger("swingLand");
+                _jimAnimator.SetBool("swingIdle", false);
+
+            }
+
             ropeState = RopeState.Idle;
 
         }
 
-        if (ropeState == RopeState.Swing)
-        {
-            _jimAnimator.SetTrigger("swingLand");
-            _jimAnimator.SetBool("swingIdle", false);
-
-        }
         else if(ropeState == RopeState.Tied)
         {
             MagicRopeProjectileLogic ropeBaseLogic = character.GetComponent<MagicRopeProjectileLogic>();
