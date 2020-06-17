@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6395709470888653678}
   - component: {fileID: 2671068518023591217}
   - component: {fileID: 6884755424390405828}
+  - component: {fileID: 9096748646120667386}
   m_Layer: 0
   m_Name: MagicRopeBase
   m_TagString: Untagged
@@ -114,6 +115,19 @@ MonoBehaviour:
   accurateContacts: 0
   useDistanceFields: 0
   distanceField: {fileID: 0}
+--- !u!114 &9096748646120667386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1067177962333391629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9419175d5fed24d48b5c3747926b8927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectileSpeed: 20
 --- !u!1 &4800749148657922653
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,13 +171,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eefad83f4fd11aa4089863f3fd85da96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blueprint: {fileID: 0}
   solver: {fileID: 0}
   character: {fileID: 6884755424390405828}
-  hookExtendRetractSpeed: 2
   material: {fileID: 2100000, guid: fc3471413290e114c928d844fe787bf1, type: 2}
   section: {fileID: 11400000, guid: a0bc36a59515f413e90e10895929c938, type: 2}
-  ropeMass: 0.1
   ropeProjectile: {fileID: 4207521725281020586, guid: 4056e867c4fefc54c908b27230bd5827,
     type: 3}
-  hookOut: 0
-  launched: 0
+  targetAnchor: {fileID: 0}
+  targetCone: {fileID: 0}
+  mouseTargeting: 0
+  currentRopeLengthOffset: 0
+  ropeState: 0
