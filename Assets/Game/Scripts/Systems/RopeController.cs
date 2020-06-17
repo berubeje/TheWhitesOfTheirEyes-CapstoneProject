@@ -284,13 +284,12 @@ public class RopeController : MonoBehaviour
             }
 
         }
-        else if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Swing || ropeLogic.ropeState ==  PlayerGrapplingHook.RopeState.Tied)
+        else if (ropeLogic.ropeState ==  PlayerGrapplingHook.RopeState.Tied)
         {
             if (_isRightTriggerInUse == false)
             {
                 ropeLogic.DetachHook();
                 _isRightTriggerInUse = true;
-                _playerLogic.isPulling = false;
             }
 
         }
@@ -299,6 +298,16 @@ public class RopeController : MonoBehaviour
     public void OnRightTriggerUp(InputAction.CallbackContext context)
     {
         _isRightTriggerInUse = false;
+
+        if(ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Swing)
+        {
+            ropeLogic.DetachHook();
+            _playerLogic.isPulling = false;
+        }
+        else if(ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Launched)
+        {
+            ropeLogic.CancelLaunch();
+        }
     }
 
     //public void OnLeftTriggerDown(InputAction.CallbackContext context)
