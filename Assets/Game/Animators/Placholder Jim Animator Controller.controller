@@ -1334,7 +1334,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: 129ff196333f35b4dacc0b1e9a34aede,
+  m_Motion: {fileID: -203655887218126122, guid: 038c1a88c7146254d8236cafa796fc57,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -1359,7 +1359,7 @@ BlendTree:
     m_DirectBlendParameter: leftInputMagnitude
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: 5e8e89ca8407580499eec10646f1d1e2,
+    m_Motion: {fileID: -203655887218126122, guid: 2e0ee9483a7550b4d92fcfbfd6f40f1c,
       type: 3}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
