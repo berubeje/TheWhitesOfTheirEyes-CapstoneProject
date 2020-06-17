@@ -6,12 +6,14 @@ using UnityEngine;
 public class MagicRopeProjectileLogic : MonoBehaviour
 {
     public float projectileSpeed;
+    public Transform ropeBaseReturnTransform;
 
     private PlayerGrapplingHook _grapplingHookLogic;
-    private Vector3 _targetPosition;
+    private Transform _targetTransform;
     private GameObject _targetGameObject;
-    private bool _targetReached = false;
+    private bool _targetReached = true;
     private Rigidbody _rigidBody;
+    private bool _returning;
 
 
 
@@ -30,28 +32,57 @@ public class MagicRopeProjectileLogic : MonoBehaviour
         if (_targetReached == false)
         {
             float step = projectileSpeed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, _targetPosition, step);
 
-            if (Vector3.Distance(transform.position, _targetPosition) < 0.001f)
+
+            transform.position = Vector3.MoveTowards(transform.position, _targetTransform.position, step);
+
+            if (Vector3.Distance(transform.position, _targetTransform.position) < 0.001f)
             {
-                _grapplingHookLogic.TargetReached();
-                _targetReached = true;
+                if (!_returning)
+                {
+                    _grapplingHookLogic.TargetReached();
+                    _targetReached = true;
+                    transform.parent = _targetGameObject.transform;
+                }
+                else
+                {
+                    _grapplingHookLogic.RopeReturned();
 
-                //if (_targetGameObject.GetComponent<BoxScript>() != null)
-                //{
-                // rigidBody.isKinematic = false;
-                transform.parent = _targetGameObject.transform;
-
-                //}
-
+                    if(_targetTransform == ropeBaseReturnTransform)
+                    {
+                        _returning = false;
+                        _targetReached = true;
+                    }
+                }
             }
+
         }
     }
 
-    public void SetupProjectile(Vector3 position, PlayerGrapplingHook grappling, GameObject target)
+    public void RopeReturn(Transform ropeBase)
     {
-        _targetPosition = position;
+        _targetTransform = ropeBase;
+        _targetReached = false;
+        _returning = true;
+    }
+
+    public void RopeReturn()
+    {
+        _targetTransform = ropeBaseReturnTransform;
+        _targetReached = false;
+        _returning = true;
+    }
+
+    public void SetupProjectile(Transform targetTransform, PlayerGrapplingHook grappling, GameObject target)
+    {
+        _targetTransform = targetTransform;
         _grapplingHookLogic = grappling;
         _targetGameObject = target;
+        _targetReached = false;
+    }
+
+    public void SetupGrappleHook(PlayerGrapplingHook grappling)
+    {
+        _grapplingHookLogic = grappling;
     }
 }

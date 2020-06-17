@@ -25,15 +25,15 @@ public class PlayerGrapplingHook : MonoBehaviour
     private ObiRopeExtrudedRenderer _ropeRenderer;
 
     private ObiRopeCursor _cursor;
-
     private RaycastHit _hookAttachment;
-
     private GameObject _launchedProjectile;
     private JimController _jimController;
     private Animator _jimAnimator;
 
     private Vector3 _startingBasePosition;
+    private Transform _startingBaseParent;
 
+    private bool _ropeReturning;
 
     public RopeState ropeState;
     public enum RopeState
@@ -80,6 +80,14 @@ public class PlayerGrapplingHook : MonoBehaviour
         }
 
         _startingBasePosition = character.transform.localPosition;
+        _startingBaseParent = character.transform.parent;
+
+        MagicRopeProjectileLogic ropeBaseLogic =  character.GetComponent<MagicRopeProjectileLogic>();
+
+        if(ropeBaseLogic != null)
+        {
+            ropeBaseLogic.SetupGrappleHook(this);
+        }
     }
 
 
@@ -122,9 +130,14 @@ public class PlayerGrapplingHook : MonoBehaviour
 
         if (targetAnchor != null)
         {
+            if(_ropeReturning == true)
+            {
+                RopeReturned();
+            }
+
             _launchedProjectile = Instantiate(ropeProjectile, character.transform.position, ropeProjectile.transform.rotation);
             MagicRopeProjectileLogic projectileLogic = _launchedProjectile.GetComponent<MagicRopeProjectileLogic>();
-            projectileLogic.SetupProjectile(targetAnchor.transform.position, this, targetAnchor.gameObject);
+            projectileLogic.SetupProjectile(targetAnchor.transform, this, targetAnchor.gameObject);
             ropeState = RopeState.Launched;
             StartCoroutine(AttachHook());
         }
@@ -156,6 +169,7 @@ public class PlayerGrapplingHook : MonoBehaviour
         if (tieTarget != null)
         {
             character.transform.position = tieTarget.transform.position;
+            character.transform.parent = tieTarget.transform;
 
             ropeState = RopeState.Tied;
         }
@@ -194,25 +208,61 @@ public class PlayerGrapplingHook : MonoBehaviour
         // Set the rope blueprint to null (automatically removes the previous blueprint from the solver, if any).
 
 
-
-        _rope.ropeBlueprint = null;
-        _rope.GetComponent<MeshRenderer>().enabled = false;
-        Destroy(_launchedProjectile);
-
-        if (ropeState == RopeState.Swing)
+        if (ropeState == RopeState.Swing || ropeState == RopeState.Pull)
         {
-            _jimAnimator.SetTrigger("swingLand");
-            _jimAnimator.SetBool("swingIdle", false);
+            _launchedProjectile.GetComponent<MagicRopeProjectileLogic>().RopeReturn(character.transform);
+            _ropeReturning = true;
+
+            if (ropeState == RopeState.Swing)
+            {
+                _jimAnimator.SetTrigger("swingLand");
+                _jimAnimator.SetBool("swingIdle", false);
+
+            }
+
+            ropeState = RopeState.Idle;
+
         }
+
         else if(ropeState == RopeState.Tied)
         {
-            character.transform.localPosition = _startingBasePosition;
+            MagicRopeProjectileLogic ropeBaseLogic = character.GetComponent<MagicRopeProjectileLogic>();
+            Destroy(_launchedProjectile);
+
+            if(ropeBaseLogic != null)
+            {
+                ropeBaseLogic.RopeReturn();
+                _rope.ropeBlueprint = null;
+                _rope.GetComponent<MeshRenderer>().enabled = false;
+            }
+
         }
 
 
-        ropeState = RopeState.Idle;
         targetAnchor = null;
         targetCone.TieSizeToggle(false);
+    }
+
+    public void RopeReturned()
+    {
+        if (_launchedProjectile != null)
+        {
+            Destroy(_launchedProjectile);
+        }
+
+        if(ropeState == RopeState.Tied)
+        {
+            character.transform.parent = _startingBaseParent;
+            character.transform.localPosition = _startingBasePosition;
+
+
+        }
+
+        _ropeReturning = false;
+        _rope.ropeBlueprint = null;
+        _rope.GetComponent<MeshRenderer>().enabled = false;
+        ropeState = RopeState.Idle;
+
     }
 
     public float GetRopeLength()

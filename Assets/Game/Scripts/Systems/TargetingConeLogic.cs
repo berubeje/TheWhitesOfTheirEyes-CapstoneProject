@@ -20,7 +20,7 @@ public class TargetingConeLogic : MonoBehaviour
 
     private void Start()
     {
-        _startSize = transform.localScale;
+        _startSize = transform.parent.localScale;
         //_startRot = transform.eulerAngles;
     }
 
@@ -50,11 +50,11 @@ public class TargetingConeLogic : MonoBehaviour
     {
         if(set)
         {
-            transform.localScale = tieTargetSize;
+            transform.parent.localScale = tieTargetSize;
         }
         else
         {
-            transform.localScale = _startSize;
+            transform.parent.localScale = _startSize;
         }
     }
 
