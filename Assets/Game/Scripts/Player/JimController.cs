@@ -9,6 +9,8 @@ using UnityEngine.InputSystem;
 
 public class JimController : MonoBehaviour
 {
+    public float playerHealth;
+    
     [Header("Locomotion Settings")]
     public float rotationSpeed;
     public float speedDampTime;

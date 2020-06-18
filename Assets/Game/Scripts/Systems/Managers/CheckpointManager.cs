@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GroundedCheck : MonoBehaviour
+public class CheckpointManager : Singleton<CheckpointManager>
 {
-    public float checkDistance;
+    public float playerHealth;
+    public Vector3 lastCheckPointPosition;
 
     // Start is called before the first frame update
     void Start()
