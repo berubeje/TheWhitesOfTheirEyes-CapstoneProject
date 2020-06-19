@@ -605,8 +605,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b9059167036ced439605de3a0a28cde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderSizeMultiplier: 0.9
-  colliderYOffsetMultiplier: 0.5
+  colliderSizeMultiplier: 1
+  colliderYOffsetMultiplier: 0.3
 --- !u!1101 &-4183569898097362904
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
