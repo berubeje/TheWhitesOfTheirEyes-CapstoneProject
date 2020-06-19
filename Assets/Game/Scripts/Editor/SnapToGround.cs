@@ -10,7 +10,7 @@ public class SnapToGround : MonoBehaviour
     {
         foreach(var transform in Selection.transforms)
         {
-            var hits = Physics.RaycastAll(transform.position + Vector3.up, Vector3.down, 10f);
+            var hits = Physics.RaycastAll(transform.position + Vector3.up, Vector3.down, 100f);
 
             foreach(var hit in hits)
             {
