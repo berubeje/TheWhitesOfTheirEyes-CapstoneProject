@@ -196,7 +196,7 @@ public class JimController : MonoBehaviour
     public void OnRightStick(InputAction.CallbackContext context)
     {
         _rightStickInput = context.ReadValue<Vector2>();
-        virtualCamera.m_XAxis.m_InputAxisValue = _rightStickInput.x;
+        //virtualCamera.m_XAxis.m_InputAxisValue = _rightStickInput.x;
     }
 
     public void OnEastButtonDown(InputAction.CallbackContext context)
