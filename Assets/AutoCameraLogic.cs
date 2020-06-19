@@ -102,22 +102,6 @@ public class AutoCameraLogic : MonoBehaviour
         {
             _transposer.m_FollowOffset = _autoCamera.transform.position - followTarget.position;
 
-            //if (_centerX)
-            //{
-            //    transposer.m_FollowOffset.x = 0;
-            //}
-
-            //if (_centerY)
-            //{
-            //    transposer.m_FollowOffset.y = 0;
-
-            //}
-
-            //if (_centerZ)
-            //{
-            //    transposer.m_FollowOffset.z = 0;
-            //}
-
             _autoCamera.m_Follow = followTarget;
             _setPositionTargetDone = true;
         }   
@@ -126,6 +110,12 @@ public class AutoCameraLogic : MonoBehaviour
         {
             _autoCamera.m_LookAt = followTarget;
             _setRotationTargetDone = true;
+        }
+
+        if(_targetPositionReached && _targetRotationReached && _targetTransform != null) 
+        {
+            _targetTransform.transform.position = transform.position;
+            _targetTransform.transform.rotation = transform.rotation;
         }
     }
 
