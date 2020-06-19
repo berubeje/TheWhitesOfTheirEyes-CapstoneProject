@@ -16,10 +16,11 @@ using UnityEngine;
 public class AutoCameraLogic : MonoBehaviour
 {
     public Transform followTarget;
+    public Transform targetTransform;
+
 
     private CinemachineVirtualCamera _autoCamera;
     private CinemachineTransposer _transposer;
-    private Transform _targetTransform;
 
     private bool _followPosition;
     private bool _followRotation;
@@ -57,7 +58,7 @@ public class AutoCameraLogic : MonoBehaviour
         {
             if (!_followPosition)
             {
-                _targetPosition = _targetTransform.position;
+                _targetPosition = targetTransform.position;
 
                 if (_centerX)
                 {
@@ -76,7 +77,7 @@ public class AutoCameraLogic : MonoBehaviour
             }
             else
             {
-                _targetPosition = _targetTransform.position - followTarget.position;
+                _targetPosition = targetTransform.position - followTarget.position;
 
                 if (_centerX)
                 {
@@ -112,10 +113,10 @@ public class AutoCameraLogic : MonoBehaviour
             _setRotationTargetDone = true;
         }
 
-        if(_targetPositionReached && _targetRotationReached && _targetTransform != null) 
+        if(_targetPositionReached && _targetRotationReached && targetTransform != null) 
         {
-            _targetTransform.transform.position = transform.position;
-            _targetTransform.transform.rotation = transform.rotation;
+            targetTransform.transform.position = transform.position;
+            targetTransform.transform.rotation = transform.rotation;
         }
     }
 
@@ -147,7 +148,7 @@ public class AutoCameraLogic : MonoBehaviour
         {
             _tRotation += Time.deltaTime / _timeToReachRotation;
 
-            transform.rotation = Quaternion.Lerp(_transitionStartRotation, _targetTransform.rotation, _tRotation);
+            transform.rotation = Quaternion.Lerp(_transitionStartRotation, targetTransform.rotation, _tRotation);
 
             if (_tRotation >= 1.0f)
             {
@@ -186,7 +187,7 @@ public class AutoCameraLogic : MonoBehaviour
         _centerY = centerY;
         _centerZ = centerZ;
 
-        _targetTransform = referenceTransform;
+        targetTransform = referenceTransform;
         _timeToReachPosition = positionSpeed;
         _timeToReachRotation = rotationSpeed;
         _followPosition = followTargetPosition;
