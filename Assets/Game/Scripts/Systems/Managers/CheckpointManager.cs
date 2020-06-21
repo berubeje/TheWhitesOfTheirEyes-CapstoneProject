@@ -14,23 +14,28 @@ public class CheckpointManager : Singleton<CheckpointManager>
 
     private void Awake()
     {
+        applicationClosing = false;
+
         // Find every obstacle in the level
         obstacles = FindObjectsOfType<IObstacle>();
+    }
 
+    private void Start()
+    {
+        // Find every obstacle and store it with its ID
         obstacleDictionary = new Dictionary<string, IObstacle>();
 
-        foreach(IObstacle o in obstacles)
+        foreach (IObstacle o in obstacles)
         {
             obstacleDictionary.Add(o.id, o);
         }
 
         PlayerData data = SaveLoadSystem.LoadPlayerData();
 
-        if(data != null)
+        if (data != null)
         {
             LoadCheckpoint(data);
         }
-
     }
 
     public void LoadCheckpoint(PlayerData data)
@@ -38,13 +43,19 @@ public class CheckpointManager : Singleton<CheckpointManager>
         
         for(int i = 0; i < data.numberOfObstacles; i++)
         {
+            // Go through each obstacle and check if it was triggered
             IObstacle currentObstacle = obstacleDictionary[data.obstaclesIDs[i]];
+
+            savedObstacles.Add(currentObstacle);
+            
             if (data.areObstaclesTriggered[i])
             {
+                // If it was, return it to its activated state
                 currentObstacle.UnresetObstacle();
             }
         }
 
+        //Set the player to the position of the last checkpoint
         Vector3 lastCheckpointPosition = new Vector3(data.position[0], data.position[1], data.position[2]);
         player.transform.position = lastCheckpointPosition;
 

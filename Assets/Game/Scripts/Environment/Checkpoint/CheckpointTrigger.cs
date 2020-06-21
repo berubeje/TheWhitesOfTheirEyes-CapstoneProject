@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 ///-------------------------------------------------------------------------------------------------
@@ -19,19 +20,23 @@ public class CheckpointTrigger : IObstacle
     public Renderer eyeRenderer;
     public Material activatedMaterial;
 
-
     private SphereCollider _sphereCollider;
 
     private void Awake()
     {
+        CreateID();
+
         _sphereCollider = GetComponent<SphereCollider>();
+
+        // Add this checkpoint to the list of obstacles 
+        obstacles.Add(this);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            _sphereCollider.enabled = false;
+            //_sphereCollider.enabled = false;
 
             isTriggered = true;
 
@@ -39,8 +44,6 @@ public class CheckpointTrigger : IObstacle
             {
                 CheckpointManager.Instance.savedObstacles.Add(o);
             }
-
-            obstacles.Clear();
 
             CheckpointManager.Instance.SaveCheckpoint(transform.position, 100.0f);
 
@@ -50,7 +53,7 @@ public class CheckpointTrigger : IObstacle
 
     public override void UnresetObstacle()
     {
-        _sphereCollider.enabled = false;
+        //_sphereCollider.enabled = false;
         isTriggered = true;
         eyeRenderer.material = activatedMaterial;
     }

@@ -21,7 +21,7 @@ public abstract class IObstacle : MonoBehaviour
     //public abstract void ResetObstacle();
     public abstract void UnresetObstacle();
 
-    private void Awake()
+    public void CreateID()
     {
         // Use object position as ID since no two obstacles should be at the same point
         id = (transform.position.x).ToString() + " " + (transform.position.y).ToString() + " " + (transform.position.z).ToString();

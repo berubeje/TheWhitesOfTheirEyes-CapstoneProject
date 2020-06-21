@@ -3,6 +3,16 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 
+///-------------------------------------------------------------------------------------------------
+// file: SaveLoadSystem
+//
+// author: Rishi Barnwal
+// date: 06/21/2020
+//
+// summary: A utility class with functions to serialize and unserialize PlayerData 
+///-------------------------------------------------------------------------------------------------
+///
+
 public static class SaveLoadSystem 
 {
     public static void SavePlayerData()

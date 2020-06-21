@@ -34,6 +34,7 @@ public class InputManager : Singleton<InputManager>
     private void Awake()
     {
         applicationClosing = false;
+
         // Load the UI scene before anything else
         SceneManager.LoadScene(2, LoadSceneMode.Additive);
 

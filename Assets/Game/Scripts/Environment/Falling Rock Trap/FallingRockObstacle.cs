@@ -20,6 +20,11 @@ public class FallingRockObstacle : IObstacle
 
     public Vector3 initialRockPosition;
 
+    private void Awake()
+    {
+        CreateID();
+    }
+
     //public override void ResetObstacle()
     //{
     //    trigger.SetActive(true);
@@ -35,7 +40,8 @@ public class FallingRockObstacle : IObstacle
 
         Physics.Raycast(rock.transform.position, Vector3.down, out RaycastHit hit);
 
-        rock.transform.position = hit.point;
+        Vector3 yOffset = new Vector3(0, transform.localScale.y / 4, 0);
+        rock.transform.position = hit.point + yOffset;
         isTriggered = true;
     }
 }

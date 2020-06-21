@@ -3,6 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+///-------------------------------------------------------------------------------------------------
+// file: PlayerData.cs
+//
+// author: Rishi Barnwal
+// date: 06/21/2020
+//
+// summary: A serializable class to save and load player data
+///-------------------------------------------------------------------------------------------------
+///
+
 [System.Serializable]
 public class PlayerData
 {
@@ -12,10 +22,6 @@ public class PlayerData
     public int numberOfObstacles;
     public string[] obstaclesIDs;
     public bool[] areObstaclesTriggered;
-
-    public string[] checkPointIDs;
-    public bool[] areCheckpointsUsed;
-
 
     public PlayerData ()
     {
