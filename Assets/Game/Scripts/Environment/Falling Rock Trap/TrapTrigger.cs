@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class TrapTrigger : MonoBehaviour
 {
+    public IObstacle fallingRockObstacle;
     public FallingRock fallingRock;
-
     private Rigidbody _fallingRockRigidBody;
-    private SphereCollider _sphereCollider;
+
+    
     private void Awake()
     {
-        _sphereCollider = GetComponent<SphereCollider>();
         _fallingRockRigidBody = fallingRock.GetComponent<Rigidbody>();
     }
 
@@ -19,8 +19,12 @@ public class TrapTrigger : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             _fallingRockRigidBody.useGravity = true;
+            
             fallingRock.isPlayerKillable = true;
-            _sphereCollider.enabled = false;
+            
+            fallingRockObstacle.isTriggered = true;
+
+            gameObject.SetActive(false);
         }
     }
 }

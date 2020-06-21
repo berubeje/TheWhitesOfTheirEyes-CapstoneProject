@@ -3,9 +3,9 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 
-public static class SaveSystem 
+public static class SaveLoadSystem 
 {
-    public static void SavePlayer()
+    public static void SavePlayerData()
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/player.twote";
@@ -18,9 +18,9 @@ public static class SaveSystem
         stream.Close();
     }
 
-    public static PlayerData LoadPlayer()
+    public static PlayerData LoadPlayerData()
     {
-        string path = Application.persistentDataPath + "player.twote";
+        string path = Application.persistentDataPath + "/player.twote";
 
         if (File.Exists(path))
         {
@@ -34,7 +34,7 @@ public static class SaveSystem
         }
         else
         {
-            Debug.LogError("Save file not found in " + path);
+            Debug.LogWarning("Save file not found in " + path);
             return null;
         }
     }

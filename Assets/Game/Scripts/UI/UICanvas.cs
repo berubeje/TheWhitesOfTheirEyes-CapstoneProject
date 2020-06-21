@@ -13,7 +13,7 @@ public class UICanvas : MonoBehaviour
 
     private Canvas _canvas;
     private GameObject _inputManager;
-
+   
     [SerializeField] private InputAction _pauseAction;
 
     private void Awake()
@@ -40,6 +40,13 @@ public class UICanvas : MonoBehaviour
             gameOverMenu.SetActive(true); 
             _inputManager.SetActive(false);
         }    
+    }
+
+    public void LoadLastCheckpoint()
+    {
+        InputManager.Instance.currentGameState = InputManager.GameStates.Playing;
+        SceneManager.LoadScene(1); 
+        Time.timeScale = 1;
     }
 
     public void ResetLevel()
