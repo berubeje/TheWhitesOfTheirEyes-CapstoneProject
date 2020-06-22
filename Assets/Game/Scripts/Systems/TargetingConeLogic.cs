@@ -1,5 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿///-------------------------------------------------------------------------------------------------
+// file: TargetingConeLogic.cs
+//
+// author: Jesse Berube
+// date: N/A
+//
+// summary: The targeting cone (more like a zone now) allows the player to see the anchor points and launch the rope at them. The targeting zone will target the anchor point closest to the player inside the zone.
+///-------------------------------------------------------------------------------------------------
 using UnityEngine;
 
 public class TargetingConeLogic : MonoBehaviour
@@ -12,7 +18,7 @@ public class TargetingConeLogic : MonoBehaviour
     public int playerMaskNum = 8;
     public int targetIgnoreMaskNum = 10;
 
-    //public List<RopeAnchorPoint> _anchorTargets = new List<RopeAnchorPoint>();
+    // public List<RopeAnchorPoint> _anchorTargets = new List<RopeAnchorPoint>();
     // private int _currentTargetIndex = 0;
     private RopeAnchorPoint _targetedAnchor;
     private Vector3 _startRot;
@@ -39,13 +45,13 @@ public class TargetingConeLogic : MonoBehaviour
         }
     }
 
-
+    // Get the current target that the targeting zone is highlighting.
     public RopeAnchorPoint GetTarget()
     {
-        RopeAnchorPoint returnAnchor = _targetedAnchor;
-        return returnAnchor;
+        return _targetedAnchor;
     }
 
+    // When the rope is attatched to a something, the targeting zone will shrink so the range to tie the rope to an object is different from the range to launch to an anchor point.
     public void TieSizeToggle(bool set)
     {
         if(set)
@@ -57,6 +63,8 @@ public class TargetingConeLogic : MonoBehaviour
             transform.parent.localScale = _startSize;
         }
     }
+
+    // Allows the user to cycle targets inside the target zone. Not in use at the moment.
 
     //public void NextTarget()
     //{
@@ -123,9 +131,12 @@ public class TargetingConeLogic : MonoBehaviour
     //    }
     //}
 
+    // Change the current target from one anchor point to another. 
     private void ChangeTarget(RopeAnchorPoint anchorPoint)
     {
         MeshRenderer mRender = null;
+
+        // If there is an old target, set that target's material back to it's original material
         if (_targetedAnchor != null)
         {
             mRender = _targetedAnchor.GetComponent<MeshRenderer>();
@@ -142,9 +153,10 @@ public class TargetingConeLogic : MonoBehaviour
         mRender.material = targetedMaterial;
     }
 
+    // Check the line of sight of the current target. If there is no line of sight, do not target that anchor point.
     private bool CheckLineOfSight(RopeAnchorPoint anchorPoint)
     {
-
+        // A Layer mask to ignore the player layer and a target ignore layer.
         LayerMask mask = ~(1 << playerMaskNum | 1 << targetIgnoreMaskNum);
 
         RaycastHit hit;
@@ -177,6 +189,7 @@ public class TargetingConeLogic : MonoBehaviour
 
         float newAnchorDistance = Vector3.Distance(player.transform.position, anchorPoint.transform.position);
 
+        // If there is already a target, check the distance between the old target and new target. The target closest to the player will be the new target.
         if (_targetedAnchor != null)
         {
             float currentAnchorDistance = Vector3.Distance(player.transform.position, _targetedAnchor.transform.position);
@@ -205,6 +218,7 @@ public class TargetingConeLogic : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        // If the target leaves the target zone, remove it from the current target an replace the material.
         RopeAnchorPoint anchorPoint = other.gameObject.GetComponent<RopeAnchorPoint>();
 
         if (_targetedAnchor != null)
