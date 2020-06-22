@@ -6,18 +6,20 @@ using UnityEngine.InputSystem;
 
 public class UICanvas : MonoBehaviour
 {
-    public static bool isGamePaused = false;
-
     public GameObject pauseMenu;
     public GameObject controlsMenu;
     public GameObject settingsMenu;
+    public GameObject gameOverMenu;
 
     private Canvas _canvas;
+    private GameObject _inputManager;
 
     [SerializeField] private InputAction _pauseAction;
 
     private void Awake()
     {
+        _inputManager = InputManager.Instance.gameObject;
+
         _canvas = GetComponent<Canvas>();
         
         if(_canvas == null)
@@ -31,27 +33,34 @@ public class UICanvas : MonoBehaviour
         _pauseAction.started += OnPauseButtonDown;
     }
 
+    private void Update()
+    {
+        if(InputManager.Instance.currentGameState == InputManager.GameStates.GameOver)
+        {
+            gameOverMenu.SetActive(true); 
+            _inputManager.SetActive(false);
+        }    
+    }
+
     public void ResetLevel()
     {
-        InputManager.Instance.gameObject.SetActive(true);
-
+        InputManager.Instance.currentGameState = InputManager.GameStates.Playing;
         SceneManager.LoadScene(1);
-        SceneManager.LoadScene(2, LoadSceneMode.Additive);
         Time.timeScale = 1;
     }
 
     public void PauseGame()
     {
-        InputManager.Instance.gameObject.SetActive(false);
+        _inputManager.SetActive(false);
 
         pauseMenu.SetActive(true);
         Time.timeScale = 0;
-        isGamePaused = true;
+        InputManager.Instance.currentGameState = InputManager.GameStates.Paused;
     }
 
     public void ResumeGame()
     {
-        InputManager.Instance.gameObject.SetActive(true);
+        _inputManager.SetActive(true);
 
         pauseMenu.SetActive(false);
         controlsMenu.SetActive(false);
@@ -59,7 +68,12 @@ public class UICanvas : MonoBehaviour
 
         Time.timeScale = 1;
 
-        isGamePaused = false;
+        InputManager.Instance.currentGameState = InputManager.GameStates.Playing;
+    }
+
+    public void ReturnToMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 
     public void QuitGame()
@@ -69,11 +83,11 @@ public class UICanvas : MonoBehaviour
 
     private void OnPauseButtonDown(InputAction.CallbackContext context)
     {
-        if (!isGamePaused)
+        if (InputManager.Instance.currentGameState == InputManager.GameStates.Playing)
         {
             PauseGame();
         }
-        else
+        else if(InputManager.Instance.currentGameState == InputManager.GameStates.Paused)
         {
             ResumeGame();
         }

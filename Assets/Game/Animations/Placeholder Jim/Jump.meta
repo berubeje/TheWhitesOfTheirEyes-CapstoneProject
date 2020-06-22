@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Game/Art.meta
+guid: b355a24724e004b4cbec03ede6fccdf4
+=======
 guid: b52e5c2e81d89574580b3cf5f9e4015b
+>>>>>>> fa4bb30c2f709f818d0a1eab75a845fe55952ba7:Assets/Game/Animations/Placeholder Jim/Jump.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
