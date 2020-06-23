@@ -8,7 +8,8 @@ public class CheckpointManager : Singleton<CheckpointManager>
 
     public static Dictionary<string, IObstacle> obstacleDictionary;
 
-    public static List<IObstacle> savedObstacles;
+
+    public static IObstacle[] obstacles;
 
     public static float playerHealth;
     public static Vector3 lastCheckPointPosition;
@@ -17,33 +18,23 @@ public class CheckpointManager : Singleton<CheckpointManager>
     {
         applicationClosing = false; 
         obstacleDictionary = new Dictionary<string, IObstacle>();
-        savedObstacles = new List<IObstacle>();
     }
 
     private void Start()
     {
-        //PlayerData data = SaveLoadSystem.LoadPlayerData();
-
-        //if (data != null)
-        //{
-        //    LoadCheckpoint(data);
-        //}
+        obstacles = FindObjectsOfType<IObstacle>();
     }
 
     public void LoadCheckpoint(PlayerData data)
     {
-        
-        for(int i = 0; i < data.numberOfObstacles; i++)
+        for (int i = 0; i < obstacles.Length; i++)
         {
-            // Go through each obstacle and check if it was triggered
+            // Go through each obstacle and check if it was saved
             IObstacle currentObstacle = obstacleDictionary[data.obstaclesIDs[i]];
 
-            savedObstacles.Add(currentObstacle);
-            
-            if (data.areObstaclesTriggered[i])
+            if (!data.areObstaclesSaved[i])
             {
-                // If it was, return it to its activated state
-                currentObstacle.UnresetObstacle();
+                currentObstacle.ResetObstacle();
             }
         }
 

@@ -31,10 +31,6 @@ public class CheckpointTrigger : IObstacle
         obstacles.Add(this);
     }
 
-    private void Start()
-    {
-        CreateID();
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -46,7 +42,7 @@ public class CheckpointTrigger : IObstacle
 
             foreach(IObstacle o in obstacles)
             {
-                CheckpointManager.savedObstacles.Add(o);
+                o.isSaved = true;
             }
 
             CheckpointManager.Instance.SaveCheckpoint(transform.position, 100.0f);
@@ -62,6 +58,13 @@ public class CheckpointTrigger : IObstacle
             eyeRenderer.material = unactivatedMaterial;
         }
     }
+
+    public override void ResetObstacle()
+    {
+        isTriggered = false;
+        eyeRenderer.material = unactivatedMaterial;
+    }
+
     public override void UnresetObstacle()
     {
         //_sphereCollider.enabled = false;

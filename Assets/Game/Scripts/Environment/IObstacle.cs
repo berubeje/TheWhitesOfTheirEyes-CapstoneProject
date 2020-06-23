@@ -16,12 +16,13 @@ using UnityEngine;
 public abstract class IObstacle : MonoBehaviour
 {
     public bool isTriggered = false;
-
+    public bool isSaved = false;
     public string id;
-    //public abstract void ResetObstacle();
+
+    public abstract void ResetObstacle();
     public abstract void UnresetObstacle();
 
-    protected void CreateID()
+    private void Start()
     {
         // Use object position as ID since no two obstacles should be at the same point
         id = (transform.position.x).ToString() + " " + (transform.position.y).ToString() + " " + (transform.position.z).ToString();

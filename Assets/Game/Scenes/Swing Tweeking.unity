@@ -255,7 +255,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1634
+  m_Name: pb_Mesh-1314
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -581,7 +581,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh18018
+  m_Name: pb_Mesh-1754
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1665,7 +1665,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1568
+  m_Name: pb_Mesh-1248
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1840,7 +1840,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1604
+  m_Name: pb_Mesh-1284
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2057,13 +2057,13 @@ PrefabInstance:
     - target: {fileID: 867165837173476741, guid: 55fd85ca847e6d14da168356f65fd050,
         type: 3}
       propertyPath: obstacles.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 867165837173476741, guid: 55fd85ca847e6d14da168356f65fd050,
         type: 3}
       propertyPath: obstacles.Array.data[0]
       value: 
-      objectReference: {fileID: 944003567}
+      objectReference: {fileID: 1947278956}
     - target: {fileID: 867165837173476741, guid: 55fd85ca847e6d14da168356f65fd050,
         type: 3}
       propertyPath: obstacles.Array.data[1]
@@ -3368,12 +3368,12 @@ PrefabInstance:
     - target: {fileID: 8454427368587269874, guid: 9438b4bbcb121f94abc1e998c0e0c4e1,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000016125325
+      value: 0.000000016125313
       objectReference: {fileID: 0}
     - target: {fileID: 8454427368587269874, guid: 9438b4bbcb121f94abc1e998c0e0c4e1,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000060028253
+      value: -0.00000000600279
       objectReference: {fileID: 0}
     - target: {fileID: 8454427368587269874, guid: 9438b4bbcb121f94abc1e998c0e0c4e1,
         type: 3}

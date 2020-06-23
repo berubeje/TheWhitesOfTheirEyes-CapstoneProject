@@ -20,17 +20,16 @@ public class FallingRockObstacle : IObstacle
 
     public Vector3 initialRockPosition;
 
-    //public override void ResetObstacle()
-    //{
-    //    trigger.SetActive(true);
-    //    rock.transform.localPosition = initialRockPosition;
-    //    rock.GetComponent<Rigidbody>().useGravity = false;
-    //    isTriggered = false;
-    //}
-    private void Start()
+
+    public override void ResetObstacle()
     {
-        CreateID();
+        trigger.SetActive(true);
+        rock.transform.localPosition = initialRockPosition;
+        rock.GetComponent<Rigidbody>().useGravity = false;
+        isTriggered = false;
+        isSaved = false;
     }
+
 
     public override void UnresetObstacle()
     {

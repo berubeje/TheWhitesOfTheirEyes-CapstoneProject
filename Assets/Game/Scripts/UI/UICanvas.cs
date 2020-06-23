@@ -43,12 +43,24 @@ public class UICanvas : MonoBehaviour
                 pauseMenu.SetActive(false);
                 controlsMenu.SetActive(false);
                 settingsMenu.SetActive(false);
+                gameOverMenu.SetActive(false);
                 Time.timeScale = 1;
                 break;
 
             case InputManager.GameStates.Paused:
                 Time.timeScale = 0;
                 pauseMenu.SetActive(true);
+                break;
+
+            case InputManager.GameStates.Reloading:
+                PlayerData data = SaveLoadSystem.LoadPlayerData();
+
+                if (data != null)
+                {
+                    CheckpointManager.Instance.LoadCheckpoint(data);
+                }
+
+                InputManager.Instance.currentGameState = InputManager.GameStates.Playing;
                 break;
 
             case InputManager.GameStates.GameOver:
@@ -59,9 +71,7 @@ public class UICanvas : MonoBehaviour
 
     public void LoadLastCheckpoint()
     {
-        InputManager.Instance.currentGameState = InputManager.GameStates.Playing;
-        SceneManager.LoadScene(1); 
-        Time.timeScale = 1;
+        InputManager.Instance.currentGameState = InputManager.GameStates.Reloading;
     }
 
     public void ResetLevel()
