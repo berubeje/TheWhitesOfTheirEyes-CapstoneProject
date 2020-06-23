@@ -537,6 +537,10 @@ MonoBehaviour:
   faceAnchorSpeed: 1
   reelInSpeed: 10
   swingArcLimit: 70
+  releaseMagnitude: 1
+  releaseDirectionOffset: -0.5
+  releaseDistanceX: 0.5
+  releaseDestinationAngle: -30
 --- !u!206 &-5005420556278115733
 BlendTree:
   m_ObjectHideFlags: 1
@@ -1073,7 +1077,7 @@ AnimatorStateMachine:
     m_Position: {x: -670, y: 410, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7782196974868876379}
-    m_Position: {x: -670, y: 340, z: 0}
+    m_Position: {x: -530, y: 340, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5773733519275075838}
     m_Position: {x: -670, y: 270, z: 0}
@@ -1883,10 +1887,7 @@ AnimatorTransition:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: startingAtCheckPoint
-    m_EventTreshold: 0
+  m_Conditions: []
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -8566082829148950103}
   m_Solo: 0

@@ -8,7 +8,14 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
     public float faceAnchorSpeed;
     public float reelInSpeed;
     public float swingArcLimit;
+    [Space]
+    public float releaseMagnitude;
+    public float releaseDirectionOffset;
+    public float releaseDistanceX;
+    public float releaseDestinationAngle;
 
+    private JimController _jimController;
+    private SplineRoute _splineRoute;
     private PlayerGrapplingHook _grapplingHook;
     private Transform _anchor;
     private Rigidbody _rigidbody;
@@ -23,8 +30,9 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
     private float _lerpRate;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        _interpolant = 0.0f;
-
+        _jimController = animator.GetComponent<JimController>();
+        _splineRoute = _jimController.splineRoute;
+        
         _grapplingHook = animator.GetComponentInChildren<PlayerGrapplingHook>();
 
         if (_grapplingHook == null)
@@ -41,10 +49,12 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
             Debug.LogError("Unable to find Rigidbody component");
         }
 
+        _interpolant = 0.0f;
+
         _initialPosition = animator.transform.position;
         _initialRotation = animator.transform.rotation;
 
-        // Grab the direction from the player to the anchor and kill the y value
+        // Grab the direction from the player to the anchor and change the y value to face downward at an angle
         _lookDirection = (_anchor.position - animator.transform.position);
         _lookDirection.y = Vector3.Cross(_lookDirection, -animator.transform.right).y;
 
@@ -83,10 +93,17 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
         _interpolant += _lerpRate;
     }
 
-    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        _splineRoute.controlPoints[0].position = animator.transform.position;
+        _splineRoute.controlPoints[1].position = animator.transform.position + (-_reelDirection * releaseMagnitude) + (Vector3.up * releaseDirectionOffset);
 
-    //}
+        _lookDirection.y = 0.0f;
+        _splineRoute.controlPoints[3].position = animator.transform.position + (_lookDirection * releaseDistanceX);
+
+        _splineRoute.controlPoints[2].position = (Quaternion.AngleAxis(releaseDestinationAngle, animator.transform.right) * Vector3.up) +
+            _splineRoute.controlPoints[3].position;
+    }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
