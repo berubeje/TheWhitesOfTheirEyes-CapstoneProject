@@ -11,6 +11,7 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
 
     private SplineRoute _splineRoute;
     private Rigidbody _rigidbody;
+    private Quaternion _targetRotation;
     private bool _splineComplete;
     private float _initialSplineSpeed;
     private float _t;
@@ -38,7 +39,7 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
 
         // Cache the spline speed so we can reset it later
         _initialSplineSpeed = splineSpeed;
-
+        _targetRotation = Quaternion.LookRotation(Vector3.Cross(Vector3.up, -animator.transform.right));
         _splineComplete = false;
         _t = 0.0f;
     }
@@ -63,12 +64,12 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
                     _splineComplete = true;
                 }
 
-                Vector3 target = Mathf.Pow(1 - _t, 3) * _p0 +
+                Vector3 targetPosition = Mathf.Pow(1 - _t, 3) * _p0 +
                      3 * Mathf.Pow(1 - _t, 2) * _t * _p1 +
                      3 * (1 - _t) * Mathf.Pow(_t, 2) * _p2 +
                      Mathf.Pow(_t, 3) * _p3;
 
-                animator.transform.Translate(target - animator.transform.position, Space.World);
+                _rigidbody.MovePosition(targetPosition);
             }
 
             RaycastHit hit;

@@ -224,7 +224,6 @@ public class PlayerGrapplingHook : MonoBehaviour
             if (ropeState == RopeState.Swing)
             {
                 _jimAnimator.SetTrigger("swingLand");
-                _jimAnimator.SetBool("swingIdle", false);
             }
 
             ropeState = RopeState.Idle;
