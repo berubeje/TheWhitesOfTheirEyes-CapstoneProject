@@ -6,36 +6,28 @@ public class CheckpointManager : Singleton<CheckpointManager>
 {
     public JimController player;
 
-    public Dictionary<string, IObstacle> obstacleDictionary;
-    public IObstacle[] obstacles;
-    public List<IObstacle> savedObstacles;
-    public float playerHealth;
-    public Vector3 lastCheckPointPosition;
+    public static Dictionary<string, IObstacle> obstacleDictionary;
+
+    public static List<IObstacle> savedObstacles;
+
+    public static float playerHealth;
+    public static Vector3 lastCheckPointPosition;
 
     private void Awake()
     {
-        applicationClosing = false;
-
-        // Find every obstacle in the level
-        obstacles = FindObjectsOfType<IObstacle>();
+        applicationClosing = false; 
+        obstacleDictionary = new Dictionary<string, IObstacle>();
+        savedObstacles = new List<IObstacle>();
     }
 
     private void Start()
     {
-        // Find every obstacle and store it with its ID
-        obstacleDictionary = new Dictionary<string, IObstacle>();
+        //PlayerData data = SaveLoadSystem.LoadPlayerData();
 
-        foreach (IObstacle o in obstacles)
-        {
-            obstacleDictionary.Add(o.id, o);
-        }
-
-        PlayerData data = SaveLoadSystem.LoadPlayerData();
-
-        if (data != null)
-        {
-            LoadCheckpoint(data);
-        }
+        //if (data != null)
+        //{
+        //    LoadCheckpoint(data);
+        //}
     }
 
     public void LoadCheckpoint(PlayerData data)
@@ -54,6 +46,8 @@ public class CheckpointManager : Singleton<CheckpointManager>
                 currentObstacle.UnresetObstacle();
             }
         }
+
+
 
         //Set the player to the position of the last checkpoint
         Vector3 lastCheckpointPosition = new Vector3(data.position[0], data.position[1], data.position[2]);

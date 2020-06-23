@@ -21,9 +21,12 @@ public abstract class IObstacle : MonoBehaviour
     //public abstract void ResetObstacle();
     public abstract void UnresetObstacle();
 
-    public void CreateID()
+    protected void CreateID()
     {
         // Use object position as ID since no two obstacles should be at the same point
         id = (transform.position.x).ToString() + " " + (transform.position.y).ToString() + " " + (transform.position.z).ToString();
+
+        // Add this obstacle to the dictionary
+        CheckpointManager.obstacleDictionary.Add(id, this);
     }
 }

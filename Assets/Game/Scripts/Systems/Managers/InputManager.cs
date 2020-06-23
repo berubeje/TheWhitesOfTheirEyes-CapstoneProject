@@ -19,7 +19,28 @@ public class InputManager : Singleton<InputManager>
         GameOver
     }
 
-    public GameStates currentGameState = GameStates.Playing;
+    private GameStates _gameState = GameStates.Playing;
+
+    // Set up event handler for whenever the game state is changed
+    public GameStates currentGameState
+    {
+        get { return _gameState; }
+        set
+        {
+            if (_gameState == value)
+            {
+                return;
+            }
+            _gameState = value;
+
+            if (OnGameStateChange != null) 
+            {
+                OnGameStateChange(_gameState); 
+            }
+        }
+    }
+    public delegate void OnGameStateChangeDelegate(GameStates state);
+    public event OnGameStateChangeDelegate OnGameStateChange;
 
     [SerializeField] private PlayerControls _playerControls;
     [Space]
@@ -36,13 +57,37 @@ public class InputManager : Singleton<InputManager>
         applicationClosing = false;
 
         // Load the UI scene before anything else
-        if (!SceneManager.GetSceneByName("UI").isLoaded)
+        if (!SceneManager.GetSceneByBuildIndex(2).isLoaded)
         {
             SceneManager.LoadScene(2, LoadSceneMode.Additive);
         }
 
         _playerControls = new PlayerControls();
+        BindControls();
 
+        OnGameStateChange += OnGameStateChanged;
+    }
+
+    private void OnGameStateChanged(GameStates state)
+    {
+        switch (state)
+        {
+            case GameStates.Playing:
+                EnableAllControls();
+                break;
+
+            case GameStates.Paused:
+                DisableAllControls();
+                break;
+
+            case GameStates.GameOver:
+                DisableAllControls();
+                break;
+        }
+    }
+
+    private void BindControls()
+    {
         _moveAction = _playerControls.Player.Move;
         _moveAction.performed += jimController.OnLeftStick;
         _moveAction.canceled += jimController.OnLeftStick;
@@ -58,19 +103,11 @@ public class InputManager : Singleton<InputManager>
         _fireAction.performed += ropeController.OnRightTriggerDown;
         _fireAction.canceled += ropeController.OnRightTriggerUp;
 
-        //TO DO: ADD CALLBACKS FOR ROPE FIRE AND RELEASE
-
-        //_pullTiePressAction = _playerControls.Player.PullTiePress;
-        //_pullTiePressAction.performed += ropeController.OnLeftTriggerDown;
-        //_pullTiePressAction.performed += ropeController.OnLeftTriggerUp;
-
         _pullTieAction = _playerControls.Player.PullTie;
         _pullTieAction.performed += ropeController.OnLeftTriggerPull;
         _pullTieAction.canceled += ropeController.OnLeftTriggerTie;
     }
-
-
-    private void OnEnable()
+    private void EnableAllControls()
     {
         _moveAction.Enable();
         _lookAction.Enable();
@@ -78,13 +115,20 @@ public class InputManager : Singleton<InputManager>
         _pullTieAction.Enable();
         _rollAction.Enable();
     }
-
-    private void OnDisable()
+    private void DisableAllControls()
     {
         _moveAction.Disable();
         _lookAction.Disable();
         _fireAction.Disable();
         _pullTieAction.Disable();
         _rollAction.Disable();
+    }
+    private void OnEnable()
+    {
+        EnableAllControls();
+    }
+    private void OnDisable()
+    {
+        DisableAllControls();
     }
 }

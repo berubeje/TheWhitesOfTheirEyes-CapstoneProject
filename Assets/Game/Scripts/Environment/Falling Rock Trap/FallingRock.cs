@@ -10,9 +10,6 @@ public class FallingRock : MonoBehaviour
     public float colliderVerticalOffset;
 
     private CapsuleCollider _playerCapsuleCollider;
-    private void Awake()
-    {
-    }
 
     private void OnCollisionEnter(Collision collision)
     {

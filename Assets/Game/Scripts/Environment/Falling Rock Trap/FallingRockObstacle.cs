@@ -20,11 +20,6 @@ public class FallingRockObstacle : IObstacle
 
     public Vector3 initialRockPosition;
 
-    private void Awake()
-    {
-        CreateID();
-    }
-
     //public override void ResetObstacle()
     //{
     //    trigger.SetActive(true);
@@ -32,6 +27,10 @@ public class FallingRockObstacle : IObstacle
     //    rock.GetComponent<Rigidbody>().useGravity = false;
     //    isTriggered = false;
     //}
+    private void Start()
+    {
+        CreateID();
+    }
 
     public override void UnresetObstacle()
     {

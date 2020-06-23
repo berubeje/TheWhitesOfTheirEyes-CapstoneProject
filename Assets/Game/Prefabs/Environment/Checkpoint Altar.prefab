@@ -111,6 +111,7 @@ MonoBehaviour:
   obstacles: []
   eyeRenderer: {fileID: 867165838933687734}
   activatedMaterial: {fileID: 2100000, guid: f8b6b126809e44d4883dbe0b0ef3989c, type: 2}
+  unactivatedMaterial: {fileID: 2100000, guid: 8be2c95718fc126408c032bfa59f1c63, type: 2}
 --- !u!1 &867165837600769047
 GameObject:
   m_ObjectHideFlags: 0

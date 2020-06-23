@@ -25,23 +25,23 @@ public class PlayerData
 
     public PlayerData ()
     {
-        health = CheckpointManager.Instance.playerHealth;
+        health = CheckpointManager.playerHealth;
 
         position = new float[3];
 
-        position[0] = CheckpointManager.Instance.lastCheckPointPosition.x;
-        position[1] = CheckpointManager.Instance.lastCheckPointPosition.y;
-        position[2] = CheckpointManager.Instance.lastCheckPointPosition.z;
+        position[0] = CheckpointManager.lastCheckPointPosition.x;
+        position[1] = CheckpointManager.lastCheckPointPosition.y;
+        position[2] = CheckpointManager.lastCheckPointPosition.z;
 
-        numberOfObstacles = CheckpointManager.Instance.savedObstacles.Count;
+        numberOfObstacles = CheckpointManager.savedObstacles.Count;
 
         obstaclesIDs = new string[numberOfObstacles];
         areObstaclesTriggered = new bool[numberOfObstacles];
 
         for(int i = 0; i < numberOfObstacles; i++)
         {
-            obstaclesIDs[i] = CheckpointManager.Instance.savedObstacles[i].id;
-            areObstaclesTriggered[i] = CheckpointManager.Instance.savedObstacles[i].isTriggered;
+            obstaclesIDs[i] = CheckpointManager.savedObstacles[i].id;
+            areObstaclesTriggered[i] = CheckpointManager.savedObstacles[i].isTriggered;
         }
 
         

@@ -12,14 +12,11 @@ public class UICanvas : MonoBehaviour
     public GameObject gameOverMenu;
 
     private Canvas _canvas;
-    private GameObject _inputManager;
    
     [SerializeField] private InputAction _pauseAction;
 
     private void Awake()
     {
-        _inputManager = InputManager.Instance.gameObject;
-
         _canvas = GetComponent<Canvas>();
         
         if(_canvas == null)
@@ -33,13 +30,31 @@ public class UICanvas : MonoBehaviour
         _pauseAction.started += OnPauseButtonDown;
     }
 
-    private void Update()
+    private void Start()
     {
-        if(InputManager.Instance.currentGameState == InputManager.GameStates.GameOver)
+        InputManager.Instance.OnGameStateChange += OnGameStateChanged;
+    }
+
+    private void OnGameStateChanged(InputManager.GameStates state)
+    {
+        switch (state)
         {
-            gameOverMenu.SetActive(true); 
-            _inputManager.SetActive(false);
-        }    
+            case InputManager.GameStates.Playing:
+                pauseMenu.SetActive(false);
+                controlsMenu.SetActive(false);
+                settingsMenu.SetActive(false);
+                Time.timeScale = 1;
+                break;
+
+            case InputManager.GameStates.Paused:
+                Time.timeScale = 0;
+                pauseMenu.SetActive(true);
+                break;
+
+            case InputManager.GameStates.GameOver:
+                gameOverMenu.SetActive(true);
+                break;
+        }
     }
 
     public void LoadLastCheckpoint()
@@ -58,23 +73,11 @@ public class UICanvas : MonoBehaviour
 
     public void PauseGame()
     {
-        _inputManager.SetActive(false);
-
-        pauseMenu.SetActive(true);
-        Time.timeScale = 0;
         InputManager.Instance.currentGameState = InputManager.GameStates.Paused;
     }
 
     public void ResumeGame()
     {
-        _inputManager.SetActive(true);
-
-        pauseMenu.SetActive(false);
-        controlsMenu.SetActive(false);
-        settingsMenu.SetActive(false);
-
-        Time.timeScale = 1;
-
         InputManager.Instance.currentGameState = InputManager.GameStates.Playing;
     }
 
