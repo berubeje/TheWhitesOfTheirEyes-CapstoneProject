@@ -32,7 +32,14 @@ public class CheckpointManager : Singleton<CheckpointManager>
             // Go through each obstacle and check if it was saved
             IObstacle currentObstacle = obstacleDictionary[data.obstaclesIDs[i]];
 
-            if (!data.areObstaclesSaved[i])
+            if (data.areObstaclesSaved[i])
+            {
+                if (!data.areObstaclesTriggered[i])
+                {
+                    currentObstacle.ResetObstacle();
+                }
+            }
+            else
             {
                 currentObstacle.ResetObstacle();
             }
