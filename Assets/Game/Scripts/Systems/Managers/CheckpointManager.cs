@@ -9,7 +9,7 @@ public class CheckpointManager : Singleton<CheckpointManager>
     public static Dictionary<string, IObstacle> obstacleDictionary;
 
 
-    public static IObstacle[] obstacles;
+    //public static IObstacle[] obstacles;
 
     public static float playerHealth;
     public static Vector3 lastCheckPointPosition;
@@ -22,14 +22,9 @@ public class CheckpointManager : Singleton<CheckpointManager>
         _jimAnimator = player.GetComponent<Animator>();
     }
 
-    private void Start()
-    {
-        obstacles = FindObjectsOfType<IObstacle>();
-    }
-
     public void LoadCheckpoint(PlayerData data)
     {
-        for (int i = 0; i < obstacles.Length; i++)
+        for (int i = 0; i < obstacleDictionary.Count; i++)
         {
             // Go through each obstacle and check if it was saved
             IObstacle currentObstacle = obstacleDictionary[data.obstaclesIDs[i]];
