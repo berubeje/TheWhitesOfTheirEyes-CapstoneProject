@@ -203,7 +203,10 @@ public class TargetingConeLogic : MonoBehaviour
             {
                 if (CheckLineOfSight(anchorPoint) == true)
                 {
-                    ChangeTarget(anchorPoint);
+                    if (anchorPoint.cantAttach == false)
+                    {
+                        ChangeTarget(anchorPoint);
+                    }
                 }
             }
         }
@@ -211,7 +214,10 @@ public class TargetingConeLogic : MonoBehaviour
         {
             if (CheckLineOfSight(anchorPoint) == true)
             {
-                ChangeTarget(anchorPoint);
+                if (anchorPoint.cantAttach == false)
+                {
+                    ChangeTarget(anchorPoint);
+                }
             }
         }
     }
