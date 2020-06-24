@@ -7,9 +7,6 @@
 // summary: This script is what pushed the magic rope projectile towards the anchor point, as well as bringing the projectile back to the player when they reel in the rope.
 ///-------------------------------------------------------------------------------------------------
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MagicRopeProjectileLogic : MonoBehaviour
