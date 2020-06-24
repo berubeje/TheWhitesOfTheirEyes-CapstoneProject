@@ -29,6 +29,7 @@ public class GiantDeathHitboxLogic : MonoBehaviour
             if (other.gameObject == killObject)
             {
                 _animator.SetTrigger("Die");
+                Destroy(gameObject);
                 return;
             }
         }
