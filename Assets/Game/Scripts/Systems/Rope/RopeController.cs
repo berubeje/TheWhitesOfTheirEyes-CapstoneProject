@@ -1,7 +1,12 @@
-﻿using Cinemachine;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿///-------------------------------------------------------------------------------------------------
+// file: RopeController.cs
+//
+// author: Jesse Berube
+// date: N/A
+//
+// summary: The logic for controlling the rope, such as launching it and pulling with the rope, are here.
+///-------------------------------------------------------------------------------------------------
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -60,6 +65,7 @@ public class RopeController : MonoBehaviour
 
     void FixedUpdate()
     {
+        // Check to see if the rope is attatch to a pull anchor point. If so, adjust the rope so it looks tighter.
         if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull && _targetTransform != null)
         {
             AdjustStrain();
@@ -69,6 +75,8 @@ public class RopeController : MonoBehaviour
                 return;
             }
 
+
+            // Break the rope if the player walks too far from the pull anchor point.
             if (Vector3.Distance(ropeLogic.character.transform.position, ropeLogic.targetAnchor.transform.position) > breakRopeLength)
             {
                 ropeLogic.DetachHook();
@@ -78,12 +86,10 @@ public class RopeController : MonoBehaviour
             {
                 PullObject();
             }
-
-
-
         }
     }
 
+    // When the rope pulls an objects, it changes that's objects velocity so it goes towards the player and is still affected by colliders.
     private void PullObject()
     {
         float pullSpeed = ropeLogic.targetAnchor.pullSpeed;
@@ -96,7 +102,8 @@ public class RopeController : MonoBehaviour
         //_targetRigidBody.MovePosition(_targetTransform.position + direction * pullSpeed * Time.deltaTime);
         _targetRigidBody.velocity = direction * pullSpeed;
     }
-
+    
+    // Adjust the strain of the rope so it will look tighter when pulling objects.
     private void AdjustStrain()
     {
         ropeLogic.AdjustRopeLength(Vector3.Distance(_playerTransform.position, _targetTransform.position) + _currentLengthOffset);
@@ -107,99 +114,7 @@ public class RopeController : MonoBehaviour
         }
     }
 
-    //public void LeftTriggerButton()
-    //{
-    //    if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull)
-    //    {
-    //        if (Input.GetAxisRaw("Left Trigger") > 0)
-    //        {
-    //            if (_isLeftTriggerInUse == false)
-    //            {
-    //                _pullObject = true;
-    //                _playerLogic.isPulling = true;
-    //                _isLeftTriggerInUse = true;
-    //            }
-    //        }
-    //        if (Input.GetAxisRaw("Left Trigger") <= 0)
-    //        {
-    //            _pullObject = false;
-    //            _playerLogic.isPulling = false;
-    //            _isLeftTriggerInUse = false;
-    //        }
-    //    }
-    //}
-
-    //public void RightTriggerButton()
-    //{
-    //    if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Idle)
-    //    {
-    //        //if (Input.GetAxisRaw("Right Trigger") > 0)
-    //        //{
-    //        //    if (_isRightTriggerInUse == false)
-    //        //    {
-    //        //        _targeting = true;
-    //        //        ropeLogic.ActivateTargeting();
-    //        //        _isRightTriggerInUse = true;
-    //        //    }
-    //        //}
-    //        //if (Input.GetAxisRaw("Right Trigger") <= 0)
-    //        //{
-    //        //    if (_targeting)
-    //        //    {
-    //        //        _targeting = false;
-    //        //        ropeLogic.LaunchHook();
-    //        //    }
-    //        //    _isRightTriggerInUse = false;
-    //        //}
-
-    //        if (Input.GetAxisRaw("Right Trigger") > 0)
-    //        {
-    //            if (_isRightTriggerInUse == false)
-    //            {
-    //                ropeLogic.LaunchHook();
-    //                _isRightTriggerInUse = true;
-    //            }
-    //        }
-    //        if (Input.GetAxisRaw("Right Trigger") <= 0)
-    //        {
-    //            _isRightTriggerInUse = false;
-    //        }
-    //    }
-    //    else if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Swing)
-    //    {
-    //        if (Input.GetAxisRaw("Right Trigger") > 0)
-    //        {
-    //            if (_isRightTriggerInUse == false)
-    //            {
-    //                ropeLogic.DetachHook();
-    //                _isRightTriggerInUse = true;
-    //                _playerLogic.isPulling = false;
-    //            }
-    //        }
-    //        if (Input.GetAxisRaw("Right Trigger") <= 0)
-    //        {
-    //            _isRightTriggerInUse = false;
-    //        }
-    //    }
-    //}
-
-    //public override void LeftShoulderButton()
-    //{
-    //    if(Input.GetButtonDown("Left Bumper"))
-    //    {
-    //        targetingCone.PreviousTarget();
-    //    }
-    //}
-
-    //public override void RightShoulderButton()
-    //{
-    //    if (Input.GetButtonDown("Right Bumper"))
-    //    {
-    //        targetingCone.NextTarget();
-    //    }
-    //}
-
-
+    // Check the state of the rope to allow different actions to happen, or to adjust the player and rope.
     private void CheckRopeState()
     {
         if (ropeLogic != null)
@@ -272,6 +187,8 @@ public class RopeController : MonoBehaviour
         }
     }
 
+
+    // Launch out the rope if there is a target in sight. If the rope is tied, the button will need to be pressed again to bring it back.
     public void OnRightTriggerDown(InputAction.CallbackContext context)
     {
         _rightTriggerInput = context.ReadValue<float>();
@@ -295,6 +212,7 @@ public class RopeController : MonoBehaviour
         }
     }
 
+    // Let go of the trigger to bring the rope back to the player. 
     public void OnRightTriggerUp(InputAction.CallbackContext context)
     {
         _isRightTriggerInUse = false;
@@ -310,37 +228,17 @@ public class RopeController : MonoBehaviour
         }
     }
 
-    //public void OnLeftTriggerDown(InputAction.CallbackContext context)
-    //{
-    //    Debug.Log("Left Down");
-
-    //    _leftTriggerInput = context.ReadValue<float>();
-
-
-    //    if (_isLeftTriggerInUse == false)
-    //    {
-    //        _isLeftTriggerInUse = true;
-    //    }
-    //}
-
-    //public void OnLeftTriggerUp(InputAction.CallbackContext context)
-    //{
-    //    Debug.Log("Left Up");
-
-    //    _isLeftTriggerInUse = false;
-    //}
-
+    // Hold the left trigger for a certain amount of time to start pulling in the object.
     public void OnLeftTriggerPull(InputAction.CallbackContext context)
     {
         if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull)
         {
-            Debug.Log("Pull");
-
             _pullObject = true;
             _playerLogic.isPulling = true;
         }
     }
 
+    // Tap the left trigger to tie the base of the rope to another anchor point.
     public void OnLeftTriggerTie(InputAction.CallbackContext context)
     {   
         // For some reason, this will trigger regardless if you hold the trigger long enough or not
@@ -354,7 +252,6 @@ public class RopeController : MonoBehaviour
             else
             {
                 ropeLogic.TieRope();
-                //Debug.Log("Tie");
             }
         }
     }
