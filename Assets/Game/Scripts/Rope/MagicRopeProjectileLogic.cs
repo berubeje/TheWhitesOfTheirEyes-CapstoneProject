@@ -18,6 +18,7 @@ public class MagicRopeProjectileLogic : MonoBehaviour
     private Transform _targetTransform;
     private bool _targetReached = true;
     private bool _returning;
+    private bool _dontDestroy;
 
 
     void Update()
@@ -48,7 +49,10 @@ public class MagicRopeProjectileLogic : MonoBehaviour
                 {
                     _grapplingHookLogic.RopeReturned();
 
-                    Destroy(this.gameObject);
+                    if (_dontDestroy == false)
+                    {
+                        Destroy(this.gameObject);
+                    }
 
                     if(_targetTransform == ropeBaseReturnTransform)
                     {
@@ -83,6 +87,7 @@ public class MagicRopeProjectileLogic : MonoBehaviour
         _targetTransform = ropeBaseReturnTransform;
         _targetReached = false;
         _returning = true;
+        _dontDestroy = true;
     }
 
     // This is called when firing out the projectile to give the projectile what it needs to reach its target.

@@ -21,6 +21,7 @@ public class PlayerGrapplingHook : MonoBehaviour
 
     public GameObject ropeProjectile;
     public RopeAnchorPoint targetAnchor;
+    public RopeAnchorPoint baseTargetAnchor;
     public TargetingConeLogic targetCone;
 
     [Header("Swing Strain")]
@@ -172,6 +173,7 @@ public class PlayerGrapplingHook : MonoBehaviour
             character.transform.parent = tieTarget.transform;
 
             ropeState = RopeState.Tied;
+            baseTargetAnchor = tieTarget;
         }
     }
 
@@ -234,6 +236,7 @@ public class PlayerGrapplingHook : MonoBehaviour
                 _rope.ropeBlueprint = null;
                 _rope.GetComponent<MeshRenderer>().enabled = false;
             }
+            baseTargetAnchor = null;
 
         }
 
