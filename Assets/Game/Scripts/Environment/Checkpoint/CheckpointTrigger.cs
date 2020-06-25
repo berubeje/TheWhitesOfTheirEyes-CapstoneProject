@@ -15,22 +15,9 @@ using UnityEngine;
 
 public class CheckpointTrigger : IObstacle
 {
-    public List<IObstacle> obstacles;
-
     public Renderer eyeRenderer;
     public Material activatedMaterial;
     public Material unactivatedMaterial;
-
-    private SphereCollider _sphereCollider;
-
-    private void Awake()
-    {
-        _sphereCollider = GetComponent<SphereCollider>();
-
-        // Add this checkpoint to the list of obstacles 
-        obstacles.Add(this);
-    }
-
 
     private void OnTriggerEnter(Collider other)
     {
@@ -39,11 +26,6 @@ public class CheckpointTrigger : IObstacle
             //_sphereCollider.enabled = false;
 
             isTriggered = true;
-
-            foreach(IObstacle o in obstacles)
-            {
-                o.isSaved = true;
-            }
 
             CheckpointManager.Instance.SaveCheckpoint(transform.position, 100.0f);
 
@@ -67,7 +49,6 @@ public class CheckpointTrigger : IObstacle
 
     public override void UnresetObstacle()
     {
-        //_sphereCollider.enabled = false;
         isTriggered = true;
         eyeRenderer.material = activatedMaterial;
     }

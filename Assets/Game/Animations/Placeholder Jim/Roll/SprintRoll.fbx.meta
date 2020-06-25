@@ -107,7 +107,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.40542084
+      - time: 0.31046537
         functionName: RollEvent
         data: 
         objectReferenceParameter: {instanceID: 0}

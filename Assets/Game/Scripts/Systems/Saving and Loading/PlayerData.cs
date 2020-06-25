@@ -22,7 +22,6 @@ public class PlayerData
     public int numberOfObstacles;
     public string[] obstaclesIDs;
     public bool[] areObstaclesTriggered;
-    public bool[] areObstaclesSaved;
 
     public PlayerData ()
     {
@@ -38,7 +37,6 @@ public class PlayerData
 
         obstaclesIDs = new string[numberOfObstacles];
         areObstaclesTriggered = new bool[numberOfObstacles];
-        areObstaclesSaved = new bool[numberOfObstacles];
         
         int i = 0;
         
@@ -46,7 +44,6 @@ public class PlayerData
         {
             obstaclesIDs[i] = item.Key;
             areObstaclesTriggered[i] = item.Value.isTriggered;
-            areObstaclesSaved[i] = item.Value.isSaved;
             i++;
         }
 
