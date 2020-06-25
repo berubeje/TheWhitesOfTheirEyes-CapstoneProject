@@ -30,10 +30,12 @@ public class RopeAnchorPoint : MonoBehaviour
 
     public Vector3 angleOfPull;
 
+    [Header("Optional")]
+    public Transform pivot;
 
-    public bool _pulling;
+    private bool _pulling;
     private bool _pullDone;
-    private Transform _parentTransform;
+    private Transform _targetTransform;
 
     private Quaternion _targetAngle;
     private Quaternion _startRotation;
@@ -41,7 +43,14 @@ public class RopeAnchorPoint : MonoBehaviour
 
     private void Awake()
     {
-        _parentTransform = transform.parent;
+        if (pivot == null)
+        {
+            _targetTransform = transform.parent;
+        }
+        else
+        {
+            _targetTransform = pivot;
+        }
     }
 
     private void Update()
@@ -57,7 +66,7 @@ public class RopeAnchorPoint : MonoBehaviour
         cantAttach = true;
         GetComponent<MeshRenderer>().enabled = false;
 
-        _startRotation = _parentTransform.rotation;
+        _startRotation = _targetTransform.rotation;
 
         if (_pullDone == false)
         {
@@ -66,7 +75,7 @@ public class RopeAnchorPoint : MonoBehaviour
 
         if (additiveAngle)
         {
-            _targetAngle = Quaternion.Euler(_parentTransform.rotation.eulerAngles + angleOfPull);
+            _targetAngle = Quaternion.Euler(_targetTransform.rotation.eulerAngles + angleOfPull);
         }
         else
         {
@@ -78,7 +87,7 @@ public class RopeAnchorPoint : MonoBehaviour
     public void RotateObject()
     {
         _t += Time.deltaTime / pullTime;
-        _parentTransform.rotation = Quaternion.Lerp(_startRotation, _targetAngle, _t);
+        _targetTransform.rotation = Quaternion.Lerp(_startRotation, _targetAngle, _t);
 
         if(_t >= 1.0f)
         {
