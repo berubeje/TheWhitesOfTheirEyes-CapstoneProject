@@ -48,6 +48,8 @@ public class RopeController : MonoBehaviour
         _playerTransform = _playerRigidBody.transform;
         _animator = GetComponentInParent<Animator>();
         _currentLengthOffset = startingLengthOffset;
+
+        InputManager.Instance.ropeController = this;
     }
 
 

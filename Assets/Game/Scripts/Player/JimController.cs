@@ -67,6 +67,9 @@ public class JimController : MonoBehaviour
 
     void Awake()
     {
+        CheckpointManager.Instance.jimController = this;
+        InputManager.Instance.jimController = this;
+
         _jimAnimator = GetComponent<Animator>();
         _capsuleCollider = GetComponent<CapsuleCollider>();
         _capsuleColliderHeight = _capsuleCollider.height;
