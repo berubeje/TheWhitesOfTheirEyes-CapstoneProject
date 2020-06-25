@@ -97,7 +97,10 @@ public class RopeController : MonoBehaviour
 
         ropeLogic.targetAnchor.StartPull();
         ropeLogic.DetachHook();
+        _playerLogic.isPulling = false;
+        _pullObject = false;
     }
+
     
     // Adjust the strain of the rope so it will look tighter when pulling objects.
     private void AdjustStrain()
@@ -250,5 +253,6 @@ public class RopeController : MonoBehaviour
                 ropeLogic.TieRope();
             }
         }
+
     }
 }
