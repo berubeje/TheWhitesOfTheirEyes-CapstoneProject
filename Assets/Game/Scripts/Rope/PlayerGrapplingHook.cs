@@ -167,7 +167,7 @@ public class PlayerGrapplingHook : MonoBehaviour
     {
         RopeAnchorPoint tieTarget = targetCone.GetTarget();
 
-        if (tieTarget != null)
+        if (tieTarget != null && tieTarget != targetAnchor)
         {
             character.transform.position = tieTarget.transform.position;
             character.transform.parent = tieTarget.transform;
