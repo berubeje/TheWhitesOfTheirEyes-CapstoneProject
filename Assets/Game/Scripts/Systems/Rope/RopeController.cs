@@ -21,7 +21,7 @@ public class RopeController : MonoBehaviour
 
     private JimController _playerLogic;
     private Rigidbody _playerRigidBody;
-    private Rigidbody _targetRigidBody;
+   // private Rigidbody _targetRigidBody;
     private Transform _playerTransform;
     private Transform _targetTransform;
     private Animator _animator;
@@ -92,16 +92,15 @@ public class RopeController : MonoBehaviour
     // When the rope pulls an objects, it changes that's objects velocity so it goes towards the player and is still affected by colliders.
     private void PullObject()
     {
-        float pullSpeed = ropeLogic.targetAnchor.pullSpeed;
-
         Vector3 lookVector = new Vector3(_targetTransform.position.x, _playerTransform.position.y, _targetTransform.position.z);
         _playerTransform.LookAt(lookVector);
 
-        Vector3 direction = (_playerTransform.position - _targetTransform.position).normalized;
-        direction.y = 0;
-        //_targetRigidBody.MovePosition(_targetTransform.position + direction * pullSpeed * Time.deltaTime);
-        _targetRigidBody.velocity = direction * pullSpeed;
+        ropeLogic.targetAnchor.StartPull();
+        ropeLogic.DetachHook();
+        _playerLogic.isPulling = false;
+        _pullObject = false;
     }
+
     
     // Adjust the strain of the rope so it will look tighter when pulling objects.
     private void AdjustStrain()
@@ -150,23 +149,23 @@ public class RopeController : MonoBehaviour
                         _animator.applyRootMotion = true;
 
                         
-                        if (ropeLogic.targetAnchor.transform.parent != null)
-                        {
-                            _targetRigidBody = ropeLogic.targetAnchor.transform.parent.GetComponent<Rigidbody>();
-                        }
+                        //if (ropeLogic.targetAnchor.transform.parent != null)
+                        //{
+                        //    _targetRigidBody = ropeLogic.targetAnchor.transform.parent.GetComponent<Rigidbody>();
+                        //}
 
-                        if (_targetRigidBody == null)
-                        {
-                            _targetRigidBody = ropeLogic.targetAnchor.transform.GetComponent<Rigidbody>();
+                        //if (_targetRigidBody == null)
+                        //{
+                        //    _targetRigidBody = ropeLogic.targetAnchor.transform.GetComponent<Rigidbody>();
 
-                            if (_targetRigidBody == null)
-                            {
-                                Debug.LogError("The pull target does not have a rigid body");
-                                return;
-                            }
-                        }
+                        //    if (_targetRigidBody == null)
+                        //    {
+                        //        Debug.LogError("The pull target does not have a rigid body");
+                        //        return;
+                        //    }
+                        //}
 
-                        _targetTransform = _targetRigidBody.transform;
+                        _targetTransform = ropeLogic.targetAnchor.transform;
                         break;
                     }
 
@@ -175,7 +174,7 @@ public class RopeController : MonoBehaviour
                         _playerRigidBody.isKinematic = false;
                         _animator.applyRootMotion = true;
                         _playerRigidBody.useGravity = true;
-                        _targetRigidBody = null;
+                        //_targetRigidBody = null;
                         _targetTransform = null;
                         _currentLengthOffset = startingLengthOffset;
                         break;
@@ -254,5 +253,6 @@ public class RopeController : MonoBehaviour
                 ropeLogic.TieRope();
             }
         }
+
     }
 }

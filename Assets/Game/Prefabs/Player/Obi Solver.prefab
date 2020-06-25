@@ -567,7 +567,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3435305568003888529}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0.00000047683716, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3435305569623632617}
@@ -3398,7 +3398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eefad83f4fd11aa4089863f3fd85da96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blueprint: {fileID: 11400000, guid: ab312de414ed84d4dbe475b39901e2db, type: 2}
+  blueprint: {fileID: 11400000, guid: 362be5df6784d39458dd10aa62651c01, type: 2}
   solver: {fileID: 3435305567885927323}
   character: {fileID: 3435305568884324419}
   material: {fileID: 2100000, guid: fc3471413290e114c928d844fe787bf1, type: 2}
@@ -3406,8 +3406,8 @@ MonoBehaviour:
   ropeProjectile: {fileID: 4207521725281020586, guid: 4056e867c4fefc54c908b27230bd5827,
     type: 3}
   targetAnchor: {fileID: 0}
+  baseTargetAnchor: {fileID: 0}
   targetCone: {fileID: 3435305569752024423}
-  mouseTargeting: 0
   currentRopeLengthOffset: 0
   ropeState: 0
 --- !u!1 &3435305569726428875
