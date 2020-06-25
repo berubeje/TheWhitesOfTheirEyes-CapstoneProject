@@ -22,7 +22,6 @@ public class PlayerData
     public int numberOfObstacles;
     public string[] obstaclesIDs;
     public bool[] areObstaclesTriggered;
-    public bool[] areObstaclesSaved;
 
     public PlayerData ()
     {
@@ -34,17 +33,18 @@ public class PlayerData
         position[1] = CheckpointManager.lastCheckPointPosition.y;
         position[2] = CheckpointManager.lastCheckPointPosition.z;
 
-        numberOfObstacles = CheckpointManager.obstacles.Length;
+        numberOfObstacles = CheckpointManager.obstacleDictionary.Count;
 
         obstaclesIDs = new string[numberOfObstacles];
         areObstaclesTriggered = new bool[numberOfObstacles];
-        areObstaclesSaved = new bool[numberOfObstacles];
-
-        for(int i = 0; i < numberOfObstacles; i++)
+        
+        int i = 0;
+        
+        foreach(KeyValuePair<string, IObstacle> item in CheckpointManager.obstacleDictionary)
         {
-            obstaclesIDs[i] = CheckpointManager.obstacles[i].id;
-            areObstaclesTriggered[i] = CheckpointManager.obstacles[i].isTriggered;
-            areObstaclesSaved[i] = CheckpointManager.obstacles[i].isSaved;
+            obstaclesIDs[i] = item.Key;
+            areObstaclesTriggered[i] = item.Value.isTriggered;
+            i++;
         }
 
         

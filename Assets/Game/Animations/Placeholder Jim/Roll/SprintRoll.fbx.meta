@@ -93,8 +93,22 @@ ModelImporter:
           postInfinity: 3
           rotationOrder: 4
       events:
-      - time: 0.45856354
-        functionName: Roll
+      - time: 0.041825093
+        functionName: StepEvent
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.22433461
+        functionName: StepEvent
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.31046537
+        functionName: RollEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

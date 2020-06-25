@@ -27,7 +27,6 @@ public class FallingRockObstacle : IObstacle
         rock.transform.localPosition = initialRockPosition;
         rock.GetComponent<Rigidbody>().useGravity = false;
         isTriggered = false;
-        isSaved = false;
     }
 
 
@@ -36,9 +35,9 @@ public class FallingRockObstacle : IObstacle
         trigger.SetActive(false);
         rock.GetComponent<Rigidbody>().useGravity = true;
 
-        Physics.Raycast(rock.transform.position, Vector3.down, out RaycastHit hit);
+        Physics.Raycast(rock.transform.position + new Vector3(0,1,0), Vector3.down, out RaycastHit hit);
 
-        Vector3 yOffset = new Vector3(0, transform.localScale.y / 4, 0);
+        Vector3 yOffset = new Vector3(0, transform.localScale.y/4, 0);
         rock.transform.position = hit.point + yOffset;
         isTriggered = true;
     }

@@ -87,6 +87,10 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
         splineSpeed = _initialSplineSpeed;
         _splineComplete = false;
         _t = 0.0f;
+
+        animator.ResetTrigger("fallLand");
+        animator.ResetTrigger("swingIdle");
+        animator.ResetTrigger("dodgeRoll");
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

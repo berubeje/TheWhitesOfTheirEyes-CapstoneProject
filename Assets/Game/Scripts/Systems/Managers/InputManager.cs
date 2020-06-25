@@ -62,11 +62,13 @@ public class InputManager : Singleton<InputManager>
         {
             SceneManager.LoadScene(2, LoadSceneMode.Additive);
         }
-
-        _playerControls = new PlayerControls();
-        BindControls();
-
         OnGameStateChange += OnGameStateChanged;
+    }
+
+    private void Start()
+    {
+        BindControls();
+        EnableAllControls();
     }
 
     private void OnGameStateChanged(GameStates state)
@@ -93,6 +95,8 @@ public class InputManager : Singleton<InputManager>
 
     private void BindControls()
     {
+        _playerControls = new PlayerControls();
+
         _moveAction = _playerControls.Player.Move;
         _moveAction.performed += jimController.OnLeftStick;
         _moveAction.canceled += jimController.OnLeftStick;

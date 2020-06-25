@@ -16,7 +16,6 @@ using UnityEngine;
 public abstract class IObstacle : MonoBehaviour
 {
     public bool isTriggered = false;
-    public bool isSaved = false;
     public string id;
 
     public abstract void ResetObstacle();

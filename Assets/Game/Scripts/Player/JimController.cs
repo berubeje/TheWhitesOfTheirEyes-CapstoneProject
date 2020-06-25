@@ -67,6 +67,9 @@ public class JimController : MonoBehaviour
 
     void Awake()
     {
+        CheckpointManager.Instance.jimController = this;
+        InputManager.Instance.jimController = this;
+
         _jimAnimator = GetComponent<Animator>();
         _capsuleCollider = GetComponent<CapsuleCollider>();
         _capsuleColliderHeight = _capsuleCollider.height;
@@ -196,7 +199,7 @@ public class JimController : MonoBehaviour
     public void OnRightStick(InputAction.CallbackContext context)
     {
         _rightStickInput = context.ReadValue<Vector2>();
-        //virtualCamera.m_XAxis.m_InputAxisValue = _rightStickInput.x;
+        virtualCamera.m_XAxis.m_InputAxisValue = _rightStickInput.x;
     }
 
     public void OnEastButtonDown(InputAction.CallbackContext context)

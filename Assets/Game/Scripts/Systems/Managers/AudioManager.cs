@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Audio;
 using UnityEngine;
+using UnityEditor;
 
 public class AudioManager : Singleton<AudioManager>
 {
@@ -10,7 +11,8 @@ public class AudioManager : Singleton<AudioManager>
 
     private void Awake()
     {
-        foreach(Sound s in sounds)
+
+        foreach (Sound s in sounds)
         {
             s.source = gameObject.AddComponent<AudioSource>();
             s.source.clip = s.clip;
@@ -30,5 +32,9 @@ public class AudioManager : Singleton<AudioManager>
         }
 
         s.source.Play();
+    }
+
+    public void Step()
+    {
     }
 }
