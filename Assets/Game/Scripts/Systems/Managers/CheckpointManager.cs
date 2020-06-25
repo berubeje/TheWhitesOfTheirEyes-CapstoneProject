@@ -47,7 +47,7 @@ public class CheckpointManager : Singleton<CheckpointManager>
 
         //Set the player to the position of the last checkpoint
         Vector3 lastCheckpointPosition = new Vector3(data.position[0], data.position[1], data.position[2]);
-        jimController.transform.position = lastCheckpointPosition;
+        jimController.transform.position = lastCheckpointPosition + new Vector3(0, 1, 0);
         _jimAnimator.SetBool("dead", false);
 
     }
