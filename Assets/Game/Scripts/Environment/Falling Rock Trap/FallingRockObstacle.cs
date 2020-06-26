@@ -21,6 +21,11 @@ public class FallingRockObstacle : IObstacle
     public Vector3 initialRockPosition;
 
 
+    private void Awake()
+    {
+        initialRockPosition = rock.transform.localPosition;
+    }
+
     public override void ResetObstacle()
     {
         trigger.SetActive(true);
