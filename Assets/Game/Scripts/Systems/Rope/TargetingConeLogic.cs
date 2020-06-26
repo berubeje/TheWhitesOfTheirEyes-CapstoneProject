@@ -14,6 +14,7 @@ public class TargetingConeLogic : MonoBehaviour
     public Material targetedMaterial;
     public Material anchorPointMaterial;
     public Vector3 tieTargetSize;
+    public PlayerGrapplingHook hookLogic;
 
     public int playerMaskNum = 8;
     public int targetIgnoreMaskNum = 10;
@@ -203,7 +204,7 @@ public class TargetingConeLogic : MonoBehaviour
             {
                 if (CheckLineOfSight(anchorPoint) == true)
                 {
-                    if (anchorPoint.cantAttach == false)
+                    if (anchorPoint.cantAttach == false && hookLogic.targetAnchor != anchorPoint)
                     {
                         ChangeTarget(anchorPoint);
                     }
@@ -214,7 +215,7 @@ public class TargetingConeLogic : MonoBehaviour
         {
             if (CheckLineOfSight(anchorPoint) == true)
             {
-                if (anchorPoint.cantAttach == false)
+                if (anchorPoint.cantAttach == false && hookLogic.targetAnchor != anchorPoint)
                 {
                     ChangeTarget(anchorPoint);
                 }
