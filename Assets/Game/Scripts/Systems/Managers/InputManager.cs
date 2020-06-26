@@ -17,7 +17,8 @@ public class InputManager : Singleton<InputManager>
         Playing,
         Paused,
         Reloading,
-        GameOver
+        GameOver,
+        GameFinished
     }
 
     private GameStates _gameState = GameStates.Playing;
@@ -88,6 +89,9 @@ public class InputManager : Singleton<InputManager>
                 break;
 
             case GameStates.GameOver:
+                DisableAllControls();
+                break;
+            case GameStates.GameFinished:
                 DisableAllControls();
                 break;
         }
