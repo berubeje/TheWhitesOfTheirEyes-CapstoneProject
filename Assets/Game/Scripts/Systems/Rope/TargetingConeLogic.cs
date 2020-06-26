@@ -49,7 +49,9 @@ public class TargetingConeLogic : MonoBehaviour
     // Get the current target that the targeting zone is highlighting.
     public RopeAnchorPoint GetTarget()
     {
-        return _targetedAnchor;
+        RopeAnchorPoint target = _targetedAnchor;
+        Untarget();
+        return target;
     }
 
     // When the rope is attatched to a something, the targeting zone will shrink so the range to tie the rope to an object is different from the range to launch to an anchor point.
@@ -179,6 +181,18 @@ public class TargetingConeLogic : MonoBehaviour
         }
     }
 
+    public void Untarget()
+    {
+        MeshRenderer mRender = _targetedAnchor.GetComponent<MeshRenderer>();
+
+        if (mRender != null)
+        {
+            mRender.material = _anchorPointMaterial;
+        }
+
+        _targetedAnchor = null;
+    }
+
     private void OnTriggerStay(Collider other)
     {
         RopeAnchorPoint anchorPoint = other.gameObject.GetComponent<RopeAnchorPoint>();
@@ -232,14 +246,7 @@ public class TargetingConeLogic : MonoBehaviour
         {
             if (anchorPoint == _targetedAnchor)
             {
-                MeshRenderer mRender = _targetedAnchor.GetComponent<MeshRenderer>();
-
-                if (mRender != null)
-                {
-                    mRender.material = _anchorPointMaterial;
-                }
-
-                _targetedAnchor = null;
+                Untarget();
             }
         }
     }
