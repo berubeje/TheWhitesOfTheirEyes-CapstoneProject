@@ -12,8 +12,8 @@ public class TargetingConeLogic : MonoBehaviour
 {
     public JimController player;
     public Material targetedMaterial;
-    public Material anchorPointMaterial;
     public Vector3 tieTargetSize;
+    public PlayerGrapplingHook hookLogic;
 
     public int playerMaskNum = 8;
     public int targetIgnoreMaskNum = 10;
@@ -21,6 +21,7 @@ public class TargetingConeLogic : MonoBehaviour
     // public List<RopeAnchorPoint> _anchorTargets = new List<RopeAnchorPoint>();
     // private int _currentTargetIndex = 0;
     private RopeAnchorPoint _targetedAnchor;
+    private Material _anchorPointMaterial;
     private Vector3 _startRot;
     private Vector3 _startSize;
 
@@ -143,13 +144,13 @@ public class TargetingConeLogic : MonoBehaviour
 
             if (mRender != null)
             {
-                mRender.material = anchorPointMaterial;
+                mRender.material = _anchorPointMaterial;
             }
         }
-
         _targetedAnchor = anchorPoint;
-
         mRender = _targetedAnchor.GetComponent<MeshRenderer>();
+
+        _anchorPointMaterial = mRender.material;
         mRender.material = targetedMaterial;
     }
 
@@ -203,7 +204,7 @@ public class TargetingConeLogic : MonoBehaviour
             {
                 if (CheckLineOfSight(anchorPoint) == true)
                 {
-                    if (anchorPoint.cantAttach == false)
+                    if (anchorPoint.cantAttach == false && hookLogic.targetAnchor != anchorPoint)
                     {
                         ChangeTarget(anchorPoint);
                     }
@@ -214,7 +215,7 @@ public class TargetingConeLogic : MonoBehaviour
         {
             if (CheckLineOfSight(anchorPoint) == true)
             {
-                if (anchorPoint.cantAttach == false)
+                if (anchorPoint.cantAttach == false && hookLogic.targetAnchor != anchorPoint)
                 {
                     ChangeTarget(anchorPoint);
                 }
@@ -235,7 +236,7 @@ public class TargetingConeLogic : MonoBehaviour
 
                 if (mRender != null)
                 {
-                    mRender.material = anchorPointMaterial;
+                    mRender.material = _anchorPointMaterial;
                 }
 
                 _targetedAnchor = null;
