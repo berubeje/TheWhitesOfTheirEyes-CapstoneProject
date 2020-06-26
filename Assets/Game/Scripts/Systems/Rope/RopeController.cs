@@ -122,18 +122,6 @@ public class RopeController : MonoBehaviour
         {
             switch (ropeLogic.ropeState)
             {
-                case PlayerGrapplingHook.RopeState.Launched:
-                    {
-                        _playerRigidBody.isKinematic = true;
-                        break;
-                    }
-
-                case PlayerGrapplingHook.RopeState.Landed:
-                    {
-                        _playerRigidBody.isKinematic = false;
-                        break;
-                    }
-
                 case PlayerGrapplingHook.RopeState.Swing:
                     {
                         _playerRigidBody.isKinematic = false;
@@ -147,18 +135,12 @@ public class RopeController : MonoBehaviour
 
                 case PlayerGrapplingHook.RopeState.Pull:
                     {
-                        _playerRigidBody.isKinematic = false;
-                        _animator.applyRootMotion = true;
-
                         _targetTransform = ropeLogic.targetAnchor.transform;
                         break;
                     }
 
                 case PlayerGrapplingHook.RopeState.OneEndTied:
                     {
-                        _playerRigidBody.isKinematic = false;
-                        _animator.applyRootMotion = true;
-
                         _targetTransform = ropeLogic.targetAnchor.transform;
                         break;
                     }
@@ -168,7 +150,6 @@ public class RopeController : MonoBehaviour
                         _playerRigidBody.isKinematic = false;
                         _animator.applyRootMotion = true;
                         _playerRigidBody.useGravity = true;
-                        //_targetRigidBody = null;
                         _targetTransform = null;
                         _currentLengthOffset = startingLengthOffset;
                         break;
