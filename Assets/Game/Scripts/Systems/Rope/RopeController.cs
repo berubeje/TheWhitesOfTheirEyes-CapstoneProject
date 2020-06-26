@@ -21,7 +21,7 @@ public class RopeController : MonoBehaviour
 
     private JimController _playerLogic;
     private Rigidbody _playerRigidBody;
-   // private Rigidbody _targetRigidBody;
+    // private Rigidbody _targetRigidBody;
     private Transform _playerTransform;
     private Transform _targetTransform;
     private Animator _animator;
@@ -59,7 +59,7 @@ public class RopeController : MonoBehaviour
     {
         CheckRopeState();
 
-        if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull)
+        if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.OneEndTied)
         {
             _ropeStrain = ropeLogic.CalculateStrain();
         }
@@ -68,7 +68,7 @@ public class RopeController : MonoBehaviour
     void FixedUpdate()
     {
         // Check to see if the rope is attatch to a pull anchor point. If so, adjust the rope so it looks tighter.
-        if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull && _targetTransform != null)
+        if ((ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.OneEndTied) && _targetTransform != null)
         {
             AdjustStrain();
 
@@ -84,7 +84,7 @@ public class RopeController : MonoBehaviour
                 ropeLogic.DetachHook();
             }
 
-            if (_pullObject)
+            if (_pullObject && ropeLogic.ropeState != PlayerGrapplingHook.RopeState.OneEndTied)
             {
                 PullObject();
             }
@@ -103,7 +103,7 @@ public class RopeController : MonoBehaviour
         _pullObject = false;
     }
 
-    
+
     // Adjust the strain of the rope so it will look tighter when pulling objects.
     private void AdjustStrain()
     {
@@ -150,22 +150,14 @@ public class RopeController : MonoBehaviour
                         _playerRigidBody.isKinematic = false;
                         _animator.applyRootMotion = true;
 
-                        
-                        //if (ropeLogic.targetAnchor.transform.parent != null)
-                        //{
-                        //    _targetRigidBody = ropeLogic.targetAnchor.transform.parent.GetComponent<Rigidbody>();
-                        //}
+                        _targetTransform = ropeLogic.targetAnchor.transform;
+                        break;
+                    }
 
-                        //if (_targetRigidBody == null)
-                        //{
-                        //    _targetRigidBody = ropeLogic.targetAnchor.transform.GetComponent<Rigidbody>();
-
-                        //    if (_targetRigidBody == null)
-                        //    {
-                        //        Debug.LogError("The pull target does not have a rigid body");
-                        //        return;
-                        //    }
-                        //}
+                case PlayerGrapplingHook.RopeState.OneEndTied:
+                    {
+                        _playerRigidBody.isKinematic = false;
+                        _animator.applyRootMotion = true;
 
                         _targetTransform = ropeLogic.targetAnchor.transform;
                         break;
@@ -202,7 +194,7 @@ public class RopeController : MonoBehaviour
             }
 
         }
-        else if (ropeLogic.ropeState ==  PlayerGrapplingHook.RopeState.Tied)
+        else if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Tied)
         {
             if (_isRightTriggerInUse == false)
             {
@@ -218,7 +210,7 @@ public class RopeController : MonoBehaviour
     {
         _isRightTriggerInUse = false;
 
-        if(ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Swing)
+        if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Swing || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.OneEndTied)
         {
             ropeLogic.DetachHook();
             _playerLogic.isPulling = false;
@@ -250,10 +242,10 @@ public class RopeController : MonoBehaviour
                 _pullObject = false;
                 _playerLogic.isPulling = false;
             }
-            else
-            {
-                ropeLogic.TieRope();
-            }
+        }
+        else if(ropeLogic.ropeState == PlayerGrapplingHook.RopeState.OneEndTied)
+        {
+            ropeLogic.TieRope();
         }
 
     }

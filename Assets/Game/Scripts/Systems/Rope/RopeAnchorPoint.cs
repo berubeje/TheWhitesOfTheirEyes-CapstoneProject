@@ -21,7 +21,8 @@ public class RopeAnchorPoint : MonoBehaviour
     public enum AnchorType
     {
         Swing,
-        Pull
+        Pull,
+        Tie
     }
 
     [Header("If pull type")]
