@@ -182,8 +182,6 @@ public class RockSwinging : IObstacle
         if (Physics.Raycast(transform.position + (_swingForward * rockLaunchDistance), Vector3.down, out hit))
         {
             splineRoute.controlPoints[3].position = hit.point + new Vector3(0, transform.localScale.y / 2, 0);
-
-            Debug.Log(splineRoute.controlPoints[3].position);
         }
 
         splineRoute.controlPoints[2].position = splineRoute.controlPoints[3].position + new Vector3(0, 2, 0);

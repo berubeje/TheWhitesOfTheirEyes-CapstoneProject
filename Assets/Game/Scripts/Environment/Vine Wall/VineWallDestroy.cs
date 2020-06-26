@@ -8,7 +8,7 @@ public class VineWallDestroy : MonoBehaviour
     {
         if (collision.collider.CompareTag("Boulder"))
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }
