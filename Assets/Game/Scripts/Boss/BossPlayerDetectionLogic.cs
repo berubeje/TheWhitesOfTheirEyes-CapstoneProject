@@ -13,6 +13,21 @@ using UnityEngine;
 
 public class BossPlayerDetectionLogic : MonoBehaviour
 {
+    public JimController player;
+
+    public enum DetectionSide
+    {
+        NotDetected,
+        Front,
+        Behind,
+        Left,
+        Right
+    }
+
+    public DetectionSide sideDetected;
+
+    private bool _playerDetectedInZone; 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,5 +38,32 @@ public class BossPlayerDetectionLogic : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void DetectedInZone(BossDetectionZoneLogic.ZoneSide side)
+    {
+        if(side == BossDetectionZoneLogic.ZoneSide.Front)
+        {
+            sideDetected = DetectionSide.Front;
+        }
+        else
+        {
+            sideDetected = DetectionSide.Behind;
+        }
+    }
+
+    public void LeftZone()
+    {
+        Vector3 relativePosition = transform.InverseTransformPoint(player.transform.position);
+
+        if (relativePosition.x > 0f)
+        {
+            sideDetected = DetectionSide.Right;
+
+        }
+        else
+        {
+            sideDetected = DetectionSide.Left;
+        }
     }
 }
