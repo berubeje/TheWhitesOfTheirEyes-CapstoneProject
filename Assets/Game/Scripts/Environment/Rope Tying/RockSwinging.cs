@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class RockSwinging : IObstacle
 {
+    public GameObject door;
     public float swingRadius;
     public float reelInSpeed;
     public float swingSpeed;
@@ -47,6 +48,11 @@ public class RockSwinging : IObstacle
     private RopeAnchorPoint _headAnchor;
     private Rigidbody _rigidbody;
 
+    private Vector3 _initialBoulderPosition;
+    private Vector3 _initialDoorPosition;
+    private Quaternion _initialBoulderRotation;
+    private Quaternion _initialDoorRotation;
+
     private float _interpolant;
     private bool _isRopeTied = false;
     private bool _isReeledIn = false;
@@ -69,6 +75,11 @@ public class RockSwinging : IObstacle
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+
+        _initialDoorPosition = door.transform.position;
+        _initialBoulderPosition = transform.position;
+        _initialDoorRotation = door.transform.rotation;
+        _initialBoulderRotation = transform.rotation;
 
         OnRopeTie += OnRopeTied;
     }
@@ -207,6 +218,10 @@ public class RockSwinging : IObstacle
     }
     public override void ResetObstacle()
     {
+        door.transform.position = _initialDoorPosition;
+        transform.position = _initialBoulderPosition;
+        door.transform.rotation = _initialDoorRotation;
+        transform.rotation = _initialBoulderRotation;
     }
 
     public override void UnresetObstacle()
