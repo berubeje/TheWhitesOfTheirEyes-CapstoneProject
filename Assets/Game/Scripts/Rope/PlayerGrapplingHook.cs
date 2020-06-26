@@ -52,6 +52,7 @@ public class PlayerGrapplingHook : MonoBehaviour
         Landed,
         Swing,
         Pull,
+        OneEndTied,
         Tied
     }
 
@@ -155,17 +156,26 @@ public class PlayerGrapplingHook : MonoBehaviour
             _jimAnimator.SetTrigger("swingStart");
 
         }
-        else
+        else if (targetAnchor.anchorType == RopeAnchorPoint.AnchorType.Pull)
         {
             ropeState = RopeState.Pull;
         }
+        else
+        {
+            ropeState = RopeState.OneEndTied;
+            targetCone.TieSizeToggle(true);
+        }
 
-        targetCone.TieSizeToggle(true);
     }
 
     // The logic to tie the rope to another gameobject, as well as set the rope state to 'Tied' 
     public void TieRope()
     {
+        if(ropeState != RopeState.OneEndTied)
+        {
+            return;
+        }
+
         RopeAnchorPoint tieTarget = targetCone.GetTarget();
 
         if (tieTarget != null && tieTarget != targetAnchor)
@@ -229,7 +239,7 @@ public class PlayerGrapplingHook : MonoBehaviour
     {
 
         // Bring the hook back in a swing or pull state.
-        if (ropeState == RopeState.Swing || ropeState == RopeState.Pull)
+        if (ropeState == RopeState.Swing || ropeState == RopeState.Pull || ropeState == RopeState.OneEndTied)
         {
             _launchedProjectile.GetComponent<MagicRopeProjectileLogic>().RopeReturn(character.transform);
             DetachSwingRock();
@@ -260,9 +270,8 @@ public class PlayerGrapplingHook : MonoBehaviour
 
         }
 
-
-        targetAnchor = null;
         targetCone.TieSizeToggle(false);
+        targetAnchor = null;
     }
 
     // When the rope is returned, set the rope state to idle as well as make the rope go away.
