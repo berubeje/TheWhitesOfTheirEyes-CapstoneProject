@@ -22,6 +22,7 @@ public class PlayerGrapplingHook : MonoBehaviour
     public GameObject ropeProjectile;
     public RopeAnchorPoint targetAnchor;
     public RopeAnchorPoint baseTargetAnchor;
+
     public TargetingConeLogic targetCone;
 
     [Header("Swing Strain")]
@@ -172,8 +173,13 @@ public class PlayerGrapplingHook : MonoBehaviour
             character.transform.position = tieTarget.transform.position;
             character.transform.parent = tieTarget.transform;
 
-            ropeState = RopeState.Tied;
             baseTargetAnchor = tieTarget;
+            if(targetAnchor.GetComponentInParent<RockSwinging>() != null)
+            {
+                targetAnchor.GetComponentInParent<RockSwinging>().currentBaseAnchor = baseTargetAnchor;
+                targetAnchor.GetComponentInParent<RockSwinging>().currentHeadAnchor = targetAnchor;
+            }
+            ropeState = RopeState.Tied;
         }
     }
 
@@ -205,6 +211,18 @@ public class PlayerGrapplingHook : MonoBehaviour
 
     }
 
+    // Reset the targets for the rockswing
+    private void DetachSwingRock()
+    {
+        RockSwinging r = targetAnchor.GetComponentInParent<RockSwinging>();
+        if(r != null)
+        {
+            r.currentBaseAnchor = null;
+            r.currentHeadAnchor = null;
+        }
+        baseTargetAnchor = null;
+        targetAnchor = null;
+    }
 
     // Detach the hook from the gameobject it is attatched to and bring it back.
     public void DetachHook()
@@ -214,6 +232,7 @@ public class PlayerGrapplingHook : MonoBehaviour
         if (ropeState == RopeState.Swing || ropeState == RopeState.Pull)
         {
             _launchedProjectile.GetComponent<MagicRopeProjectileLogic>().RopeReturn(character.transform);
+            DetachSwingRock();
             _ropeReturning = true;
 
             if (ropeState == RopeState.Swing)
@@ -233,6 +252,7 @@ public class PlayerGrapplingHook : MonoBehaviour
             if(ropeBaseLogic != null)
             {
                 ropeBaseLogic.RopeReturn();
+                DetachSwingRock();
                 _rope.ropeBlueprint = null;
                 _rope.GetComponent<MeshRenderer>().enabled = false;
             }
