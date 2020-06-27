@@ -10,6 +10,7 @@ public class UICanvas : MonoBehaviour
     public GameObject controlsMenu;
     public GameObject settingsMenu;
     public GameObject gameOverMenu;
+    public GameObject gameFinishedMenu;
 
     private Canvas _canvas;
    
@@ -44,6 +45,7 @@ public class UICanvas : MonoBehaviour
                 controlsMenu.SetActive(false);
                 settingsMenu.SetActive(false);
                 gameOverMenu.SetActive(false);
+                gameFinishedMenu.SetActive(false);
                 Time.timeScale = 1;
                 break;
 
@@ -65,6 +67,11 @@ public class UICanvas : MonoBehaviour
 
             case InputManager.GameStates.GameOver:
                 gameOverMenu.SetActive(true);
+                break;
+
+            case InputManager.GameStates.GameFinished:
+                gameFinishedMenu.SetActive(true);
+                Time.timeScale = 0;
                 break;
         }
     }

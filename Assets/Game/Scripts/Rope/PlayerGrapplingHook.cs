@@ -141,6 +141,7 @@ public class PlayerGrapplingHook : MonoBehaviour
     {
         _launchedProjectile.GetComponent<MagicRopeProjectileLogic>().RopeReturn(character.transform);
         _ropeReturning = true;
+        targetAnchor = null;
         ropeState = RopeState.Idle;
     }
 

@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class RockSwinging : IObstacle
 {
+    public GameObject door;
     public float swingRadius;
     public float reelInSpeed;
     public float swingSpeed;
@@ -47,6 +47,11 @@ public class RockSwinging : IObstacle
     private RopeAnchorPoint _headAnchor;
     private Rigidbody _rigidbody;
 
+    private Vector3 _initialBoulderPosition;
+    private Vector3 _initialDoorPosition;
+    private Quaternion _initialBoulderRotation;
+    private Quaternion _initialDoorRotation;
+
     private float _interpolant;
     private bool _isRopeTied = false;
     private bool _isReeledIn = false;
@@ -69,6 +74,11 @@ public class RockSwinging : IObstacle
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+
+        _initialDoorPosition = door.transform.position;
+        _initialBoulderPosition = transform.position;
+        _initialDoorRotation = door.transform.rotation;
+        _initialBoulderRotation = transform.rotation;
 
         OnRopeTie += OnRopeTied;
     }
@@ -171,8 +181,6 @@ public class RockSwinging : IObstacle
         if (Physics.Raycast(transform.position + (_swingForward * rockLaunchDistance), Vector3.down, out hit))
         {
             splineRoute.controlPoints[3].position = hit.point + new Vector3(0, transform.localScale.y / 2, 0);
-
-            Debug.Log(splineRoute.controlPoints[3].position);
         }
 
         splineRoute.controlPoints[2].position = splineRoute.controlPoints[3].position + new Vector3(0, 2, 0);
@@ -207,6 +215,10 @@ public class RockSwinging : IObstacle
     }
     public override void ResetObstacle()
     {
+        door.transform.position = _initialDoorPosition;
+        transform.position = _initialBoulderPosition;
+        door.transform.rotation = _initialDoorRotation;
+        transform.rotation = _initialBoulderRotation;
     }
 
     public override void UnresetObstacle()
