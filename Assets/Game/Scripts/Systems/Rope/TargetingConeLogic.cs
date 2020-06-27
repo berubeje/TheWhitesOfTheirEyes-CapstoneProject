@@ -50,7 +50,12 @@ public class TargetingConeLogic : MonoBehaviour
     public RopeAnchorPoint GetTarget()
     {
         RopeAnchorPoint target = _targetedAnchor;
-        Untarget();
+
+        if(target != null)
+        {
+            Untarget();
+        }
+
         return target;
     }
 
