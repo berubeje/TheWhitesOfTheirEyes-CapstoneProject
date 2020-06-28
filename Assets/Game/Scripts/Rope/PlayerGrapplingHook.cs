@@ -44,7 +44,7 @@ public class PlayerGrapplingHook : MonoBehaviour
 
     private bool _ropeReturning;
 
-    public RopeState ropeState;
+    private RopeState _ropeState;
     public enum RopeState
     {
         Idle,
@@ -55,6 +55,26 @@ public class PlayerGrapplingHook : MonoBehaviour
         OneEndTied,
         Tied
     }
+
+    public RopeState currentRopeState
+    {
+        get { return _ropeState; }
+        set
+        {
+            if (_ropeState == value)
+            {
+                return;
+            }
+            _ropeState = value;
+
+            if (OnRopeStateChange != null)
+            {
+                OnRopeStateChange(_ropeState);
+            }
+        }
+    }
+    public delegate void OnRopeStateChangeDelegate(RopeState state);
+    public event OnRopeStateChangeDelegate OnRopeStateChange;
 
     void Awake()
     {
@@ -103,7 +123,7 @@ public class PlayerGrapplingHook : MonoBehaviour
     // Attempt to launch the rope at the target the target zone has found.
     public void LaunchHook()
     {
-        if (ropeState == RopeState.Launched)
+        if (currentRopeState == RopeState.Launched)
         {
             return;
         }
@@ -131,7 +151,7 @@ public class PlayerGrapplingHook : MonoBehaviour
                 _launchedProjectile.transform.position = character.transform.position;
             }
 
-            ropeState = RopeState.Launched;
+            currentRopeState = RopeState.Launched;
             StartCoroutine(AttachHook());
         }
     }
@@ -142,28 +162,28 @@ public class PlayerGrapplingHook : MonoBehaviour
         _launchedProjectile.GetComponent<MagicRopeProjectileLogic>().RopeReturn(character.transform);
         _ropeReturning = true;
         targetAnchor = null;
-        ropeState = RopeState.Idle;
+        currentRopeState = RopeState.Idle;
     }
 
     // Once the rope reaches its target, change the state of the rope depending on the anchor point
     public void TargetReached()
     {
-        ropeState = RopeState.Landed;
+        currentRopeState = RopeState.Landed;
 
         if (targetAnchor.anchorType == RopeAnchorPoint.AnchorType.Swing)
         {
-            ropeState = RopeState.Swing;
+            currentRopeState = RopeState.Swing;
             _jimController.anchor = targetAnchor.transform;
             _jimAnimator.SetTrigger("swingStart");
 
         }
         else if (targetAnchor.anchorType == RopeAnchorPoint.AnchorType.Pull)
         {
-            ropeState = RopeState.Pull;
+            currentRopeState = RopeState.Pull;
         }
         else
         {
-            ropeState = RopeState.OneEndTied;
+            currentRopeState = RopeState.OneEndTied;
             targetCone.TieSizeToggle(true);
         }
 
@@ -172,7 +192,7 @@ public class PlayerGrapplingHook : MonoBehaviour
     // The logic to tie the rope to another gameobject, as well as set the rope state to 'Tied' 
     public void TieRope()
     {
-        if(ropeState != RopeState.OneEndTied)
+        if(currentRopeState != RopeState.OneEndTied)
         {
             return;
         }
@@ -190,7 +210,7 @@ public class PlayerGrapplingHook : MonoBehaviour
                 targetAnchor.GetComponentInParent<RockSwinging>().currentBaseAnchor = baseTargetAnchor;
                 targetAnchor.GetComponentInParent<RockSwinging>().currentHeadAnchor = targetAnchor;
             }
-            ropeState = RopeState.Tied;
+            currentRopeState = RopeState.Tied;
         }
     }
 
@@ -240,22 +260,22 @@ public class PlayerGrapplingHook : MonoBehaviour
     {
 
         // Bring the hook back in a swing or pull state.
-        if (ropeState == RopeState.Swing || ropeState == RopeState.Pull || ropeState == RopeState.OneEndTied)
+        if (currentRopeState == RopeState.Swing || currentRopeState == RopeState.Pull || currentRopeState == RopeState.OneEndTied)
         {
             _launchedProjectile.GetComponent<MagicRopeProjectileLogic>().RopeReturn(character.transform);
             DetachSwingRock();
             _ropeReturning = true;
 
-            if (ropeState == RopeState.Swing)
+            if (currentRopeState == RopeState.Swing)
             {
                 _jimAnimator.SetTrigger("swingLand");
             }
 
-            ropeState = RopeState.Idle;
+            currentRopeState = RopeState.Idle;
 
         }
         // Bring the base of the rope back in a tied state.
-        else if(ropeState == RopeState.Tied)
+        else if(currentRopeState == RopeState.Tied)
         {
             MagicRopeProjectileLogic ropeBaseLogic = character.GetComponent<MagicRopeProjectileLogic>();
             Destroy(_launchedProjectile);
@@ -278,7 +298,7 @@ public class PlayerGrapplingHook : MonoBehaviour
     // When the rope is returned, set the rope state to idle as well as make the rope go away.
     public void RopeReturned()
     {
-        if(ropeState == RopeState.Tied)
+        if(currentRopeState == RopeState.Tied)
         {
             character.transform.parent = _startingBaseParent;
             character.transform.localPosition = _startingBasePosition;
@@ -287,7 +307,7 @@ public class PlayerGrapplingHook : MonoBehaviour
         _ropeReturning = false;
         _rope.ropeBlueprint = null;
         _rope.GetComponent<MeshRenderer>().enabled = false;
-        ropeState = RopeState.Idle;
+        currentRopeState = RopeState.Idle;
     }
 
     // Calculate the length of the rope.
@@ -322,13 +342,13 @@ public class PlayerGrapplingHook : MonoBehaviour
     private void FixedUpdate()
     {
         // Makes the rope grow or shrink depending if it is being launched or is returning.
-        if ((ropeState == RopeState.Launched || _ropeReturning) && _rope.isLoaded)
+        if ((currentRopeState == RopeState.Launched || _ropeReturning) && _rope.isLoaded)
         {
             AdjustRopeLength(Vector3.Distance(character.transform.position, _launchedProjectile.transform.position));
         }
 
         // Adjust the rope so it will grow or shrink with an offset while swinging.
-        if (ropeState == RopeState.Swing)
+        if (currentRopeState == RopeState.Swing)
         {
             AdjustRopeLength(Vector3.Distance(character.transform.position, targetAnchor.transform.position) + currentRopeLengthOffset);
         }
