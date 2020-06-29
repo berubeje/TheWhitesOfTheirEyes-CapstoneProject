@@ -54,7 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   swingArcLimit: 70
   maxSwingSpeed: 1.25
-  minSwingSpeed: 0.25
+  minSwingSpeed: 0.75
   swingRadius: 5
   releaseDirectionMagnitude: 1
   releaseDirectionOffset: 1
@@ -240,7 +240,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.1
+  m_TransitionDuration: 0.3
   m_TransitionOffset: 0
   m_ExitTime: 0.63414633
   m_HasExitTime: 0
@@ -1588,7 +1588,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: 706f7a7d1de377a489684df86a724369,
+  m_Motion: {fileID: -203655887218126122, guid: 17991e42160effa4f8692c8b18399db5,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 

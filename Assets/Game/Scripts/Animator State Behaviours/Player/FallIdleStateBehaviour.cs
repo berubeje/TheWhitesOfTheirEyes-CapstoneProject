@@ -9,8 +9,11 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
     public float splineAcceleration;
     public float groundCheckDistance;
 
+    private JimController _jimController;
     private SplineRoute _splineRoute;
     private Rigidbody _rigidbody;
+
+    private Vector3 _forward;
     private Quaternion _targetRotation;
     private bool _splineComplete;
     private float _initialSplineSpeed;
@@ -30,7 +33,8 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
             Debug.LogError("Unable to find Rigidbody component");
         }
 
-        _splineRoute = animator.GetComponent<JimController>().splineRoute;
+        _jimController = animator.GetComponent<JimController>();
+        _splineRoute = _jimController.splineRoute;
 
         if(_splineRoute == null)
         {
@@ -42,11 +46,16 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
         _targetRotation = Quaternion.LookRotation(Vector3.Cross(Vector3.up, -animator.transform.right));
         _splineComplete = false;
         _t = 0.0f;
+
+
+        _forward = Vector3.Cross(Vector3.up, -animator.transform.right).normalized;
+        _targetRotation = Quaternion.LookRotation(_forward);
     }
 
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, _targetRotation, _jimController.rotationSpeed);
         if (!animator.GetAnimatorTransitionInfo(0).IsName("SwingIdle -> FallIdle"))
         {
             if(!_splineComplete)
@@ -78,7 +87,9 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
                 splineSpeed = _initialSplineSpeed;
                 animator.SetTrigger("fallLand");
             }
+
         }
+        Debug.DrawRay(animator.transform.position, _forward, Color.yellow);
     }
 
 
