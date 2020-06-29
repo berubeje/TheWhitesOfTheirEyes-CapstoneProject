@@ -5,7 +5,8 @@ using UnityEngine;
 public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 {
     public float swingArcLimit;
-    public float swingSpeed;
+    public float maxSwingSpeed;
+    public float minSwingSpeed;
     public float swingRadius;
     [Range(1.0f, 10.0f)]
     public float releaseDirectionMagnitude;
@@ -34,6 +35,10 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
     private Vector3 _currentSlerpStart;
     private Vector3 _currentSlerpEnd;
     private Vector3 _pendulumArm;
+    private Vector3 _swingStartVector;
+    private float _percentOfSwing;
+    private float _speedMultiplier;
+    private float _angle;
     private float _interpolant;
     private int _direction;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -88,9 +93,10 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 
         _currentSlerpStart = animator.transform.position - _anchor.position;
         _currentSlerpEnd = _forwardLimitVector;
-
+        _swingStartVector = _backwardLimitVector;
         // Initialize _direction to forward
         _direction = 1;
+
         #region Pass tunable paramters to the player controller, to draw the spline curve
         _jimController = animator.GetComponent<JimController>();
         _jimController.swingForward = _swingForward;
@@ -108,27 +114,39 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
     {
         if (!animator.GetAnimatorTransitionInfo(0).IsName("SwingIdle -> FallIdle"))
         {
-            Vector3 targetVector = Vector3.Slerp(_currentSlerpStart, _currentSlerpEnd, _interpolant);
+            _pendulumArm = _anchor.position - animator.transform.position;
+            _angle = Vector3.Angle(Vector3.up, _pendulumArm);
+            _angle = Mathf.Round(_angle * 10.0f) / 10.0f;
+            float anglePercent = _angle / swingArcLimit;
 
-            _pendulumArm = animator.transform.position - _anchor.position;
-            _releaseDirection = Vector3.Cross(_pendulumArm, animator.transform.right * _direction);
+            _speedMultiplier = Mathf.Lerp(maxSwingSpeed, minSwingSpeed, anglePercent);
+            Vector3 targetVector = Vector3.Slerp(_currentSlerpStart, _currentSlerpEnd, _interpolant);
+            _releaseDirection = Vector3.Cross(-_pendulumArm, animator.transform.right * _direction).normalized * releaseDirectionMagnitude;
 
             _rigidbody.MovePosition(_anchor.position + targetVector);
-            _rigidbody.MoveRotation(Quaternion.LookRotation(Vector3.Cross(_pendulumArm, animator.transform.right)));
-            
-            if(_interpolant >= 1.0f)
+            _rigidbody.MoveRotation(Quaternion.LookRotation(Vector3.Cross(-_pendulumArm, animator.transform.right)));
+
+            _percentOfSwing = Vector3.Angle(_swingStartVector, -_pendulumArm) / (swingArcLimit * 2);
+            animator.SetFloat("percentOfSwing", _percentOfSwing);
+
+            _interpolant += _speedMultiplier * Time.deltaTime * _direction;
+
+            if (_interpolant > 1.0f)
             {
                 _direction = -1;
                 _currentSlerpStart = _backwardLimitVector;
                 _currentSlerpEnd = _forwardLimitVector;
+
+                _swingStartVector = _forwardLimitVector;
             }
             else if(_interpolant < 0)
             {
                 _direction = 1;
-            }
 
-            animator.SetFloat("swingDirection", _interpolant * _direction);
-            _interpolant += swingSpeed * Time.deltaTime * _direction;
+                _swingStartVector = _backwardLimitVector;
+            }
+            animator.SetFloat("angle", _speedMultiplier);
+            animator.SetFloat("swingDirection", _speedMultiplier * _direction);
         }
 
         Debug.DrawLine(_anchor.position, _forwardSwingLimit, Color.yellow);
@@ -139,14 +157,27 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 
         Debug.DrawRay(animator.transform.position, _releaseDirection, Color.cyan);
 
-        //_jimController.speedMultiplier = _speedMultiplier;
+        _jimController.speedMultiplier = _speedMultiplier;
         _jimController.releaseDirection = _releaseDirection;
         _jimController.direction = _direction;
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        float releaseDistanceX = Mathf.Lerp(minReleaseDistanceX, maxReleaseDistanceX, _percentOfSwing);
+        float releaseDistanceY = Mathf.Lerp(minReleaseDistanceY, maxReleaseDistanceY, _percentOfSwing);
+        float releaseDestinationAngle = Mathf.Lerp(minDestinationAngle, maxDestinationAngle, _percentOfSwing);
 
+        _splineRoute.controlPoints[0].position = animator.transform.position;
+        _splineRoute.controlPoints[1].position = animator.transform.position + _releaseDirection + (Vector3.up * releaseDirectionOffset);
+
+        _splineRoute.controlPoints[3].position = animator.transform.position +
+            (_swingForward * releaseDistanceX) * _direction +
+            (Vector3.up * releaseDistanceY);
+
+
+        _splineRoute.controlPoints[2].position = (Quaternion.AngleAxis(releaseDestinationAngle * -_direction, animator.transform.right) * Vector3.up) +
+            _splineRoute.controlPoints[3].position;
     }
 
 }
