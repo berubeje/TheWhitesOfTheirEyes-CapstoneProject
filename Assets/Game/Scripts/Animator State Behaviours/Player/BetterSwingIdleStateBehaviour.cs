@@ -112,7 +112,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!animator.GetAnimatorTransitionInfo(0).IsName("SwingIdle -> FallIdle"))
+        if (!animator.GetAnimatorTransitionInfo(0).IsName("SwingIdle -> SwingLand"))
         {
             _pendulumArm = _anchor.position - animator.transform.position;
             _angle = Vector3.Angle(Vector3.up, _pendulumArm);
@@ -127,7 +127,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
             _rigidbody.MoveRotation(Quaternion.LookRotation(Vector3.Cross(-_pendulumArm, animator.transform.right)));
 
             _percentOfSwing = Vector3.Angle(_swingStartVector, -_pendulumArm) / (swingArcLimit * 2);
-            animator.SetFloat("percentOfSwing", _percentOfSwing);
+            animator.SetFloat("percentOfSwing", _percentOfSwing * _direction);
 
             _interpolant += _speedMultiplier * Time.deltaTime * _direction;
 
@@ -145,8 +145,9 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 
                 _swingStartVector = _backwardLimitVector;
             }
-            animator.SetFloat("angle", _speedMultiplier);
+            animator.SetFloat("angle", anglePercent);
             animator.SetFloat("swingDirection", _speedMultiplier * _direction);
+            SetUpSpline(animator);
         }
 
         Debug.DrawLine(_anchor.position, _forwardSwingLimit, Color.yellow);
@@ -164,6 +165,10 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+    }
+
+    private void SetUpSpline(Animator animator)
+    {
         float releaseDistanceX = Mathf.Lerp(minReleaseDistanceX, maxReleaseDistanceX, _percentOfSwing);
         float releaseDistanceY = Mathf.Lerp(minReleaseDistanceY, maxReleaseDistanceY, _percentOfSwing);
         float releaseDestinationAngle = Mathf.Lerp(minDestinationAngle, maxDestinationAngle, _percentOfSwing);
@@ -179,5 +184,4 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         _splineRoute.controlPoints[2].position = (Quaternion.AngleAxis(releaseDestinationAngle * -_direction, animator.transform.right) * Vector3.up) +
             _splineRoute.controlPoints[3].position;
     }
-
 }

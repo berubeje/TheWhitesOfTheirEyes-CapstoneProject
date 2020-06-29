@@ -4,25 +4,9 @@ using UnityEngine;
 
 public class FallIdleStateBehaviour : StateMachineBehaviour
 {
-    [Range(0.0f, 10.0f)]
-    public float splineSpeed;
-    public float splineAcceleration;
     public float groundCheckDistance;
 
-    private JimController _jimController;
-    private SplineRoute _splineRoute;
     private Rigidbody _rigidbody;
-
-    private Vector3 _forward;
-    private Quaternion _targetRotation;
-    private bool _splineComplete;
-    private float _initialSplineSpeed;
-    private float _t;
-
-    private Vector3 _p0;
-    private Vector3 _p1;
-    private Vector3 _p2;
-    private Vector3 _p3;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -32,77 +16,22 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
         {
             Debug.LogError("Unable to find Rigidbody component");
         }
-
-        _jimController = animator.GetComponent<JimController>();
-        _splineRoute = _jimController.splineRoute;
-
-        if(_splineRoute == null)
-        {
-            Debug.LogError("Unable to find Spline Route object");
-        }
-
-        // Cache the spline speed so we can reset it later
-        _initialSplineSpeed = splineSpeed;
-        _targetRotation = Quaternion.LookRotation(Vector3.Cross(Vector3.up, -animator.transform.right));
-        _splineComplete = false;
-        _t = 0.0f;
-
-
-        _forward = Vector3.Cross(Vector3.up, -animator.transform.right).normalized;
-        _targetRotation = Quaternion.LookRotation(_forward);
     }
-
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, _targetRotation, _jimController.rotationSpeed);
-        if (!animator.GetAnimatorTransitionInfo(0).IsName("SwingIdle -> FallIdle"))
+        RaycastHit hit;
+        if (Physics.Raycast(animator.transform.position, Vector3.down, out hit, groundCheckDistance))
         {
-            if(!_splineComplete)
-            {
-                _p0 = _splineRoute.controlPoints[0].position;
-                _p1 = _splineRoute.controlPoints[1].position;
-                _p2 = _splineRoute.controlPoints[2].position;
-                _p3 = _splineRoute.controlPoints[3].position;
-
-                splineSpeed += splineAcceleration;
-                _t += splineSpeed * Time.deltaTime;
-
-                if (_t >= 1)
-                {
-                    _splineComplete = true;
-                }
-
-                Vector3 targetPosition = Mathf.Pow(1 - _t, 3) * _p0 +
-                     3 * Mathf.Pow(1 - _t, 2) * _t * _p1 +
-                     3 * (1 - _t) * Mathf.Pow(_t, 2) * _p2 +
-                     Mathf.Pow(_t, 3) * _p3;
-
-                _rigidbody.MovePosition(targetPosition);
-            }
-
-            RaycastHit hit;
-            if (Physics.Raycast(animator.transform.position, Vector3.down, out hit, groundCheckDistance))
-            {
-                splineSpeed = _initialSplineSpeed;
-                animator.SetTrigger("fallLand");
-            }
-
+            animator.SetTrigger("fallLand");
         }
-        Debug.DrawRay(animator.transform.position, _forward, Color.yellow);
     }
 
-
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        splineSpeed = _initialSplineSpeed;
-        _splineComplete = false;
-        _t = 0.0f;
-
-        animator.ResetTrigger("fallLand");
-        animator.ResetTrigger("swingIdle");
-        animator.ResetTrigger("dodgeRoll");
-    }
+    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
+    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    //{
+    //    
+    //}
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

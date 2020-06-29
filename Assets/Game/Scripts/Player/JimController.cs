@@ -63,6 +63,7 @@ public class JimController : MonoBehaviour
     private int _locomotionPivotLeftID;
     private int _locomotionPivotRightID;
     private int _swingStartID;
+    private int _swingLandID;
     private int _fallIdleID;
 
     void Awake()
@@ -83,6 +84,7 @@ public class JimController : MonoBehaviour
         _locomotionPivotLeftID = Animator.StringToHash("Base Layer.LocomotionPivotLeft");
         _locomotionPivotRightID = Animator.StringToHash("Base Layer.LocomotionPivotRight");
         _swingStartID = Animator.StringToHash("Base Layer.SwingStart");
+        _swingLandID = Animator.StringToHash("Base Layer.SwingIdle");
         _fallIdleID = Animator.StringToHash("Base Layer.FallIdle");
     }
 
@@ -169,7 +171,7 @@ public class JimController : MonoBehaviour
         if (_leftStickInput.sqrMagnitude >= leftStickDeadzone)
         {
             // Directly rotate the player if the joystick is moving and they are in the idle or locomotion state
-            if (IsInIdle() || IsInLocomotion() || IsInFallIdle()) 
+            if (IsInIdle() || IsInLocomotion() || IsInSwingLand() || IsInFallIdle()) 
             {
                 Quaternion targetRotation = Quaternion.LookRotation(_moveDirection);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed);
@@ -232,6 +234,10 @@ public class JimController : MonoBehaviour
     private bool IsInSwingStart()
     {
         return _stateInfo.fullPathHash == _swingStartID;
+    }
+    private bool IsInSwingLand()
+    {
+        return _stateInfo.fullPathHash == _swingLandID;
     }
     private bool IsInFallIdle()
     {
