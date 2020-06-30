@@ -16,6 +16,7 @@ public class PlayerGrapplingHook : MonoBehaviour
     public ObiRopeBlueprint blueprint;
     public ObiSolver solver;
     public ObiCollider character;
+    public MagicRopeProjectileLogic ropeHook;
     public Material material;
     public ObiRopeSection section;
 
@@ -35,7 +36,6 @@ public class PlayerGrapplingHook : MonoBehaviour
 
     private ObiRopeCursor _cursor;
     private RaycastHit _hookAttachment;
-    private GameObject _launchedProjectile;
     private JimController _jimController;
     private Animator _jimAnimator;
 
@@ -112,11 +112,20 @@ public class PlayerGrapplingHook : MonoBehaviour
         _startingBasePosition = character.transform.localPosition;
         _startingBaseParent = character.transform.parent;
 
-        MagicRopeProjectileLogic ropeBaseLogic =  character.GetComponent<MagicRopeProjectileLogic>();
+        MagicRopeProjectileLogic ropeBaseLogic = character.GetComponent<MagicRopeProjectileLogic>();
 
-        if(ropeBaseLogic != null)
+        if (ropeBaseLogic != null)
         {
             ropeBaseLogic.SetupGrappleHook(this);
+        }
+
+        if(ropeHook != null)
+        {
+            ropeHook.SetupGrappleHook(this);
+        }
+        else
+        {
+            Debug.LogError("Public parameter RopeHook is null in " + this.gameObject.name);
         }
     }
 
@@ -129,37 +138,36 @@ public class PlayerGrapplingHook : MonoBehaviour
         }
 
         targetAnchor = targetCone.GetTarget();
-      
+
         if (targetAnchor != null)
         {
-            if(_ropeReturning == true)
+            if (_ropeReturning == true)
             {
                 RopeReturned();
             }
 
             // Check to see if there is already a projectile. If there is, use it, otherwise create a new one.
-            if(_launchedProjectile == null)
+
+            if (ropeHook != null)
             {
-                _launchedProjectile = Instantiate(ropeProjectile, character.transform.position, ropeProjectile.transform.rotation);
-                MagicRopeProjectileLogic projectileLogic = _launchedProjectile.GetComponent<MagicRopeProjectileLogic>();
-                projectileLogic.SetupProjectile(targetAnchor.transform, this);
+                ropeHook.Relaunch(targetAnchor.transform);
+                ropeHook.transform.position = character.transform.position;
             }
             else
             {
-                MagicRopeProjectileLogic projectileLogic = _launchedProjectile.GetComponent<MagicRopeProjectileLogic>();
-                projectileLogic.Relaunch(targetAnchor.transform);
-                _launchedProjectile.transform.position = character.transform.position;
+                Debug.LogError("Public parameter RopeHook is null in " + this.gameObject.name);
             }
 
             currentRopeState = RopeState.Launched;
             StartCoroutine(AttachHook());
+
         }
     }
 
     // Pull the rope back if the playe cancels the launch.
     public void CancelLaunch()
     {
-        _launchedProjectile.GetComponent<MagicRopeProjectileLogic>().RopeReturn(character.transform);
+        ropeHook.RopeReturn(character.transform);
         _ropeReturning = true;
         targetAnchor = null;
         currentRopeState = RopeState.Idle;
@@ -192,7 +200,7 @@ public class PlayerGrapplingHook : MonoBehaviour
     // The logic to tie the rope to another gameobject, as well as set the rope state to 'Tied' 
     public void TieRope()
     {
-        if(currentRopeState != RopeState.OneEndTied)
+        if (currentRopeState != RopeState.OneEndTied)
         {
             return;
         }
@@ -205,7 +213,7 @@ public class PlayerGrapplingHook : MonoBehaviour
             character.transform.parent = tieTarget.transform;
 
             baseTargetAnchor = tieTarget;
-            if(targetAnchor.GetComponentInParent<RockSwinging>() != null)
+            if (targetAnchor.GetComponentInParent<RockSwinging>() != null)
             {
                 targetAnchor.GetComponentInParent<RockSwinging>().currentBaseAnchor = baseTargetAnchor;
                 targetAnchor.GetComponentInParent<RockSwinging>().currentHeadAnchor = targetAnchor;
@@ -218,7 +226,7 @@ public class PlayerGrapplingHook : MonoBehaviour
     private IEnumerator AttachHook()
     {
         yield return 0;
-        Vector3 localHit = _rope.transform.InverseTransformPoint(targetAnchor.transform.position);
+        Vector3 localHit = _rope.transform.InverseTransformPoint(ropeHook.transform.position);
 
         // Procedurally generate the rope path.
         blueprint.path.Clear();
@@ -232,21 +240,20 @@ public class PlayerGrapplingHook : MonoBehaviour
         var pinConstraints = blueprint.GetConstraintsByType(Oni.ConstraintType.Pin) as ObiConstraints<ObiPinConstraintsBatch>;
         var batch = pinConstraints.batches[0];
         batch.AddConstraint(0, character, Vector3.zero, Quaternion.identity);
-        batch.AddConstraint(blueprint.activeParticleCount - 1, _launchedProjectile.GetComponent<ObiColliderBase>(),
+        batch.AddConstraint(blueprint.activeParticleCount - 1, ropeHook.GetComponent<ObiColliderBase>(),
                                                           Vector3.zero, Quaternion.identity);
         batch.activeConstraintCount = 2;
 
         // Set the blueprint.
         _rope.ropeBlueprint = blueprint;
         _rope.GetComponent<MeshRenderer>().enabled = true;
-
     }
 
     // Reset the targets for the rockswing
     private void DetachSwingRock()
     {
         RockSwinging r = targetAnchor.GetComponentInParent<RockSwinging>();
-        if(r != null)
+        if (r != null)
         {
             r.currentBaseAnchor = null;
             r.currentHeadAnchor = null;
@@ -262,7 +269,7 @@ public class PlayerGrapplingHook : MonoBehaviour
         // Bring the hook back in a swing or pull state.
         if (currentRopeState == RopeState.Swing || currentRopeState == RopeState.Pull || currentRopeState == RopeState.OneEndTied)
         {
-            _launchedProjectile.GetComponent<MagicRopeProjectileLogic>().RopeReturn(character.transform);
+            ropeHook.RopeReturn(character.transform);
             DetachSwingRock();
             _ropeReturning = true;
 
@@ -275,12 +282,13 @@ public class PlayerGrapplingHook : MonoBehaviour
 
         }
         // Bring the base of the rope back in a tied state.
-        else if(currentRopeState == RopeState.Tied)
+        else if (currentRopeState == RopeState.Tied)
         {
             MagicRopeProjectileLogic ropeBaseLogic = character.GetComponent<MagicRopeProjectileLogic>();
-            Destroy(_launchedProjectile);
 
-            if(ropeBaseLogic != null)
+            ropeHook.InstantReturn();
+
+            if (ropeBaseLogic != null)
             {
                 ropeBaseLogic.RopeReturn();
                 DetachSwingRock();
@@ -298,7 +306,7 @@ public class PlayerGrapplingHook : MonoBehaviour
     // When the rope is returned, set the rope state to idle as well as make the rope go away.
     public void RopeReturned()
     {
-        if(currentRopeState == RopeState.Tied)
+        if (currentRopeState == RopeState.Tied)
         {
             character.transform.parent = _startingBaseParent;
             character.transform.localPosition = _startingBasePosition;
@@ -344,7 +352,7 @@ public class PlayerGrapplingHook : MonoBehaviour
         // Makes the rope grow or shrink depending if it is being launched or is returning.
         if ((currentRopeState == RopeState.Launched || _ropeReturning) && _rope.isLoaded)
         {
-            AdjustRopeLength(Vector3.Distance(character.transform.position, _launchedProjectile.transform.position));
+            AdjustRopeLength(Vector3.Distance(character.transform.position, ropeHook.transform.position));
         }
 
         // Adjust the rope so it will grow or shrink with an offset while swinging.
