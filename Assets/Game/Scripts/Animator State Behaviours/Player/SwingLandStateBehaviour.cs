@@ -7,17 +7,19 @@ public class SwingLandStateBehaviour : StateMachineBehaviour
     [Range(0.0f, 10.0f)]
     public float splineSpeed;
     public float splineAcceleration;
+    public float forwardCheckDistance;
     public float groundCheckDistance;
 
     private JimController _jimController;
     private SplineRoute _splineRoute;
     private Rigidbody _rigidbody;
 
-    private Vector3 _forward;
+    private Vector3 _swingForward;
     private Quaternion _targetRotation;
     private bool _splineComplete;
     private float _initialSplineSpeed;
     private float _t;
+    private int _layerMask = ~(1 << 8);
 
     private Vector3 _p0;
     private Vector3 _p1;
@@ -48,8 +50,8 @@ public class SwingLandStateBehaviour : StateMachineBehaviour
         _t = 0.0f;
 
 
-        _forward = Vector3.Cross(Vector3.up, -animator.transform.right).normalized;
-        _targetRotation = Quaternion.LookRotation(_forward);
+        _swingForward = Vector3.Cross(Vector3.up, -animator.transform.right).normalized;
+        _targetRotation = Quaternion.LookRotation(_swingForward);
 
         // Cache spline point positions for readability
         _p0 = _splineRoute.controlPoints[0].position;
@@ -62,47 +64,50 @@ public class SwingLandStateBehaviour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, _targetRotation, _jimController.rotationSpeed);
-        
-        if(!_splineComplete)
+        if (!animator.GetAnimatorTransitionInfo(0).IsName("SwingLand -> SwingCancel") && !animator.GetAnimatorTransitionInfo(0).IsName("SwingLand -> FallIdle"))
         {
-
-            splineSpeed += splineAcceleration;
-            _t += splineSpeed * Time.deltaTime;
-
-            if (_t >= 1)
+            if (!_splineComplete)
             {
-                _splineComplete = true;
+
+                splineSpeed += splineAcceleration;
+                _t += splineSpeed * Time.deltaTime;
+
+                if (_t >= 1)
+                {
+                    _splineComplete = true;
+                }
+
+                Vector3 targetPosition = Mathf.Pow(1 - _t, 3) * _p0 +
+                        3 * Mathf.Pow(1 - _t, 2) * _t * _p1 +
+                        3 * (1 - _t) * Mathf.Pow(_t, 2) * _p2 +
+                        Mathf.Pow(_t, 3) * _p3;
+
+                _rigidbody.MovePosition(targetPosition);
             }
-
-            Vector3 targetPosition = Mathf.Pow(1 - _t, 3) * _p0 +
-                    3 * Mathf.Pow(1 - _t, 2) * _t * _p1 +
-                    3 * (1 - _t) * Mathf.Pow(_t, 2) * _p2 +
-                    Mathf.Pow(_t, 3) * _p3;
-
-            _rigidbody.MovePosition(targetPosition);
         }
-
-        RaycastHit hit;
-        if (Physics.Raycast(animator.transform.position, Vector3.down, out hit, groundCheckDistance))
+        if (Physics.Raycast(animator.transform.position, Vector3.down, out _, groundCheckDistance))
         {
             splineSpeed = _initialSplineSpeed;
             animator.SetTrigger("fallLand");
         }
 
-        
-        Debug.DrawRay(animator.transform.position, _forward, Color.yellow);
+        if (Physics.SphereCast(animator.transform.position, 0.3f, _swingForward * animator.GetFloat("swingDirectionRaw"), out _, forwardCheckDistance, _layerMask))
+        {
+            splineSpeed = _initialSplineSpeed;
+            animator.SetTrigger("swingCancel");
+        }
+        Debug.DrawRay(animator.transform.position, _swingForward, Color.yellow);
     }
 
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         splineSpeed = _initialSplineSpeed;
-        _splineComplete = false;
-        _t = 0.0f;
 
         animator.ResetTrigger("swingStart");
         animator.ResetTrigger("swingIdle");
         animator.ResetTrigger("swingLand");
+        animator.ResetTrigger("swingCancel");
         animator.ResetTrigger("fallLand");
         animator.ResetTrigger("dodgeRoll");
     }

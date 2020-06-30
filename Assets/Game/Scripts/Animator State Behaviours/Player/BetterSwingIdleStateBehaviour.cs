@@ -8,6 +8,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
     public float maxSwingSpeed;
     public float minSwingSpeed;
     public float swingRadius;
+    public float forwardCheckDistance;
     [Range(1.0f, 10.0f)]
     public float releaseDirectionMagnitude;
     public float releaseDirectionOffset;
@@ -41,10 +42,16 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
     private float _angle;
     private float _interpolant;
     private int _direction;
+    private int _layerMask = ~(1 << 8);
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // Reset the fall trigger so the spline curve can finish 
+        // Reset all triggers for sanity
+        animator.ResetTrigger("swingStart");
+        animator.ResetTrigger("swingIdle");
+        animator.ResetTrigger("swingLand");
+        animator.ResetTrigger("swingCancel");
         animator.ResetTrigger("fallLand");
+        animator.ResetTrigger("dodgeRoll");
 
         _grapplingHook = animator.GetComponentInChildren<PlayerGrapplingHook>();
         _rigidbody = animator.GetComponent<Rigidbody>();
@@ -96,7 +103,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         _swingStartVector = _backwardLimitVector;
         // Initialize _direction to forward
         _direction = 1;
-
+        animator.SetFloat("swingDirectionRaw", _direction);
         #region Pass tunable paramters to the player controller, to draw the spline curve
         _jimController = animator.GetComponent<JimController>();
         _jimController.swingForward = _swingForward;
@@ -112,7 +119,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!animator.GetAnimatorTransitionInfo(0).IsName("SwingIdle -> SwingLand"))
+        if (!animator.GetAnimatorTransitionInfo(0).IsName("SwingIdle -> SwingLand") && !animator.GetAnimatorTransitionInfo(0).IsName("SwingIdle -> SwingCancel"))
         {
             _pendulumArm = _anchor.position - animator.transform.position;
             _angle = Vector3.Angle(Vector3.up, _pendulumArm);
@@ -134,6 +141,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
             if (_interpolant > 1.0f)
             {
                 _direction = -1;
+                animator.SetFloat("swingDirectionRaw", _direction);
                 _currentSlerpStart = _backwardLimitVector;
                 _currentSlerpEnd = _forwardLimitVector;
 
@@ -142,12 +150,18 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
             else if(_interpolant < 0)
             {
                 _direction = 1;
-
+                animator.SetFloat("swingDirectionRaw", _direction);
                 _swingStartVector = _backwardLimitVector;
             }
             animator.SetFloat("angle", anglePercent);
             animator.SetFloat("swingDirection", _speedMultiplier * _direction);
+
             SetUpSpline(animator);
+        }
+
+        if (Physics.SphereCast(animator.transform.position, 0.3f, _swingForward * _direction, out _, forwardCheckDistance, _layerMask))
+        {
+            animator.SetTrigger("swingCancel");
         }
 
         Debug.DrawLine(_anchor.position, _forwardSwingLimit, Color.yellow);
@@ -163,10 +177,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         _jimController.direction = _direction;
     }
 
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-    }
-
+    // Sets that set up the spline path according to user defined parameters and current point in the swing
     private void SetUpSpline(Animator animator)
     {
         float releaseDistanceX = Mathf.Lerp(minReleaseDistanceX, maxReleaseDistanceX, _percentOfSwing);

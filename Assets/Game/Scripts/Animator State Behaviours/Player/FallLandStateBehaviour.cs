@@ -14,9 +14,15 @@ public class FallLandStateBehaviour : StateMachineBehaviour
     //    
     //}
 
-    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //}
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        animator.ResetTrigger("swingStart");
+        animator.ResetTrigger("swingIdle");
+        animator.ResetTrigger("swingLand");
+        animator.ResetTrigger("swingCancel");
+        animator.ResetTrigger("fallLand");
+        animator.ResetTrigger("dodgeRoll");
+    }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

@@ -7,21 +7,18 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
     public float groundCheckDistance;
 
     private Rigidbody _rigidbody;
+    private Quaternion _targetRotation;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _rigidbody = animator.GetComponent<Rigidbody>();
-
-        if (_rigidbody == null)
-        {
-            Debug.LogError("Unable to find Rigidbody component");
-        }
+        _targetRotation = Quaternion.LookRotation(Vector3.up, animator.transform.forward);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        RaycastHit hit;
-        if (Physics.Raycast(animator.transform.position, Vector3.down, out hit, groundCheckDistance))
+        //_rigidbody.MoveRotation(_targetRotation);
+        if (Physics.Raycast(animator.transform.position, Vector3.down, out _, groundCheckDistance))
         {
             animator.SetTrigger("fallLand");
         }

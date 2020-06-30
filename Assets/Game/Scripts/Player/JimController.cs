@@ -22,13 +22,12 @@ public class JimController : MonoBehaviour
     [Header("Camera Settings")]
     public CinemachineFreeLook virtualCamera;
 
-    [Header("Jump Settings")]
-    public float jumpHeight;
-    public float jumpDistance;
-
     [Header("Swing Settings")]
     public Transform anchor;
     public SplineRoute splineRoute;
+
+    [Header("Hook logic for animator")]
+    public PlayerGrapplingHook hook;
 
     [Header("Settings recieved from the animator. Modifying these has no effect")]
     public int direction;
@@ -49,11 +48,6 @@ public class JimController : MonoBehaviour
     private Vector3 _moveDirection;
     private Vector3 _leftStickDirection;
 
-    private CapsuleCollider _capsuleCollider;
-    private float _capsuleColliderHeight;
-    private Rigidbody _rigidbody;
-    private Vector3 _reelDirection;
-
     private Animator _jimAnimator;
     private AnimatorStateInfo _stateInfo;
     private int _locomotionID;
@@ -72,10 +66,6 @@ public class JimController : MonoBehaviour
         InputManager.Instance.jimController = this;
 
         _jimAnimator = GetComponent<Animator>();
-        _capsuleCollider = GetComponent<CapsuleCollider>();
-        _capsuleColliderHeight = _capsuleCollider.height;
-
-        _rigidbody = GetComponent<Rigidbody>();
 
         _locomotionID = Animator.StringToHash("Base Layer.Locomotion");
         _idleID = Animator.StringToHash("Base Layer.Idle");
@@ -97,42 +87,6 @@ public class JimController : MonoBehaviour
     private void FixedUpdate()
     {
         MoveAndRotatePlayer();
-
-        if (IsInIdleJump())
-        {
-            transform.Translate(Vector3.up * jumpHeight * _jimAnimator.GetFloat("jumpCurve"));
-            _capsuleCollider.height = _capsuleColliderHeight + (_jimAnimator.GetFloat("colliderCurve") * 0.5f);
-        }
-
-        if (IsInRunJump())
-        {
-            transform.Translate(Vector3.up * jumpHeight * _jimAnimator.GetFloat("jumpCurve"));
-            transform.Translate(Vector3.forward * jumpDistance * Time.fixedDeltaTime);
-
-            _capsuleCollider.height = _capsuleColliderHeight + (_jimAnimator.GetFloat("colliderCurve") * 0.5f);
-        }
-
-        #region Old reel in code. Moved to animation state behaviour
-        //TO-DO move this if block to statebehaviour
-        //if (IsInSwingStart())
-        //{
-        //    if(Vector3.Distance(transform.position, anchor.position) <= swingRadius)
-        //    {
-        //        _jimAnimator.SetBool("swingIdle", true);
-        //        _reelDirection = transform.position - anchor.transform.position;
-        //        transform.position = anchor.position + (_reelDirection.normalized * swingRadius);
-        //    }
-        //    else
-        //    {
-        //        _reelDirection = anchor.transform.position - transform.position;
-        //        transform.Translate(_reelDirection.normalized * reelInSpeed * Time.fixedDeltaTime, Space.World);
-
-        //        _reelDirection.y = 0;
-        //        Quaternion targetRotation = Quaternion.LookRotation(_reelDirection);
-        //        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, faceAnchorSpeed);
-        //    }
-        //}
-        #endregion
     }
 
     private void MoveAndRotatePlayer ()

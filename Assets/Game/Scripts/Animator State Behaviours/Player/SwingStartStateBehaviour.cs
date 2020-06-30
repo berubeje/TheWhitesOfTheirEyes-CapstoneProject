@@ -75,22 +75,21 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
     {
         Debug.DrawLine(_initialPosition, _reelLocation, Color.magenta);
         Debug.DrawRay(_initialPosition, _lookDirection, Color.red);
-
-        Vector3 targetPosition = Vector3.Lerp(_initialPosition, _reelLocation, _interpolant);
-        Quaternion targetRotation = Quaternion.Lerp(_initialRotation, _lookRotation, _interpolant);
-
-        _rigidbody.MovePosition(targetPosition);
-        _rigidbody.MoveRotation(targetRotation);
-
-        if (_interpolant >= 1.0f)
+        if (!animator.GetAnimatorTransitionInfo(0).IsName("SwingStart -> SwingIdle"))
         {
-            animator.transform.position = _reelLocation;
-            float cycleOffset = (swingArcLimit - Vector3.Angle(_anchor.position - animator.transform.position, Vector3.up)) / (swingArcLimit * 2);
-            animator.SetFloat("cycleOffset", cycleOffset);
-            animator.SetTrigger("swingIdle");
-        }
+            Vector3 targetPosition = Vector3.Lerp(_initialPosition, _reelLocation, _interpolant);
+            Quaternion targetRotation = Quaternion.Lerp(_initialRotation, _lookRotation, _interpolant);
 
-        _interpolant += _lerpRate;
+            _rigidbody.MovePosition(targetPosition);
+            _rigidbody.MoveRotation(targetRotation);
+
+            if (_interpolant >= 1.0f)
+            {
+                animator.SetTrigger("swingIdle");
+            }
+
+            _interpolant += _lerpRate;
+        }
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
