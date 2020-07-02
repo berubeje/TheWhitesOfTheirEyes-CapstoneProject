@@ -70,7 +70,7 @@ ModelImporter:
       name: SwingLand2Backward
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 68
+      firstFrame: 50
       lastFrame: 94
       wrapMode: 0
       orientationOffsetY: 0
@@ -83,7 +83,7 @@ ModelImporter:
       loopBlendOrientation: 1
       loopBlendPositionY: 1
       loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
+      keepOriginalOrientation: 1
       keepOriginalPositionY: 0
       keepOriginalPositionXZ: 0
       heightFromFeet: 1

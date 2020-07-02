@@ -142,6 +142,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
             {
                 _direction = -1;
                 animator.SetFloat("swingDirectionRaw", _direction);
+                animator.SetFloat("motionTime", 1);
                 _currentSlerpStart = _backwardLimitVector;
                 _currentSlerpEnd = _forwardLimitVector;
 
@@ -151,6 +152,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
             {
                 _direction = 1;
                 animator.SetFloat("swingDirectionRaw", _direction);
+                animator.SetFloat("motionTime", 0);
                 _swingStartVector = _backwardLimitVector;
             }
             animator.SetFloat("angle", anglePercent);
