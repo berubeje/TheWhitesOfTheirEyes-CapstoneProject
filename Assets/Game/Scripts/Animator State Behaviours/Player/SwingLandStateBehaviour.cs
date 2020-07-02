@@ -74,6 +74,7 @@ public class SwingLandStateBehaviour : StateMachineBehaviour
 
                 if (_t >= 1)
                 {
+                    animator.SetTrigger("fallIdle");
                     _splineComplete = true;
                 }
 
