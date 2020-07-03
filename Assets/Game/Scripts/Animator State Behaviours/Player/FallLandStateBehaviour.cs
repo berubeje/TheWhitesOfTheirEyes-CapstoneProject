@@ -4,15 +4,34 @@ using UnityEngine;
 
 public class FallLandStateBehaviour : StateMachineBehaviour
 {
-    //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //}
+    [Range(0.0f, 1.0f)]
+    public float colliderSizeMultiplier;
 
-    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
+    [Range(0.0f, 1.0f)]
+    public float colliderYOffsetMultiplier;
+
+    private CapsuleCollider _capsuleCollider;
+    private float _capsuleColliderHeight;
+    private Vector3 _capsuleColliderCenter;
+
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        _capsuleCollider = animator.GetComponent<CapsuleCollider>();
+        if (_capsuleCollider == null)
+        {
+            Debug.LogError("Capsule Collider not found");
+        }
+        _capsuleColliderHeight = _capsuleCollider.height;
+        _capsuleColliderCenter = _capsuleCollider.center;
+    }
+
+    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        _capsuleCollider.height = _capsuleColliderHeight + (animator.GetFloat("colliderCurve") * colliderSizeMultiplier);
+        Vector3 newCenter = _capsuleColliderCenter;
+        newCenter.y += (animator.GetFloat("colliderCurve") * colliderYOffsetMultiplier);
+        _capsuleCollider.center = newCenter;
+    }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
