@@ -25,6 +25,7 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _fallTime += Time.deltaTime;
+        animator.SetFloat("fallTime", _fallTime);
         //_rigidbody.MoveRotation(_targetRotation);
         if (Physics.Raycast(animator.transform.position, Vector3.down, out _, groundCheckDistance))
         {
