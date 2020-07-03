@@ -35,6 +35,7 @@ public class FallLandStateBehaviour : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        animator.SetFloat("fallSpeed", 0.0f);
         animator.ResetTrigger("swingStart");
         animator.ResetTrigger("swingIdle");
         animator.ResetTrigger("swingLand");

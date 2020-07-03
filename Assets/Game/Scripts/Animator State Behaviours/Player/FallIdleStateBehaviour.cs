@@ -13,11 +13,12 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
     private Rigidbody _rigidbody;
     private Quaternion _targetRotation;
     private float _fallTime;
+    private int _direction;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _fallTime = 0.0f;
-        animator.SetFloat("fallSpeed", 0.0f);
+        _direction = (int)animator.GetFloat("swingDirectionRaw");
         _rigidbody = animator.GetComponent<Rigidbody>();
         _targetRotation = Quaternion.LookRotation(Vector3.up, animator.transform.forward);
     }
@@ -33,7 +34,7 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
             {
                 animator.SetFloat("fallSpeed", 0.0f);
             }
-            else if(_fallTime < mediumLandingTime)
+            else if(_fallTime < mediumLandingTime && _direction == 1)
             {
                 animator.SetFloat("fallSpeed", 0.5f);
             }
