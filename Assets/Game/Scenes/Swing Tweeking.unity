@@ -4752,6 +4752,11 @@ PrefabInstance:
       propertyPath: hook
       value: 
       objectReference: {fileID: 642680980}
+    - target: {fileID: 7906539503057262696, guid: 7815e894ce28b7045b640968b0c19064,
+        type: 3}
+      propertyPath: groundCheckDistance
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 7906539503057262698, guid: 7815e894ce28b7045b640968b0c19064,
         type: 3}
       propertyPath: m_Material

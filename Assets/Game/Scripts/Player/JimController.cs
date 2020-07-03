@@ -25,6 +25,7 @@ public class JimController : MonoBehaviour
     [Header("Swing Settings")]
     public Transform anchor;
     public SplineRoute splineRoute;
+    public float groundCheckDistance;
 
     [Header("Hook logic for animator")]
     public PlayerGrapplingHook hook;
@@ -74,14 +75,13 @@ public class JimController : MonoBehaviour
         _locomotionPivotLeftID = Animator.StringToHash("Base Layer.LocomotionPivotLeft");
         _locomotionPivotRightID = Animator.StringToHash("Base Layer.LocomotionPivotRight");
         _swingStartID = Animator.StringToHash("Base Layer.SwingStart");
-        _swingLandID = Animator.StringToHash("Base Layer.SwingIdle");
+        _swingLandID = Animator.StringToHash("Base Layer.SwingLand");
         _fallIdleID = Animator.StringToHash("Base Layer.FallIdle");
     }
 
     void Update()
     {
         _stateInfo = _jimAnimator.GetCurrentAnimatorStateInfo(0);
-        
     }
 
     private void FixedUpdate()

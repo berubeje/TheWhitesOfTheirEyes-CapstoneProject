@@ -489,6 +489,48 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!206 &-5789423687694218176
+BlendTree:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: FallLand
+  m_Childs:
+  - serializedVersion: 2
+    m_Motion: {fileID: -203655887218126122, guid: 13a7099e75ba72141b992dbfd1ffc31e,
+      type: 3}
+    m_Threshold: 0
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: angle
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: -203655887218126122, guid: 446845b3b7113aa42bcf7310ef56afd6,
+      type: 3}
+    m_Threshold: 0.5
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: angle
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: -203655887218126122, guid: e76993ac56334814db3b3f9ffaad4d66,
+      type: 3}
+    m_Threshold: 1
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: angle
+    m_Mirror: 0
+  m_BlendParameter: fallSpeed
+  m_BlendParameterY: angle
+  m_MinThreshold: 0
+  m_MaxThreshold: 1
+  m_UseAutomaticThresholds: 0
+  m_NormalizedBlendValues: 0
+  m_BlendType: 0
 --- !u!1102 &-5316957114098002671
 AnimatorState:
   serializedVersion: 5
@@ -716,7 +758,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 566497273661ec54c9e87f477277fcc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundCheckDistance: 1
+  groundCheckDistance: 0.5
+  softLandingTime: 0.15
+  mediumLandingTime: 0.55
+  hardLandingTime: 0.85
 --- !u!114 &-3951540308757938978
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -853,8 +898,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: 13a7099e75ba72141b992dbfd1ffc31e,
-    type: 3}
+  m_Motion: {fileID: -5789423687694218176}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1044,16 +1088,16 @@ AnimatorStateMachine:
     m_Position: {x: 140, y: 70, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8305684381575614273}
-    m_Position: {x: -870, y: 440, z: 0}
+    m_Position: {x: -870, y: 500, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7782196974868876379}
-    m_Position: {x: -570, y: 410, z: 0}
+    m_Position: {x: -570, y: 470, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5773733519275075838}
-    m_Position: {x: -870, y: 340, z: 0}
+    m_Position: {x: -870, y: 400, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2436163483093569856}
-    m_Position: {x: -870, y: 180, z: 0}
+    m_Position: {x: -870, y: 240, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1175575663481912571}
     m_Position: {x: -280, y: -70, z: 0}
@@ -1068,10 +1112,10 @@ AnimatorStateMachine:
     m_Position: {x: 630, y: 60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5978081612116214762}
-    m_Position: {x: -1060, y: 250, z: 0}
+    m_Position: {x: -1170, y: 310, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4198964203418108511}
-    m_Position: {x: -570, y: 250, z: 0}
+    m_Position: {x: -570, y: 310, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: -8367061626941199798}
@@ -1080,7 +1124,7 @@ AnimatorStateMachine:
   - {fileID: 7419677940281458486}
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: -850, y: 520, z: 0}
+  m_AnyStatePosition: {x: -1150, y: 500, z: 0}
   m_EntryPosition: {x: 160, y: -50, z: 0}
   m_ExitPosition: {x: 170, y: -200, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
@@ -1138,6 +1182,12 @@ AnimatorController:
     m_Controller: {fileID: 0}
   - m_Name: fallLand
     m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: fallSpeed
+    m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
@@ -2060,11 +2110,11 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0.1
   m_TransitionOffset: 0
   m_ExitTime: 0.75
   m_HasExitTime: 0
-  m_HasFixedDuration: 1
+  m_HasFixedDuration: 0
   m_InterruptionSource: 2
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
