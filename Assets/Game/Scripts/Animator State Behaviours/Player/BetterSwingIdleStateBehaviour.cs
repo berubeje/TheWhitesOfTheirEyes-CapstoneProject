@@ -104,17 +104,6 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         // Initialize _direction to forward
         _direction = 1;
         animator.SetFloat("swingDirectionRaw", _direction);
-        #region Pass tunable paramters to the player controller, to draw the spline curve
-        _jimController = animator.GetComponent<JimController>();
-        _jimController.swingForward = _swingForward;
-        _jimController.releaseDirectionOffset = releaseDirectionOffset;
-        _jimController.minDestinationAngle = minDestinationAngle;
-        _jimController.maxDestinationAngle = maxDestinationAngle;
-        _jimController.minReleaseDistanceX = minReleaseDistanceX;
-        _jimController.maxReleaseDistanceX = maxReleaseDistanceX;
-        _jimController.minReleaseDistanceY = minReleaseDistanceY;
-        _jimController.maxReleaseDistanceY = maxReleaseDistanceY;
-        #endregion
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -173,10 +162,6 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         Debug.DrawLine(animator.transform.position, _anchor.position, Color.white);
 
         Debug.DrawRay(animator.transform.position, _releaseDirection, Color.cyan);
-
-        _jimController.speedMultiplier = _speedMultiplier;
-        _jimController.releaseDirection = _releaseDirection;
-        _jimController.direction = _direction;
     }
 
     // Sets that set up the spline path according to user defined parameters and current point in the swing

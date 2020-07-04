@@ -30,19 +30,6 @@ public class JimController : MonoBehaviour
     [Header("Hook logic for animator")]
     public PlayerGrapplingHook hook;
 
-    [Header("Settings recieved from the animator. Modifying these has no effect")]
-    public int direction;
-    public float speedMultiplier;
-    public Vector3 swingForward;
-    public Vector3 releaseDirection;
-    public float releaseDirectionOffset;
-    public float minDestinationAngle;
-    public float maxDestinationAngle;
-    public float minReleaseDistanceX;
-    public float maxReleaseDistanceX;
-    public float minReleaseDistanceY;
-    public float maxReleaseDistanceY;
-
     private Vector2 _leftStickInput;
     private Vector2 _rightStickInput;
 
@@ -208,42 +195,5 @@ public class JimController : MonoBehaviour
         Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), _leftStickDirection, Color.green);
 
         Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), transform.forward, Color.blue);
-
-        float releaseDistanceX = 0;
-        float releaseDistanceY = 0;
-        float releaseDestinationAngle = 0;
-
-        if (_jimAnimator != null)
-        {
-            releaseDistanceX = Mathf.Lerp(minReleaseDistanceX, maxReleaseDistanceX, _jimAnimator.GetFloat("percentOfSwing"));
-            releaseDistanceY = Mathf.Lerp(minReleaseDistanceY, maxReleaseDistanceY, _jimAnimator.GetFloat("percentOfSwing"));
-            releaseDestinationAngle = Mathf.Lerp(minDestinationAngle, maxDestinationAngle, _jimAnimator.GetFloat("percentOfSwing"));
-        }
-
-        Vector3 p0 = transform.position; 
-        Vector3 p1 = transform.position + releaseDirection + (Vector3.up * releaseDirectionOffset);
-
-        Vector3 p3 = transform.position +
-            (swingForward * releaseDistanceX) * direction +
-            (Vector3.up * releaseDistanceY);
-        
-        Vector3 p2 = (Quaternion.AngleAxis(releaseDestinationAngle * -direction, transform.right) * Vector3.up) + p3;
-
-        Gizmos.color = Color.green;
-        for (float t = 0.0f; t <= 1; t += 0.05f)
-        {
-            Vector3 gizmosPosition = Mathf.Pow(1 - t, 3) * p0 +
-                3 * Mathf.Pow(1 - t, 2) * t * p1 +
-                3 * (1 - t) * Mathf.Pow(t, 2) * p2 +
-                Mathf.Pow(t, 3) * p3;
-
-            Gizmos.DrawSphere(gizmosPosition, 0.05f);
-        }
-
-        Gizmos.color = Color.white;
-
-        Gizmos.DrawLine(p0, p1);
-
-        Gizmos.DrawLine(p2, p3);
     }
 }

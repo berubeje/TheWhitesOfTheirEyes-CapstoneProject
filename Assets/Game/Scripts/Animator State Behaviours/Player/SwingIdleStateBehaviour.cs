@@ -83,16 +83,6 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
         _swingForward.y = 0;
         _swingForward = _swingForward.normalized;
 
-        //Pass tunable paramters to the player controller, to draw the spline curve
-        _jimController = animator.GetComponent<JimController>();
-        _jimController.swingForward = _swingForward;
-        _jimController.releaseDirectionOffset = releaseDirectionOffset;
-        _jimController.minDestinationAngle = minDestinationAngle;
-        _jimController.maxDestinationAngle = maxDestinationAngle;
-        _jimController.minReleaseDistanceX = minReleaseDistanceX;
-        _jimController.maxReleaseDistanceX = maxReleaseDistanceX;
-        _jimController.minReleaseDistanceY = minReleaseDistanceY;
-        _jimController.maxReleaseDistanceY = maxReleaseDistanceY;
 
         // Initialize direction to forward
         _direction = 1;
@@ -178,11 +168,6 @@ public class SwingIdleStateBehaviour : StateMachineBehaviour
 
         Debug.DrawRay(animator.transform.position, _releaseDirection, Color.cyan);
 
-        _jimController.speedMultiplier = _speedMultiplier;
-        _jimController.releaseDirection = _releaseDirection;
-        _jimController.direction = _direction;
-
-        
     }
 
 
