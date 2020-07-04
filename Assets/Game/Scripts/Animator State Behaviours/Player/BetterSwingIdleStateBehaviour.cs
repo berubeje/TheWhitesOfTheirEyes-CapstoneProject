@@ -160,7 +160,6 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 
         if (Physics.SphereCast(animator.transform.position, 0.3f, _swingForward * _direction, out _, forwardCheckDistance, _layerMask))
         {
-            //_rigidbody.MoveRotation(Quaternion.LookRotation(Vector3.Cross(Vector3.up, animator.transform.right)));
             animator.SetTrigger("swingCancel");
         }
 

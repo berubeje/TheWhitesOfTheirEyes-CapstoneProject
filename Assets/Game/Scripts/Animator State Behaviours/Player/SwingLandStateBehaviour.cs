@@ -63,9 +63,10 @@ public class SwingLandStateBehaviour : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, _targetRotation, _jimController.rotationSpeed);
+        
         if (!animator.GetAnimatorTransitionInfo(0).IsName("SwingLand -> SwingCancel") && !animator.GetAnimatorTransitionInfo(0).IsName("SwingLand -> FallIdle"))
         {
+
             if (!_splineComplete)
             {
 
@@ -84,6 +85,7 @@ public class SwingLandStateBehaviour : StateMachineBehaviour
                         Mathf.Pow(_t, 3) * _p3;
 
                 _rigidbody.MovePosition(targetPosition);
+                animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, _targetRotation, _jimController.rotationSpeed);
             }
         }
         if (Physics.Raycast(animator.transform.position, Vector3.down, out _, groundCheckDistance))

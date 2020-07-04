@@ -5,18 +5,16 @@ using UnityEngine;
 public class SwingCancelStateBehaviour : StateMachineBehaviour
 {
     public float groundCheckDistance;
+    public float rotationSpeed;
 
-    private Rigidbody _rigidbody;
     private JimController _jimController;
     private PlayerGrapplingHook _playerGrapplingHook;
     private Vector3 _swingForward;
-    private Vector3 _rotationRight;
     private Quaternion _targetRotation;
     private int _direction;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        _rigidbody = animator.GetComponent<Rigidbody>();
         _jimController = animator.GetComponent<JimController>();
         _playerGrapplingHook = _jimController.hook;
         _playerGrapplingHook.DetachHook();
@@ -34,7 +32,7 @@ public class SwingCancelStateBehaviour : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, _targetRotation, _jimController.rotationSpeed);
+        animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, _targetRotation, rotationSpeed);
 
         if (Physics.Raycast(animator.transform.position, Vector3.down, out _, groundCheckDistance))
         {
