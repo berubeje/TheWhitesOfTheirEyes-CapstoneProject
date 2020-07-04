@@ -37,6 +37,9 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
     private Vector3 _currentSlerpEnd;
     private Vector3 _pendulumArm;
     private Vector3 _swingStartVector;
+
+    private Vector3 _swingRotationCenter;
+
     private float _percentOfSwing;
     private float _speedMultiplier;
     private float _angle;
@@ -94,6 +97,10 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         _backwardSwingLimit = _anchor.position - (_swingForward * xLimit);
         _backwardSwingLimit.y -= yLimit;
 
+        // Calculate the center of the rotation ring
+        _swingRotationCenter = _anchor.position;
+        _swingRotationCenter.y -= yLimit;
+
         _backwardLimitVector = _backwardSwingLimit - _anchor.position; 
         _forwardLimitVector = _forwardSwingLimit - _anchor.position;
         _interpolant = 0;
@@ -131,7 +138,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
             {
                 _direction = -1;
                 animator.SetFloat("swingDirectionRaw", _direction);
-                animator.SetFloat("motionTime", 1);
+                animator.SetBool("canRoll", false);
                 _currentSlerpStart = _backwardLimitVector;
                 _currentSlerpEnd = _forwardLimitVector;
 
@@ -141,23 +148,29 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
             {
                 _direction = 1;
                 animator.SetFloat("swingDirectionRaw", _direction);
-                animator.SetFloat("motionTime", 0);
+                animator.SetBool("canRoll", true);
                 _swingStartVector = _backwardLimitVector;
             }
             animator.SetFloat("angle", anglePercent);
             animator.SetFloat("swingDirection", _speedMultiplier * _direction);
 
             SetUpSpline(animator);
+
         }
 
         if (Physics.SphereCast(animator.transform.position, 0.3f, _swingForward * _direction, out _, forwardCheckDistance, _layerMask))
         {
+            _rigidbody.MoveRotation(Quaternion.LookRotation(Vector3.Cross(Vector3.up, animator.transform.right)));
             animator.SetTrigger("swingCancel");
         }
 
         Debug.DrawLine(_anchor.position, _forwardSwingLimit, Color.yellow);
 
         Debug.DrawLine(_anchor.position, _backwardSwingLimit, Color.red);
+
+        Debug.DrawLine(_anchor.position, _swingRotationCenter, Color.green);
+        Debug.DrawLine(_swingRotationCenter, _forwardSwingLimit, Color.yellow);
+        Debug.DrawLine(_swingRotationCenter, _backwardSwingLimit, Color.red);
 
         Debug.DrawLine(animator.transform.position, _anchor.position, Color.white);
 

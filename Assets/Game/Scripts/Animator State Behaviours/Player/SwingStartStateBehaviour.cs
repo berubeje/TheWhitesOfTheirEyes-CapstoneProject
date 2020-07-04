@@ -13,6 +13,8 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
     public float releaseDirectionOffset;
     public float releaseDistanceX;
     public float releaseDestinationAngle;
+    [Space]
+    public float forwardCheckDistance;
 
     private JimController _jimController;
     private SplineRoute _splineRoute;
@@ -25,9 +27,12 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
     private Vector3 _lookDirection;
     private Vector3 _reelDirection;
     private Vector3 _reelLocation;
+    private Vector3 _swingForward;
     private Quaternion _lookRotation;
     private float _interpolant;
     private float _lerpRate;
+    private int _layerMask = ~(1 << 8);
+
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.ResetTrigger("swingStart");
@@ -69,6 +74,10 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
         // Grab the direction from the anchor to the player and normalize it 
         _reelDirection = (animator.transform.position - _anchor.position).normalized;
 
+        // Reverse it and kill the y to get the swing forward
+        _swingForward = _swingForward - _reelDirection;
+        _swingForward.y = 0;
+
         // Calculate the point to be reeled to
         _reelLocation = _anchor.position + (_reelDirection * swingRadius);
 
@@ -98,6 +107,13 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
 
             _interpolant += _lerpRate;
         }
+
+
+        if (Physics.SphereCast(animator.transform.position, 0.3f, _swingForward, out _, forwardCheckDistance, _layerMask))
+        {
+            animator.SetTrigger("swingCancel");
+        }
+
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

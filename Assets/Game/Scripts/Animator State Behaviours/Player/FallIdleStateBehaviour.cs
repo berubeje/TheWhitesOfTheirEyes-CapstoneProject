@@ -10,31 +10,26 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
     public float mediumLandingTime;
     public float hardLandingTime;
 
-    private Rigidbody _rigidbody;
-    private Quaternion _targetRotation;
     private float _fallTime;
-    private int _direction;
+    private bool _canRoll;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _fallTime = 0.0f;
-        _direction = (int)animator.GetFloat("swingDirectionRaw");
-        _rigidbody = animator.GetComponent<Rigidbody>();
-        _targetRotation = Quaternion.LookRotation(Vector3.up, animator.transform.forward);
+        _canRoll = animator.GetBool("canRoll");
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _fallTime += Time.deltaTime;
         animator.SetFloat("fallTime", _fallTime);
-        //_rigidbody.MoveRotation(_targetRotation);
         if (Physics.Raycast(animator.transform.position, Vector3.down, out _, groundCheckDistance))
         {
             if (_fallTime < softLandingTime)
             {
                 animator.SetFloat("fallSpeed", 0.0f);
             }
-            else if(_fallTime < mediumLandingTime && _direction == 1)
+            else if(_fallTime < mediumLandingTime && _canRoll)
             {
                 animator.SetFloat("fallSpeed", 0.5f);
             }

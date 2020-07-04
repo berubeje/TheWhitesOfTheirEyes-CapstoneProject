@@ -97,6 +97,10 @@ public class InputManager : Singleton<InputManager>
         }
     }
 
+    private void BindSwingRotation()
+    {
+
+    }
     private void BindControls()
     {
         _playerControls = new PlayerControls();

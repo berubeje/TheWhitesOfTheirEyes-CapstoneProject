@@ -112,7 +112,7 @@ public class JimController : MonoBehaviour
         if (_leftStickInput.sqrMagnitude >= leftStickDeadzone)
         {
             // Directly rotate the player if the joystick is moving and they are in the idle or locomotion state
-            if (IsInIdle() || IsInLocomotion() || IsInSwingLand() || IsInFallIdle()) 
+            if (IsInIdle() || IsInLocomotion()) 
             {
                 Quaternion targetRotation = Quaternion.LookRotation(_moveDirection);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed);
@@ -126,7 +126,10 @@ public class JimController : MonoBehaviour
             _jimAnimator.SetFloat("angle", 0.0f);
         }
     }
+    private void RotateSwing()
+    {
 
+    }
     public void OnLeftStick(InputAction.CallbackContext context)
     {
         if (!isPulling)
