@@ -90,6 +90,7 @@ MonoBehaviour:
   maxReleaseDistanceX: 5
   minReleaseDistanceY: -3
   maxReleaseDistanceY: 1
+  swingRotationSpeed: 50
 --- !u!1102 &-8566082829148950103
 AnimatorState:
   serializedVersion: 5
@@ -1098,7 +1099,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -912973533431690561}
-    m_Position: {x: 140, y: 230, z: 0}
+    m_Position: {x: 140, y: 240, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6621036545322162935}
     m_Position: {x: -220, y: 300, z: 0}
@@ -1107,10 +1108,10 @@ AnimatorStateMachine:
     m_Position: {x: 460, y: 310, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5316957114098002671}
-    m_Position: {x: 550, y: 140, z: 0}
+    m_Position: {x: 550, y: 160, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5277828674320842399}
-    m_Position: {x: -310, y: 130, z: 0}
+    m_Position: {x: -290, y: 140, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5181084003247603946}
     m_Position: {x: 140, y: 70, z: 0}
@@ -1128,7 +1129,7 @@ AnimatorStateMachine:
     m_Position: {x: -870, y: 240, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1175575663481912571}
-    m_Position: {x: -280, y: -70, z: 0}
+    m_Position: {x: -290, y: -80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2921037570716703627}
     m_Position: {x: -370, y: 680, z: 0}

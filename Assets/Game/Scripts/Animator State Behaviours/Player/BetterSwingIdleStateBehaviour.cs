@@ -19,6 +19,9 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
     public float minReleaseDistanceY;
     public float maxReleaseDistanceY;
 
+    [Space]
+    public float swingRotationSpeed;
+
     private Rigidbody _rigidbody;
     private PlayerGrapplingHook _grapplingHook;
     private Transform _anchor;
@@ -38,7 +41,11 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
     private Vector3 _pendulumArm;
     private Vector3 _swingStartVector;
 
+    // Parameters to handle swing rotation
     private Vector3 _swingRotationCenter;
+    private Vector3 _swingCenterAxis;
+    private Vector3 _forwardSwingRotation;
+    private Vector3 _backwardSwingRotation;
 
     private float _percentOfSwing;
     private float _speedMultiplier;
@@ -101,6 +108,14 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         _swingRotationCenter = _anchor.position;
         _swingRotationCenter.y -= yLimit;
 
+        // The vector from the center of the rotation ring to the anchor point
+        _swingCenterAxis = _anchor.position - _swingRotationCenter;
+
+        //Vectors from the center of the rotation ring to the swing limits
+        _forwardSwingRotation = _forwardSwingLimit - _swingRotationCenter;
+        _backwardSwingRotation = _backwardSwingLimit - _swingRotationCenter;
+
+        // Vectors from the anchor point to the swing limits
         _backwardLimitVector = _backwardSwingLimit - _anchor.position; 
         _forwardLimitVector = _forwardSwingLimit - _anchor.position;
         _interpolant = 0;
@@ -108,6 +123,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         _currentSlerpStart = animator.transform.position - _anchor.position;
         _currentSlerpEnd = _forwardLimitVector;
         _swingStartVector = _backwardLimitVector;
+
         // Initialize _direction to forward
         _direction = 1;
         animator.SetFloat("swingDirectionRaw", _direction);
@@ -122,17 +138,24 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
             _angle = Mathf.Round(_angle * 10.0f) / 10.0f;
             float anglePercent = _angle / swingArcLimit;
 
+            // Calculate speed of swing based on how close we are to the center
             _speedMultiplier = Mathf.Lerp(maxSwingSpeed, minSwingSpeed, anglePercent);
+
+            // Slerp between the current two heights of the swing
             Vector3 targetVector = Vector3.Slerp(_currentSlerpStart, _currentSlerpEnd, _interpolant);
-            _releaseDirection = Vector3.Cross(-_pendulumArm, animator.transform.right * _direction).normalized * releaseDirectionMagnitude;
+            Vector3 swingRight = Vector3.Cross(_swingCenterAxis, _backwardSwingRotation).normalized;
+
 
             _rigidbody.MovePosition(_anchor.position + targetVector);
-            _rigidbody.MoveRotation(Quaternion.LookRotation(Vector3.Cross(-_pendulumArm, animator.transform.right)));
+            _rigidbody.MoveRotation(Quaternion.LookRotation(Vector3.Cross(_pendulumArm, swingRight)));
 
+            _releaseDirection = Vector3.Cross(-_pendulumArm, animator.transform.right * _direction).normalized * releaseDirectionMagnitude;
             _percentOfSwing = Vector3.Angle(_swingStartVector, -_pendulumArm) / (swingArcLimit * 2);
             animator.SetFloat("percentOfSwing", _percentOfSwing * _direction);
 
             _interpolant += _speedMultiplier * Time.deltaTime * _direction;
+
+            RotateSwing(animator);
 
             if (_interpolant > 1.0f)
             {
@@ -168,8 +191,8 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         Debug.DrawLine(_anchor.position, _backwardSwingLimit, Color.red);
 
         Debug.DrawLine(_anchor.position, _swingRotationCenter, Color.green);
-        Debug.DrawLine(_swingRotationCenter, _forwardSwingLimit, Color.yellow);
-        Debug.DrawLine(_swingRotationCenter, _backwardSwingLimit, Color.red);
+        Debug.DrawRay(_swingRotationCenter, _forwardSwingRotation, Color.yellow);
+        Debug.DrawRay(_swingRotationCenter, _backwardSwingRotation, Color.red);
 
         Debug.DrawLine(animator.transform.position, _anchor.position, Color.white);
 
@@ -193,5 +216,27 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 
         _splineRoute.controlPoints[2].position = (Quaternion.AngleAxis(releaseDestinationAngle * -_direction, animator.transform.right) * Vector3.up) +
             _splineRoute.controlPoints[3].position;
+    }
+
+    private void RotateSwing(Animator animator)
+    {
+        float xInput = animator.GetFloat("leftInputX");
+
+        Quaternion targetRotation = Quaternion.AngleAxis(swingRotationSpeed * xInput * Time.deltaTime, _swingCenterAxis);
+        _forwardSwingRotation = targetRotation * _forwardSwingRotation;
+        _backwardSwingRotation = -_forwardSwingRotation;
+        _backwardSwingRotation.y = _forwardSwingRotation.y;
+
+        _forwardSwingLimit = _swingRotationCenter + _forwardSwingRotation;
+        _backwardSwingLimit = _swingRotationCenter + _backwardSwingRotation;
+
+        _backwardLimitVector = _backwardSwingLimit - _anchor.position;
+        _forwardLimitVector = _forwardSwingLimit - _anchor.position;
+
+        // Create new forward vector 
+        _swingForward = _forwardSwingRotation.normalized;
+
+        _currentSlerpStart = _backwardLimitVector;
+        _currentSlerpEnd = _forwardLimitVector;
     }
 }
