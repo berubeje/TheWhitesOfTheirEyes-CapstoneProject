@@ -46,6 +46,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
     private Vector3 _swingCenterAxis;
     private Vector3 _forwardSwingRotation;
     private Vector3 _backwardSwingRotation;
+    private bool _firstSwingComplete;
 
     private float _percentOfSwing;
     private float _speedMultiplier;
@@ -124,6 +125,8 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         _currentSlerpEnd = _forwardLimitVector;
         _swingStartVector = _backwardLimitVector;
 
+        _firstSwingComplete = false;
+        
         // Initialize _direction to forward
         _direction = 1;
         animator.SetFloat("swingDirectionRaw", _direction);
@@ -143,13 +146,15 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 
             // Slerp between the current two heights of the swing
             Vector3 targetVector = Vector3.Slerp(_currentSlerpStart, _currentSlerpEnd, _interpolant);
+
+            // Calculate the right direction of the swing 
             Vector3 swingRight = Vector3.Cross(_swingCenterAxis, _backwardSwingRotation).normalized;
 
 
             _rigidbody.MovePosition(_anchor.position + targetVector);
             _rigidbody.MoveRotation(Quaternion.LookRotation(Vector3.Cross(_pendulumArm, swingRight)));
 
-            _releaseDirection = Vector3.Cross(-_pendulumArm, animator.transform.right * _direction).normalized * releaseDirectionMagnitude;
+            _releaseDirection = Vector3.Cross(-_pendulumArm, swingRight * _direction).normalized * releaseDirectionMagnitude;
             _percentOfSwing = Vector3.Angle(_swingStartVector, -_pendulumArm) / (swingArcLimit * 2);
             animator.SetFloat("percentOfSwing", _percentOfSwing * _direction);
 
@@ -162,9 +167,13 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
                 _direction = -1;
                 animator.SetFloat("swingDirectionRaw", _direction);
                 animator.SetBool("canRoll", false);
-                _currentSlerpStart = _backwardLimitVector;
-                _currentSlerpEnd = _forwardLimitVector;
 
+                if (!_firstSwingComplete)
+                {
+                    _currentSlerpStart = _backwardLimitVector;
+                    _currentSlerpEnd = _forwardLimitVector;
+                    _firstSwingComplete = true;
+                }
                 _swingStartVector = _forwardLimitVector;
             }
             else if(_interpolant < 0)
@@ -225,7 +234,6 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         Quaternion targetRotation = Quaternion.AngleAxis(swingRotationSpeed * xInput * Time.deltaTime, _swingCenterAxis);
         _forwardSwingRotation = targetRotation * _forwardSwingRotation;
         _backwardSwingRotation = -_forwardSwingRotation;
-        _backwardSwingRotation.y = _forwardSwingRotation.y;
 
         _forwardSwingLimit = _swingRotationCenter + _forwardSwingRotation;
         _backwardSwingLimit = _swingRotationCenter + _backwardSwingRotation;
@@ -236,7 +244,10 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         // Create new forward vector 
         _swingForward = _forwardSwingRotation.normalized;
 
-        _currentSlerpStart = _backwardLimitVector;
+        if (_firstSwingComplete)
+        {
+            _currentSlerpStart = _backwardLimitVector;
+        }
         _currentSlerpEnd = _forwardLimitVector;
     }
 }
