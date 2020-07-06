@@ -19,7 +19,13 @@ public class MagicRopeProjectileLogic : MonoBehaviour
     private bool _targetReached = true;
     private bool _returning;
     private bool _dontDestroy;
+    private MeshRenderer _meshRenderer;
 
+
+    private void Awake()
+    {
+        _meshRenderer = GetComponent<MeshRenderer>();
+    }
 
     void Update()
     {
@@ -51,7 +57,7 @@ public class MagicRopeProjectileLogic : MonoBehaviour
 
                     if (_dontDestroy == false)
                     {
-                        Destroy(this.gameObject);
+                        _meshRenderer.enabled = false;
                     }
 
                     if(_targetTransform == ropeBaseReturnTransform)
@@ -68,17 +74,19 @@ public class MagicRopeProjectileLogic : MonoBehaviour
     // Tell the rope to start returning to the base of the rope.
     public void RopeReturn(Transform ropeBase)
     {
+        transform.parent = null;
         _targetTransform = ropeBase;
         _targetReached = false;
         _returning = true;
     }
 
-    // Relaunch the same projectile if the player launches the rope while its coming back.
+    // Launch the projectile at a target.
     public void Relaunch(Transform targetTransform)
     {
         _targetTransform = targetTransform;
         _returning = false;
         _targetReached = false;
+        _meshRenderer.enabled = true;
     }
 
     // This is for the rope base to come back to the player's hand after a tie action.
@@ -90,15 +98,16 @@ public class MagicRopeProjectileLogic : MonoBehaviour
         _dontDestroy = true;
     }
 
-    // This is called when firing out the projectile to give the projectile what it needs to reach its target.
-    public void SetupProjectile(Transform targetTransform, PlayerGrapplingHook grappling)
+    public void InstantReturn()
     {
-        _targetTransform = targetTransform;
-        _grapplingHookLogic = grappling;
-        _targetReached = false;
+        transform.parent = null;
+        transform.position = ropeBaseReturnTransform.position;
+        _meshRenderer.enabled = false;
+        _targetReached = true;
+        _returning = false;
     }
 
-    // This is specifically for the base of the rope so it can be returned to the player's hand after a tie action.
+    // Setup the magic projectile to have a reference to the grappling hook.
     public void SetupGrappleHook(PlayerGrapplingHook grappling)
     {
         _grapplingHookLogic = grappling;

@@ -50,6 +50,7 @@ public class RopeController : MonoBehaviour
         _currentLengthOffset = startingLengthOffset;
 
         InputManager.Instance.ropeController = this;
+        ropeLogic.OnRopeStateChange += CheckRopeState;
     }
 
 
@@ -57,9 +58,7 @@ public class RopeController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CheckRopeState();
-
-        if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.OneEndTied)
+        if (ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.OneEndTied)
         {
             _ropeStrain = ropeLogic.CalculateStrain();
         }
@@ -68,7 +67,7 @@ public class RopeController : MonoBehaviour
     void FixedUpdate()
     {
         // Check to see if the rope is attatch to a pull anchor point. If so, adjust the rope so it looks tighter.
-        if ((ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.OneEndTied) && _targetTransform != null)
+        if ((ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.OneEndTied) && _targetTransform != null)
         {
             AdjustStrain();
 
@@ -84,7 +83,7 @@ public class RopeController : MonoBehaviour
                 ropeLogic.DetachHook();
             }
 
-            if (_pullObject && ropeLogic.ropeState != PlayerGrapplingHook.RopeState.OneEndTied)
+            if (_pullObject && ropeLogic.currentRopeState != PlayerGrapplingHook.RopeState.OneEndTied)
             {
                 PullObject();
             }
@@ -116,48 +115,43 @@ public class RopeController : MonoBehaviour
     }
 
     // Check the state of the rope to allow different actions to happen, or to adjust the player and rope.
-    private void CheckRopeState()
+    public void CheckRopeState(PlayerGrapplingHook.RopeState state)
     {
-        if (ropeLogic != null)
+        switch (state)
         {
-            switch (ropeLogic.ropeState)
-            {
-                case PlayerGrapplingHook.RopeState.Swing:
-                    {
-                        _playerRigidBody.isKinematic = false;
-                        _playerRigidBody.useGravity = false;
-                        _animator.applyRootMotion = false;
 
-                        _targetTransform = ropeLogic.targetAnchor.transform;
+            case PlayerGrapplingHook.RopeState.Swing:
+                {
+                    _playerRigidBody.isKinematic = false;
+                    _playerRigidBody.useGravity = false;
+                    _animator.applyRootMotion = false;
 
-                        break;
-                    }
+                    _targetTransform = ropeLogic.targetAnchor.transform;
 
-                case PlayerGrapplingHook.RopeState.Pull:
-                    {
-                        _targetTransform = ropeLogic.targetAnchor.transform;
-                        break;
-                    }
+                    break;
+                }
 
-                case PlayerGrapplingHook.RopeState.OneEndTied:
-                    {
-                        _targetTransform = ropeLogic.targetAnchor.transform;
-                        break;
-                    }
+            case PlayerGrapplingHook.RopeState.Pull:
+                {
+                    _targetTransform = ropeLogic.targetAnchor.transform;
+                    break;
+                }
 
-                case PlayerGrapplingHook.RopeState.Idle:
-                    {
-                        _playerRigidBody.isKinematic = false;
-                        _animator.applyRootMotion = true;
-                        _playerRigidBody.useGravity = true;
-                        _targetTransform = null;
-                        _currentLengthOffset = startingLengthOffset;
-                        break;
-                    }
+            case PlayerGrapplingHook.RopeState.OneEndTied:
+                {
+                    _targetTransform = ropeLogic.targetAnchor.transform;
+                    break;
+                }
 
-
-            }
-
+            case PlayerGrapplingHook.RopeState.Idle:
+                {
+                    _playerRigidBody.isKinematic = false;
+                    _animator.applyRootMotion = true;
+                    _playerRigidBody.useGravity = true;
+                    _targetTransform = null;
+                    _currentLengthOffset = startingLengthOffset;
+                    break;
+                }
         }
     }
 
@@ -166,7 +160,7 @@ public class RopeController : MonoBehaviour
     public void OnRightTriggerDown(InputAction.CallbackContext context)
     {
         _rightTriggerInput = context.ReadValue<float>();
-        if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Idle)
+        if (ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.Idle)
         {
             if (_isRightTriggerInUse == false)
             {
@@ -175,7 +169,7 @@ public class RopeController : MonoBehaviour
             }
 
         }
-        else if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Tied)
+        else if (ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.Tied)
         {
             if (_isRightTriggerInUse == false)
             {
@@ -191,12 +185,12 @@ public class RopeController : MonoBehaviour
     {
         _isRightTriggerInUse = false;
 
-        if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Swing || ropeLogic.ropeState == PlayerGrapplingHook.RopeState.OneEndTied)
+        if (ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.Swing || ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.OneEndTied)
         {
             ropeLogic.DetachHook();
             _playerLogic.isPulling = false;
         }
-        else if(ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Launched)
+        else if (ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.Launched)
         {
             ropeLogic.CancelLaunch();
         }
@@ -205,7 +199,7 @@ public class RopeController : MonoBehaviour
     // Hold the left trigger for a certain amount of time to start pulling in the object.
     public void OnLeftTriggerPull(InputAction.CallbackContext context)
     {
-        if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull)
+        if (ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.Pull)
         {
             _pullObject = true;
             _playerLogic.isPulling = true;
@@ -214,9 +208,9 @@ public class RopeController : MonoBehaviour
 
     // Tap the left trigger to tie the base of the rope to another anchor point.
     public void OnLeftTriggerTie(InputAction.CallbackContext context)
-    {   
+    {
         // For some reason, this will trigger regardless if you hold the trigger long enough or not
-        if (ropeLogic.ropeState == PlayerGrapplingHook.RopeState.Pull)
+        if (ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.Pull)
         {
             if (_pullObject == true)
             {
@@ -224,7 +218,7 @@ public class RopeController : MonoBehaviour
                 _playerLogic.isPulling = false;
             }
         }
-        else if(ropeLogic.ropeState == PlayerGrapplingHook.RopeState.OneEndTied)
+        else if (ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.OneEndTied)
         {
             ropeLogic.TieRope();
         }
