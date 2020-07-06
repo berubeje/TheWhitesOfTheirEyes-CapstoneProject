@@ -75,9 +75,13 @@ public class RockSwinging : IObstacle
     {
         _rigidbody = GetComponent<Rigidbody>();
 
-        _initialDoorPosition = door.transform.position;
+        if (door != null)
+        {
+            _initialDoorPosition = door.transform.position;
+            _initialDoorRotation = door.transform.rotation;
+        }
+
         _initialBoulderPosition = transform.position;
-        _initialDoorRotation = door.transform.rotation;
         _initialBoulderRotation = transform.rotation;
 
         OnRopeTie += OnRopeTied;

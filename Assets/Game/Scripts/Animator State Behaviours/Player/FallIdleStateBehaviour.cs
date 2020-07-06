@@ -23,7 +23,7 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
     {
         _fallTime += Time.deltaTime;
         animator.SetFloat("fallTime", _fallTime);
-        if (Physics.Raycast(animator.transform.position, Vector3.down, out _, groundCheckDistance))
+        if (Physics.SphereCast(animator.transform.position, 0.3f, Vector3.down, out _, groundCheckDistance))
         {
             if (_fallTime < softLandingTime)
             {

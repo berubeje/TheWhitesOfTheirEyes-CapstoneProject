@@ -88,7 +88,7 @@ public class SwingLandStateBehaviour : StateMachineBehaviour
                 animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, _targetRotation, _jimController.rotationSpeed);
             }
         }
-        if (Physics.Raycast(animator.transform.position, Vector3.down, out _, groundCheckDistance))
+        if (Physics.SphereCast(animator.transform.position, 0.3f, Vector3.down, out _, groundCheckDistance))
         {
             splineSpeed = _initialSplineSpeed;
             animator.SetTrigger("fallLand");
