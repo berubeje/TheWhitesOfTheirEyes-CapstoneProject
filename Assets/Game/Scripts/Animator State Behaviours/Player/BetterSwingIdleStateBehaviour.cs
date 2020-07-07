@@ -31,7 +31,6 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
     private CinemachineTrackedDolly _dollyCamera;
 
     private Vector3 _initialSwingPosition;
-    private Quaternion _initialSwingRotation;
     private Vector3 _swingForward;
     private Vector3 _releaseDirection;
     private Vector3 _backwardSwingLimit;
@@ -86,15 +85,13 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         }
         _dollyCamera = _jimController.swingCamera.GetCinemachineComponent<CinemachineTrackedDolly>();
 
-        // Cache initial position and rotation
+        // Cache initial position
         _initialSwingPosition = animator.transform.position;
-        _initialSwingRotation = animator.transform.rotation;
 
         // Get reference to current anchor point
         _anchor = _grapplingHook.targetAnchor.transform;
 
-        // Update position of camera dolly and switch to dolly camera
-        _jimController.swingCameraTrack.transform.position = _anchor.position + _jimController.swingCameraTrack.followOffset;
+        // Switch to dolly camera
         _jimController.swingCamera.Priority = 15;
 
         // Calculate the max x and y distance away from the origin, based on swing radius
@@ -158,18 +155,23 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
             // Calculate the right direction of the swing 
             Vector3 swingRight = Vector3.Cross(_swingCenterAxis, _backwardSwingRotation).normalized;
 
-
+            // Move and rotate the player
             _rigidbody.MovePosition(_anchor.position + targetVector);
             _rigidbody.MoveRotation(Quaternion.LookRotation(Vector3.Cross(_pendulumArm, swingRight)));
 
+            // Calculate the release direction based on where we are in the swing arc 
             _releaseDirection = Vector3.Cross(-_pendulumArm, swingRight * _direction).normalized * releaseDirectionMagnitude;
+            // How much of the current swing we have completed
             _percentOfSwing = Vector3.Angle(_swingStartVector, -_pendulumArm) / (swingArcLimit * 2);
 
-
-
             animator.SetFloat("percentOfSwing", _percentOfSwing * _direction);
-            // Update dolly position of camera
-            _dollyCamera.m_PathPosition = _percentOfSwing;
+
+            // Update camera position and dolly track position/rotation
+            _jimController.swingCameraTrack.transform.position = _backwardSwingLimit;
+            _jimController.swingCameraTrack.transform.rotation = Quaternion.LookRotation(_swingForward);
+            _dollyCamera.m_PathPosition = _interpolant;
+
+            
             _interpolant += _speedMultiplier * Time.deltaTime * _direction;
 
             RotateSwing(animator);
@@ -222,6 +224,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // Switch back to free look camera
         _jimController.swingCamera.Priority = 5;
     }
 

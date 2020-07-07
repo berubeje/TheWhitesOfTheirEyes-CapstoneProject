@@ -20,7 +20,7 @@ public class JimController : MonoBehaviour
     public bool isPulling = false;
 
     [Header("Camera Settings")]
-    [Range(0.1f, 1.0f)]
+    [Range(0.1f, 5.0f)]
     public float cameraSensitivity;
     public CameraFollowTarget cameraFollowTarget;
     public CinemachineFreeLook freeLookCamera;
