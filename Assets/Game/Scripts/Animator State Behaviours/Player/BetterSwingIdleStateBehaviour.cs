@@ -21,6 +21,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 
     [Space]
     public float swingRotationSpeed;
+    public float swingCameraFollowSpeed;
 
     private Rigidbody _rigidbody;
     private PlayerGrapplingHook _grapplingHook;
@@ -81,6 +82,8 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         {
             Debug.LogError("Unable to find Spline Route object");
         }
+
+        _jimController.cameraFollowTarget.followSpeed = swingCameraFollowSpeed;
 
         // Cache initial position and rotation
         _initialSwingPosition = animator.transform.position;

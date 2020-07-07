@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class CameraFollowTarget : ControllableBase
 {
-    public Transform followTarget;
+    public JimController jimController;
     public float followSpeed;
     public Vector3 followOffset;
 
-    void LateUpdate()
+    private void Awake()
     {
-        transform.position = Vector3.Lerp(transform.position, followTarget.position + followOffset, Time.deltaTime * followSpeed);
+        jimController.cameraFollowTarget = this;
     }
 
+    void LateUpdate()
+    {
+        transform.position = Vector3.Lerp(transform.position, jimController.transform.position + followOffset, Time.deltaTime * followSpeed);
+    }
+     
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
