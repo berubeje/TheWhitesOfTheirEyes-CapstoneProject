@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Cinemachine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,13 +22,13 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 
     [Space]
     public float swingRotationSpeed;
-    public float swingCameraFollowSpeed;
 
     private Rigidbody _rigidbody;
     private PlayerGrapplingHook _grapplingHook;
     private Transform _anchor;
     private SplineRoute _splineRoute;
     private JimController _jimController;
+    private CinemachineTrackedDolly _dollyCamera;
 
     private Vector3 _initialSwingPosition;
     private Quaternion _initialSwingRotation;
@@ -67,7 +68,8 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 
         _grapplingHook = animator.GetComponentInChildren<PlayerGrapplingHook>();
         _rigidbody = animator.GetComponent<Rigidbody>();
-        _splineRoute = animator.GetComponent<JimController>().splineRoute;
+        _jimController = animator.GetComponent<JimController>();
+        _splineRoute = _jimController.splineRoute;
 
         // Checks to make sure componenets are not null
         if (_grapplingHook == null)
@@ -82,8 +84,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         {
             Debug.LogError("Unable to find Spline Route object");
         }
-
-        _jimController.cameraFollowTarget.followSpeed = swingCameraFollowSpeed;
+        _dollyCamera = _jimController.swingCamera.GetCinemachineComponent<CinemachineTrackedDolly>();
 
         // Cache initial position and rotation
         _initialSwingPosition = animator.transform.position;
@@ -91,6 +92,10 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 
         // Get reference to current anchor point
         _anchor = _grapplingHook.targetAnchor.transform;
+
+        // Update position of camera dolly and switch to dolly camera
+        _jimController.swingCameraTrack.transform.position = _anchor.position + _jimController.swingCameraTrack.followOffset;
+        _jimController.swingCamera.Priority = 15;
 
         // Calculate the max x and y distance away from the origin, based on swing radius
         float xLimit = Mathf.Sin(swingArcLimit * Mathf.Deg2Rad) * swingRadius;
@@ -159,8 +164,12 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 
             _releaseDirection = Vector3.Cross(-_pendulumArm, swingRight * _direction).normalized * releaseDirectionMagnitude;
             _percentOfSwing = Vector3.Angle(_swingStartVector, -_pendulumArm) / (swingArcLimit * 2);
-            animator.SetFloat("percentOfSwing", _percentOfSwing * _direction);
 
+
+
+            animator.SetFloat("percentOfSwing", _percentOfSwing * _direction);
+            // Update dolly position of camera
+            _dollyCamera.m_PathPosition = _percentOfSwing;
             _interpolant += _speedMultiplier * Time.deltaTime * _direction;
 
             RotateSwing(animator);
@@ -209,6 +218,11 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         Debug.DrawLine(animator.transform.position, _anchor.position, Color.white);
 
         Debug.DrawRay(animator.transform.position, _releaseDirection, Color.cyan);
+    }
+
+    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        _jimController.swingCamera.Priority = 5;
     }
 
     // Sets that set up the spline path according to user defined parameters and current point in the swing

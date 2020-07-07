@@ -20,8 +20,12 @@ public class JimController : MonoBehaviour
     public bool isPulling = false;
 
     [Header("Camera Settings")]
-    public CinemachineFreeLook virtualCamera;
+    [Range(0.1f, 1.0f)]
+    public float cameraSensitivity;
     public CameraFollowTarget cameraFollowTarget;
+    public CinemachineFreeLook freeLookCamera;
+    public CinemachineVirtualCamera swingCamera;
+    public DollyTrackFollow swingCameraTrack;
 
     [Header("Swing Settings")]
     public Transform anchor;
@@ -146,7 +150,7 @@ public class JimController : MonoBehaviour
     public void OnRightStick(InputAction.CallbackContext context)
     {
         _rightStickInput = context.ReadValue<Vector2>();
-        virtualCamera.m_XAxis.m_InputAxisValue = _rightStickInput.x;
+        freeLookCamera.m_XAxis.m_InputAxisValue = _rightStickInput.x * cameraSensitivity;
     }
 
     public void OnEastButtonDown(InputAction.CallbackContext context)
