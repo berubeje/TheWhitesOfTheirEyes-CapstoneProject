@@ -74,13 +74,11 @@ public class RockSwinging : IObstacle
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-
         if (door != null)
         {
             _initialDoorPosition = door.transform.position;
             _initialDoorRotation = door.transform.rotation;
         }
-
         _initialBoulderPosition = transform.position;
         _initialBoulderRotation = transform.rotation;
 

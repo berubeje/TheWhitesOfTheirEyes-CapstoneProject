@@ -21,6 +21,7 @@ public class JimController : MonoBehaviour
 
     [Header("Camera Settings")]
     public CinemachineFreeLook virtualCamera;
+    public CameraFollowTarget cameraFollowTarget;
 
     [Header("Swing Settings")]
     public Transform anchor;
@@ -145,7 +146,7 @@ public class JimController : MonoBehaviour
     public void OnRightStick(InputAction.CallbackContext context)
     {
         _rightStickInput = context.ReadValue<Vector2>();
-        //virtualCamera.m_XAxis.m_InputAxisValue = _rightStickInput.x;
+        virtualCamera.m_XAxis.m_InputAxisValue = _rightStickInput.x;
     }
 
     public void OnEastButtonDown(InputAction.CallbackContext context)
