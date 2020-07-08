@@ -169,7 +169,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
             // Update camera position and dolly track position/rotation
             _jimController.swingCameraTrack.transform.position = _backwardSwingLimit;
             _jimController.swingCameraTrack.transform.rotation = Quaternion.LookRotation(_swingForward);
-            _dollyCamera.m_PathPosition = _interpolant;
+            _dollyCamera.m_PathPosition = _interpolant * 2;
 
             
             _interpolant += _speedMultiplier * Time.deltaTime * _direction;
@@ -224,7 +224,8 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // Switch back to free look camera
+        // Reset the freelook camera behind the player and switch back to it 
+        _jimController.freeLookCamera.m_XAxis.Value = animator.transform.eulerAngles.y;
         _jimController.swingCamera.Priority = 5;
     }
 

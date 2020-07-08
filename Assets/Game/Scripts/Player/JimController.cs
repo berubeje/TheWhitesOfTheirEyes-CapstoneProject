@@ -50,6 +50,7 @@ public class JimController : MonoBehaviour
     private int _locomotionPivotLeftID;
     private int _locomotionPivotRightID;
     private int _swingStartID;
+    private int _swingIdleID;
     private int _swingLandID;
     private int _fallIdleID;
 
@@ -67,6 +68,7 @@ public class JimController : MonoBehaviour
         _locomotionPivotLeftID = Animator.StringToHash("Base Layer.LocomotionPivotLeft");
         _locomotionPivotRightID = Animator.StringToHash("Base Layer.LocomotionPivotRight");
         _swingStartID = Animator.StringToHash("Base Layer.SwingStart");
+        _swingIdleID = Animator.StringToHash("Base Layer.SwingIdle");
         _swingLandID = Animator.StringToHash("Base Layer.SwingLand");
         _fallIdleID = Animator.StringToHash("Base Layer.FallIdle");
     }
@@ -117,7 +119,7 @@ public class JimController : MonoBehaviour
         if (_leftStickInput.sqrMagnitude >= leftStickDeadzone)
         {
             // Directly rotate the player if the joystick is moving and they are in the idle or locomotion state
-            if (IsInIdle() || IsInLocomotion()) 
+            if (IsInState(_idleID) || IsInState(_locomotionID)) 
             {
                 Quaternion targetRotation = Quaternion.LookRotation(_moveDirection);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed);
@@ -151,6 +153,7 @@ public class JimController : MonoBehaviour
     {
         _rightStickInput = context.ReadValue<Vector2>();
         freeLookCamera.m_XAxis.m_InputAxisValue = _rightStickInput.x * cameraSensitivity;
+        
     }
 
     public void OnEastButtonDown(InputAction.CallbackContext context)
@@ -159,41 +162,11 @@ public class JimController : MonoBehaviour
     }
 
 
-    #region Utility functions to see if the animator is in the indicated state
-    private bool IsInPivot()
+    // Utility function to see if the animator is in the indicated state
+    private bool IsInState(int stateHash)
     {
-        return _stateInfo.fullPathHash == _locomotionPivotLeftID || _stateInfo.fullPathHash == _locomotionPivotRightID;
+        return _stateInfo.fullPathHash == stateHash;
     }
-    private bool IsInIdle()
-    {
-        return _stateInfo.fullPathHash == _idleID;
-    }
-    private bool IsInLocomotion()
-    {
-        return _stateInfo.fullPathHash == _locomotionID;
-    }
-    private bool IsInIdleJump()
-    {
-        return _stateInfo.fullPathHash == _idleJumpID;
-    }
-    private bool IsInRunJump()
-    {
-        return _stateInfo.fullPathHash == _runJumpID;
-    }
-    private bool IsInSwingStart()
-    {
-        return _stateInfo.fullPathHash == _swingStartID;
-    }
-    private bool IsInSwingLand()
-    {
-        return _stateInfo.fullPathHash == _swingLandID;
-    }
-    private bool IsInFallIdle()
-    {
-        return _stateInfo.fullPathHash == _fallIdleID;
-    }
-    #endregion
-
 
 
     private void OnDrawGizmos()
