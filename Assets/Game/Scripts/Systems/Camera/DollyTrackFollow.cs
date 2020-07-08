@@ -5,8 +5,6 @@ using UnityEngine;
 public class DollyTrackFollow : ControllableBase
 {
     public JimController jimController;
-    public Vector3 followOffset;
-
 
     private void OnDrawGizmos()
     {
