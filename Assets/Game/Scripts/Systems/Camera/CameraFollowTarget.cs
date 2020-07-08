@@ -15,7 +15,8 @@ public class CameraFollowTarget : ControllableBase
 
     void LateUpdate()
     {
-        transform.position = Vector3.Lerp(transform.position, jimController.transform.position + followOffset, Time.deltaTime * followSpeed);
+        transform.position = jimController.transform.position + followOffset;
+        transform.rotation = jimController.transform.rotation;
     }
      
     private void OnDrawGizmos()
