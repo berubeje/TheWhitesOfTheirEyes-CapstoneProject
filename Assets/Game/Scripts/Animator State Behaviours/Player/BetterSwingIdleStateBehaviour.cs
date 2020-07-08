@@ -67,7 +67,8 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 
         _grapplingHook = animator.GetComponentInChildren<PlayerGrapplingHook>();
         _rigidbody = animator.GetComponent<Rigidbody>();
-        _splineRoute = animator.GetComponent<JimController>().splineRoute;
+        _jimController = animator.GetComponent<JimController>();
+        _splineRoute = _jimController.splineRoute;
 
         // Checks to make sure componenets are not null
         if (_grapplingHook == null)
@@ -82,8 +83,6 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         {
             Debug.LogError("Unable to find Spline Route object");
         }
-
-        _jimController.cameraFollowTarget.followSpeed = swingCameraFollowSpeed;
 
         // Cache initial position and rotation
         _initialSwingPosition = animator.transform.position;
