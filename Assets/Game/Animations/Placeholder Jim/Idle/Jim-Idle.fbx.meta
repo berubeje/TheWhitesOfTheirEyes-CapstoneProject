@@ -18,7 +18,8 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
-    rigImportErrors: 
+    rigImportErrors: "Copied Avatar Rig Configuration mis-match. Transform hierarchy
+      does not match:\n\tTransform 'mixamorig:Hips' for human bone 'Hips' not found\n"
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
@@ -521,48 +522,48 @@ ModelImporter:
         length: 0
         modified: 0
     skeleton:
-    - name: Placeholder Jim(Clone)
+    - name: Placeholder Jim Model(Clone)
       parentName: 
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Ch08_Body
-      parentName: Placeholder Jim(Clone)
+      parentName: Placeholder Jim Model(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Ch08_Sneakers
-      parentName: Placeholder Jim(Clone)
+      parentName: Placeholder Jim Model(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Ch08_Eyelashes
-      parentName: Placeholder Jim(Clone)
+      parentName: Placeholder Jim Model(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Ch08_Pants
-      parentName: Placeholder Jim(Clone)
+      parentName: Placeholder Jim Model(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Ch08_Hoodie
-      parentName: Placeholder Jim(Clone)
+      parentName: Placeholder Jim Model(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Ch08_Hair
-      parentName: Placeholder Jim(Clone)
+      parentName: Placeholder Jim Model(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Ch08_Beard
-      parentName: Placeholder Jim(Clone)
+      parentName: Placeholder Jim Model(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: mixamorig7:Hips
-      parentName: Placeholder Jim(Clone)
+      parentName: Placeholder Jim Model(Clone)
       position: {x: -0.00000035108795, y: 0.979916, z: -0.00964191}
       rotation: {x: 0.0000000085098515, y: -0.00000009466896, z: 0.0000032716414,
         w: 1}
