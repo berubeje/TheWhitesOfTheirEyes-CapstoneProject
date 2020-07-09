@@ -17,6 +17,7 @@ public class InputManager : Singleton<InputManager>
         Playing,
         Paused,
         Reloading,
+        Cinematic,
         GameOver,
         GameFinished
     }
