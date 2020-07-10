@@ -116,9 +116,9 @@ public class InputManager : Singleton<InputManager>
         _fireAction.performed += ropeController.OnRightTriggerDown;
         _fireAction.canceled += ropeController.OnRightTriggerUp;
 
-        _pullTieAction = _playerControls.Player.PullTie;
+        _pullTieAction = _playerControls.Player.Pull;
         _pullTieAction.performed += ropeController.OnLeftTriggerPull;
-        _pullTieAction.canceled += ropeController.OnLeftTriggerTie;
+        _pullTieAction.canceled += ropeController.OnLeftTriggerCancel;
     }
     private void EnableAllControls()
     {
