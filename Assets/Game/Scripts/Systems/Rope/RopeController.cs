@@ -99,16 +99,18 @@ public class RopeController : MonoBehaviour
         _playerTransform.LookAt(lookVector);
 
 
+        _animator.SetFloat("pullTime", _currentPullTime / ropeLogic.targetAnchor.timeToStartPull);
         _currentPullTime += Time.deltaTime;
 
         if (_currentPullTime >= ropeLogic.targetAnchor.timeToStartPull)
         {
             ropeLogic.targetAnchor.StartPull();
 
-
             ropeLogic.DetachHook();
             _playerLogic.isPulling = false;
             _pullObject = false;
+            _animator.SetBool("pull", false);
+            _animator.SetFloat("pullTime", 0);
         }
 
     }
@@ -208,6 +210,7 @@ public class RopeController : MonoBehaviour
         if (ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.Pull)
         {
             _pullObject = true;
+            _animator.SetBool("pull", true);
             _playerLogic.isPulling = true;
         }
     }
@@ -221,7 +224,8 @@ public class RopeController : MonoBehaviour
             if (_pullObject == true)
             {
                 _pullObject = false;
-                _playerLogic.isPulling = false;
+                _playerLogic.isPulling = false; 
+                _animator.SetBool("pull", false);
                 _currentPullTime = 0.0f;
             }
         }
