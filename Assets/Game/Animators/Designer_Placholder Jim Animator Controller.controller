@@ -614,6 +614,8 @@ MonoBehaviour:
   softLandingTime: 0.1
   mediumLandingTime: 0.65
   hardLandingTime: 1.5
+  colliderSizeMultiplier: 0
+  colliderYOffsetMultiplier: 0
 --- !u!114 &-3951540308757938978
 MonoBehaviour:
   m_ObjectHideFlags: 1
