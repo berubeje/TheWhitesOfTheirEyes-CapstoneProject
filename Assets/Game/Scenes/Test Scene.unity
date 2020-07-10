@@ -290,7 +290,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh41986
+  m_Name: pb_Mesh74362
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -946,6 +946,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cantAttach: 0
   anchorType: 1
+  timeToStartPull: 0
   pullTime: 1
   additiveAngle: 1
   angleOfPull: {x: 0, y: 0, z: -90}
@@ -1292,6 +1293,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cantAttach: 0
   anchorType: 1
+  timeToStartPull: 0
   pullTime: 0
   additiveAngle: 0
   angleOfPull: {x: 0, y: 0, z: 0}
@@ -1800,10 +1802,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cantAttach: 0
-  anchorType: 2
-  pullTime: 0
-  additiveAngle: 0
-  angleOfPull: {x: 0, y: 0, z: 0}
+  anchorType: 1
+  timeToStartPull: 3
+  pullTime: 2
+  additiveAngle: 1
+  angleOfPull: {x: 90, y: 90, z: 90}
   pivot: {fileID: 0}
 --- !u!54 &609620581
 Rigidbody:
@@ -3108,7 +3111,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh42006
+  m_Name: pb_Mesh74382
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -4991,6 +4994,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cantAttach: 0
   anchorType: 0
+  timeToStartPull: 0
   pullTime: 0
   additiveAngle: 0
   angleOfPull: {x: 0, y: 0, z: 0}
