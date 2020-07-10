@@ -91,7 +91,6 @@ MonoBehaviour:
   minReleaseDistanceY: -3
   maxReleaseDistanceY: 1
   swingRotationSpeed: 50
-  swingCameraFollowSpeed: 1
 --- !u!1102 &-8566082829148950103
 AnimatorState:
   serializedVersion: 5
