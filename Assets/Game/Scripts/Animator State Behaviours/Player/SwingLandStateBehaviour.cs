@@ -19,7 +19,8 @@ public class SwingLandStateBehaviour : StateMachineBehaviour
     private bool _splineComplete;
     private float _initialSplineSpeed;
     private float _t;
-    private int _layerMask = ~(1 << 8);
+
+    private LayerMask _layerMask = ~(1<<8); 
 
     private Vector3 _p0;
     private Vector3 _p1;
@@ -88,10 +89,11 @@ public class SwingLandStateBehaviour : StateMachineBehaviour
                 animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, _targetRotation, _jimController.rotationSpeed);
             }
         }
-        if (Physics.SphereCast(animator.transform.position, 0.3f, Vector3.down, out _, groundCheckDistance))
+
+        if (Physics.SphereCast(animator.transform.position, 0.3f, Vector3.down, out _, groundCheckDistance, _layerMask))
         {
             splineSpeed = _initialSplineSpeed;
-            animator.SetTrigger("fallLand");
+            animator.SetTrigger("fallLand"); 
         }
 
         if (Physics.SphereCast(animator.transform.position, 0.3f, _swingForward * animator.GetFloat("swingDirectionRaw"), out _, forwardCheckDistance, _layerMask))

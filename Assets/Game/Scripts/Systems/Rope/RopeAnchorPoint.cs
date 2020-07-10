@@ -21,11 +21,11 @@ public class RopeAnchorPoint : MonoBehaviour
     public enum AnchorType
     {
         Swing,
-        Pull,
-        Tie
+        Pull
     }
 
     [Header("If pull type")]
+    public float timeToStartPull;
     public float pullTime;
     public bool additiveAngle = false;
 

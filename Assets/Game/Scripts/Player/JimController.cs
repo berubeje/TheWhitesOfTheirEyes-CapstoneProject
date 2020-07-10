@@ -133,10 +133,6 @@ public class JimController : MonoBehaviour
             _jimAnimator.SetFloat("angle", 0.0f);
         }
     }
-    private void RotateSwing()
-    {
-
-    }
     public void OnLeftStick(InputAction.CallbackContext context)
     {
         if (!isPulling)

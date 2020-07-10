@@ -27,6 +27,7 @@ public class FallLandStateBehaviour : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // Change collider size and center based on animation curve
         _capsuleCollider.height = _capsuleColliderHeight + (animator.GetFloat("colliderCurve") * colliderSizeMultiplier);
         Vector3 newCenter = _capsuleColliderCenter;
         newCenter.y += (animator.GetFloat("colliderCurve") * colliderYOffsetMultiplier);
@@ -35,6 +36,10 @@ public class FallLandStateBehaviour : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // Reset Collider height and center to defaults; 
+        _capsuleCollider.center = new Vector3(0, 0.875f, 0);
+        _capsuleCollider.height = 1.75f;
+
         animator.SetFloat("fallSpeed", 0.0f);
         animator.ResetTrigger("swingStart");
         animator.ResetTrigger("swingIdle");

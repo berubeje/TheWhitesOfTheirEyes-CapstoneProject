@@ -30,7 +30,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "PullTie",
+                    "name": "Pull",
                     "type": "Button",
                     "id": "38651b07-c3a7-429c-89fc-48f961ee9a4a",
                     "expectedControlType": "Button",
@@ -293,10 +293,10 @@
                     "name": "",
                     "id": "ccce310d-21f7-4a87-93b6-e063c24e6f28",
                     "path": "<Gamepad>/leftTrigger",
-                    "interactions": "Hold(duration=0.25)",
+                    "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "PullTie",
+                    "action": "Pull",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -304,10 +304,10 @@
                     "name": "",
                     "id": "dd925971-9707-41b8-aaf9-84094d2c84a8",
                     "path": "<Mouse>/rightButton",
-                    "interactions": "Hold(duration=0.25)",
+                    "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "PullTie",
+                    "action": "Pull",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

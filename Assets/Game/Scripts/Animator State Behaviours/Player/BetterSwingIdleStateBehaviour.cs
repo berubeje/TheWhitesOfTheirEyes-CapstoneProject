@@ -54,7 +54,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
     private float _angle;
     private float _interpolant;
     private int _direction;
-    private int _layerMask = ~(1 << 8);
+    private LayerMask _layerMask = ~(1 << 8);
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         // Reset all triggers for sanity
@@ -133,7 +133,8 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         _firstSwingComplete = false;
         
         // Initialize _direction to forward
-        _direction = 1;
+        _direction = 1; 
+        animator.SetBool("canRoll", true);
         animator.SetFloat("swingDirectionRaw", _direction);
     }
 
@@ -194,6 +195,8 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
             {
                 _direction = 1;
                 animator.SetFloat("swingDirectionRaw", _direction);
+                
+                // Can only roll land while swinging forward
                 animator.SetBool("canRoll", true);
                 _swingStartVector = _backwardLimitVector;
             }
