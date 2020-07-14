@@ -425,7 +425,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1238
+  m_Name: pb_Mesh-1240
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1929,7 +1929,7 @@ MonoBehaviour:
   cantAttach: 0
   anchorType: 0
   timeToStartPull: 0
-  pullTime: 0
+  fallTime: 3
   additiveAngle: 0
   angleOfPull: {x: 0, y: 0, z: 0}
   pivot: {fileID: 0}
@@ -2975,7 +2975,7 @@ MonoBehaviour:
   cantAttach: 0
   anchorType: 0
   timeToStartPull: 0
-  pullTime: 0
+  fallTime: 3
   additiveAngle: 0
   angleOfPull: {x: 0, y: 0, z: 0}
   pivot: {fileID: 0}
@@ -3143,7 +3143,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1818
+  m_Name: pb_Mesh-1820
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3488,7 +3488,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1392
+  m_Name: pb_Mesh-1394
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3680,7 +3680,7 @@ MonoBehaviour:
   cantAttach: 0
   anchorType: 0
   timeToStartPull: 0
-  pullTime: 0
+  fallTime: 3
   additiveAngle: 0
   angleOfPull: {x: 0, y: 0, z: 0}
   pivot: {fileID: 0}
@@ -3793,7 +3793,7 @@ MonoBehaviour:
   cantAttach: 0
   anchorType: 0
   timeToStartPull: 0
-  pullTime: 0
+  fallTime: 3
   additiveAngle: 0
   angleOfPull: {x: 0, y: 0, z: 0}
   pivot: {fileID: 0}
@@ -3968,7 +3968,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1280
+  m_Name: pb_Mesh-1282
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -5074,6 +5074,16 @@ PrefabInstance:
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 868284288}
+    - target: {fileID: 3700590483396533422, guid: 1b66cd259598d0f48a8e127844f9570b,
+        type: 3}
+      propertyPath: m_Lens.NearClipPlane
+      value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 3700590483396533422, guid: 1b66cd259598d0f48a8e127844f9570b,
+        type: 3}
+      propertyPath: m_Lens.FarClipPlane
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 3700590483396533423, guid: 1b66cd259598d0f48a8e127844f9570b,
         type: 3}
       propertyPath: m_Name
@@ -5272,6 +5282,11 @@ PrefabInstance:
       propertyPath: splineRoute
       value: 
       objectReference: {fileID: 2023943393}
+    - target: {fileID: 5358699062309973499, guid: ed3009c858e9c5140ad6822aa553c134,
+        type: 3}
+      propertyPath: maxHealth
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 5358699062309973502, guid: ed3009c858e9c5140ad6822aa553c134,
         type: 3}
       propertyPath: m_TagString
@@ -5389,12 +5404,22 @@ PrefabInstance:
     - target: {fileID: 5501969783963917312, guid: c6e325f424d2bd4488f6eddbfeda8131,
         type: 3}
       propertyPath: m_DefaultBlend.m_Style
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5501969783963917312, guid: c6e325f424d2bd4488f6eddbfeda8131,
         type: 3}
       propertyPath: m_DefaultBlend.m_Time
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501969783963917313, guid: c6e325f424d2bd4488f6eddbfeda8131,
+        type: 3}
+      propertyPath: m_Antialiasing
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501969783963917313, guid: c6e325f424d2bd4488f6eddbfeda8131,
+        type: 3}
+      propertyPath: m_Dithering
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5501969783963917317, guid: c6e325f424d2bd4488f6eddbfeda8131,
         type: 3}
@@ -5464,7 +5489,32 @@ PrefabInstance:
     - target: {fileID: 5501969783963917319, guid: c6e325f424d2bd4488f6eddbfeda8131,
         type: 3}
       propertyPath: near clip plane
+      value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501969783963917319, guid: c6e325f424d2bd4488f6eddbfeda8131,
+        type: 3}
+      propertyPath: orthographic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501969783963917319, guid: c6e325f424d2bd4488f6eddbfeda8131,
+        type: 3}
+      propertyPath: orthographic size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501969783963917319, guid: c6e325f424d2bd4488f6eddbfeda8131,
+        type: 3}
+      propertyPath: m_projectionMatrixMode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501969783963917319, guid: c6e325f424d2bd4488f6eddbfeda8131,
+        type: 3}
+      propertyPath: m_FocalLength
+      value: 25.734083
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501969783963917319, guid: c6e325f424d2bd4488f6eddbfeda8131,
+        type: 3}
+      propertyPath: far clip plane
+      value: 300
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6e325f424d2bd4488f6eddbfeda8131, type: 3}
@@ -5519,12 +5569,12 @@ PrefabInstance:
     - target: {fileID: 8454427368104512294, guid: 9438b4bbcb121f94abc1e998c0e0c4e1,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -1.352969e-10
+      value: -1.3529695e-10
       objectReference: {fileID: 0}
     - target: {fileID: 8454427368104512294, guid: 9438b4bbcb121f94abc1e998c0e0c4e1,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 9.218367e-10
+      value: 9.2183705e-10
       objectReference: {fileID: 0}
     - target: {fileID: 8454427368104512294, guid: 9438b4bbcb121f94abc1e998c0e0c4e1,
         type: 3}
@@ -5534,7 +5584,7 @@ PrefabInstance:
     - target: {fileID: 8454427368104512294, guid: 9438b4bbcb121f94abc1e998c0e0c4e1,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.9894004
+      value: -0.98940045
       objectReference: {fileID: 0}
     - target: {fileID: 8454427368104512294, guid: 9438b4bbcb121f94abc1e998c0e0c4e1,
         type: 3}
@@ -5714,7 +5764,7 @@ PrefabInstance:
     - target: {fileID: 8454427368428986399, guid: 9438b4bbcb121f94abc1e998c0e0c4e1,
         type: 3}
       propertyPath: m_Lens.NearClipPlane
-      value: 1
+      value: 0.001
       objectReference: {fileID: 0}
     - target: {fileID: 8454427368428986399, guid: 9438b4bbcb121f94abc1e998c0e0c4e1,
         type: 3}
@@ -5766,20 +5816,25 @@ PrefabInstance:
       propertyPath: m_RecenterToTargetHeading.m_RecenteringTime
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8454427368428986399, guid: 9438b4bbcb121f94abc1e998c0e0c4e1,
+        type: 3}
+      propertyPath: m_Lens.FarClipPlane
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 8454427368587269874, guid: 9438b4bbcb121f94abc1e998c0e0c4e1,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 2.2127321e-10
+      value: -0.0000000071926562
       objectReference: {fileID: 0}
     - target: {fileID: 8454427368587269874, guid: 9438b4bbcb121f94abc1e998c0e0c4e1,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000022225164
+      value: -0.0000000014843923
       objectReference: {fileID: 0}
     - target: {fileID: 8454427368587269874, guid: 9438b4bbcb121f94abc1e998c0e0c4e1,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.09906933
+      value: -0.09906932
       objectReference: {fileID: 0}
     - target: {fileID: 8454427368587269874, guid: 9438b4bbcb121f94abc1e998c0e0c4e1,
         type: 3}
