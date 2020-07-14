@@ -26,7 +26,7 @@ public class UICanvas : MonoBehaviour
         }
 
         _canvas.worldCamera = Camera.main;
-        _canvas.planeDistance = 1;
+        _canvas.planeDistance = 2;
 
         _pauseAction.started += OnPauseButtonDown;
     }

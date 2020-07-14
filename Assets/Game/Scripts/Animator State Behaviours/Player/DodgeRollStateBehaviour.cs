@@ -36,6 +36,7 @@ public class DodgeRollStateBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _capsuleCollider.center = new Vector3(0, 0.875f, 0);
+        _capsuleCollider.height = 1.75f;
         animator.ResetTrigger("dodgeRoll");
     }
 
