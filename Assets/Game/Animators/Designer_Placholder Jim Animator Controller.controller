@@ -80,7 +80,7 @@ MonoBehaviour:
   swingArcLimit: 70
   maxSwingSpeed: 1.25
   minSwingSpeed: 0.5
-  swingRadius: 5
+  swingRadius: 6
   forwardCheckDistance: 0.3
   releaseDirectionMagnitude: 2
   releaseDirectionOffset: 1
@@ -503,7 +503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bf722d6f87886e48aaaef12c2832985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swingRadius: 5
+  swingRadius: 6
   faceAnchorSpeed: 1
   reelInSpeed: 10
   swingArcLimit: 70
@@ -614,6 +614,8 @@ MonoBehaviour:
   softLandingTime: 0.1
   mediumLandingTime: 0.65
   hardLandingTime: 1.5
+  colliderSizeMultiplier: 0
+  colliderYOffsetMultiplier: 0
 --- !u!114 &-3951540308757938978
 MonoBehaviour:
   m_ObjectHideFlags: 1
