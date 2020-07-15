@@ -1,14 +1,14 @@
 fileFormatVersion: 2
-guid: 77cf2a60f6c45554a801620aedb66c63
+guid: ec8a6198ea02fa543adf940ff6fdb1c9
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: Right Swipe
+    second: Right Turn
   - first:
-      74: -6520043945650388772
-    second: Left Swipe
+      74: -5289295452376557469
+    second: Left Turn
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -38,11 +38,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Right Swipe
+      name: Right Turn
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 0
-      lastFrame: 33
+      firstFrame: 7
+      lastFrame: 74
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -67,20 +67,20 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Left Swipe
+      name: Left Turn
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 0
-      lastFrame: 33
+      firstFrame: 7
+      lastFrame: 74
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
-      loopBlendOrientation: 1
+      loopBlendOrientation: 0
       loopBlendPositionY: 1
       loopBlendPositionXZ: 1
       keepOriginalOrientation: 0

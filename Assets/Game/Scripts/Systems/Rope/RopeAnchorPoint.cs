@@ -1,7 +1,9 @@
 ﻿///-------------------------------------------------------------------------------------------------
 // file: RopeAnchorPoint.cs
 //
-// author: Jesse Berube 
+// author: Jesse Berube
+// date: N/A
+//
 // summary: This is attatched to any gameobject that is meant to be an anchor point
 ///-------------------------------------------------------------------------------------------------
 
@@ -24,7 +26,9 @@ public class RopeAnchorPoint : MonoBehaviour
 
     [Header("If pull type")]
     public float timeToStartPull;
-    public float fallTime = 3f;
+
+    
+    public float pullTime;
     public bool additiveAngle = false;
 
     public Vector3 angleOfPull;
@@ -85,7 +89,7 @@ public class RopeAnchorPoint : MonoBehaviour
 
     public void RotateObject()
     {
-        _t += Time.deltaTime / fallTime;
+        _t += Time.deltaTime / pullTime;
         _targetTransform.rotation = Quaternion.Lerp(_startRotation, _targetAngle, _t);
 
         if(_t >= 1.0f)
