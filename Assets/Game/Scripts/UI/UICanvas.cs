@@ -33,7 +33,7 @@ public class UICanvas : Singleton<UICanvas>
         }
 
         _canvas.worldCamera = Camera.main;
-        _canvas.planeDistance = 0.002f;
+        _canvas.planeDistance = 0.05f;
 
         _healthSlider = healthBar.GetComponent<Slider>();
 

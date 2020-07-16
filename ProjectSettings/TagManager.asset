@@ -19,8 +19,8 @@ TagManager:
   - Player
   - Projectile
   - Target Ignore
-  - 
-  - 
+  - Directional Light Ignore
+  - Spot Light Ignore
   - 
   - 
   - 
