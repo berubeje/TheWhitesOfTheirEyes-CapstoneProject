@@ -7,7 +7,7 @@ public class SweepAttackPlaceholderLogic : MonoBehaviour
     public float startingAngle = 35f;
     public float attackSpeed = 2f;
     public float totalRotation = 70f;
-
+    public float damageDelt = 15.0f;
 
     private bool _attackStarted = false;
 
@@ -65,6 +65,16 @@ public class SweepAttackPlaceholderLogic : MonoBehaviour
         }
 
         _attackStarted = true;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        JimController jimController = collision.gameObject.GetComponent<JimController>();
+
+        if (jimController != null)
+        {
+            jimController.playerHealth -= damageDelt;
+        }
     }
 
     private void OnDisable()

@@ -38,11 +38,36 @@ public class BossIdleStateBehavior : StateMachineBehaviour
     {
         if (_bossController.bossStart)
         {
-            //Check if tree needs lifting. Tree repair is number one priority.
+            if(_bossController.bossHealth <= 0.0f)
+            {
+                fsm.SetTrigger("Die");
+                return;
+            }
 
-            if (_bossController.NeedToTurn())
+
+            if(_bossController.fallenTreeList.Count > 0)
+            {
+                _bossController.treeRepairInProgress = true;
+                if (_bossController.NeedToTurn(_bossController.fallenTreeList[0].transform))
+                {
+                    fsm.SetTrigger("Turn");
+                }
+                else
+                {
+                    fsm.SetTrigger("Fix Tree");
+                }
+                return;
+            }
+            else
+            {
+                _bossController.treeRepairInProgress = false;
+            }
+
+            if (_bossController.NeedToTurn(_playerTransform))
             {
                 fsm.SetTrigger("Turn");
+                return;
+
             }
 
             _currentTickTime += Time.deltaTime;

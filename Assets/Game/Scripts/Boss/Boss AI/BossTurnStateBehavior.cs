@@ -35,7 +35,7 @@ public class BossTurnStateBehavior : StateMachineBehaviour
 
     private void SendTurn()
     {
-        Vector3 relativePosition = _bossController.transform.InverseTransformPoint(_playerTransform.position);
+        Vector3 relativePosition = _bossController.transform.InverseTransformPoint(_bossController.currentMarkerTarget.transform.position);
 
         if (relativePosition.x > 0f)
         {
@@ -70,7 +70,7 @@ public class BossTurnStateBehavior : StateMachineBehaviour
 
                 if (_bossController.treeRepairInProgress == false)
                 {
-                    if (_bossController.NeedToTurn())
+                    if (_bossController.NeedToTurn(_playerTransform))
                     {
                         SendTurn();
                         return;

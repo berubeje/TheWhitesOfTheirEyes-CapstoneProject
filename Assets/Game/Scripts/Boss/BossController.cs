@@ -32,6 +32,8 @@ public class BossController : MonoBehaviour
     [HideInInspector]
     public bool turning = false;
 
+    [HideInInspector]
+    public List<RopeAnchorPoint> fallenTreeList = new List<RopeAnchorPoint>();
 
     private Quaternion _startRotation;
     private Quaternion _targetRotation;
@@ -131,13 +133,13 @@ public class BossController : MonoBehaviour
         _startRotation = transform.rotation;
     }
 
-    public bool NeedToTurn()
+    public bool NeedToTurn(Transform target)
     {
         Transform finalTarget = currentMarkerTarget;
 
         foreach (Transform marker in markers)
         {
-            if (Vector3.Distance(player.transform.position, marker.position) < Vector3.Distance(player.transform.position, finalTarget.position))
+            if (Vector3.Distance(target.position, marker.position) < Vector3.Distance(target.position, finalTarget.position))
             {
                 finalTarget = marker.transform;
             }
