@@ -73,7 +73,7 @@ public class SweepAttackPlaceholderLogic : MonoBehaviour
 
         if (jimController != null)
         {
-            jimController.playerHealth -= damageDelt;
+            jimController.currentHealth -= damageDelt;
         }
     }
 

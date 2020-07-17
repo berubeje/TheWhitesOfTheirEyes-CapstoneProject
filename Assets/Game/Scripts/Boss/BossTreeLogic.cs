@@ -20,13 +20,16 @@ public class BossTreeLogic : MonoBehaviour
     {
         if(_ropeAnchorPoint.pullDone && _addedToList == false)
         {
-            _currentAlertTime += Time.deltaTime;
-
-            if (_currentAlertTime >= alertTimer)
+            if (bossController.treeRepairInProgress == false)
             {
-                _addedToList = true;
-                bossController.fallenTreeList.Add(_ropeAnchorPoint);
-                _currentAlertTime = 0.0f;
+                _currentAlertTime += Time.deltaTime;
+
+                if (_currentAlertTime >= alertTimer)
+                {
+                    _addedToList = true;
+                    bossController.fallenTreeList.Add(_ropeAnchorPoint);
+                    _currentAlertTime = 0.0f;
+                }
             }
         }
         else if(_ropeAnchorPoint.pullDone == false && _addedToList == true)
