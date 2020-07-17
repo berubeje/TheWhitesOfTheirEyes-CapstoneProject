@@ -104,6 +104,7 @@ public class RopeController : MonoBehaviour
 
         if (_currentPullTime >= ropeLogic.targetAnchor.timeToStartPull)
         {
+            _currentPullTime = 0.0f;
             ropeLogic.targetAnchor.StartPull();
 
             ropeLogic.DetachHook();
@@ -195,8 +196,11 @@ public class RopeController : MonoBehaviour
 
         if (ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.Swing)
         {
-            ropeLogic.DetachHook();
-            _playerLogic.isPulling = false;
+            if (_playerLogic.isPulling == false)
+            {
+                ropeLogic.DetachHook();
+                _playerLogic.isPulling = false;
+            }
         }
         else if (ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.Launched)
         {

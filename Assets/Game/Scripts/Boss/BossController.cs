@@ -75,20 +75,6 @@ public class BossController : MonoBehaviour
                 _t = 0;
             }
         }
-
-        //if(finalAdjustment)
-        //{
-        //    _t += Time.deltaTime / finalTurnAdjustmentTime;
-
-        //    transform.rotation = Quaternion.Slerp(_startRotation, Quaternion.Euler(transform.position - currentMarkerTarget.position), _t);
-
-        //    if (_t >= 1.0f)
-        //    {
-        //        finalAdjustment = false;
-        //        _t = 0;
-        //        _startRotation = transform.rotation;
-        //    }
-        //}
     }
 
     public void Turn(bool rightTurn)
