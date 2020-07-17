@@ -9,8 +9,33 @@ using UnityEngine.InputSystem;
 
 public class JimController : MonoBehaviour
 {
-    public float playerHealth;
-    
+    public float maxHealth;
+    private float _health;
+
+    // Set up event for when the players health is modified
+    public float currentHealth
+    {
+        get { return _health; }
+        set
+        {
+            if (_health == value)
+            {
+                return;
+            }
+            _health = value;
+            if(_health == 0)
+            {
+                // Die stuff here 
+            }
+            if (OnHealthChange != null && _health != 0)
+            {
+                OnHealthChange(_health);
+            }
+        }
+    }
+    public delegate void OnHealthChangeDelegate(float health);
+    public event OnHealthChangeDelegate OnHealthChange;
+
     [Header("Locomotion Settings")]
     public float rotationSpeed;
     public float speedDampTime;
@@ -45,32 +70,21 @@ public class JimController : MonoBehaviour
     private AnimatorStateInfo _stateInfo;
     private int _locomotionID;
     private int _idleID;
-    private int _idleJumpID;
-    private int _runJumpID;
-    private int _locomotionPivotLeftID;
-    private int _locomotionPivotRightID;
-    private int _swingStartID;
-    private int _swingIdleID;
-    private int _swingLandID;
-    private int _fallIdleID;
 
     void Awake()
     {
         CheckpointManager.Instance.jimController = this;
         InputManager.Instance.jimController = this;
 
+        currentHealth = maxHealth;
+
         _jimAnimator = GetComponent<Animator>();
 
         _locomotionID = Animator.StringToHash("Base Layer.Locomotion");
         _idleID = Animator.StringToHash("Base Layer.Idle");
-        _idleJumpID = Animator.StringToHash("Base Layer.IdleJump");
-        _runJumpID = Animator.StringToHash("Base Layer.RunJump");
-        _locomotionPivotLeftID = Animator.StringToHash("Base Layer.LocomotionPivotLeft");
-        _locomotionPivotRightID = Animator.StringToHash("Base Layer.LocomotionPivotRight");
-        _swingStartID = Animator.StringToHash("Base Layer.SwingStart");
-        _swingIdleID = Animator.StringToHash("Base Layer.SwingIdle");
-        _swingLandID = Animator.StringToHash("Base Layer.SwingLand");
-        _fallIdleID = Animator.StringToHash("Base Layer.FallIdle");
+
+        // bind callback function
+        OnHealthChange += OnHealthChanged;
     }
 
     void Update()
@@ -145,6 +159,8 @@ public class JimController : MonoBehaviour
         }
     }
 
+
+
     public void OnRightStick(InputAction.CallbackContext context)
     {
         _rightStickInput = context.ReadValue<Vector2>();
@@ -157,6 +173,10 @@ public class JimController : MonoBehaviour
         _jimAnimator.SetTrigger("dodgeRoll");
     }
 
+    private void OnHealthChanged(float health)
+    {
+        UICanvas.Instance.ChangeHealthBar(health);
+    }
 
     // Utility function to see if the animator is in the indicated state
     private bool IsInState(int stateHash)

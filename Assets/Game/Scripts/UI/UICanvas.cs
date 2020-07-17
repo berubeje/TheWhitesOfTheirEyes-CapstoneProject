@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
+using System;
 
-public class UICanvas : MonoBehaviour
+public class UICanvas : Singleton<UICanvas>
 {
     public GameObject pauseMenu;
     public GameObject controlsMenu;
@@ -12,8 +14,13 @@ public class UICanvas : MonoBehaviour
     public GameObject gameOverMenu;
     public GameObject gameFinishedMenu;
 
+    [Space]
+    public GameObject healthBar;
+
+
     private Canvas _canvas;
-   
+    private Slider _healthSlider;
+
     [SerializeField] private InputAction _pauseAction;
 
     private void Awake()
@@ -26,7 +33,9 @@ public class UICanvas : MonoBehaviour
         }
 
         _canvas.worldCamera = Camera.main;
-        _canvas.planeDistance = 1;
+        _canvas.planeDistance = 0.05f;
+
+        _healthSlider = healthBar.GetComponent<Slider>();
 
         _pauseAction.started += OnPauseButtonDown;
     }
@@ -46,12 +55,14 @@ public class UICanvas : MonoBehaviour
                 settingsMenu.SetActive(false);
                 gameOverMenu.SetActive(false);
                 gameFinishedMenu.SetActive(false);
+                healthBar.SetActive(true);
                 Time.timeScale = 1;
                 break;
 
             case InputManager.GameStates.Paused:
                 Time.timeScale = 0;
                 pauseMenu.SetActive(true);
+                healthBar.SetActive(false);
                 break;
 
             case InputManager.GameStates.Reloading:
@@ -67,10 +78,12 @@ public class UICanvas : MonoBehaviour
 
             case InputManager.GameStates.GameOver:
                 gameOverMenu.SetActive(true);
+                healthBar.SetActive(false);
                 break;
 
             case InputManager.GameStates.GameFinished:
                 gameFinishedMenu.SetActive(true);
+                healthBar.SetActive(false);
                 Time.timeScale = 0;
                 break;
         }
@@ -108,6 +121,10 @@ public class UICanvas : MonoBehaviour
         Application.Quit();
     }
 
+    public void ChangeHealthBar(float newValue)
+    {
+        _healthSlider.value = newValue;
+    }
     private void OnPauseButtonDown(InputAction.CallbackContext context)
     {
         if (InputManager.Instance.currentGameState == InputManager.GameStates.Playing)
