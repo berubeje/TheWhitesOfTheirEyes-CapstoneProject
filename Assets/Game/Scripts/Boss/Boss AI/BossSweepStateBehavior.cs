@@ -55,6 +55,12 @@ public class BossSweepStateBehavior : StateMachineBehaviour
 
     public override void OnStateUpdate(Animator fsm, AnimatorStateInfo animatorStateInfo, int layerIndex)
     {
+        if (_bossController.bossHealth <= 0.0f)
+        {
+            fsm.SetTrigger("Die");
+            return;
+        }
+
         var state = _animator.GetCurrentAnimatorStateInfo(0);
 
         if (state.IsName("Right Swipe") || state.IsName("Left Swipe"))

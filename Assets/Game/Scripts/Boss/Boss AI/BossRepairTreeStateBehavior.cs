@@ -28,6 +28,12 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
 
     public override void OnStateUpdate(Animator fsm, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (_bossController.bossHealth <= 0.0f)
+        {
+            fsm.SetTrigger("Die");
+            return;
+        }
+
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Point To Repair"))
         {
             _animationStarted = true;

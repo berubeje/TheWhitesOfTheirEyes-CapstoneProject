@@ -22,21 +22,6 @@ public class BossDieStateBehaviour : StateMachineBehaviour
         }
 
         _animator.SetTrigger("Die");
-        _bossController.fallenTreeList[0].ResetPull();
-    }
-
-
-    public override void OnStateUpdate(Animator fsm, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Point To Repair"))
-        {
-            _animationStarted = true;
-        }
-        else if (_animationStarted == true)
-        {
-            _animationStarted = false;
-            _bossController.fallenTreeList.RemoveAt(0);
-            fsm.SetTrigger("Idle");
-        }
+        _bossController.enabled = false;
     }
 }

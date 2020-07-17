@@ -35,6 +35,8 @@ public class BossTurnStateBehavior : StateMachineBehaviour
 
     private void SendTurn()
     {
+
+
         Vector3 relativePosition = _bossController.transform.InverseTransformPoint(_bossController.currentMarkerTarget.transform.position);
 
         if (relativePosition.x > 0f)
@@ -49,6 +51,12 @@ public class BossTurnStateBehavior : StateMachineBehaviour
 
     public override void OnStateUpdate(Animator fsm, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (_bossController.bossHealth <= 0.0f)
+        {
+            fsm.SetTrigger("Die");
+            return;
+        }
+
         if (_finalAdjustment == false)
         {
             var state = _animator.GetCurrentAnimatorStateInfo(0);
@@ -68,6 +76,13 @@ public class BossTurnStateBehavior : StateMachineBehaviour
                 _checkProgress = false;
                 float resultAngle = Vector3.Angle(_bossController.transform.forward, _bossController.currentMarkerTarget.position - _bossController.transform.position);
 
+
+                if (_bossController.fallenTreeList.Count > 0)
+                {
+                    _bossController.treeRepairInProgress = true;
+                }
+
+
                 if (_bossController.treeRepairInProgress == false)
                 {
                     if (_bossController.NeedToTurn(_playerTransform))
@@ -76,6 +91,15 @@ public class BossTurnStateBehavior : StateMachineBehaviour
                         return;
                     }
                 }
+                else
+                {
+                    if (_bossController.NeedToTurn(_bossController.fallenTreeList[0].transform))
+                    {
+                        SendTurn();
+                        return;
+                    }
+                }
+
 
 
                 if (resultAngle > angleDeadzone)
@@ -86,7 +110,14 @@ public class BossTurnStateBehavior : StateMachineBehaviour
                 {
                     _bossController.SnapToWaypoint();
 
-                    fsm.SetTrigger("Idle");
+                    if (_bossController.treeRepairInProgress == false)
+                    {
+                        fsm.SetTrigger("Idle");
+                    }
+                    else
+                    {
+                        fsm.SetTrigger("Fix Tree");
+                    }
                 }
             }
 
