@@ -5,19 +5,8 @@ using UnityEngine;
 public class BossDieStateBehaviour : StateMachineBehaviour
 {
     //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    override public void OnStateEnter(Animator fsm, AnimatorStateInfo stateInfo, int layerIndex)
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (_animator == null)
-        {
-            _animator = fsm.transform.parent.GetComponent<Animator>();
-        }
-
-        if (_bossController == null)
-        {
-            _bossController = fsm.GetComponentInParent<BossController>();
-        }
-
-        _animator.SetTrigger("Die");
-        _bossController.enabled = false;
+        InputManager.Instance.currentGameState = InputManager.GameStates.GameFinished;
     }
 }
