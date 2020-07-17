@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossDieTreeStateBehavior : StateMachineBehaviour
+public class BossDieAIStateBehavior : StateMachineBehaviour
 {
     private Animator _animator;
-    //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+    private BossController _bossController;
+    private bool _animationStarted;
     override public void OnStateEnter(Animator fsm, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (_animator == null)
@@ -13,7 +14,13 @@ public class BossDieTreeStateBehavior : StateMachineBehaviour
             _animator = fsm.transform.parent.GetComponent<Animator>();
         }
 
+        if (_bossController == null)
+        {
+            _bossController = fsm.GetComponentInParent<BossController>();
+        }
+
         _animator.SetTrigger("Die");
+        _bossController.enabled = false;
     }
 
 
