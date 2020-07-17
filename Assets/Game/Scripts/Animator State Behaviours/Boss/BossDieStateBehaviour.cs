@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class BossDieStateBehaviour : StateMachineBehaviour
 {
-    private Animator _animator;
-    private BossController _bossController;
-    private bool _animationStarted;
-
     //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator fsm, AnimatorStateInfo stateInfo, int layerIndex)
     {
