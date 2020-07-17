@@ -64,6 +64,7 @@ public class InputManager : Singleton<InputManager>
         {
             SceneManager.LoadScene(2, LoadSceneMode.Additive);
         }
+        
         OnGameStateChange += OnGameStateChanged;
     }
 

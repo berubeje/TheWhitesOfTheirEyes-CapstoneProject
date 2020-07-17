@@ -19,7 +19,7 @@ public class CheckpointTrigger : IObstacle
     public Material unactivatedMaterial;
 
     private SphereCollider _sphereCollider;
-
+    private JimController _jimController;
     private void Awake()
     {
         _sphereCollider = GetComponent<SphereCollider>();
@@ -30,10 +30,11 @@ public class CheckpointTrigger : IObstacle
         if (other.CompareTag("Player"))
         {
             //_sphereCollider.enabled = false;
+            _jimController = other.GetComponent<JimController>();
 
             isTriggered = true;
 
-            CheckpointManager.Instance.SaveCheckpoint(transform.position, 100.0f);
+            CheckpointManager.Instance.SaveCheckpoint(transform.position, _jimController.currentHealth);
 
             eyeRenderer.material = activatedMaterial;
 

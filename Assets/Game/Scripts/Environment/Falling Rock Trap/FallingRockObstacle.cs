@@ -29,6 +29,7 @@ public class FallingRockObstacle : IObstacle
     public override void ResetObstacle()
     {
         trigger.SetActive(true);
+        rock.layer = 12;
         rock.transform.localPosition = initialRockPosition;
         rock.GetComponent<Rigidbody>().useGravity = false;
         isTriggered = false;
@@ -37,6 +38,8 @@ public class FallingRockObstacle : IObstacle
 
     public override void UnresetObstacle()
     {
+        rock.layer = 11;
+
         trigger.SetActive(false);
         rock.GetComponent<Rigidbody>().useGravity = true;
 
