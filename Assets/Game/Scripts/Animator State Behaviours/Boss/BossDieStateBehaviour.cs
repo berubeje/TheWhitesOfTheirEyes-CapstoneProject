@@ -4,33 +4,24 @@ using UnityEngine;
 
 public class BossDieStateBehaviour : StateMachineBehaviour
 {
-    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
+    private Animator _animator;
+    private BossController _bossController;
+    private bool _animationStarted;
 
-    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
-
-    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+    override public void OnStateEnter(Animator fsm, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        InputManager.Instance.currentGameState = InputManager.GameStates.GameFinished;
+        if (_animator == null)
+        {
+            _animator = fsm.transform.parent.GetComponent<Animator>();
+        }
+
+        if (_bossController == null)
+        {
+            _bossController = fsm.GetComponentInParent<BossController>();
+        }
+
+        _animator.SetTrigger("Die");
+        _bossController.enabled = false;
     }
-
-    // OnStateMove is called right after Animator.OnAnimatorMove()
-    //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that processes and affects root motion
-    //}
-
-    // OnStateIK is called right after Animator.OnAnimatorIK()
-    //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that sets up animation IK (inverse kinematics)
-    //}
 }

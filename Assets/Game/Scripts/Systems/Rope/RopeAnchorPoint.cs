@@ -1,7 +1,9 @@
 ﻿///-------------------------------------------------------------------------------------------------
 // file: RopeAnchorPoint.cs
 //
-// author: Jesse Berube 
+// author: Jesse Berube
+// date: N/A
+//
 // summary: This is attatched to any gameobject that is meant to be an anchor point
 ///-------------------------------------------------------------------------------------------------
 
@@ -24,8 +26,11 @@ public class RopeAnchorPoint : MonoBehaviour
 
     [Header("If pull type")]
     public float timeToStartPull;
-    public float fallTime = 3f;
-    public bool additiveAngle = false;
+
+    
+    public float pullTime;
+    public bool canRepeatPull = false;
+    public bool pullDone = false;
 
     public Vector3 angleOfPull;
 
@@ -33,7 +38,7 @@ public class RopeAnchorPoint : MonoBehaviour
     public Transform pivot;
 
     private bool _pulling;
-    private bool _pullDone;
+    private bool _resetting;
     private Transform _targetTransform;
 
     private Quaternion _targetAngle;
@@ -62,36 +67,52 @@ public class RopeAnchorPoint : MonoBehaviour
 
     public void StartPull()
     {
-        cantAttach = true;
-        GetComponent<MeshRenderer>().enabled = false;
+        if (canRepeatPull == false)
+        {
+            cantAttach = true;
+            GetComponent<MeshRenderer>().enabled = false;
+        }
 
         _startRotation = _targetTransform.rotation;
 
-        if (_pullDone == false)
-        {
-            _pulling = true;
-        }
+        _pulling = true;
+        
 
-        if (additiveAngle)
-        {
-            _targetAngle = Quaternion.Euler(_targetTransform.rotation.eulerAngles + angleOfPull);
-        }
-        else
-        {
-            _targetAngle = Quaternion.Euler(angleOfPull);
-        }
+        _targetAngle = Quaternion.Euler(_targetTransform.rotation.eulerAngles + angleOfPull);
+        _t = 0.0f;   
+    }
+
+    public void ResetPull()
+    {
+        _pulling = true;
+        _resetting = true;
+        pullDone = false;
+
+
+        _startRotation = _targetTransform.rotation;
+        _targetAngle = Quaternion.Euler(_targetTransform.rotation.eulerAngles - angleOfPull);
+        _t = 0.0f;
 
     }
 
     public void RotateObject()
     {
-        _t += Time.deltaTime / fallTime;
+        _t += Time.deltaTime / pullTime;
         _targetTransform.rotation = Quaternion.Lerp(_startRotation, _targetAngle, _t);
 
         if(_t >= 1.0f)
         {
             _pulling = false;
-            _pullDone = true;
+            if(_resetting)
+            {
+                cantAttach = false;
+                GetComponent<MeshRenderer>().enabled = true;
+                _resetting = false;
+            }
+            else
+            {
+                pullDone = true;
+            }
         }
     }
 }
