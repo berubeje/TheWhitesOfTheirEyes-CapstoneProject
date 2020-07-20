@@ -55,7 +55,7 @@ public class BossTitleScreenController : MonoBehaviour
     private void LerpTransform()
     {
         Vector3 newPosition = Vector3.Lerp(_minPosition, _maxPosition, Mathf.PingPong(Time.time * transformLerpSpeed, 1));
-        float newAngle = Mathf.Lerp(-angleRange, angleRange, Mathf.PingPong(Time.time * transformLerpSpeed, 1));
+        float newAngle = Mathf.Lerp(angleRange, 0, Mathf.PingPong(Time.time * transformLerpSpeed, 1));
 
         transform.position = newPosition;
         transform.eulerAngles = new Vector3(newAngle, 180, 0);
