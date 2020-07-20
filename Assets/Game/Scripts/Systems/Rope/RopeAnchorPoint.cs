@@ -1,10 +1,13 @@
 ﻿///-------------------------------------------------------------------------------------------------
 // file: RopeAnchorPoint.cs
 //
-// author: Jesse Berube 
+// author: Jesse Berube
+// date: N/A
+//
 // summary: This is attatched to any gameobject that is meant to be an anchor point
 ///-------------------------------------------------------------------------------------------------
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,8 +15,16 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class RopeAnchorPoint : MonoBehaviour
 {
-    [HideInInspector]
-    public bool cantAttach;
+    public bool canAttach
+    {
+        get { return _allowAttach; }
+        set
+        {
+            _allowAttach = value;
+
+            OnCantAttachChange(_allowAttach);
+        }
+    }
 
     public AnchorType anchorType;
     public enum AnchorType
@@ -24,21 +35,28 @@ public class RopeAnchorPoint : MonoBehaviour
 
     [Header("If pull type")]
     public float timeToStartPull;
-    public float fallTime = 3f;
-    public bool additiveAngle = false;
+
+    
+    public float pullTime;
+    public bool canRepeatPull = false;
+    public bool pullDone = false;
 
     public Vector3 angleOfPull;
 
     [Header("Optional")]
     public Transform pivot;
 
+    private MeshRenderer _meshRenderer;
+
+    private bool _allowAttach = true;
     private bool _pulling;
-    private bool _pullDone;
+    private bool _resetting;
     private Transform _targetTransform;
 
     private Quaternion _targetAngle;
     private Quaternion _startRotation;
     private float _t;
+
 
     private void Awake()
     {
@@ -50,6 +68,8 @@ public class RopeAnchorPoint : MonoBehaviour
         {
             _targetTransform = pivot;
         }
+
+        _meshRenderer = GetComponent<MeshRenderer>();
     }
 
     private void Update()
@@ -60,38 +80,66 @@ public class RopeAnchorPoint : MonoBehaviour
         }
     }
 
-    public void StartPull()
+    private void OnCantAttachChange(bool _canAttachValue)
     {
-        cantAttach = true;
-        GetComponent<MeshRenderer>().enabled = false;
-
-        _startRotation = _targetTransform.rotation;
-
-        if (_pullDone == false)
+        if(_canAttachValue == true)
         {
-            _pulling = true;
-        }
-
-        if (additiveAngle)
-        {
-            _targetAngle = Quaternion.Euler(_targetTransform.rotation.eulerAngles + angleOfPull);
+            _meshRenderer.enabled = true;
+            pullDone = false;
         }
         else
         {
-            _targetAngle = Quaternion.Euler(angleOfPull);
+            _meshRenderer.enabled = false;
         }
+    }
+
+    public void StartPull()
+    {
+        if (canRepeatPull == false)
+        {
+            canAttach = false;
+        }
+
+        _startRotation = _targetTransform.rotation;
+
+        _pulling = true;
+        
+
+        _targetAngle = Quaternion.Euler(_targetTransform.rotation.eulerAngles + angleOfPull);
+        _t = 0.0f;   
+    }
+
+    public void ResetPull()
+    {
+        _pulling = true;
+        _resetting = true;
+        pullDone = false;
+
+
+        _startRotation = _targetTransform.rotation;
+        _targetAngle = Quaternion.Euler(_targetTransform.rotation.eulerAngles - angleOfPull);
+        _t = 0.0f;
 
     }
 
     public void RotateObject()
     {
-        _t += Time.deltaTime / fallTime;
+        _t += Time.deltaTime / pullTime;
         _targetTransform.rotation = Quaternion.Lerp(_startRotation, _targetAngle, _t);
 
         if(_t >= 1.0f)
         {
             _pulling = false;
-            _pullDone = true;
+            if(_resetting)
+            {
+                canAttach = true;
+                GetComponent<MeshRenderer>().enabled = true;
+                _resetting = false;
+            }
+            else
+            {
+                pullDone = true;
+            }
         }
     }
 }

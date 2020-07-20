@@ -13,25 +13,27 @@ using UnityEngine;
 public class GiantDeathHitboxLogic : MonoBehaviour
 {
 
-    public List<GameObject> killObjects = new List<GameObject>();
-
-    private Animator _animator;
+    private BossController _bossController;
 
     private void Awake()
     {
-        _animator = GetComponentInParent<Animator>();
+        _bossController = GetComponentInParent<BossController>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        foreach (GameObject killObject in killObjects)
+        KillPillarScript killPillarScript = other.gameObject.GetComponent<KillPillarScript>();
+
+        if (killPillarScript != null )
         {
-            if (other.gameObject == killObject)
+            _bossController.bossHealth -= killPillarScript.damageDelt;
+            Destroy(killPillarScript.gameObject);
+
+            if(_bossController.bossHealth <=  0.0f)
             {
-                _animator.SetTrigger("Die");
-                Destroy(gameObject);
-                return;
+                Destroy(this.gameObject);
             }
+            return;
         }
     }
 }
