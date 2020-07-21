@@ -19,10 +19,7 @@ public class CheckpointManager : Singleton<CheckpointManager>
     {
         applicationClosing = false; 
         obstacleDictionary = new Dictionary<string, IObstacle>();
-    }
 
-    private void Start()
-    {
         _jimAnimator = jimController.GetComponent<Animator>();
     }
 

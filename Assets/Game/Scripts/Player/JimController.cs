@@ -74,9 +74,6 @@ public class JimController : MonoBehaviour
 
     void Awake()
     {
-        CheckpointManager.Instance.jimController = this;
-        InputManager.Instance.jimController = this;
-
         currentHealth = maxHealth;
 
         _jimAnimator = GetComponent<Animator>();
