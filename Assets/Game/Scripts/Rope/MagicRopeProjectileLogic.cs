@@ -16,6 +16,7 @@ public class MagicRopeProjectileLogic : MonoBehaviour
 
     private Vector3 _initialPosition;
     private Quaternion _initialRotation;
+    private Vector3 _initialScale;
     
     private PlayerGrapplingHook _grapplingHookLogic;
     private Transform _targetTransform;
@@ -26,6 +27,7 @@ public class MagicRopeProjectileLogic : MonoBehaviour
     {
         _initialPosition = transform.localPosition;
         _initialRotation = transform.localRotation;
+        _initialScale = transform.localScale;
     }
     void Update()
     {
@@ -58,6 +60,7 @@ public class MagicRopeProjectileLogic : MonoBehaviour
 
                     transform.localPosition = _initialPosition;
                     transform.localRotation = _initialRotation;
+                    transform.localScale = _initialScale;
 
                     if(_targetTransform == ropeBaseReturnTransform)
                     {

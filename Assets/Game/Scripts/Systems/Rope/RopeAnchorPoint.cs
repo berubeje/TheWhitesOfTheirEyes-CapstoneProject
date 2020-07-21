@@ -109,7 +109,8 @@ public class RopeAnchorPoint : MonoBehaviour
         _targetAngle = Quaternion.Euler(_targetTransform.rotation.eulerAngles + angleOfPull);
         _t = 0.0f;
 
-        GetComponentInParent<FallingPillarObstacle>().isTriggered = true;
+
+        //GetComponentInParent<FallingPillarObstacle>().isTriggered = true;
     }
 
     public void ResetPull()

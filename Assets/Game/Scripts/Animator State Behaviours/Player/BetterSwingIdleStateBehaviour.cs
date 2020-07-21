@@ -207,7 +207,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 
         }
 
-        if (Physics.SphereCast(animator.transform.position, 0.3f, _swingForward * _direction, out _, forwardCheckDistance, _layerMask))
+        if (Physics.SphereCast(animator.transform.position + new Vector3(0, 1, 0), 0.3f, _swingForward * _direction, out _, forwardCheckDistance, _layerMask))
         {
             animator.SetTrigger("swingCancel");
         }

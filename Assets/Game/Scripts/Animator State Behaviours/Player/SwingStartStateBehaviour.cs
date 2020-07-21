@@ -102,7 +102,7 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
         }
 
 
-        if (Physics.SphereCast(animator.transform.position, 0.3f, _swingForward, out _, forwardCheckDistance, _layerMask))
+        if (Physics.SphereCast(animator.transform.position + new Vector3(0, 1, 0), 0.3f, _swingForward, out _, forwardCheckDistance, _layerMask))
         {
             //_rigidbody.MoveRotation(Quaternion.LookRotation(Vector3.Cross(Vector3.up, animator.transform.right)));
             animator.SetTrigger("swingCancel");
