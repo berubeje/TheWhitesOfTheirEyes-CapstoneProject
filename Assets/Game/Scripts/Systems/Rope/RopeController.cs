@@ -146,6 +146,7 @@ public class RopeController : MonoBehaviour
 
             case PlayerGrapplingHook.RopeState.Pull:
                 {
+                    _animator.SetTrigger("returnToIdle");
                     _targetTransform = ropeLogic.targetAnchor.transform;
                     break;
                 }
@@ -172,7 +173,7 @@ public class RopeController : MonoBehaviour
         {
             if (_isRightTriggerInUse == false)
             {
-                ropeLogic.LaunchHook();
+                _animator.SetTrigger("ropeLaunch");
                 _isRightTriggerInUse = true;
             }
 
@@ -193,18 +194,20 @@ public class RopeController : MonoBehaviour
     {
         _isRightTriggerInUse = false;
 
+        _animator.SetTrigger("returnToIdle");
+
         if (ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.Pull || ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.Swing)
         {
             if (_playerLogic.isPulling == false)
             {
                 ropeLogic.DetachHook();
-                _playerLogic.isPulling = false;
             }
         }
         else if (ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.Launched)
         {
             ropeLogic.CancelLaunch();
         }
+
     }
 
     // Hold the left trigger for a certain amount of time to start pulling in the object.

@@ -35,13 +35,6 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.ResetTrigger("swingStart");
-        animator.ResetTrigger("swingIdle");
-        animator.ResetTrigger("swingLand");
-        animator.ResetTrigger("swingCancel");
-        animator.ResetTrigger("fallIdle");
-        animator.ResetTrigger("fallLand");
-        animator.ResetTrigger("dodgeRoll");
 
         _jimController = animator.GetComponent<JimController>();
         _splineRoute = _jimController.splineRoute;
@@ -109,7 +102,7 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
         }
 
 
-        if (Physics.SphereCast(animator.transform.position, 0.3f, _swingForward, out _, forwardCheckDistance, _layerMask))
+        if (Physics.SphereCast(animator.transform.position + new Vector3(0, 1, 0), 0.3f, _swingForward, out _, forwardCheckDistance, _layerMask))
         {
             //_rigidbody.MoveRotation(Quaternion.LookRotation(Vector3.Cross(Vector3.up, animator.transform.right)));
             animator.SetTrigger("swingCancel");

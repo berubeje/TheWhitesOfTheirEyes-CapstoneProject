@@ -7,6 +7,7 @@
 // summary: This is attatched to any gameobject that is meant to be an anchor point
 ///-------------------------------------------------------------------------------------------------
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,8 +15,16 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class RopeAnchorPoint : MonoBehaviour
 {
-    [HideInInspector]
-    public bool cantAttach;
+    public bool canAttach
+    {
+        get { return _allowAttach; }
+        set
+        {
+            _allowAttach = value;
+
+            OnCanAttachChange(_allowAttach);
+        }
+    }
 
     public AnchorType anchorType;
     public enum AnchorType
@@ -37,6 +46,9 @@ public class RopeAnchorPoint : MonoBehaviour
     [Header("Optional")]
     public Transform pivot;
 
+    private MeshRenderer _meshRenderer;
+
+    private bool _allowAttach = true;
     private bool _pulling;
     private bool _resetting;
     private Transform _targetTransform;
@@ -44,6 +56,7 @@ public class RopeAnchorPoint : MonoBehaviour
     private Quaternion _targetAngle;
     private Quaternion _startRotation;
     private float _t;
+
 
     private void Awake()
     {
@@ -55,6 +68,8 @@ public class RopeAnchorPoint : MonoBehaviour
         {
             _targetTransform = pivot;
         }
+
+        _meshRenderer = GetComponent<MeshRenderer>();
     }
 
     private void Update()
@@ -65,12 +80,25 @@ public class RopeAnchorPoint : MonoBehaviour
         }
     }
 
+    private void OnCanAttachChange(bool _canAttachValue)
+    {
+        if(_canAttachValue == true)
+        {
+            _meshRenderer.enabled = true;
+            pullDone = false;
+            _pulling = false;
+        }
+        else
+        {
+            _meshRenderer.enabled = false;
+        }
+    }
+
     public void StartPull()
     {
         if (canRepeatPull == false)
         {
-            cantAttach = true;
-            GetComponent<MeshRenderer>().enabled = false;
+            canAttach = false;
         }
 
         _startRotation = _targetTransform.rotation;
@@ -79,7 +107,10 @@ public class RopeAnchorPoint : MonoBehaviour
         
 
         _targetAngle = Quaternion.Euler(_targetTransform.rotation.eulerAngles + angleOfPull);
-        _t = 0.0f;   
+        _t = 0.0f;
+
+
+        //GetComponentInParent<FallingPillarObstacle>().isTriggered = true;
     }
 
     public void ResetPull()
@@ -105,7 +136,7 @@ public class RopeAnchorPoint : MonoBehaviour
             _pulling = false;
             if(_resetting)
             {
-                cantAttach = false;
+                canAttach = true;
                 GetComponent<MeshRenderer>().enabled = true;
                 _resetting = false;
             }

@@ -7,7 +7,6 @@ public class TrapTrigger : MonoBehaviour
 {
     public IObstacle fallingRockObstacle;
     public FallingRock fallingRock;
-    public Light light;
 
     private Rigidbody _fallingRockRigidBody;
     private MeshRenderer _fallingMeshRenderer;

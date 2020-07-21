@@ -35,12 +35,9 @@ public class PlayerGrapplingHook : MonoBehaviour
     private ObiRopeExtrudedRenderer _ropeRenderer;
 
     private ObiRopeCursor _cursor;
-    private RaycastHit _hookAttachment;
     private JimController _jimController;
     private Animator _jimAnimator;
 
-    private Vector3 _startingBasePosition;
-    private Transform _startingBaseParent;
 
     private bool _ropeReturning;
 
@@ -107,8 +104,6 @@ public class PlayerGrapplingHook : MonoBehaviour
             Debug.LogError("No animator found in any parent.");
         }
 
-        _startingBasePosition = character.transform.localPosition;
-        _startingBaseParent = character.transform.parent;
 
         MagicRopeProjectileLogic ropeBaseLogic = character.GetComponent<MagicRopeProjectileLogic>();
 
@@ -138,6 +133,7 @@ public class PlayerGrapplingHook : MonoBehaviour
         }
 
         targetAnchor = targetCone.GetTarget();
+        _jimController.anchor = targetAnchor;
 
         if (targetAnchor != null)
         {
@@ -159,7 +155,7 @@ public class PlayerGrapplingHook : MonoBehaviour
             }
 
             currentRopeState = RopeState.Launched;
-            StartCoroutine(AttachHook());
+            StartCoroutine(GenerateRope());
 
         }
     }
@@ -181,13 +177,13 @@ public class PlayerGrapplingHook : MonoBehaviour
         if (targetAnchor.anchorType == RopeAnchorPoint.AnchorType.Swing)
         {
             currentRopeState = RopeState.Swing;
-            _jimController.anchor = targetAnchor.transform;
             _jimAnimator.SetTrigger("swingStart");
 
         }
         else if (targetAnchor.anchorType == RopeAnchorPoint.AnchorType.Pull)
         {
-            currentRopeState = RopeState.Pull;
+            currentRopeState = RopeState.Pull; 
+            //_jimAnimator.SetTrigger("returnToIdle");
         }
         //else
         //{
@@ -223,7 +219,7 @@ public class PlayerGrapplingHook : MonoBehaviour
     //}
 
     // This is needed to add the control points and pin constraints to the rope blueprint when it is launched.
-    private IEnumerator AttachHook()
+    public IEnumerator GenerateRope()
     {
         yield return 0;
         Vector3 localHit = _rope.transform.InverseTransformPoint(ropeHook.transform.position);
