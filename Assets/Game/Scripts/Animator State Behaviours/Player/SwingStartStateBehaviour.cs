@@ -35,13 +35,6 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.ResetTrigger("swingStart");
-        animator.ResetTrigger("swingIdle");
-        animator.ResetTrigger("swingLand");
-        animator.ResetTrigger("swingCancel");
-        animator.ResetTrigger("fallIdle");
-        animator.ResetTrigger("fallLand");
-        animator.ResetTrigger("dodgeRoll");
 
         _jimController = animator.GetComponent<JimController>();
         _splineRoute = _jimController.splineRoute;

@@ -22,7 +22,7 @@ public class RopeAnchorPoint : MonoBehaviour
         {
             _allowAttach = value;
 
-            OnCantAttachChange(_allowAttach);
+            OnCanAttachChange(_allowAttach);
         }
     }
 
@@ -80,12 +80,13 @@ public class RopeAnchorPoint : MonoBehaviour
         }
     }
 
-    private void OnCantAttachChange(bool _canAttachValue)
+    private void OnCanAttachChange(bool _canAttachValue)
     {
         if(_canAttachValue == true)
         {
             _meshRenderer.enabled = true;
             pullDone = false;
+            _pulling = false;
         }
         else
         {
@@ -106,7 +107,9 @@ public class RopeAnchorPoint : MonoBehaviour
         
 
         _targetAngle = Quaternion.Euler(_targetTransform.rotation.eulerAngles + angleOfPull);
-        _t = 0.0f;   
+        _t = 0.0f;
+
+        GetComponentInParent<FallingPillarObstacle>().isTriggered = true;
     }
 
     public void ResetPull()

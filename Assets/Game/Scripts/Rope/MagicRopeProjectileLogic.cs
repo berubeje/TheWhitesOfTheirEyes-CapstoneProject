@@ -14,19 +14,19 @@ public class MagicRopeProjectileLogic : MonoBehaviour
     public float projectileSpeed;
     public Transform ropeBaseReturnTransform;
 
+    private Vector3 _initialPosition;
+    private Quaternion _initialRotation;
+    
     private PlayerGrapplingHook _grapplingHookLogic;
     private Transform _targetTransform;
     private bool _targetReached = true;
     private bool _returning;
-    private bool _dontDestroy;
-    private MeshRenderer _meshRenderer;
-
 
     private void Awake()
     {
-        _meshRenderer = GetComponent<MeshRenderer>();
+        _initialPosition = transform.localPosition;
+        _initialRotation = transform.localRotation;
     }
-
     void Update()
     {
         MoveToTarget();
@@ -54,11 +54,10 @@ public class MagicRopeProjectileLogic : MonoBehaviour
                 else
                 {
                     _grapplingHookLogic.RopeReturned();
+                    transform.parent = _grapplingHookLogic.character.transform;
 
-                    if (_dontDestroy == false)
-                    {
-                        _meshRenderer.enabled = false;
-                    }
+                    transform.localPosition = _initialPosition;
+                    transform.localRotation = _initialRotation;
 
                     if(_targetTransform == ropeBaseReturnTransform)
                     {
@@ -74,6 +73,7 @@ public class MagicRopeProjectileLogic : MonoBehaviour
     // Tell the rope to start returning to the base of the rope.
     public void RopeReturn(Transform ropeBase)
     {
+        transform.LookAt(_targetTransform);
         transform.parent = null;
         _targetTransform = ropeBase;
         _targetReached = false;
@@ -83,26 +83,26 @@ public class MagicRopeProjectileLogic : MonoBehaviour
     // Launch the projectile at a target.
     public void Relaunch(Transform targetTransform)
     {
+        transform.parent = null;
+        transform.LookAt(targetTransform);
         _targetTransform = targetTransform;
         _returning = false;
         _targetReached = false;
-        _meshRenderer.enabled = true;
     }
 
     // This is for the rope base to come back to the player's hand after a tie action.
     public void RopeReturn()
     {
+        transform.LookAt(_targetTransform);
         _targetTransform = ropeBaseReturnTransform;
         _targetReached = false;
         _returning = true;
-        _dontDestroy = true;
     }
 
     public void InstantReturn()
     {
         transform.parent = null;
-        transform.position = ropeBaseReturnTransform.position;
-        _meshRenderer.enabled = false;
+        transform.position = ropeBaseReturnTransform.position; 
         _targetReached = true;
         _returning = false;
     }

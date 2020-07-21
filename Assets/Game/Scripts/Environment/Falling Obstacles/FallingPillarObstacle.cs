@@ -8,25 +8,25 @@ public class FallingPillarObstacle : IObstacle
     private Quaternion _initialRotation;
 
     private RopeAnchorPoint _anchorPoint;
-    private MeshRenderer _anchorPointMeshRenderer;
+
     private void Awake()
     {
         _initialPosition = transform.position;
         _initialRotation = transform.rotation;
 
         _anchorPoint = GetComponentInChildren<RopeAnchorPoint>();
-        _anchorPointMeshRenderer = _anchorPoint.GetComponent<MeshRenderer>();
     }
     public override void ResetObstacle()
     {
         transform.position = _initialPosition;
         transform.rotation = _initialRotation;
-        _anchorPoint.cantAttach = false;
-        _anchorPointMeshRenderer.enabled = true;
+        _anchorPoint.canAttach = true;
         isTriggered = false;
     }
 
     public override void UnresetObstacle()
     {
+        _anchorPoint.canAttach = false;
+        isTriggered = true;
     }
 }

@@ -52,8 +52,9 @@ public class JimController : MonoBehaviour
     public CinemachineVirtualCamera swingCamera;
     public DollyTrackFollow swingCameraTrack;
 
-    [Header("Swing Settings")]
-    public Transform anchor;
+    [Header("Rope Settings")]
+    public PlayerGrapplingHook ropeLogic;
+    public RopeAnchorPoint anchor;
     public SplineRoute splineRoute;
     public float groundCheckDistance;
 
@@ -160,7 +161,6 @@ public class JimController : MonoBehaviour
     }
 
 
-
     public void OnRightStick(InputAction.CallbackContext context)
     {
         _rightStickInput = context.ReadValue<Vector2>();
@@ -184,6 +184,13 @@ public class JimController : MonoBehaviour
         return _stateInfo.fullPathHash == stateHash;
     }
 
+    private void LaunchEvent() 
+    {
+        if(!_jimAnimator.GetAnimatorTransitionInfo(0).IsName("RopeLaunch -> Idle"))
+        {
+            ropeLogic.LaunchHook();
+        }
+    }
 
     private void OnDrawGizmos()
     {
