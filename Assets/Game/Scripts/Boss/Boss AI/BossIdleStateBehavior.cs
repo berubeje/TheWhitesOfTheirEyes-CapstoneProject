@@ -7,6 +7,7 @@ public class BossIdleStateBehavior : StateMachineBehaviour
     public float secondsTillAttackCheck = 2.0f;
     public float startingAttackChance = 30.0f;
     public float attackChanceIncreaseRate = 20.0f;
+    public bool attackWhenPillarDisturbed = true;
 
 
     private float _currentAttackChance;
@@ -15,6 +16,7 @@ public class BossIdleStateBehavior : StateMachineBehaviour
     private Animator _animator;
     private BossController _bossController;
     private Transform _playerTransform;
+    private PlayerGrapplingHook _grapplingHook;
 
 
 
@@ -31,6 +33,7 @@ public class BossIdleStateBehavior : StateMachineBehaviour
             _bossController = fsm.GetComponentInParent<BossController>();
             _playerTransform = _bossController.player.transform;
             _currentAttackChance = startingAttackChance;
+            _grapplingHook = _playerTransform.GetComponentInChildren<PlayerGrapplingHook>();
         }
     }
 
@@ -68,6 +71,21 @@ public class BossIdleStateBehavior : StateMachineBehaviour
                 fsm.SetTrigger("Turn");
                 return;
 
+            }
+
+            if (attackWhenPillarDisturbed)
+            {
+                RopeAnchorPoint currentPlayerAnchorTarget = _grapplingHook.targetAnchor;
+
+                if (currentPlayerAnchorTarget != null)
+                {
+                    if (currentPlayerAnchorTarget.transform.GetComponentInParent<KillPillarScript>())
+                    {
+                        _currentTickTime = 0.0f;
+                        fsm.SetTrigger("Sweep Attack");
+                        return;
+                    }
+                }
             }
 
             _currentTickTime += Time.deltaTime;
