@@ -199,38 +199,8 @@ public class PlayerGrapplingHook : MonoBehaviour
             currentRopeState = RopeState.Pull;
             //_jimAnimator.SetTrigger("returnToIdle");
         }
-        //else
-        //{
-        //    currentRopeState = RopeState.OneEndTied;
-        //    targetCone.TieSizeToggle(true);
-        //}
-
     }
 
-    // The logic to tie the rope to another gameobject, as well as set the rope state to 'Tied' 
-    //public void TieRope()
-    //{
-    //    if (currentRopeState != RopeState.OneEndTied)
-    //    {
-    //        return;
-    //    }
-
-    //    RopeAnchorPoint tieTarget = targetCone.GetTarget();
-
-    //    if (tieTarget != null && tieTarget != targetAnchor)
-    //    {
-    //        character.transform.position = tieTarget.transform.position;
-    //        character.transform.parent = tieTarget.transform;
-
-    //        baseTargetAnchor = tieTarget;
-    //        if (targetAnchor.GetComponentInParent<RockSwinging>() != null)
-    //        {
-    //            targetAnchor.GetComponentInParent<RockSwinging>().currentBaseAnchor = baseTargetAnchor;
-    //            targetAnchor.GetComponentInParent<RockSwinging>().currentHeadAnchor = targetAnchor;
-    //        }
-    //        currentRopeState = RopeState.Tied;
-    //    }
-    //}
 
     // This is needed to add the control points and pin constraints to the rope blueprint when it is launched.
     public IEnumerator GenerateRope()
@@ -293,37 +263,13 @@ public class PlayerGrapplingHook : MonoBehaviour
             currentRopeState = RopeState.Idle;
 
         }
-        // Bring the base of the rope back in a tied state.
-        //else if (currentRopeState == RopeState.Tied)
-        //{
-        //    MagicRopeProjectileLogic ropeBaseLogic = character.GetComponent<MagicRopeProjectileLogic>();
 
-        //    ropeHook.InstantReturn();
-
-        //    if (ropeBaseLogic != null)
-        //    {
-        //        ropeBaseLogic.RopeReturn();
-        //        DetachSwingRock();
-        //        _rope.ropeBlueprint = null;
-        //        _rope.GetComponent<MeshRenderer>().enabled = false;
-        //    }
-        //    baseTargetAnchor = null;
-
-        //}
-
-        targetCone.TieSizeToggle(false);
         targetAnchor = null;
     }
 
     // When the rope is returned, set the rope state to idle as well as make the rope go away.
     public void RopeReturned()
     {
-        //if (currentRopeState == RopeState.Tied)
-        //{
-        //    character.transform.parent = _startingBaseParent;
-        //    character.transform.localPosition = _startingBasePosition;
-        //}
-
         _ropeReturning = false;
         //_rope.ropeBlueprint = null;
         _rope.GetComponent<MeshRenderer>().enabled = false;

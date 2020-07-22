@@ -1,4 +1,13 @@
-﻿using System.Collections;
+﻿//-------------------------------------------------------------------------------------------------
+// file: BossTreeLogic.cs
+//
+// author: Jesse Berube
+// date: 2020/07/17
+//
+// summary: The scripts detects when it has been pulled down, then alerts the boss that it has been knocked down.
+///-------------------------------------------------------------------------------------------------
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +27,7 @@ public class BossTreeLogic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Checks to see if the anchor point has been pulled down, if so, tell the boss it has been knocked down after a delay.
         if(_ropeAnchorPoint.pullDone && _addedToList == false)
         {
             if (bossController.treeRepairInProgress == false)

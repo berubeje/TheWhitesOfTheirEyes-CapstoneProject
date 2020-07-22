@@ -165,7 +165,7 @@ public class RopeController : MonoBehaviour
     }
 
 
-    // Launch out the rope if there is a target in sight. If the rope is tied, the button will need to be pressed again to bring it back.
+    // Launch out the rope if there is a target in sight.
     public void OnRightTriggerDown(InputAction.CallbackContext context)
     {
         _rightTriggerInput = context.ReadValue<float>();
@@ -178,15 +178,6 @@ public class RopeController : MonoBehaviour
             }
 
         }
-        //else if (ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.Tied)
-        //{
-        //    if (_isRightTriggerInUse == false)
-        //    {
-        //        ropeLogic.DetachHook();
-        //        _isRightTriggerInUse = true;
-        //    }
-
-        //}
     }
 
     // Let go of the trigger to bring the rope back to the player. 
@@ -221,7 +212,7 @@ public class RopeController : MonoBehaviour
         }
     }
 
-    //Tap the left trigger to tie the base of the rope to another anchor point.
+    //Hold left trigger while the rope is attatched to a pull anchor to pull.
     public void OnLeftTriggerCancel(InputAction.CallbackContext context)
     {
         // For some reason, this will trigger regardless if you hold the trigger long enough or not
@@ -235,10 +226,6 @@ public class RopeController : MonoBehaviour
                 _currentPullTime = 0.0f;
             }
         }
-        //else if (ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.OneEndTied)
-        //{
-        //    ropeLogic.TieRope();
-        //}
 
     }
 }
