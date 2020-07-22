@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Level2Menu : Menu
+public class PauseMenu : Menu
 {
 	public SceneReference sceneToLoad;
-	public SceneReference sceneToUnLoad;
+	public SceneReference sceneToUnload;
 
 	public void onLoadScene()
 	{
-		SceneLoader.Instance.UnloadScene(sceneToUnLoad);
+		SceneLoader.Instance.UnloadScene(sceneToUnload);
 		SceneLoader.Instance.LoadScene(sceneToLoad, true);
 		MenuManager.Instance.hideMenu(menuClassifier);
 	}
-
 }

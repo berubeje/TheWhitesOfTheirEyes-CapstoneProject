@@ -37,7 +37,7 @@ public class UICanvas : Singleton<UICanvas>
 
         _healthSlider = healthBar.GetComponent<Slider>();
 
-        _pauseAction.started += OnPauseButtonDown;
+        
     }
 
     private void Start()
@@ -137,6 +137,15 @@ public class UICanvas : Singleton<UICanvas>
         }
     }
 
+    public void BindControls()
+    {
+        _pauseAction.started += OnPauseButtonDown;
+    }
+
+    public void UnbindControls()
+    {
+        _pauseAction.started -= OnPauseButtonDown;
+    }
     private void OnEnable()
     {
         _pauseAction.Enable();

@@ -640,7 +640,7 @@ PrefabInstance:
     - target: {fileID: 6255195918194285272, guid: bb42b23bea9a5af4590f8ea6533bdaa3,
         type: 3}
       propertyPath: near clip plane
-      value: 0.01
+      value: 0.001
       objectReference: {fileID: 0}
     - target: {fileID: 6255195918194285272, guid: bb42b23bea9a5af4590f8ea6533bdaa3,
         type: 3}
@@ -655,7 +655,7 @@ PrefabInstance:
     - target: {fileID: 6255195918194285272, guid: bb42b23bea9a5af4590f8ea6533bdaa3,
         type: 3}
       propertyPath: m_ClearFlags
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6255195918194285272, guid: bb42b23bea9a5af4590f8ea6533bdaa3,
         type: 3}
@@ -680,12 +680,12 @@ PrefabInstance:
     - target: {fileID: 6255195918194285272, guid: bb42b23bea9a5af4590f8ea6533bdaa3,
         type: 3}
       propertyPath: far clip plane
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6255195918194285272, guid: bb42b23bea9a5af4590f8ea6533bdaa3,
         type: 3}
       propertyPath: field of view
-      value: 60
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6255195918194285273, guid: bb42b23bea9a5af4590f8ea6533bdaa3,
         type: 3}
@@ -695,12 +695,12 @@ PrefabInstance:
     - target: {fileID: 6255195918194285273, guid: bb42b23bea9a5af4590f8ea6533bdaa3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -11.82
+      value: -11.8
       objectReference: {fileID: 0}
     - target: {fileID: 6255195918194285273, guid: bb42b23bea9a5af4590f8ea6533bdaa3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.69
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 6255195918194285273, guid: bb42b23bea9a5af4590f8ea6533bdaa3,
         type: 3}
@@ -959,7 +959,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4f66628dc3c061b4c9b8a8932ab2d172, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 69bb99611eabf41458c5019c1b253025, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
