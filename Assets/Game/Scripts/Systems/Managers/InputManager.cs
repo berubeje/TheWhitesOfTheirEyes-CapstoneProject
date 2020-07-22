@@ -68,12 +68,6 @@ public class InputManager : Singleton<InputManager>
         OnGameStateChange += OnGameStateChanged;
     }
 
-    private void Start()
-    {
-        BindControls();
-        EnableAllControls();
-    }
-
     private void OnGameStateChanged(GameStates state)
     {
         switch (state)
@@ -99,11 +93,7 @@ public class InputManager : Singleton<InputManager>
         }
     }
 
-    private void BindSwingRotation()
-    {
-
-    }
-    private void BindControls()
+    public void BindControls()
     {
         _playerControls = new PlayerControls();
 
@@ -126,7 +116,7 @@ public class InputManager : Singleton<InputManager>
         _pullTieAction.performed += ropeController.OnLeftTriggerPull;
         _pullTieAction.canceled += ropeController.OnLeftTriggerCancel;
     }
-    private void EnableAllControls()
+    public void EnableAllControls()
     {
         _moveAction.Enable();
         _lookAction.Enable();
@@ -134,7 +124,7 @@ public class InputManager : Singleton<InputManager>
         _pullTieAction.Enable();
         _rollAction.Enable();
     }
-    private void DisableAllControls()
+    public void DisableAllControls()
     {
         _moveAction.Disable();
         _lookAction.Disable();

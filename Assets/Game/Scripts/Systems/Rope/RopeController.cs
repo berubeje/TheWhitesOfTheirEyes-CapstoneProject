@@ -44,6 +44,8 @@ public class RopeController : MonoBehaviour
 
     private void Awake()
     {
+        InputManager.Instance.ropeController = this;
+
         _playerRigidBody = GetComponentInParent<Rigidbody>();
         _playerLogic = _playerRigidBody.GetComponent<JimController>();
         _playerTransform = _playerRigidBody.transform;
