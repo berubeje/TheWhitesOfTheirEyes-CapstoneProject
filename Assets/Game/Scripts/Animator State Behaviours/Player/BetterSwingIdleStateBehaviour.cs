@@ -183,6 +183,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
             _interpolant += _speedMultiplier * Time.deltaTime * _direction;
 
             RotateSwing(animator);
+            SetUpSpline(animator);
 
             if (_interpolant > 1.0f)
             {
@@ -209,8 +210,6 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
             }
             animator.SetFloat("angle", anglePercent);
             animator.SetFloat("swingDirection", _speedMultiplier * _direction);
-
-            SetUpSpline(animator);
 
         }
 
@@ -247,17 +246,19 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         float releaseDestinationAngle = Mathf.Lerp(minDestinationAngle, maxDestinationAngle, _percentOfSwing);
 
         _splineRoute.controlPoints[0].position = animator.transform.position;
-
-        
         _splineRoute.controlPoints[1].position = animator.transform.position + _releaseDirection + (Vector3.up * releaseDirectionOffset);
 
-        _splineRoute.controlPoints[3].position = animator.transform.position +
-            (_swingForward * releaseDistanceX) * _direction +
-            (Vector3.up * releaseDistanceY);
+        if (_percentOfSwing > coyoteTimeThreshold)
+        {
+            _splineRoute.controlPoints[3].position = animator.transform.position +
+                (_swingForward * releaseDistanceX) * _direction +
+                (Vector3.up * releaseDistanceY);
 
 
-        _splineRoute.controlPoints[2].position = (Quaternion.AngleAxis(releaseDestinationAngle * -_direction, animator.transform.right) * Vector3.up) +
-            _splineRoute.controlPoints[3].position;
+            _splineRoute.controlPoints[2].position = (Quaternion.AngleAxis(releaseDestinationAngle * -_direction, animator.transform.right) * Vector3.up) +
+                _splineRoute.controlPoints[3].position;
+        }
+
         
     }
 
