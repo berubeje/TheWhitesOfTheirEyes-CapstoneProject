@@ -86,6 +86,7 @@ public class SwingLandStateBehaviour : StateMachineBehaviour
                         Mathf.Pow(_t, 3) * _p3;
 
                 _rigidbody.MovePosition(targetPosition);
+                //_rigidbody.MoveRotation(_targetRotation);
                 animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, _targetRotation, _jimController.rotationSpeed);
             }
         }

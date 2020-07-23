@@ -43,7 +43,7 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
         newCenter.y += (animator.GetFloat("colliderCurve") * colliderYOffsetMultiplier);
         _capsuleCollider.center = newCenter;
 
-        if (Physics.SphereCast(animator.transform.position, 0.3f, Vector3.down, out _, groundCheckDistance))
+        if (Physics.Raycast(animator.transform.position, Vector3.down, out _, groundCheckDistance))
         {
             if (_fallTime < softLandingTime)
             {
