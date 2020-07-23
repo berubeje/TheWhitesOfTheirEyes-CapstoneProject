@@ -31,7 +31,6 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
         }
 
         _animator.SetTrigger("Repair");
-        _bossController.fallenTreeList[0].ResetPull();
     }
 
 
@@ -52,8 +51,15 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
         else if (_animationStarted == true)
         {
             _animationStarted = false;
-            _bossController.fallenTreeList.RemoveAt(0);
             fsm.SetTrigger("Idle");
         }
     }
+
+    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        _bossController.fallenTreeList[0].ResetPull();
+        _bossController.fallenTreeList.RemoveAt(0);
+
+    }
+
 }
