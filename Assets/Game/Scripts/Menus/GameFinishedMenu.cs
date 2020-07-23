@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PauseMenu : Menu
+public class GameFinishedMenu : Menu
 {
 	public SceneReference sceneToLoad;
 	public SceneReference sceneToUnload;

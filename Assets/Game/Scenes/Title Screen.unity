@@ -9232,6 +9232,8 @@ GameObject:
   - component: {fileID: 5006512736682173910}
   - component: {fileID: 3166231814695831724}
   - component: {fileID: 8296172667858196422}
+  - component: {fileID: 8296172667858196423}
+  - component: {fileID: 8296172667858196424}
   m_Layer: 0
   m_Name: Boss-GeoExportTest_002
   m_TagString: Untagged
@@ -9259,6 +9261,32 @@ MonoBehaviour:
   angleRange: 2.5
   lightLerpSpeed: 1.5
   transformLerpSpeed: 0.25
+--- !u!114 &8296172667858196423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8296172667858196421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d17bf37b604d0fa48829f8d5363cd397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8296172667858196424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8296172667858196421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fea5f465495abb1498e1ddb53ce61d47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuToShow: {fileID: 11400000, guid: 15807ffc1cd9796408157cf5b8898cc2, type: 2}
+  menuToHide: {fileID: 11400000, guid: 1bb39a16c1a855748915b73507bd4631, type: 2}
 --- !u!4 &8329947313557507295
 Transform:
   m_ObjectHideFlags: 0

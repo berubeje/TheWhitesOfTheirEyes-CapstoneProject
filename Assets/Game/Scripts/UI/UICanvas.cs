@@ -76,6 +76,12 @@ public class UICanvas : Singleton<UICanvas>
                 InputManager.Instance.currentGameState = InputManager.GameStates.Playing;
                 break;
 
+            case InputManager.GameStates.Resetting:
+                UICanvas.instance.UnbindControls();
+                Time.timeScale = 1;
+                InputManager.Instance.currentGameState = InputManager.GameStates.Playing;
+                break;
+
             case InputManager.GameStates.GameOver:
                 gameOverMenu.SetActive(true);
                 healthBar.SetActive(false);
@@ -94,13 +100,6 @@ public class UICanvas : Singleton<UICanvas>
         InputManager.Instance.currentGameState = InputManager.GameStates.Reloading;
     }
 
-    public void ResetLevel()
-    {
-        InputManager.Instance.currentGameState = InputManager.GameStates.Playing;
-        SceneManager.LoadScene(1);
-        Time.timeScale = 1;
-    }
-
     public void PauseGame()
     {
         InputManager.Instance.currentGameState = InputManager.GameStates.Paused;
@@ -109,11 +108,6 @@ public class UICanvas : Singleton<UICanvas>
     public void ResumeGame()
     {
         InputManager.Instance.currentGameState = InputManager.GameStates.Playing;
-    }
-
-    public void ReturnToMenu()
-    {
-        SceneManager.LoadScene(0);
     }
 
     public void QuitGame()

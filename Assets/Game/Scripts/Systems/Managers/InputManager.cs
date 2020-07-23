@@ -17,6 +17,7 @@ public class InputManager : Singleton<InputManager>
         Playing,
         Paused,
         Reloading,
+        Resetting,
         Cinematic,
         GameOver,
         GameFinished
@@ -58,12 +59,6 @@ public class InputManager : Singleton<InputManager>
     private void Awake()
     {
         applicationClosing = false;
-
-        // Load the UI scene before anything else
-        if (!SceneManager.GetSceneByBuildIndex(2).isLoaded)
-        {
-            SceneManager.LoadScene(2, LoadSceneMode.Additive);
-        }
         
         OnGameStateChange += OnGameStateChanged;
     }
@@ -83,10 +78,15 @@ public class InputManager : Singleton<InputManager>
             case GameStates.Reloading:
                 DisableAllControls();
                 break;
+            
+            case GameStates.Resetting:
+                DisableAllControls();
+                break;
 
             case GameStates.GameOver:
                 DisableAllControls();
                 break;
+
             case GameStates.GameFinished:
                 DisableAllControls();
                 break;
@@ -116,6 +116,31 @@ public class InputManager : Singleton<InputManager>
         _pullTieAction.performed += ropeController.OnLeftTriggerPull;
         _pullTieAction.canceled += ropeController.OnLeftTriggerCancel;
     }
+
+    public void UnbindControls()
+    {
+        _playerControls = new PlayerControls();
+
+        _moveAction = _playerControls.Player.Move;
+        _moveAction.performed -= jimController.OnLeftStick;
+        _moveAction.canceled -= jimController.OnLeftStick;
+
+        _rollAction = _playerControls.Player.Roll;
+        _rollAction.performed -= jimController.OnEastButtonDown;
+
+        _lookAction = _playerControls.Player.Look;
+        _lookAction.performed -= jimController.OnRightStick;
+        _lookAction.canceled -= jimController.OnRightStick;
+
+        _fireAction = _playerControls.Player.Fire;
+        _fireAction.performed -= ropeController.OnRightTriggerDown;
+        _fireAction.canceled -= ropeController.OnRightTriggerUp;
+
+        _pullTieAction = _playerControls.Player.Pull;
+        _pullTieAction.performed -= ropeController.OnLeftTriggerPull;
+        _pullTieAction.canceled -= ropeController.OnLeftTriggerCancel;
+    }
+
     public void EnableAllControls()
     {
         _moveAction.Enable();

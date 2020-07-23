@@ -7,7 +7,7 @@ public class Startup : MonoBehaviour
 {
 	public bool loadScene = true;
 	public SceneReference startupScene;
-
+	public SceneReference UIScene;
 	private void Start()
 	{
 		// Set system parameters
@@ -38,6 +38,7 @@ public class Startup : MonoBehaviour
 		yield return new WaitForSeconds(1);
 		SceneLoader.Instance.onSceneLoadedEvent.AddListener(SceneLoadedCallback);
 		SceneLoader.Instance.LoadScene(startupScene, true);
+		SceneLoader.Instance.LoadScene(UIScene, true);
 	}
 
 	void SceneLoadedCallback(List<string> scenesLoaded)

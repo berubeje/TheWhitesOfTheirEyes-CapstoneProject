@@ -8,7 +8,7 @@ public class Menu : MonoBehaviour
 
 	public enum StartMenuState
 	{
-		Ingnore,
+		Ignore,
 		Active,
 		Disabled
 	}
