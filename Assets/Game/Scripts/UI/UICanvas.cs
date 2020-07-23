@@ -55,7 +55,8 @@ public class UICanvas : Singleton<UICanvas>
                 settingsMenu.SetActive(false);
                 gameOverMenu.SetActive(false);
                 gameFinishedMenu.SetActive(false);
-                healthBar.SetActive(true);
+                healthBar.SetActive(true); 
+                Cursor.lockState = CursorLockMode.Locked;
                 Time.timeScale = 1;
                 break;
 
@@ -63,6 +64,7 @@ public class UICanvas : Singleton<UICanvas>
                 Time.timeScale = 0;
                 pauseMenu.SetActive(true);
                 healthBar.SetActive(false);
+                Cursor.lockState = CursorLockMode.Confined;
                 break;
 
             case InputManager.GameStates.Reloading:
@@ -84,13 +86,15 @@ public class UICanvas : Singleton<UICanvas>
 
             case InputManager.GameStates.GameOver:
                 gameOverMenu.SetActive(true);
-                healthBar.SetActive(false);
+                healthBar.SetActive(false); 
+                Cursor.lockState = CursorLockMode.Confined;
                 break;
 
             case InputManager.GameStates.GameFinished:
                 gameFinishedMenu.SetActive(true);
                 healthBar.SetActive(false);
                 Time.timeScale = 0;
+                Cursor.lockState = CursorLockMode.Confined;
                 break;
         }
     }

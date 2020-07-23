@@ -3834,25 +3834,6 @@ Transform:
   m_Father: {fileID: 2697487543324732852}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &3166231814695831724
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8296172667858196421}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 978c39c19001688479cda1c07523635e, type: 3}
-  m_Controller: {fileID: 9100000, guid: 7a89ba5b4ff627e418d06742036ac08a, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3218583595591315883
 GameObject:
   m_ObjectHideFlags: 0
@@ -4056,7 +4037,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -1899535335710747997, guid: 978c39c19001688479cda1c07523635e, type: 3}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5900,13 +5881,13 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8101869589654012061, guid: 978c39c19001688479cda1c07523635e, type: 3}
-  - {fileID: 8083468802299758006, guid: 978c39c19001688479cda1c07523635e, type: 3}
-  - {fileID: -1416001008982895876, guid: 978c39c19001688479cda1c07523635e, type: 3}
-  - {fileID: -7398711551101401104, guid: 978c39c19001688479cda1c07523635e, type: 3}
-  - {fileID: 7608198678110474258, guid: 978c39c19001688479cda1c07523635e, type: 3}
-  - {fileID: 5010252049918162991, guid: 978c39c19001688479cda1c07523635e, type: 3}
-  - {fileID: 2337877166092325158, guid: 978c39c19001688479cda1c07523635e, type: 3}
+  - {fileID: 0}
+  - {fileID: 2100000, guid: 9c0e002d9c2ec204e9944c5179b5ae5f, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 2100000, guid: c3f6dd2dac75f0c479cc25de00f02d3f, type: 2}
+  - {fileID: 2100000, guid: 24e32ee9cd2891140b1ee9d43d3b7b48, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9230,7 +9211,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5006512736682173910}
-  - component: {fileID: 3166231814695831724}
   - component: {fileID: 8296172667858196422}
   - component: {fileID: 8296172667858196423}
   - component: {fileID: 8296172667858196424}

@@ -58,7 +58,6 @@ public class InputManager : Singleton<InputManager>
     
     private void Awake()
     {
-        Cursor.lockState = CursorLockMode.Locked;
         applicationClosing = false;
         
         OnGameStateChange += OnGameStateChanged;

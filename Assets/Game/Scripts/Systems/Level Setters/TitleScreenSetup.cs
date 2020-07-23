@@ -8,6 +8,7 @@ public class TitleScreenSetup : MonoBehaviour
 
     private void Awake()
     {
+        Cursor.lockState = CursorLockMode.Confined;
         _mainCamera = Camera.main;
     }
 

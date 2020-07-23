@@ -10,6 +10,7 @@ public class StartingMenu : Menu
 	public GameObject healthBar;
 	public void onLoadScene()
 	{
+		Cursor.lockState = CursorLockMode.Locked;
 		SceneLoader.Instance.UnloadScene(sceneToUnload);
 		SceneLoader.Instance.LoadScene(sceneToLoad, true);
 		MenuManager.Instance.hideMenu(menuClassifier);
