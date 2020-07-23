@@ -29,6 +29,10 @@ public class PlayerGrapplingHook : MonoBehaviour
     [Header("Swing Strain")]
     public float currentRopeLengthOffset;
 
+    [Header("Blueprint Resolution")]
+    public float reeledInResolution = 0.0f;
+    public float launchedResolution = 0.05f;
+
     private bool _adjustSwingLength = false;
     private float _ropeMass = 0.1f;
     private ObiRope _rope;
@@ -161,7 +165,7 @@ public class PlayerGrapplingHook : MonoBehaviour
             }
 
             currentRopeState = RopeState.Launched;
-
+            blueprint.resolution = launchedResolution;
             if (_ropeGenerated)
             {
                 _rope.GetComponent<MeshRenderer>().enabled = true;
@@ -274,6 +278,7 @@ public class PlayerGrapplingHook : MonoBehaviour
         //_rope.ropeBlueprint = null;
         _rope.GetComponent<MeshRenderer>().enabled = false;
         currentRopeState = RopeState.Idle;
+        blueprint.resolution = reeledInResolution;
     }
 
     // Calculate the length of the rope.
