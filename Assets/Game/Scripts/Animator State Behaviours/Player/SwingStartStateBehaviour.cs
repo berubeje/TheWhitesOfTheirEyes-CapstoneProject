@@ -78,7 +78,7 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
         _lookRotation = Quaternion.LookRotation(_lookDirection);
 
         _lerpRate = (reelInSpeed * Time.deltaTime) / Vector3.Distance(_reelLocation, _initialPosition);
-
+        animator.SetFloat("swingDirectionRaw", 1);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -102,15 +102,21 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
         }
 
 
-        if (Physics.SphereCast(animator.transform.position + new Vector3(0, 1, 0), 0.3f, _swingForward, out _, forwardCheckDistance, _layerMask))
+        if (Physics.SphereCast(animator.transform.position + new Vector3(0, 1, 0), 0.1f, _swingForward, out _, forwardCheckDistance, _layerMask))
         {
             //_rigidbody.MoveRotation(Quaternion.LookRotation(Vector3.Cross(Vector3.up, animator.transform.right)));
             animator.SetTrigger("swingCancel");
         }
 
+        SetUpSpline(animator);
+
     }
 
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    //{
+    //}
+
+    private void SetUpSpline(Animator animator)
     {
         _splineRoute.controlPoints[0].position = animator.transform.position;
         _splineRoute.controlPoints[1].position = animator.transform.position + (-_reelDirection * releaseMagnitude) + (Vector3.up * releaseDirectionOffset);

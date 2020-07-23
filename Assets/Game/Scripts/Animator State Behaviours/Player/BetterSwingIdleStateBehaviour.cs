@@ -9,7 +9,11 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
     public float maxSwingSpeed;
     public float minSwingSpeed;
     public float swingRadius;
+    public float swingRotationSpeed;
     public float forwardCheckDistance;
+
+    [Space]
+    [Header("Spline Settings")]
     [Range(1.0f, 10.0f)]
     public float releaseDirectionMagnitude;
     public float releaseDirectionOffset;
@@ -21,7 +25,9 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
     public float maxReleaseDistanceY;
 
     [Space]
-    public float swingRotationSpeed;
+    [Header("Coyote Time Settings")]
+    [Range(0.0f, 1.0f)]
+    public float coyoteTimeThreshold;
 
     private Rigidbody _rigidbody;
     private PlayerGrapplingHook _grapplingHook;
@@ -161,7 +167,8 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
             _rigidbody.MoveRotation(Quaternion.LookRotation(Vector3.Cross(_pendulumArm, swingRight)));
 
             // Calculate the release direction based on where we are in the swing arc 
-            _releaseDirection = Vector3.Cross(-_pendulumArm, swingRight * _direction).normalized * releaseDirectionMagnitude;
+            _releaseDirection = Vector3.Cross(_pendulumArm, swingRight * _direction).normalized * releaseDirectionMagnitude;
+
             // How much of the current swing we have completed
             _percentOfSwing = Vector3.Angle(_swingStartVector, -_pendulumArm) / (swingArcLimit * 2);
 
@@ -240,6 +247,8 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         float releaseDestinationAngle = Mathf.Lerp(minDestinationAngle, maxDestinationAngle, _percentOfSwing);
 
         _splineRoute.controlPoints[0].position = animator.transform.position;
+
+        
         _splineRoute.controlPoints[1].position = animator.transform.position + _releaseDirection + (Vector3.up * releaseDirectionOffset);
 
         _splineRoute.controlPoints[3].position = animator.transform.position +
@@ -249,6 +258,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 
         _splineRoute.controlPoints[2].position = (Quaternion.AngleAxis(releaseDestinationAngle * -_direction, animator.transform.right) * Vector3.up) +
             _splineRoute.controlPoints[3].position;
+        
     }
 
     private void RotateSwing(Animator animator)

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.PostProcessing;
 
 public class JimController : MonoBehaviour
 {
@@ -45,7 +46,10 @@ public class JimController : MonoBehaviour
     public bool isPulling = false;
 
     [Header("Camera Settings")]
-    public CameraFollowTarget cameraFollowTarget;
+    [Range(0.0f, 1.0f)]
+    public float rightStickXDeadZone;
+    [Range(0.0f, 1.0f)]
+    public float rightStickYDeadZone;
     public CinemachineFreeLook freeLookCamera;
     public CinemachineVirtualCamera swingCamera;
     public DollyTrackFollow swingCameraTrack;
@@ -172,8 +176,10 @@ public class JimController : MonoBehaviour
     {
         _rightStickInput = context.ReadValue<Vector2>();
 
+        
         freeLookCamera.m_XAxis.m_InputAxisValue = _rightStickInput.x;
         freeLookCamera.m_YAxis.m_InputAxisValue = _rightStickInput.y;
+        
         
     }
 

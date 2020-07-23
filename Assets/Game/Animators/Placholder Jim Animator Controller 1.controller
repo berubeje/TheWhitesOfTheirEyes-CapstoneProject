@@ -81,16 +81,17 @@ MonoBehaviour:
   maxSwingSpeed: 1.25
   minSwingSpeed: 0.5
   swingRadius: 5
+  swingRotationSpeed: 75
   forwardCheckDistance: 0.3
   releaseDirectionMagnitude: 1
   releaseDirectionOffset: 1
-  minDestinationAngle: 15
+  minDestinationAngle: 0
   maxDestinationAngle: 60
   minReleaseDistanceX: 4
   maxReleaseDistanceX: 5
   minReleaseDistanceY: -3
   maxReleaseDistanceY: 1
-  swingRotationSpeed: 75
+  coyoteTimeThreshold: 0.2
 --- !u!1102 &-8566082829148950103
 AnimatorState:
   serializedVersion: 5
@@ -1279,7 +1280,7 @@ MonoBehaviour:
   splineSpeed: 1.5
   splineAcceleration: 0
   forwardCheckDistance: 0.3
-  groundCheckDistance: 1
+  groundCheckDistance: 0.3
 --- !u!1102 &1175575663481912571
 AnimatorState:
   serializedVersion: 5

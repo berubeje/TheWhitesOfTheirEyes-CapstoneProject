@@ -4,19 +4,15 @@ using UnityEngine;
 
 public class CameraFollowTarget : ControllableBase
 {
-    public JimController jimController;
+    public Transform followTarget;
     public float followSpeed;
     public Vector3 followOffset;
 
-    private void Awake()
-    {
-        jimController.cameraFollowTarget = this;
-    }
 
     void LateUpdate()
     {
-        transform.position = jimController.transform.position + followOffset;
-        transform.rotation = jimController.transform.rotation;
+        transform.position = followTarget.position + followOffset;
+        transform.rotation = followTarget.rotation;
     }
      
     private void OnDrawGizmos()
