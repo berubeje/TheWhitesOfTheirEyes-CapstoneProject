@@ -45,8 +45,6 @@ public class JimController : MonoBehaviour
     public bool isPulling = false;
 
     [Header("Camera Settings")]
-    [Range(0.1f, 5.0f)]
-    public float cameraSensitivity;
     public CameraFollowTarget cameraFollowTarget;
     public CinemachineFreeLook freeLookCamera;
     public CinemachineVirtualCamera swingCamera;
@@ -60,6 +58,8 @@ public class JimController : MonoBehaviour
 
     [Header("Hook logic for animator")]
     public PlayerGrapplingHook hook;
+
+    private Camera _mainCamera;
 
     private Vector2 _leftStickInput;
     private Vector2 _rightStickInput;
@@ -83,6 +83,10 @@ public class JimController : MonoBehaviour
         currentHealth = maxHealth;
 
         _jimAnimator = GetComponent<Animator>();
+
+
+        // Cache the main camera
+        _mainCamera = Camera.main;
 
         _locomotionID = Animator.StringToHash("Base Layer.Locomotion");
         _idleID = Animator.StringToHash("Base Layer.Idle");
@@ -115,7 +119,7 @@ public class JimController : MonoBehaviour
         playerDirection.y = 0.0f;
 
         // Get camera's forward and kill the y value
-        Vector3 cameraDirection = Camera.main.transform.forward;
+        Vector3 cameraDirection = _mainCamera.transform.forward;
         cameraDirection.y = 0.0f;
 
         // Create rotation from the players forward to the direction the camera is facing
@@ -167,7 +171,9 @@ public class JimController : MonoBehaviour
     public void OnRightStick(InputAction.CallbackContext context)
     {
         _rightStickInput = context.ReadValue<Vector2>();
-        freeLookCamera.m_XAxis.m_InputAxisValue = _rightStickInput.x * cameraSensitivity;
+
+        freeLookCamera.m_XAxis.m_InputAxisValue = _rightStickInput.x;
+        freeLookCamera.m_YAxis.m_InputAxisValue = _rightStickInput.y;
         
     }
 
