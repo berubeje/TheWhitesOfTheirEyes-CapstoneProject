@@ -4,7 +4,7 @@
 // author: Jesse Berube
 // date: 2020/07/13
 //
-// summary: The logic for controlling the rope, such as launching it and pulling with the rope, are here.
+// summary: The boss AI calls certain methosd in he BossController under certain conditions. Used to store general paramenters like health and a reference to the player as well.
 ///-------------------------------------------------------------------------------------------------
 
 using System.Collections;
@@ -61,6 +61,8 @@ public class BossController : MonoBehaviour
 
     private void Update()
     {
+
+        // If turning is true, turn the boss on a Quaternion Slerp.
         if (turning)
         {
             _t += Time.deltaTime / turnTime;
@@ -79,6 +81,7 @@ public class BossController : MonoBehaviour
 
     public void Turn(bool rightTurn)
     {
+        // Set the target rotation by 45 degrees, as well as play the appropriate animation.
         if(rightTurn)
         {
              _targetRotation = Quaternion.Euler(_startRotation.eulerAngles + new Vector3(0f, 45f, 0f));
@@ -94,6 +97,8 @@ public class BossController : MonoBehaviour
         turning = true;
     }
 
+
+    // Trigger the animation based on the bool passed in.
     public void SweepAttack(bool rightArmAttack)
     {
         sweepAttackPivot.gameObject.SetActive(true);
@@ -110,6 +115,7 @@ public class BossController : MonoBehaviour
         }
     }
 
+    // Snap the rotation to look at the currently targeted waypoint.
     public void SnapToWaypoint()
     {
         Vector3 lookVector = new Vector3(currentMarkerTarget.position.x, transform.position.y, currentMarkerTarget.position.z);
@@ -119,6 +125,7 @@ public class BossController : MonoBehaviour
         _startRotation = transform.rotation;
     }
 
+    // Get the closest waypoint to the passed in target.
     public bool NeedToTurn(Transform target)
     {
         Transform finalTarget = currentMarkerTarget;

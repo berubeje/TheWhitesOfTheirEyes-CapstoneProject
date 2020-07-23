@@ -1,4 +1,13 @@
-﻿using System.Collections;
+﻿///-------------------------------------------------------------------------------------------------
+// file: BossDieAIStateBehavior.cs
+//
+// author: Jesse Berube
+// date: 2020-07-13
+//
+// summary: The die state for the boss. Sets the death in boss animator as well as disable boss logic loop
+///-------------------------------------------------------------------------------------------------
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

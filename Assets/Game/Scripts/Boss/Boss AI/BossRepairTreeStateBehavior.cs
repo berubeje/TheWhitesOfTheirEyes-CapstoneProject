@@ -1,4 +1,13 @@
-﻿using System.Collections;
+﻿///-------------------------------------------------------------------------------------------------
+// file: BossRepairTreeStateBehavior.cs
+//
+// author: Jesse Berube
+// date: 2020-07-13
+//
+// summary: The repair tree state behavior. Once the boss is facing a fallen tree, they will repair them one at a time.
+///-------------------------------------------------------------------------------------------------
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,12 +37,14 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
 
     public override void OnStateUpdate(Animator fsm, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // Check the boss health. If 0 or less, switch to "Die" state.
         if (_bossController.bossHealth <= 0.0f)
         {
             fsm.SetTrigger("Die");
             return;
         }
 
+        // Check to see if point to repait animation is playing. When the animation is finished, change states.
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Point To Repair"))
         {
             _animationStarted = true;
@@ -44,12 +55,5 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
             _bossController.fallenTreeList.RemoveAt(0);
             fsm.SetTrigger("Idle");
         }
-    }
-
-
-    //OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    override public void OnStateExit(Animator fsm, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-
     }
 }

@@ -1,4 +1,13 @@
-﻿using System;
+﻿///-------------------------------------------------------------------------------------------------
+// file: BossTurnStateBehavior.cs
+//
+// author: Jesse Berube
+// date: 2020/07/13
+//
+// summary: The turn state behavior for the boss. The boss can stay in this state to do muiltiple turns.
+///-------------------------------------------------------------------------------------------------
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,10 +42,9 @@ public class BossTurnStateBehavior : StateMachineBehaviour
         SendTurn();
     }
 
+    // Get the the position of the waypoint the boss is targeting to determine the best direction to turn.
     private void SendTurn()
     {
-
-
         Vector3 relativePosition = _bossController.transform.InverseTransformPoint(_bossController.currentMarkerTarget.transform.position);
 
         if (relativePosition.x > 0f)
@@ -51,6 +59,7 @@ public class BossTurnStateBehavior : StateMachineBehaviour
 
     public override void OnStateUpdate(Animator fsm, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // If boss health is 0 or lower, which to "Die" state.
         if (_bossController.bossHealth <= 0.0f)
         {
             fsm.SetTrigger("Die");
@@ -61,6 +70,7 @@ public class BossTurnStateBehavior : StateMachineBehaviour
         {
             var state = _animator.GetCurrentAnimatorStateInfo(0);
 
+            // Check if turn animation is finished. If so, check to see if more turning is needed
             if (state.IsName("RightTurn") || state.IsName("LeftTurn"))
             {
                 _animationStarted = true;
@@ -77,12 +87,13 @@ public class BossTurnStateBehavior : StateMachineBehaviour
                 float resultAngle = Vector3.Angle(_bossController.transform.forward, _bossController.currentMarkerTarget.position - _bossController.transform.position);
 
 
+                // Check if there are any fallen trees.
                 if (_bossController.fallenTreeList.Count > 0)
                 {
                     _bossController.treeRepairInProgress = true;
                 }
 
-
+                // If there areno fallen trees, check if the boss needs to turn again to face the player.
                 if (_bossController.treeRepairInProgress == false)
                 {
                     if (_bossController.NeedToTurn(_playerTransform))
@@ -93,6 +104,7 @@ public class BossTurnStateBehavior : StateMachineBehaviour
                 }
                 else
                 {
+                    //If there are fallen trees, check if the boss need to turn to face the tree
                     if (_bossController.NeedToTurn(_bossController.fallenTreeList[0].transform))
                     {
                         SendTurn();
@@ -100,14 +112,14 @@ public class BossTurnStateBehavior : StateMachineBehaviour
                     }
                 }
 
-
-
+                //Check if the boss has reached its target angle yet. If not, turn again.
                 if (resultAngle > angleDeadzone)
                 {
                     SendTurn();
                 }
                 else if (resultAngle <= angleDeadzone)
                 {
+                    //If target angle reached, snap the boss rotation to face directly at the waypoint to keep its rotation consistant.
                     _bossController.SnapToWaypoint();
 
                     if (_bossController.treeRepairInProgress == false)
@@ -120,9 +132,6 @@ public class BossTurnStateBehavior : StateMachineBehaviour
                     }
                 }
             }
-
-
-
         }
     }
 

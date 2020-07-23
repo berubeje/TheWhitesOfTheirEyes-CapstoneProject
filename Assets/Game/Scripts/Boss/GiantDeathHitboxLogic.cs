@@ -4,7 +4,7 @@
 // author: Jesse Berube
 // date: 2020-06-23
 //
-// summary: A script to kill the boss in aplha build when a certain thing drops on the giants head.
+// summary: Detects when the pillars collide with the trigger to deal damage.
 ///-------------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
