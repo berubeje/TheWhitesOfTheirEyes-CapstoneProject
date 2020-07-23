@@ -80,6 +80,7 @@ public class RopeAnchorPoint : MonoBehaviour
         }
     }
 
+    // Mainly used when loading a checkpoint, resets the anchor points so they can be pulled down again.
     private void OnCanAttachChange(bool _canAttachValue)
     {
         if(_canAttachValue == true)
@@ -94,6 +95,7 @@ public class RopeAnchorPoint : MonoBehaviour
         }
     }
 
+    // Tell the pull anchor point to allow the object to start falling
     public void StartPull()
     {
         if (canRepeatPull == false)
@@ -113,6 +115,7 @@ public class RopeAnchorPoint : MonoBehaviour
         //GetComponentInParent<FallingPillarObstacle>().isTriggered = true;
     }
 
+    // Mainly used for the tree in the boss fight. Reverses the effect of the pull, as well as make the anchor point usable again.
     public void ResetPull()
     {
         _pulling = true;
@@ -126,6 +129,7 @@ public class RopeAnchorPoint : MonoBehaviour
 
     }
 
+    // Rotate the object so it has the effect of falling or turning.
     public void RotateObject()
     {
         _t += Time.deltaTime / pullTime;

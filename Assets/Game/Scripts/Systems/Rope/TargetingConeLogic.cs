@@ -12,7 +12,6 @@ public class TargetingConeLogic : MonoBehaviour
 {
     public JimController player;
     public Material targetedMaterial;
-    public Vector3 tieTargetSize;
     public PlayerGrapplingHook hookLogic;
 
     public int playerMaskNum = 8;
@@ -58,86 +57,6 @@ public class TargetingConeLogic : MonoBehaviour
 
         return target;
     }
-
-    // When the rope is attatched to a something, the targeting zone will shrink so the range to tie the rope to an object is different from the range to launch to an anchor point.
-    public void TieSizeToggle(bool set)
-    {
-        if(set)
-        {
-            transform.parent.localScale = tieTargetSize;
-        }
-        else
-        {
-            transform.parent.localScale = _startSize;
-        }
-    }
-
-    // Allows the user to cycle targets inside the target zone. Not in use at the moment.
-
-    //public void NextTarget()
-    //{
-    //    int startingIndex = _currentTargetIndex;
-    //    _currentTargetIndex++;
-
-    //    if(_currentTargetIndex + 1 > _anchorTargets.Count)
-    //    {
-    //        _currentTargetIndex = 0;
-    //    }
-
-    //    while (CheckLineOfSight(_anchorTargets[_currentTargetIndex]) == false)
-    //    {
-    //        _currentTargetIndex++;
-
-    //        if (_currentTargetIndex == startingIndex)
-    //        {
-    //            break;
-    //        }
-
-    //        if (_currentTargetIndex + 1 > _anchorTargets.Count)
-    //        {
-    //            _currentTargetIndex = 0;
-    //        }
-
-    //    }
-
-    //    if (_anchorTargets[_currentTargetIndex] != null)
-    //    {
-    //        ChangeTarget();
-    //    }
-
-    //}
-
-    //public void PreviousTarget()
-    //{
-    //    int startingIndex = _currentTargetIndex;
-    //    _currentTargetIndex--;
-
-    //    if (_currentTargetIndex < 0)
-    //    {
-    //        _currentTargetIndex = _anchorTargets.Count - 1;
-    //    }
-
-    //    while (CheckLineOfSight(_anchorTargets[_currentTargetIndex]) == false)
-    //    {
-    //        _currentTargetIndex--;
-
-    //        if (_currentTargetIndex == startingIndex)
-    //        {
-    //            break;
-    //        }
-
-    //        if (_currentTargetIndex < 0)
-    //        {
-    //            _currentTargetIndex = _anchorTargets.Count - 1;
-    //        }
-
-    //    }
-
-    //    if (_anchorTargets[_currentTargetIndex] != null)
-    //    {
-    //        ChangeTarget();
-    //    }
-    //}
 
     // Change the current target from one anchor point to another. 
     private void ChangeTarget(RopeAnchorPoint anchorPoint)
