@@ -85,7 +85,7 @@ public class JimController : MonoBehaviour
         InputManager.Instance.EnableAllControls();
 
         currentHealth = maxHealth;
-        UICanvas.Instance.ChangeHealthBar(currentHealth);
+        //UICanvas.Instance.ChangeHealthBar(currentHealth);
 
         _jimAnimator = GetComponent<Animator>();
 

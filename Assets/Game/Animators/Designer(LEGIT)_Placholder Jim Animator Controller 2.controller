@@ -78,10 +78,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   swingArcLimit: 70
-  maxSwingSpeed: 1
-  minSwingSpeed: 0.5
+  maxSwingSpeed: 1.2
+  minSwingSpeed: 0.7
   swingRadius: 6
-  swingRotationSpeed: 75
+  swingRotationSpeed: 80
   forwardCheckDistance: 0.3
   releaseDirectionMagnitude: 2
   releaseDirectionOffset: 1
