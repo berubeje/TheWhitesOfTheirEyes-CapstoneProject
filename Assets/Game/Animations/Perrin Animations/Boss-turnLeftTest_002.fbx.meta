@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 46f49dfcfb55fe942b917963dc3667e0
+guid: c452422c61e20ac4cab8b014c3601dc4
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable:
   - first:
-      74: 8968588210775279014
-    second: Boss-turnRightTest_002
+      74: -774724729888711436
+    second: Boss-turnLeftTest_002
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -18,8 +18,7 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
-    rigImportErrors: "Copied Avatar Rig Configuration mis-match. Transform hierarchy
-      does not match:\n\tCannot find root motion transform 'C_root_JNT_Exp'.\n"
+    rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
