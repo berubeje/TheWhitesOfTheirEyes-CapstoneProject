@@ -53,13 +53,33 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
             _animationStarted = false;
             fsm.SetTrigger("Idle");
         }
+
+
+        //if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Tree Heal End"))
+        //{
+        //    if (_animationStarted == false)
+        //    {
+        //        _bossController.fallenTreeList[0].ResetPull();
+        //        _bossController.fallenTreeList.RemoveAt(0);
+        //        _animationStarted = true;
+        //    }
+        //}
+        //else if (_animationStarted == true)
+        //{
+        //    _animationStarted = false;
+        //    fsm.SetTrigger("Idle");
+        //}
+
+
+
+
+
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _bossController.fallenTreeList[0].ResetPull();
         _bossController.fallenTreeList.RemoveAt(0);
-
     }
 
 }
