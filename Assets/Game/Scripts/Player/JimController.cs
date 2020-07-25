@@ -63,6 +63,12 @@ public class JimController : MonoBehaviour
     [Header("Hook logic for animator")]
     public PlayerGrapplingHook hook;
 
+    [Header("Blinking settings")]
+    public SkinnedMeshRenderer skinnedMeshRenderer;
+    public float blinkTime;
+    [Range(0.0f, 1.0f)]
+    public float blinkDuration;
+
     private Camera _mainCamera;
 
     private Vector2 _leftStickInput;
@@ -85,7 +91,7 @@ public class JimController : MonoBehaviour
         InputManager.Instance.EnableAllControls();
 
         currentHealth = maxHealth;
-        UICanvas.Instance.ChangeHealthBar(currentHealth);
+        //UICanvas.Instance.ChangeHealthBar(currentHealth);
 
         _jimAnimator = GetComponent<Animator>();
 
@@ -208,6 +214,10 @@ public class JimController : MonoBehaviour
         }
     }
 
+    private void Blink()
+    {
+        skinnedMeshRenderer.SetBlendShapeWeight(0, 100);
+    }
     private void OnDrawGizmos()
     {
         Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), _moveDirection, Color.red);
