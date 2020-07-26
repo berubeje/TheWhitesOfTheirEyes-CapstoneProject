@@ -6811,8 +6811,9 @@ MonoBehaviour:
   groundCheckDistance: 0.3
   hook: {fileID: 2058795753297991020}
   skinnedMeshRenderer: {fileID: 5870719470893163567}
-  blinkRate: 3
-  blinkSpeed: 7
+  blinkRate: 2.5
+  blinkSpeed: 8
+  blinkAngleThreshold: 30
 --- !u!82 &5075857088454472963
 AudioSource:
   m_ObjectHideFlags: 0

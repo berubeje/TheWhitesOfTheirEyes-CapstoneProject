@@ -67,6 +67,7 @@ public class JimController : MonoBehaviour
     public SkinnedMeshRenderer skinnedMeshRenderer;
     public float blinkRate;
     public float blinkSpeed;
+    public float blinkAngleThreshold; 
 
     private Camera _mainCamera;
 
@@ -117,7 +118,7 @@ public class JimController : MonoBehaviour
     void Update()
     {
         _stateInfo = _jimAnimator.GetCurrentAnimatorStateInfo(0);
-        Blink();
+        BlinkTimer();
     }
 
     private void FixedUpdate()
@@ -160,6 +161,12 @@ public class JimController : MonoBehaviour
         // this block will be unnecessary, as it is unwise to use root motion and physical rotation
         if (_leftStickInput.sqrMagnitude >= leftStickDeadzone)
         {
+            // If the player rotates a certain amount then make them blink immediately
+            if(Vector3.Angle(_moveDirection, playerDirection) >= blinkAngleThreshold)
+            {
+                _blinkTimer = blinkRate;
+            }
+
             // Directly rotate the player if the joystick is moving and they are in the idle or locomotion state
             if (IsInState(_idleID) || IsInState(_locomotionID)) 
             {
@@ -222,27 +229,30 @@ public class JimController : MonoBehaviour
             ropeLogic.LaunchHook();
         }
     }
-
     private void Blink()
+    {
+        _blinkLerpValue += blinkSpeed * Time.deltaTime;
+        float blinkValue = Mathf.Lerp(_initialBlinkValue, 100.0f, _blinkLerpValue);
+
+        skinnedMeshRenderer.SetBlendShapeWeight(0, blinkValue);
+
+        if (_blinkLerpValue >= 1)
+        {
+            blinkSpeed *= -1;
+            _blinkLerpValue = 1;
+        }
+        else if (_blinkLerpValue < 0)
+        {
+            blinkSpeed *= -1;
+            _blinkLerpValue = 0;
+            _blinkTimer = 0;
+        }
+    }
+    private void BlinkTimer()
     {
         if(_blinkTimer >= blinkRate)
         {
-            _blinkLerpValue += blinkSpeed * Time.deltaTime;
-            float blinkValue = Mathf.Lerp(_initialBlinkValue, 100.0f, _blinkLerpValue);
-
-            skinnedMeshRenderer.SetBlendShapeWeight(0, blinkValue);
-
-            if (_blinkLerpValue >= 1)
-            {
-                blinkSpeed *= -1;
-                _blinkLerpValue = 1;
-            }
-            else if(_blinkLerpValue < 0)
-            {
-                blinkSpeed *= -1;
-                _blinkLerpValue = 0;
-                _blinkTimer = 0;
-            }
+            Blink();
         }
         _blinkTimer += Time.deltaTime;
     }
