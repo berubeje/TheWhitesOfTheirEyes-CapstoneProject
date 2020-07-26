@@ -65,9 +65,8 @@ public class JimController : MonoBehaviour
 
     [Header("Blinking settings")]
     public SkinnedMeshRenderer skinnedMeshRenderer;
-    public float blinkTime;
-    [Range(0.0f, 1.0f)]
-    public float blinkDuration;
+    public float blinkRate;
+    public float blinkSpeed;
 
     private Camera _mainCamera;
 
@@ -81,6 +80,10 @@ public class JimController : MonoBehaviour
     private AnimatorStateInfo _stateInfo;
     private int _locomotionID;
     private int _idleID;
+
+    private float _blinkTimer;
+    private float _initialBlinkValue;
+    private float _blinkLerpValue;
 
     void Awake()
     {
@@ -102,6 +105,11 @@ public class JimController : MonoBehaviour
         _locomotionID = Animator.StringToHash("Base Layer.Locomotion");
         _idleID = Animator.StringToHash("Base Layer.Idle");
 
+        // Initialize blink timer to 0 and get the initial value for the blend shape
+        _blinkTimer = 0.0f;
+        _initialBlinkValue = skinnedMeshRenderer.GetBlendShapeWeight(0);
+        _blinkLerpValue = 0;
+
         // bind callback function
         OnHealthChange += OnHealthChanged;
     }
@@ -109,6 +117,7 @@ public class JimController : MonoBehaviour
     void Update()
     {
         _stateInfo = _jimAnimator.GetCurrentAnimatorStateInfo(0);
+        Blink();
     }
 
     private void FixedUpdate()
@@ -216,7 +225,26 @@ public class JimController : MonoBehaviour
 
     private void Blink()
     {
-        skinnedMeshRenderer.SetBlendShapeWeight(0, 100);
+        if(_blinkTimer >= blinkRate)
+        {
+            _blinkLerpValue += blinkSpeed * Time.deltaTime;
+            float blinkValue = Mathf.Lerp(_initialBlinkValue, 100.0f, _blinkLerpValue);
+
+            skinnedMeshRenderer.SetBlendShapeWeight(0, blinkValue);
+
+            if (_blinkLerpValue >= 1)
+            {
+                blinkSpeed *= -1;
+                _blinkLerpValue = 1;
+            }
+            else if(_blinkLerpValue < 0)
+            {
+                blinkSpeed *= -1;
+                _blinkLerpValue = 0;
+                _blinkTimer = 0;
+            }
+        }
+        _blinkTimer += Time.deltaTime;
     }
     private void OnDrawGizmos()
     {

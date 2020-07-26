@@ -6811,8 +6811,8 @@ MonoBehaviour:
   groundCheckDistance: 0.3
   hook: {fileID: 2058795753297991020}
   skinnedMeshRenderer: {fileID: 5870719470893163567}
-  blinkTime: 0
-  blinkDuration: 0
+  blinkRate: 3
+  blinkSpeed: 7
 --- !u!82 &5075857088454472963
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7659,17 +7659,17 @@ PrefabInstance:
     - target: {fileID: 7569459519049093911, guid: 8f7fb21442eb47c4fa5d5a77ad835de0,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.13249825
+      value: -0.13249826
       objectReference: {fileID: 0}
     - target: {fileID: 7569459519049093911, guid: 8f7fb21442eb47c4fa5d5a77ad835de0,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.0000000018957833
+      value: 0.0000000128740005
       objectReference: {fileID: 0}
     - target: {fileID: 7569459519049093911, guid: 8f7fb21442eb47c4fa5d5a77ad835de0,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000014181827
+      value: 0.000000012207449
       objectReference: {fileID: 0}
     - target: {fileID: 7569459519049093911, guid: 8f7fb21442eb47c4fa5d5a77ad835de0,
         type: 3}
