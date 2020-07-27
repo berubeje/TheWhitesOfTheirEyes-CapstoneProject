@@ -97,7 +97,7 @@ public class SwingLandStateBehaviour : StateMachineBehaviour
             animator.SetTrigger("fallLand"); 
         }
 
-        if (Physics.SphereCast(animator.transform.position + new Vector3(0, 1, 0), 0.3f, _swingForward * animator.GetFloat("swingDirectionRaw"), out _, forwardCheckDistance, _layerMask))
+        if (Physics.SphereCast(animator.transform.position, 0.3f, _swingForward * animator.GetFloat("swingDirectionRaw"), out _, forwardCheckDistance, _layerMask))
         {
             splineSpeed = _initialSplineSpeed;
             animator.SetTrigger("swingCancel");
