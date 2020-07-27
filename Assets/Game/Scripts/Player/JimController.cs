@@ -161,10 +161,10 @@ public class JimController : MonoBehaviour
         // this block will be unnecessary, as it is unwise to use root motion and physical rotation
         if (_leftStickInput.sqrMagnitude >= leftStickDeadzone)
         {
-            // If the player rotates a certain amount then make them blink immediately
+            // If the player rotates a certain amount then make the avatar blink immediately
             if(Vector3.Angle(_moveDirection, playerDirection) >= blinkAngleThreshold)
             {
-                _blinkTimer = blinkRate;
+                BlinkEvent();
             }
 
             // Directly rotate the player if the joystick is moving and they are in the idle or locomotion state
@@ -229,7 +229,7 @@ public class JimController : MonoBehaviour
             ropeLogic.LaunchHook();
         }
     }
-    private void Blink()
+    private void BlinkEvent()
     {
         _blinkLerpValue += blinkSpeed * Time.deltaTime;
         float blinkValue = Mathf.Lerp(_initialBlinkValue, 100.0f, _blinkLerpValue);
@@ -252,7 +252,7 @@ public class JimController : MonoBehaviour
     {
         if(_blinkTimer >= blinkRate)
         {
-            Blink();
+            BlinkEvent();
         }
         _blinkTimer += Time.deltaTime;
     }

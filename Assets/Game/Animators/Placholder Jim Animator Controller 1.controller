@@ -171,7 +171,7 @@ BlendTree:
   m_Name: Walk
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: 66f0e0240fb3987449f7a50b85064a3a,
+    m_Motion: {fileID: 1827226128182048838, guid: f2137773004c36741be9078a27326e91,
       type: 3}
     m_Threshold: -0.5
     m_Position: {x: 0, y: 0}
@@ -180,7 +180,7 @@ BlendTree:
     m_DirectBlendParameter: leftInputMagnitude
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: b5128252ad57b774da80cb9a65c43d35,
+    m_Motion: {fileID: 1827226128182048838, guid: a28a60578a597ef45ab46f462a13ec16,
       type: 3}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
@@ -189,7 +189,7 @@ BlendTree:
     m_DirectBlendParameter: leftInputMagnitude
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7949767796060667611, guid: 66f0e0240fb3987449f7a50b85064a3a,
+    m_Motion: {fileID: 3818265437047170290, guid: f2137773004c36741be9078a27326e91,
       type: 3}
     m_Threshold: 0.5
     m_Position: {x: 0, y: 0}
@@ -1745,7 +1745,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: 2d8fb70139edefe488089fa0a6e1a685,
+  m_Motion: {fileID: 1827226128182048838, guid: eab1d43788b7da048a23c92b1ed0928c,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
