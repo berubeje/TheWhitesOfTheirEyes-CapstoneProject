@@ -55,8 +55,8 @@ public class MagicRopeProjectileLogic : MonoBehaviour
                 else
                 {
                     _grapplingHookLogic.RopeReturned();
-                    transform.parent = _grapplingHookLogic.character.transform;
 
+                    transform.parent = _grapplingHookLogic.character.transform;
                     transform.localPosition = _initialPosition;
                     transform.localRotation = _initialRotation;
 

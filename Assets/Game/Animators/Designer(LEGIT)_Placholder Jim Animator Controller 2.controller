@@ -662,9 +662,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundCheckDistance: 0.5
+  sphereCastStartOffset: {x: 0, y: 0, z: 0}
   softLandingTime: 0.1
   mediumLandingTime: 0.65
-  hardLandingTime: 1.5
   colliderSizeMultiplier: 0.9
   colliderYOffsetMultiplier: 0.5
 --- !u!114 &-3951540308757938978
@@ -1015,7 +1015,7 @@ AnimatorStateMachine:
     m_Position: {x: 630, y: 60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5978081612116214762}
-    m_Position: {x: -1170, y: 310, z: 0}
+    m_Position: {x: -1170, y: 320, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4198964203418108511}
     m_Position: {x: -520, y: 310, z: 0}
