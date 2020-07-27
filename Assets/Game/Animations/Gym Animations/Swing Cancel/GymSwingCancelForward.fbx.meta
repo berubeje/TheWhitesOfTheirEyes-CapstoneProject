@@ -6,6 +6,9 @@ ModelImporter:
   - first:
       74: -203655887218126122
     second: Gym-SwingCancelForward
+  - first:
+      74: 5318920984136736510
+    second: Gym-SwingRepelForward
   externalObjects: {}
   materials:
     materialImportMode: 1

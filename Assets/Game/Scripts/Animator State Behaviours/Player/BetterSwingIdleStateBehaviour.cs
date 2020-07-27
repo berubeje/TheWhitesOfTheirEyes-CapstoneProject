@@ -213,9 +213,28 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 
         }
 
-        if (Physics.SphereCast(animator.transform.position + new Vector3(0, 1, 0), 0.3f, _swingForward * _direction, out _, forwardCheckDistance, _layerMask))
+        if (Physics.SphereCast(animator.transform.position + new Vector3(0, 1f, 0), 0.4f, _swingForward * _direction, out _, forwardCheckDistance, _layerMask))
         {
-            animator.SetTrigger("swingCancel");
+            _direction *= -1;
+
+            if(_direction == 1)
+            {
+                _swingStartVector = _backwardLimitVector;
+            }
+            else if (_direction == -1)
+            {
+                _swingStartVector = _forwardLimitVector;
+
+                if (!_firstSwingComplete)
+                {
+                    _currentSlerpStart = _backwardLimitVector;
+                    _currentSlerpEnd = _forwardLimitVector;
+                    _firstSwingComplete = true;
+                }
+            }
+
+            animator.SetFloat("swingDirectionRaw", _direction);
+
         }
 
         Debug.DrawLine(_anchor.position, _forwardSwingLimit, Color.yellow);
