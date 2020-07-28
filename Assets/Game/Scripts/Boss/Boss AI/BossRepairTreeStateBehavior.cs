@@ -23,6 +23,7 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
     private float currentTime = 0.0f;
 
     private RopeAnchorPoint _tree;
+    private PlayerGrapplingHook _hook;
 
     //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator fsm, AnimatorStateInfo stateInfo, int layerIndex)
@@ -39,6 +40,8 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
 
         _tree = _bossController.fallenTreeList[0];
         _animator.SetTrigger("Heal Start");
+        _hook = _bossController.player.hook;
+
     }
 
 
@@ -84,7 +87,7 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
         {
             if (_firstAnimationStarted == false)
             {
-                if (_bossController.fallenTreeList[0] != _bossController.player.hook.targetAnchor)
+                if (_hook.targetAnchor == null || _hook.targetAnchor.transform.root != _bossController.fallenTreeList[0].transform.root)
                 {
                     _tree.ResetPull(repairTime);
                 }
@@ -112,11 +115,6 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
             _secondAnimationStarted = false;
             fsm.SetTrigger("Idle");
         }
-
-
-
-
-
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

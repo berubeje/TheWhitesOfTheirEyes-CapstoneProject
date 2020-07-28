@@ -19,6 +19,7 @@ public class BossTurnStateBehavior : StateMachineBehaviour
     private Animator _animator;
     private BossController _bossController;
     private Transform _playerTransform;
+    private PlayerGrapplingHook _hook;
 
     private bool _animationStarted;
     private bool _checkProgress;
@@ -37,6 +38,7 @@ public class BossTurnStateBehavior : StateMachineBehaviour
         {
             _bossController = fsm.GetComponentInParent<BossController>();
             _playerTransform = _bossController.player.transform;
+            _hook = _bossController.player.hook;
         }
 
         SendTurn();
@@ -135,7 +137,7 @@ public class BossTurnStateBehavior : StateMachineBehaviour
                     }
                     else
                     {
-                        if (_bossController.fallenTreeList[0] != _bossController.player.hook.targetAnchor)
+                        if (_hook.targetAnchor == null ||  _hook.targetAnchor.transform.root != _bossController.fallenTreeList[0].transform.root)
                         {
                             fsm.SetTrigger("Fix Tree");
                         }

@@ -25,7 +25,7 @@ public class BossIdleStateBehavior : StateMachineBehaviour
     private Animator _animator;
     private BossController _bossController;
     private Transform _playerTransform;
-    private PlayerGrapplingHook _grapplingHook;
+    private PlayerGrapplingHook _hook;
 
 
 
@@ -42,7 +42,7 @@ public class BossIdleStateBehavior : StateMachineBehaviour
             _bossController = fsm.GetComponentInParent<BossController>();
             _playerTransform = _bossController.player.transform;
             _currentAttackChance = startingAttackChance;
-            _grapplingHook = _playerTransform.GetComponentInChildren<PlayerGrapplingHook>();
+            _hook = _bossController.player.hook;
         }
     }
 
@@ -66,7 +66,7 @@ public class BossIdleStateBehavior : StateMachineBehaviour
             // Check to see if any trees have fallen over. If so, check to see if the boss needs to turn to it (turn state), otherwise, change to the "Fix Tree" state
             if (_bossController.fallenTreeList.Count > 0)
             {
-                if (_bossController.player.hook.targetAnchor != _bossController.fallenTreeList[0])
+                if (_hook.targetAnchor == null || _hook.targetAnchor.transform.root != _bossController.fallenTreeList[0].transform.root)
                 {
                     _bossController.treeRepairInProgress = true;
                     if (_bossController.NeedToTurn(_bossController.fallenTreeList[0].transform))
@@ -78,6 +78,10 @@ public class BossIdleStateBehavior : StateMachineBehaviour
                         fsm.SetTrigger("Fix Tree");
                     }
                     return;
+                }
+                else
+                {
+                    _bossController.treeRepairInProgress = false;
                 }
             }
             else
@@ -97,7 +101,7 @@ public class BossIdleStateBehavior : StateMachineBehaviour
             // If this bool is true, the boss will attack the player instantly if they try to pull down a pillar while the boss is facing them.
             if (attackWhenPillarDisturbed)
             {
-                RopeAnchorPoint currentPlayerAnchorTarget = _grapplingHook.targetAnchor;
+                RopeAnchorPoint currentPlayerAnchorTarget = _hook.targetAnchor;
 
                 if (currentPlayerAnchorTarget != null)
                 {

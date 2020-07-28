@@ -281,4 +281,14 @@ public class BossController : MonoBehaviour
             return true;
         }
     }
+
+    public void DisableLeftArmEvent()
+    {
+        leftArmAttackCollider.gameObject.SetActive(false);
+    }
+
+    public void DisableRightArmEvent()
+    {
+        rightArmAttackCollider.gameObject.SetActive(false);
+    }
 }
