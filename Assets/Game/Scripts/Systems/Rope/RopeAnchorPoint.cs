@@ -36,10 +36,13 @@ public class RopeAnchorPoint : MonoBehaviour
     [Header("If pull type")]
     public float timeToStartPull;
 
-    
+
     public float pullTime;
     public bool canRepeatPull = false;
     public bool pullDone = false;
+
+    [HideInInspector]
+    public bool resetting;
 
     public Vector3 angleOfPull;
 
@@ -50,12 +53,13 @@ public class RopeAnchorPoint : MonoBehaviour
 
     private bool _allowAttach = true;
     private bool _pulling;
-    private bool _resetting;
     private Transform _targetTransform;
 
     private Quaternion _targetAngle;
     private Quaternion _startRotation;
     private float _t;
+
+    private float _repairTime;
 
 
     private void Awake()
@@ -109,45 +113,57 @@ public class RopeAnchorPoint : MonoBehaviour
         
 
         _targetAngle = Quaternion.Euler(_targetTransform.rotation.eulerAngles + angleOfPull);
-        _t = 0.0f;
-
 
         //GetComponentInParent<FallingPillarObstacle>().isTriggered = true;
     }
 
     // Mainly used for the tree in the boss fight. Reverses the effect of the pull, as well as make the anchor point usable again.
-    public void ResetPull()
+    public void ResetPull(float time)
     {
         _pulling = true;
-        _resetting = true;
+        resetting = true;
         pullDone = false;
 
+        _repairTime = time;
 
         _startRotation = _targetTransform.rotation;
         _targetAngle = Quaternion.Euler(_targetTransform.rotation.eulerAngles - angleOfPull);
-        _t = 0.0f;
+    }
 
+    public void PauseRotation(bool set)
+    {
+        _pulling = set;
     }
 
     // Rotate the object so it has the effect of falling or turning.
     public void RotateObject()
     {
-        _t += Time.deltaTime / pullTime;
+        if (!resetting)
+        {
+            _t += Time.deltaTime / pullTime;
+        }
+        else
+        {
+            _t += Time.deltaTime / _repairTime;
+        }
+
         _targetTransform.rotation = Quaternion.Lerp(_startRotation, _targetAngle, _t);
 
-        if(_t >= 1.0f)
+
+        if (_t >= 1.0f)
         {
             _pulling = false;
-            if(_resetting)
+            if(resetting)
             {
                 canAttach = true;
                 GetComponent<MeshRenderer>().enabled = true;
-                _resetting = false;
+                resetting = false;
             }
             else
             {
                 pullDone = true;
             }
+            _t = 0.0f;
         }
     }
 }

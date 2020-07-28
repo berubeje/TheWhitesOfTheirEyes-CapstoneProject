@@ -51,26 +51,34 @@ public class BossIdleStateBehavior : StateMachineBehaviour
         // Check the boss health. If 0 or less, switch to "Die" state.
         if (_bossController.bossStart)
         {
-            if(_bossController.bossHealth <= 0.0f)
+            if(_bossController.currentBossHealth <= 0.0f)
             {
                 fsm.SetTrigger("Die");
                 return;
             }
 
+            if (_bossController.flinch)
+            {
+                fsm.SetTrigger("Flinch");
+                return;
+            }
 
             // Check to see if any trees have fallen over. If so, check to see if the boss needs to turn to it (turn state), otherwise, change to the "Fix Tree" state
-            if(_bossController.fallenTreeList.Count > 0)
+            if (_bossController.fallenTreeList.Count > 0)
             {
-                _bossController.treeRepairInProgress = true;
-                if (_bossController.NeedToTurn(_bossController.fallenTreeList[0].transform))
+                if (_bossController.player.hook.targetAnchor != _bossController.fallenTreeList[0])
                 {
-                    fsm.SetTrigger("Turn");
+                    _bossController.treeRepairInProgress = true;
+                    if (_bossController.NeedToTurn(_bossController.fallenTreeList[0].transform))
+                    {
+                        fsm.SetTrigger("Turn");
+                    }
+                    else
+                    {
+                        fsm.SetTrigger("Fix Tree");
+                    }
+                    return;
                 }
-                else
-                {
-                    fsm.SetTrigger("Fix Tree");
-                }
-                return;
             }
             else
             {
