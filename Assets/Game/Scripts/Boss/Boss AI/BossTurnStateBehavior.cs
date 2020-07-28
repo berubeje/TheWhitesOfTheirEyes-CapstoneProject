@@ -19,6 +19,7 @@ public class BossTurnStateBehavior : StateMachineBehaviour
     private Animator _animator;
     private BossController _bossController;
     private Transform _playerTransform;
+    private PlayerGrapplingHook _hook;
 
     private bool _animationStarted;
     private bool _checkProgress;
@@ -37,6 +38,7 @@ public class BossTurnStateBehavior : StateMachineBehaviour
         {
             _bossController = fsm.GetComponentInParent<BossController>();
             _playerTransform = _bossController.player.transform;
+            _hook = _bossController.player.hook;
         }
 
         SendTurn();
@@ -54,15 +56,22 @@ public class BossTurnStateBehavior : StateMachineBehaviour
         else
         {
             _bossController.Turn(false);
-        }
+        }   
     }
 
     public override void OnStateUpdate(Animator fsm, AnimatorStateInfo stateInfo, int layerIndex)
     {
         // If boss health is 0 or lower, which to "Die" state.
-        if (_bossController.bossHealth <= 0.0f)
+        if (_bossController.currentBossHealth <= 0.0f)
         {
             fsm.SetTrigger("Die");
+            return;
+        }
+
+        if (_bossController.flinch)
+        {
+            fsm.SetTrigger("Flinch");
+            _bossController.TurnToClosestWaypoint();
             return;
         }
 
@@ -128,7 +137,14 @@ public class BossTurnStateBehavior : StateMachineBehaviour
                     }
                     else
                     {
-                        fsm.SetTrigger("Fix Tree");
+                        if (_hook.targetAnchor == null ||  _hook.targetAnchor.transform.root != _bossController.fallenTreeList[0].transform.root)
+                        {
+                            fsm.SetTrigger("Fix Tree");
+                        }
+                        else
+                        {
+                            fsm.SetTrigger("Idle");
+                        }
                     }
                 }
             }

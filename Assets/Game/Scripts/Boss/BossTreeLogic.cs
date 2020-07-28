@@ -28,7 +28,7 @@ public class BossTreeLogic : MonoBehaviour
     void Update()
     {
         // Checks to see if the anchor point has been pulled down, if so, tell the boss it has been knocked down after a delay.
-        if(_ropeAnchorPoint.pullDone && _addedToList == false)
+        if (_ropeAnchorPoint.pullDone && _addedToList == false)
         {
             if (bossController.treeRepairInProgress == false)
             {
@@ -42,8 +42,9 @@ public class BossTreeLogic : MonoBehaviour
                 }
             }
         }
-        else if(_ropeAnchorPoint.pullDone == false && _addedToList == true)
+        else if (_ropeAnchorPoint.pullDone == false && _ropeAnchorPoint.resetting == false && _addedToList == true)
         {
+            bossController.fallenTreeList.Remove(_ropeAnchorPoint);
             _addedToList = false;
         }
     }

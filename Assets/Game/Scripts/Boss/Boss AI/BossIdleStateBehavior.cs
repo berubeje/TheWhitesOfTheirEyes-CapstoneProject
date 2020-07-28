@@ -25,7 +25,7 @@ public class BossIdleStateBehavior : StateMachineBehaviour
     private Animator _animator;
     private BossController _bossController;
     private Transform _playerTransform;
-    private PlayerGrapplingHook _grapplingHook;
+    private PlayerGrapplingHook _hook;
 
 
 
@@ -42,7 +42,7 @@ public class BossIdleStateBehavior : StateMachineBehaviour
             _bossController = fsm.GetComponentInParent<BossController>();
             _playerTransform = _bossController.player.transform;
             _currentAttackChance = startingAttackChance;
-            _grapplingHook = _playerTransform.GetComponentInChildren<PlayerGrapplingHook>();
+            _hook = _bossController.player.hook;
         }
     }
 
@@ -51,26 +51,38 @@ public class BossIdleStateBehavior : StateMachineBehaviour
         // Check the boss health. If 0 or less, switch to "Die" state.
         if (_bossController.bossStart)
         {
-            if(_bossController.bossHealth <= 0.0f)
+            if(_bossController.currentBossHealth <= 0.0f)
             {
                 fsm.SetTrigger("Die");
                 return;
             }
 
+            if (_bossController.flinch)
+            {
+                fsm.SetTrigger("Flinch");
+                return;
+            }
 
             // Check to see if any trees have fallen over. If so, check to see if the boss needs to turn to it (turn state), otherwise, change to the "Fix Tree" state
-            if(_bossController.fallenTreeList.Count > 0)
+            if (_bossController.fallenTreeList.Count > 0)
             {
-                _bossController.treeRepairInProgress = true;
-                if (_bossController.NeedToTurn(_bossController.fallenTreeList[0].transform))
+                if (_hook.targetAnchor == null || _hook.targetAnchor.transform.root != _bossController.fallenTreeList[0].transform.root)
                 {
-                    fsm.SetTrigger("Turn");
+                    _bossController.treeRepairInProgress = true;
+                    if (_bossController.NeedToTurn(_bossController.fallenTreeList[0].transform))
+                    {
+                        fsm.SetTrigger("Turn");
+                    }
+                    else
+                    {
+                        fsm.SetTrigger("Fix Tree");
+                    }
+                    return;
                 }
                 else
                 {
-                    fsm.SetTrigger("Fix Tree");
+                    _bossController.treeRepairInProgress = false;
                 }
-                return;
             }
             else
             {
@@ -89,7 +101,7 @@ public class BossIdleStateBehavior : StateMachineBehaviour
             // If this bool is true, the boss will attack the player instantly if they try to pull down a pillar while the boss is facing them.
             if (attackWhenPillarDisturbed)
             {
-                RopeAnchorPoint currentPlayerAnchorTarget = _grapplingHook.targetAnchor;
+                RopeAnchorPoint currentPlayerAnchorTarget = _hook.targetAnchor;
 
                 if (currentPlayerAnchorTarget != null)
                 {
