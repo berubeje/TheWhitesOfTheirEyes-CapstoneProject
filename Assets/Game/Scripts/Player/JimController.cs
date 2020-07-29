@@ -164,7 +164,7 @@ public class JimController : MonoBehaviour
             // If the player rotates a certain amount then make the avatar blink immediately
             if(Vector3.Angle(_moveDirection, playerDirection) >= blinkAngleThreshold)
             {
-                BlinkEvent();
+                _blinkTimer = blinkRate;
             }
 
             // Directly rotate the player if the joystick is moving and they are in the idle or locomotion state
