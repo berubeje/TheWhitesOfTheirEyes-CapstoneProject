@@ -76,6 +76,7 @@ public class SceneLoader : Singleton<SceneLoader>
 			if (showLoadingScreen)
 			{
 				MenuManager.Instance.hideMenu(loadingMenuClassifier);
+
 			}
 		}
 

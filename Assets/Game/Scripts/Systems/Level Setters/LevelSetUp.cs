@@ -16,6 +16,7 @@ public class LevelSetUp : MonoBehaviour
 
         _mainCamera.orthographic = false;
 
-        UICanvas.Instance.BindControls();
+        // Enable UI controls
+        UICanvas.Instance.EnableAllControls();
     }
 }

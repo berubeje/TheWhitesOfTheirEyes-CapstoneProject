@@ -12,6 +12,7 @@ public class UICanvas : Singleton<UICanvas>
     public GameObject controlsMenu;
     public GameObject settingsMenu;
     public GameObject gameOverMenu;
+    public GameObject restartConfirmationMenu;
     public GameObject gameFinishedMenu;
 
     [Space]
@@ -37,12 +38,14 @@ public class UICanvas : Singleton<UICanvas>
 
         _healthSlider = healthBar.GetComponent<Slider>();
 
-        
+        BindControls();
+        InputManager.Instance.OnGameStateChange += OnGameStateChanged;
     }
 
     private void Start()
     {
-        InputManager.Instance.OnGameStateChange += OnGameStateChanged;
+        // Start with controls disabled
+        DisableAllControls();
     }
 
     private void OnGameStateChanged(InputManager.GameStates state)
@@ -55,6 +58,7 @@ public class UICanvas : Singleton<UICanvas>
                 settingsMenu.SetActive(false);
                 gameOverMenu.SetActive(false);
                 gameFinishedMenu.SetActive(false);
+                restartConfirmationMenu.SetActive(false);
                 healthBar.SetActive(true); 
                 Cursor.lockState = CursorLockMode.Locked;
                 Time.timeScale = 1;
@@ -79,7 +83,6 @@ public class UICanvas : Singleton<UICanvas>
                 break;
 
             case InputManager.GameStates.Resetting:
-                UICanvas.instance.UnbindControls();
                 Time.timeScale = 1;
                 InputManager.Instance.currentGameState = InputManager.GameStates.Playing;
                 break;
@@ -144,13 +147,22 @@ public class UICanvas : Singleton<UICanvas>
     {
         _pauseAction.started -= OnPauseButtonDown;
     }
-    private void OnEnable()
+    public void EnableAllControls()
     {
         _pauseAction.Enable();
+    }
+    public void DisableAllControls()
+    {
+        _pauseAction.Disable();
+    }
+
+    private void OnEnable()
+    {
+        EnableAllControls();
     }
 
     private void OnDisable()
     {
-        _pauseAction.Disable();
+        DisableAllControls();
     }
 }

@@ -12,10 +12,13 @@ public class PauseMenu : Menu
 		// Clear all previously cached traps
 		CheckpointManager.obstacleDictionary.Clear();
 
-		//Unbind all the controls
+		// Unbind player controls
 		InputManager.Instance.UnbindControls();
 
-		//Hide the pause menu
+		// Disable UI controls
+		UICanvas.Instance.DisableAllControls();
+
+		// Hide the pause menu
 		UICanvas.Instance.pauseMenu.SetActive(false);
 
 		InputManager.Instance.currentGameState = InputManager.GameStates.Resetting;
