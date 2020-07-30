@@ -3034,7 +3034,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09aefcc46aa9ff2458fd90d09ea05351, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 0
   markers:
   - {fileID: 1600622695399458954}
   - {fileID: 8138898162348091988}
@@ -3044,9 +3044,14 @@ MonoBehaviour:
   - {fileID: 2390099156129675914}
   - {fileID: 1855294870983184571}
   - {fileID: 3740498470074631809}
+  fallMarkers:
+  - {fileID: 1600622695399458954}
+  - {fileID: 1545979676249586715}
+  - {fileID: 8415359374455811020}
+  - {fileID: 1855294870983184571}
   currentMarkerTarget: {fileID: 0}
   player: {fileID: 0}
-  bossStart: 0
+  bossStart: 1
   treeRepairInProgress: 0
   turnTime: 3
   flinchTurnTime: 0.5

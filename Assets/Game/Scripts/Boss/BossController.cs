@@ -36,6 +36,8 @@ public class BossController : MonoBehaviour
     public event OnHealthChangeDelegate OnHealthChange;
 
     public List<Transform> markers = new List<Transform>();
+    public List<Transform> fallMarkers = new List<Transform>();
+ 
     public Transform currentMarkerTarget;
     //public SweepAttackPlaceholderLogic sweepAttackPivot;
 
@@ -66,7 +68,7 @@ public class BossController : MonoBehaviour
     [HideInInspector]
     public List<RopeAnchorPoint> fallenTreeList = new List<RopeAnchorPoint>();
 
-    private float _bossHealth;
+    public float _bossHealth;
     private Quaternion _startRotation;
     private Quaternion _targetRotation;
 
@@ -210,12 +212,12 @@ public class BossController : MonoBehaviour
         _startRotation = transform.rotation;
     }
 
-    public void TurnToClosestWaypoint()
+    public void TurnToClosestWaypoint(List<Transform> waypoints)
     {
         Transform result = null;
         float currentResultValue = 0.0f;
 
-        foreach(Transform marker in markers)
+        foreach(Transform marker in waypoints)
         {
             float resultAngle = Vector3.Angle(transform.forward, marker.position - transform.position);
 
@@ -223,11 +225,6 @@ public class BossController : MonoBehaviour
             {
                 currentResultValue = resultAngle;
                 result = marker;
-
-                if(currentResultValue <= 22.5f)
-                {
-                    break;
-                }
             }
             else
             {
@@ -235,28 +232,33 @@ public class BossController : MonoBehaviour
                 {
                     currentResultValue = resultAngle;
                     result = marker;
-
-                    if (currentResultValue <= 22.5f)
-                    {
-                        break;
-                    }
                 }
             }
         }
 
-        Vector3 relativePosition = transform.InverseTransformPoint(result.position);
+        //Vector3 relativePosition = transform.InverseTransformPoint(result.position);
 
-        if (relativePosition.x > 0f)
-        {
-            Turn(true, currentResultValue);
-        }
-        else
-        {
-            Turn(false, currentResultValue);
-        }
+        //if (relativePosition.x > 0f)
+        //{
+        //    Turn(true, currentResultValue);
+        //}
+        //else
+        //{
+        //    Turn(false, currentResultValue);
+        //}
 
+        _startRotation = transform.rotation;
         currentMarkerTarget = result;
+
+        Vector3 direction = currentMarkerTarget.position - transform.position;
+
+        _targetRotation = Quaternion.LookRotation(direction, Vector3.up);
+        _targetRotation.x = 0;
+        _targetRotation.z = 0;
+        turning = true;
+
     }
+
 
     // Get the closest waypoint to the passed in target.
     public bool NeedToTurn(Transform target)

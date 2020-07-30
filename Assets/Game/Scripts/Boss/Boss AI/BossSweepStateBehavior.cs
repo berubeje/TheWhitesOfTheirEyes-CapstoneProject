@@ -62,7 +62,7 @@ public class BossSweepStateBehavior : StateMachineBehaviour
         // If boss health is 0 or less, go to die state.
         if (_bossController.currentBossHealth <= 0.0f)
         {
-            fsm.SetTrigger("Die");
+            fsm.SetTrigger("Fall");
             return;
         }
 

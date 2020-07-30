@@ -120,19 +120,23 @@ public class RopeAnchorPoint : MonoBehaviour
     // Mainly used for the tree in the boss fight. Reverses the effect of the pull, as well as make the anchor point usable again.
     public void ResetPull(float time)
     {
+        // Make sure the object was not already in the middle of resetting 
+        if (!resetting)
+        {
+            _startRotation = _targetTransform.rotation;
+            _targetAngle = Quaternion.Euler(_targetTransform.rotation.eulerAngles - angleOfPull);
+        }
+
         _pulling = true;
         resetting = true;
         pullDone = false;
 
         _repairTime = time;
-
-        _startRotation = _targetTransform.rotation;
-        _targetAngle = Quaternion.Euler(_targetTransform.rotation.eulerAngles - angleOfPull);
     }
 
-    public void PauseRotation(bool set)
+    public void PauseRotation()
     {
-        _pulling = set;
+        _pulling = false;
     }
 
     // Rotate the object so it has the effect of falling or turning.

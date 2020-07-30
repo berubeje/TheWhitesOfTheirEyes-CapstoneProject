@@ -11,7 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossDieAIStateBehavior : StateMachineBehaviour
+public class BossFallStateBehavior : StateMachineBehaviour
 {
     private Animator _animator;
     private BossController _bossController;
@@ -28,8 +28,9 @@ public class BossDieAIStateBehavior : StateMachineBehaviour
             _bossController = fsm.GetComponentInParent<BossController>();
         }
 
-        _animator.SetTrigger("Die");
-        _bossController.enabled = false;
+        _animator.SetTrigger("Fall");
+        _bossController.TurnToClosestWaypoint(_bossController.fallMarkers);
+        //_bossController.enabled = false;
     }
 
 

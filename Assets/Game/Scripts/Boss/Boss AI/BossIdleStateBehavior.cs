@@ -53,7 +53,7 @@ public class BossIdleStateBehavior : StateMachineBehaviour
         {
             if(_bossController.currentBossHealth <= 0.0f)
             {
-                fsm.SetTrigger("Die");
+                fsm.SetTrigger("Fall");
                 return;
             }
 
