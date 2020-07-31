@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6483484703913718407}
   - component: {fileID: 2639936505060755633}
   - component: {fileID: 8619459953321604168}
+  - component: {fileID: 3676624633910533366}
   m_Layer: 0
   m_Name: Rock.Short.1
   m_TagString: Untagged
@@ -79,3 +80,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &3676624633910533366
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8044184455014924436}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2427997025190472724, guid: 17869fe1324b90048995e29d7331a56a, type: 3}

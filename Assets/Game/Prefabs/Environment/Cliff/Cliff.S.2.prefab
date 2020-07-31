@@ -11,12 +11,13 @@ GameObject:
   - component: {fileID: 4807645056112893234}
   - component: {fileID: 4603568374697076484}
   - component: {fileID: 7845165412324039677}
+  - component: {fileID: -6925762826262080803}
   m_Layer: 0
   m_Name: Cliff.S.2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 71
   m_IsActive: 1
 --- !u!4 &4807645056112893234
 Transform:
@@ -79,3 +80,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &-6925762826262080803
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8422705935152279329}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5003597542520020476, guid: 3dc52a0892409fb4fb41e11ebab73264, type: 3}

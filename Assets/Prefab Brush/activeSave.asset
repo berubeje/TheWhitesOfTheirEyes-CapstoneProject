@@ -15,15 +15,15 @@ MonoBehaviour:
   prefabList:
   - {fileID: 35511249806384054, guid: cad8d3fbe68a27d418b0e9cedd3b1d07, type: 3}
   paintType: 0
-  brushSize: 4.59
+  brushSize: 1.52
   minBrushSize: 0.1
-  maxBrushSize: 20
+  maxBrushSize: 4
   paintDeltaDistance: 0.19
   maxPaintDeltaDistance: 3
   minPaintDeltaDistance: 0.1
-  prefabsPerStroke: 7
+  prefabsPerStroke: 3
   maxprefabsPerStroke: 31
-  minprefabsPerStroke: 7
+  minprefabsPerStroke: 1
   spawnHeight: 10
   addRigidbodyToPaintedPrefab: 1
   physicsIterations: 100
@@ -55,11 +55,11 @@ MonoBehaviour:
   minScale: 1
   maxScale: 1
   minXScale: 0.4
-  maxXScale: 1.2
-  minYScale: 0.8
-  maxYScale: 1.6
+  maxXScale: 0.5
+  minYScale: 0.5
+  maxYScale: 1
   minZScale: 0.4
-  maxZScale: 1.2
+  maxZScale: 0.5
   parentList: []
   eraseBrushSize: 5.21
   minEraseBrushSize: 0.1

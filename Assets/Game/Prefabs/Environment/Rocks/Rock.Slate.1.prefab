@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 172405400575283664}
   - component: {fileID: 9169196296293657574}
   - component: {fileID: 3171394059791161119}
+  - component: {fileID: 6688912845248041222}
   m_Layer: 0
   m_Name: Rock.Slate.1
   m_TagString: Untagged
@@ -79,3 +80,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &6688912845248041222
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3764965396284761027}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5765500262999349533, guid: 5da382d67cf34bf498aafad438722159, type: 3}
