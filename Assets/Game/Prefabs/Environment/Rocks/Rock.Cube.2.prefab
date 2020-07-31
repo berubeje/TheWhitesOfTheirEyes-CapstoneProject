@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7097243325513894661}
   - component: {fileID: 2244340231590097203}
   - component: {fileID: 5483685497588960714}
+  - component: {fileID: -1591252795533109415}
   m_Layer: 0
   m_Name: Rock.Cube.2
   m_TagString: Untagged
@@ -79,3 +80,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &-1591252795533109415
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6063288668260563222}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6967837956898934408, guid: a0dbf0259ba0d294ab7ed07b3cba1203, type: 3}

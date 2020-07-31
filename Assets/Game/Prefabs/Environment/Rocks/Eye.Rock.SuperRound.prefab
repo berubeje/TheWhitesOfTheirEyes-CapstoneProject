@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8223651924866609543}
   - component: {fileID: 1115557238190017457}
   - component: {fileID: 6649503339440863048}
+  - component: {fileID: -8125079962226158242}
   m_Layer: 0
   m_Name: Eye.Rock.SuperRound
   m_TagString: Untagged
@@ -79,3 +80,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &-8125079962226158242
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4934570811554481044}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7556224740756565517, guid: ea6191912166ef1419806283dcdc7f56, type: 3}

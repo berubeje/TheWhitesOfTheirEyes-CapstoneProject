@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21cb495ffbca0404d878640680165899, type: 3}
+  m_Name: activeSave
+  m_EditorClassIdentifier: 
+  prefabList:
+  - {fileID: 35511249806384054, guid: cad8d3fbe68a27d418b0e9cedd3b1d07, type: 3}
+  paintType: 0
+  brushSize: 1.52
+  minBrushSize: 0.1
+  maxBrushSize: 4
+  paintDeltaDistance: 0.19
+  maxPaintDeltaDistance: 3
+  minPaintDeltaDistance: 0.1
+  prefabsPerStroke: 3
+  maxprefabsPerStroke: 31
+  minprefabsPerStroke: 1
+  spawnHeight: 10
+  addRigidbodyToPaintedPrefab: 1
+  physicsIterations: 100
+  checkLayer: 0
+  checkTag: 0
+  checkSlope: 0
+  requiredTagMask: 0
+  requiredLayerMask: 0
+  minRequiredSlope: 0
+  maxRequiredSlope: 0
+  prefabOriginOffset: {x: 0, y: 0, z: 0}
+  prefabRotationOffset: {x: 0, y: 0, z: 0}
+  draggingAction: 0
+  rotationAxis: 0
+  rotationSensitivity: 10
+  parentingStyle: 0
+  parent: {fileID: 0}
+  rotateToMatchSurface: 0
+  rotateSurfaceDirection: 0
+  randomizeRotation: 1
+  minXRotation: 0
+  maxXRotation: 0
+  minYRotation: 0
+  maxYRotation: 180
+  minZRotation: 0
+  maxZRotation: 0
+  scaleType: 2
+  scaleApplicationType: 0
+  minScale: 1
+  maxScale: 1
+  minXScale: 0.4
+  maxXScale: 0.5
+  minYScale: 0.5
+  maxYScale: 1
+  minZScale: 0.4
+  maxZScale: 0.5
+  parentList: []
+  eraseBrushSize: 5.21
+  minEraseBrushSize: 0.1
+  maxEraseBrushSize: 20
+  eraseType: 0
+  checkLayerForErase: 0
+  checkTagForErase: 0
+  checkSlopeForErase: 0
+  requiredTagMaskForErase: 0
+  requiredLayerMaskForErase: 0
+  minRequiredSlopeForErase: 0
+  maxRequiredSlopeForErase: 0
+  eraseDetection: 0
+  paintBrushHotKey: 112
+  paintBrushHoldKey: 1
+  removeBrushHotKey: 8
+  removeBrushHoldKey: 1
+  disableBrushHotKey: 105
+  disableBrushHoldKey: 1

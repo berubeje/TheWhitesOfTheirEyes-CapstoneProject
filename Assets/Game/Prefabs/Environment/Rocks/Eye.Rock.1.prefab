@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6202777387071054635}
   - component: {fileID: 3120914914952943901}
   - component: {fileID: 8679350172401460708}
+  - component: {fileID: -4945442505039177413}
   m_Layer: 0
   m_Name: Eye.Rock.1
   m_TagString: Untagged
@@ -79,3 +80,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &-4945442505039177413
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6940021683703304504}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5725750097200520607, guid: cad114d4d11cefd4eb22d5386a2c10d9, type: 3}

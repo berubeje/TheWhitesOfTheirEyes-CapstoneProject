@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7631243729319290974}
   - component: {fileID: 1494237412234089064}
   - component: {fileID: 5152136017851199121}
+  - component: {fileID: 1054306505247857135}
   m_Layer: 0
   m_Name: Rock.Column.1
   m_TagString: Untagged
@@ -79,3 +80,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &1054306505247857135
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6898606868719344205}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3608193755712732203, guid: 0cfbd7fa27485c5478e6c7f9fcd6f402, type: 3}
