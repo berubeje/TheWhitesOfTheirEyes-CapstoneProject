@@ -44,6 +44,8 @@ public class JimController : MonoBehaviour
     public float directionSpeed;
     public float leftStickDeadzone;
     public bool isPulling = false;
+    public bool isReceivingLeftStick = false;
+    public bool isReceivingRightStick = false;
 
     [Header("Camera Settings")]
     [Range(0.0f, 1.0f)]
@@ -99,7 +101,6 @@ public class JimController : MonoBehaviour
 
         _jimAnimator = GetComponent<Animator>();
 
-
         // Cache the main camera
         _mainCamera = Camera.main;
 
@@ -130,6 +131,15 @@ public class JimController : MonoBehaviour
     {
         _jimAnimator.SetFloat("leftInputX", _leftStickInput.x);
         _jimAnimator.SetFloat("leftInputY", _leftStickInput.y);
+
+        if(_leftStickInput.x == 0 && _leftStickInput.y == 0)
+        {
+            isReceivingLeftStick = false;
+        }
+        else
+        {
+            isReceivingLeftStick = true;
+        }
 
         _jimAnimator.SetFloat("leftInputMagnitude", _leftStickInput.sqrMagnitude, speedDampTime, Time.deltaTime);
 
@@ -199,6 +209,14 @@ public class JimController : MonoBehaviour
     {
         _rightStickInput = context.ReadValue<Vector2>();
 
+        if(_rightStickInput == Vector2.zero)
+        {
+            isReceivingRightStick = false;
+        }
+        else
+        {
+            isReceivingRightStick = true;
+        }
         
         freeLookCamera.m_XAxis.m_InputAxisValue = _rightStickInput.x;
         freeLookCamera.m_YAxis.m_InputAxisValue = _rightStickInput.y;
