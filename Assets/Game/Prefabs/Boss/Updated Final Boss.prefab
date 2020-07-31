@@ -2944,7 +2944,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2376990629109050958}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4526390236414812472}
@@ -3084,7 +3084,7 @@ Transform:
   m_GameObject: {fileID: 2389913689856222721}
   m_LocalRotation: {x: 0, y: -0.99162394, z: 0, w: 0.12915908}
   m_LocalPosition: {x: -333.22055, y: 16.080004, z: 719.77783}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7692307, y: 1, z: 0.7692307}
   m_Children:
   - {fileID: 5797630388475198150}
   - {fileID: 5797630390142680480}
@@ -3147,7 +3147,7 @@ MonoBehaviour:
   player: {fileID: 0}
   bossStart: 1
   treeRepairInProgress: 0
-  turnTime: 3
+  turnTime: 2
   flinchTurnTime: 0.5
   turnAngle: 45
   attackDamage: 25
