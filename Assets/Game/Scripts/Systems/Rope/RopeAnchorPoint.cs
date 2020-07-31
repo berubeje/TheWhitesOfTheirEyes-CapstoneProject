@@ -22,7 +22,10 @@ public class RopeAnchorPoint : MonoBehaviour
         {
             _allowAttach = value;
 
-            OnCanAttachChange(_allowAttach);
+            if (isBossCore == false)
+            {
+                OnCanAttachChange(_allowAttach);
+            }
         }
     }
 
@@ -49,6 +52,9 @@ public class RopeAnchorPoint : MonoBehaviour
     [Header("Optional")]
     public Transform pivot;
 
+    [Header("If Boss Core")]
+    public bool isBossCore;
+
     private MeshRenderer _meshRenderer;
 
     private bool _allowAttach = true;
@@ -74,14 +80,36 @@ public class RopeAnchorPoint : MonoBehaviour
         }
 
         _meshRenderer = GetComponent<MeshRenderer>();
+
     }
 
     private void Update()
     {
         if (_pulling == true)
         {
-            RotateObject();
+            if (!isBossCore)
+            {
+                RotateObject();
+            }
+            else
+            {
+                PullObject();
+            }
         }
+    }
+
+    private void PullObject()
+    {
+        transform.parent = null;
+
+        Rigidbody rigidbody = GetComponent<Rigidbody>();
+
+        rigidbody.isKinematic = false;
+
+        rigidbody.AddRelativeForce(0, 0, 20, ForceMode.Acceleration);
+        pullDone = true;
+        _allowAttach = false;
+
     }
 
     // Mainly used when loading a checkpoint, resets the anchor points so they can be pulled down again.
@@ -120,19 +148,23 @@ public class RopeAnchorPoint : MonoBehaviour
     // Mainly used for the tree in the boss fight. Reverses the effect of the pull, as well as make the anchor point usable again.
     public void ResetPull(float time)
     {
+        // Make sure the object was not already in the middle of resetting 
+        if (!resetting)
+        {
+            _startRotation = _targetTransform.rotation;
+            _targetAngle = Quaternion.Euler(_targetTransform.rotation.eulerAngles - angleOfPull);
+        }
+
         _pulling = true;
         resetting = true;
         pullDone = false;
 
         _repairTime = time;
-
-        _startRotation = _targetTransform.rotation;
-        _targetAngle = Quaternion.Euler(_targetTransform.rotation.eulerAngles - angleOfPull);
     }
 
-    public void PauseRotation(bool set)
+    public void PauseRotation()
     {
-        _pulling = set;
+        _pulling = false;
     }
 
     // Rotate the object so it has the effect of falling or turning.
@@ -156,7 +188,7 @@ public class RopeAnchorPoint : MonoBehaviour
             if(resetting)
             {
                 canAttach = true;
-                GetComponent<MeshRenderer>().enabled = true;
+                _meshRenderer.enabled = true;
                 resetting = false;
             }
             else

@@ -50,14 +50,14 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
         // Check the boss health. If 0 or less, switch to "Die" state.
         if (_bossController.currentBossHealth <= 0.0f)
         {
-            fsm.SetTrigger("Die");
+            fsm.SetTrigger("Fall");
             return;
         }
 
         if (_bossController.flinch)
         {
             fsm.SetTrigger("Flinch");
-            _tree.PauseRotation(true);
+            _tree.PauseRotation();
             return;
         }
 
