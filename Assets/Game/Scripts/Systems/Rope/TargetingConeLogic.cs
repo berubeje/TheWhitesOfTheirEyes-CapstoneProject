@@ -33,7 +33,7 @@ public class TargetingConeLogic : MonoBehaviour
     private void LateUpdate()
     {
         //_startRot.y = transform.eulerAngles.y; // keep current rotation about Y
-       // _startRot.z = transform.eulerAngles.z; // keep current rotation about Y
+        // _startRot.z = transform.eulerAngles.z; // keep current rotation about Y
         //transform.rotation = Quaternion.Euler(_startRot); // restore original rotation with new Y
     }
 
@@ -50,7 +50,7 @@ public class TargetingConeLogic : MonoBehaviour
     {
         RopeAnchorPoint target = _targetedAnchor;
 
-        if(target != null)
+        if (target != null)
         {
             Untarget();
         }
@@ -74,10 +74,15 @@ public class TargetingConeLogic : MonoBehaviour
             }
         }
         _targetedAnchor = anchorPoint;
+
+
         mRender = _targetedAnchor.GetComponent<MeshRenderer>();
 
-        _anchorPointMaterial = mRender.material;
-        mRender.material = targetedMaterial;
+        if (mRender != null)
+        {
+            _anchorPointMaterial = mRender.material;
+            mRender.material = targetedMaterial;
+        }
     }
 
     // Check the line of sight of the current target. If there is no line of sight, do not target that anchor point.

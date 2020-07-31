@@ -1,10 +1,10 @@
 ﻿///-------------------------------------------------------------------------------------------------
-// file: BossDieAIStateBehavior.cs
+// file: BossFallStateBehavior.cs
 //
 // author: Jesse Berube
 // date: 2020-07-13
 //
-// summary: The die state for the boss. Sets the death in boss animator as well as disable boss logic loop
+// summary: The fall state for the boss. The boss falls over, allowing the player to pull out the core and end the game
 ///-------------------------------------------------------------------------------------------------
 
 using System.Collections;
@@ -30,7 +30,6 @@ public class BossFallStateBehavior : StateMachineBehaviour
 
         _animator.SetTrigger("Fall");
         _bossController.TurnToClosestWaypoint(_bossController.fallMarkers);
-        //_bossController.enabled = false;
     }
 
 

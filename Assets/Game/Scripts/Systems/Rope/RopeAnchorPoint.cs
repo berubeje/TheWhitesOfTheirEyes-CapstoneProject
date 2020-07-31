@@ -22,7 +22,10 @@ public class RopeAnchorPoint : MonoBehaviour
         {
             _allowAttach = value;
 
-            OnCanAttachChange(_allowAttach);
+            if (isBossCore == false)
+            {
+                OnCanAttachChange(_allowAttach);
+            }
         }
     }
 
@@ -49,6 +52,9 @@ public class RopeAnchorPoint : MonoBehaviour
     [Header("Optional")]
     public Transform pivot;
 
+    [Header("If Boss Core")]
+    public bool isBossCore;
+
     private MeshRenderer _meshRenderer;
 
     private bool _allowAttach = true;
@@ -74,14 +80,36 @@ public class RopeAnchorPoint : MonoBehaviour
         }
 
         _meshRenderer = GetComponent<MeshRenderer>();
+
     }
 
     private void Update()
     {
         if (_pulling == true)
         {
-            RotateObject();
+            if (!isBossCore)
+            {
+                RotateObject();
+            }
+            else
+            {
+                PullObject();
+            }
         }
+    }
+
+    private void PullObject()
+    {
+        transform.parent = null;
+
+        Rigidbody rigidbody = GetComponent<Rigidbody>();
+
+        rigidbody.isKinematic = false;
+
+        rigidbody.AddRelativeForce(0, 0, 20, ForceMode.Acceleration);
+        pullDone = true;
+        _allowAttach = false;
+
     }
 
     // Mainly used when loading a checkpoint, resets the anchor points so they can be pulled down again.
@@ -160,7 +188,7 @@ public class RopeAnchorPoint : MonoBehaviour
             if(resetting)
             {
                 canAttach = true;
-                GetComponent<MeshRenderer>().enabled = true;
+                _meshRenderer.enabled = true;
                 resetting = false;
             }
             else

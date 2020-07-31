@@ -35,9 +35,10 @@ public class BossController : MonoBehaviour
     public delegate void OnHealthChangeDelegate(float health);
     public event OnHealthChangeDelegate OnHealthChange;
 
+    public BossCoreLogic bossCore;
     public List<Transform> markers = new List<Transform>();
     public List<Transform> fallMarkers = new List<Transform>();
- 
+
     public Transform currentMarkerTarget;
     //public SweepAttackPlaceholderLogic sweepAttackPivot;
 
@@ -74,6 +75,7 @@ public class BossController : MonoBehaviour
 
     private float _t = 0.0f;
     private Animator _animator;
+    private RopeAnchorPoint _bossCoreAnchorPoint;
 
     private void Awake()
     {
@@ -81,6 +83,11 @@ public class BossController : MonoBehaviour
 
         OnHealthChange += OnHealthChanged;
 
+        if (bossCore != null)
+        {
+            _bossCoreAnchorPoint = bossCore.GetComponent<RopeAnchorPoint>();
+            _bossCoreAnchorPoint.canAttach = false;
+        }
     }
 
     private void Start()
@@ -123,7 +130,7 @@ public class BossController : MonoBehaviour
                 _startRotation = transform.rotation;
                 _t = 0;
 
-                if(flinch)
+                if (flinch)
                 {
                     SnapToWaypoint();
                 }
@@ -139,14 +146,14 @@ public class BossController : MonoBehaviour
     public void Turn(bool rightTurn)
     {
         // Set the target rotation by 45 degrees, as well as play the appropriate animation.
-        if(rightTurn)
+        if (rightTurn)
         {
-             _targetRotation = Quaternion.Euler(_startRotation.eulerAngles + new Vector3(0f, 45f, 0f));
+            _targetRotation = Quaternion.Euler(_startRotation.eulerAngles + new Vector3(0f, 45f, 0f));
             _animator.SetTrigger("Turn Right");
         }
         else
         {
-             _targetRotation = Quaternion.Euler(_startRotation.eulerAngles + new Vector3(0f, -45f, 0f));
+            _targetRotation = Quaternion.Euler(_startRotation.eulerAngles + new Vector3(0f, -45f, 0f));
             _animator.SetTrigger("Turn Left");
 
         }
@@ -194,7 +201,7 @@ public class BossController : MonoBehaviour
     private void OnHealthChanged(float health)
     {
         //Healthbar stuff can be added here
-        if(health != maxHealth && health > 0.0f)
+        if (health != maxHealth && health > 0.0f)
         {
             flinch = true;
             turning = false;
@@ -217,18 +224,18 @@ public class BossController : MonoBehaviour
         Transform result = null;
         float currentResultValue = 0.0f;
 
-        foreach(Transform marker in waypoints)
+        foreach (Transform marker in waypoints)
         {
             float resultAngle = Vector3.Angle(transform.forward, marker.position - transform.position);
 
-            if(result == null)
+            if (result == null)
             {
                 currentResultValue = resultAngle;
                 result = marker;
             }
             else
             {
-                if(resultAngle < currentResultValue)
+                if (resultAngle < currentResultValue)
                 {
                     currentResultValue = resultAngle;
                     result = marker;
@@ -292,5 +299,10 @@ public class BossController : MonoBehaviour
     public void DisableRightArmEvent()
     {
         rightArmAttackCollider.gameObject.SetActive(false);
+    }
+
+    public void EnableCoreAnchorPointEvent()
+    {
+        _bossCoreAnchorPoint.canAttach = true;
     }
 }
