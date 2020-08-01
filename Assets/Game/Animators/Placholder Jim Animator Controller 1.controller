@@ -138,7 +138,7 @@ MonoBehaviour:
   minSwingSpeed: 0.25
   swingRadius: 6
   swingRotationSpeed: 65
-  forwardCheckDistance: 0.1
+  forwardCheckDistance: 0.3
   releaseDirectionMagnitude: 1
   releaseDirectionOffset: 1
   minDestinationAngle: 5
@@ -614,7 +614,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   swingRadius: 6
   faceAnchorSpeed: 1
-  reelInSpeed: 10
+  reelInSpeed: 15
   swingArcLimit: 70
   releaseMagnitude: 0.5
   releaseDirectionOffset: -0.5
@@ -1056,7 +1056,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -912973533431690561}
-    m_Position: {x: 150, y: 350, z: 0}
+    m_Position: {x: 150, y: 310, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5181084003247603946}
     m_Position: {x: 160, y: 70, z: 0}
@@ -1077,7 +1077,7 @@ AnimatorStateMachine:
     m_Position: {x: -140, y: 160, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2921037570716703627}
-    m_Position: {x: -150, y: 890, z: 0}
+    m_Position: {x: -160, y: 840, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8566082829148950103}
     m_Position: {x: 630, y: -50, z: 0}
@@ -1095,7 +1095,7 @@ AnimatorStateMachine:
     m_Position: {x: 440, y: 170, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6656505953330564658}
-    m_Position: {x: -380, y: 780, z: 0}
+    m_Position: {x: -390, y: 730, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1977631092475589964}
     m_Position: {x: -330, y: 470, z: 0}
@@ -1107,7 +1107,7 @@ AnimatorStateMachine:
   - {fileID: 7419677940281458486}
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: -360, y: 900, z: 0}
+  m_AnyStatePosition: {x: -370, y: 850, z: 0}
   m_EntryPosition: {x: 180, y: -40, z: 0}
   m_ExitPosition: {x: 170, y: -200, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
@@ -1126,163 +1126,163 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: canRoll
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: colliderCurve
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: cycleOffset
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: dead
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: direction
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: dodgeRoll
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: fallIdle
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: fallLand
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: fallSpeed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: fallTime
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: leftInputMagnitude
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: leftInputX
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: leftInputY
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: motionTime
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: percentOfSwing
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: pull
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: pullTime
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: returnToIdle
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: ropeLaunch
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: swingCancel
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: swingDirection
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: swingDirectionRaw
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: swingIdle
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: swingLand
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: swingRepel
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: swingStart
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -1475,7 +1475,7 @@ BlendTree:
   m_Name: Run
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: -4064559225306935597, guid: 922243df4efb6204b8aa73e692d744bf,
+    m_Motion: {fileID: 4256927097875249427, guid: c86046ac014a4a847b49fce49e13b33e,
       type: 3}
     m_Threshold: -1
     m_Position: {x: 0, y: 0}
@@ -1493,7 +1493,7 @@ BlendTree:
     m_DirectBlendParameter: leftInputMagnitude
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: 922243df4efb6204b8aa73e692d744bf,
+    m_Motion: {fileID: 1827226128182048838, guid: c86046ac014a4a847b49fce49e13b33e,
       type: 3}
     m_Threshold: 1
     m_Position: {x: 0, y: 0}
