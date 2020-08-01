@@ -304,7 +304,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 50, y: 150, z: 0}
 --- !u!1001 &62979858
 PrefabInstance:
@@ -470,7 +470,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!43 &214686115
 Mesh:
@@ -865,6 +865,12 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!4 &531348673 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4233477101845156760, guid: ed3009c858e9c5140ad6822aa553c134,
+    type: 3}
+  m_PrefabInstance: {fileID: 2650035014279939249}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &555052573 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4568640046104200424, guid: f0da72429cceb9f408e7957219dae00d,
@@ -928,7 +934,7 @@ PrefabInstance:
     - target: {fileID: 288949115175226415, guid: 16fe46b8142688d4ca5a02232e2452e0,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 288949115175226415, guid: 16fe46b8142688d4ca5a02232e2452e0,
         type: 3}
@@ -954,7 +960,7 @@ PrefabInstance:
         type: 3}
       propertyPath: ropeController
       value: 
-      objectReference: {fileID: 2058795752572935568}
+      objectReference: {fileID: 0}
     - target: {fileID: 2450650857808251389, guid: 16fe46b8142688d4ca5a02232e2452e0,
         type: 3}
       propertyPath: jimController
@@ -1704,12 +1710,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d721cfeda4de03b4f9ff5e9bdc41de5a, type: 3}
---- !u!4 &868284288 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2650035014594474801, guid: ed3009c858e9c5140ad6822aa553c134,
-    type: 3}
-  m_PrefabInstance: {fileID: 2650035014279939249}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &883736728
 GameObject:
   m_ObjectHideFlags: 0
@@ -4739,7 +4739,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1775310304
 Mesh:
@@ -5411,18 +5411,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35d49f15a73718f42aa69697097140bd, type: 3}
---- !u!114 &2058795752572935568 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4059044098952239393, guid: ed3009c858e9c5140ad6822aa553c134,
-    type: 3}
-  m_PrefabInstance: {fileID: 2650035014279939249}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90ba2d34961056e4ca3564171486bbd4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2650035014279939249
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5495,6 +5483,26 @@ PrefabInstance:
       propertyPath: material
       value: 
       objectReference: {fileID: 2100000, guid: 7433f8963de508d4cb2105d7fa75e707, type: 2}
+    - target: {fileID: 4233477102828605662, guid: ed3009c858e9c5140ad6822aa553c134,
+        type: 3}
+      propertyPath: freeLookCamera
+      value: 
+      objectReference: {fileID: 1099251468}
+    - target: {fileID: 4233477102828605662, guid: ed3009c858e9c5140ad6822aa553c134,
+        type: 3}
+      propertyPath: swingCamera
+      value: 
+      objectReference: {fileID: 555052573}
+    - target: {fileID: 4233477102828605662, guid: ed3009c858e9c5140ad6822aa553c134,
+        type: 3}
+      propertyPath: swingCameraTrack
+      value: 
+      objectReference: {fileID: 2014629619}
+    - target: {fileID: 4233477102828605662, guid: ed3009c858e9c5140ad6822aa553c134,
+        type: 3}
+      propertyPath: splineRoute
+      value: 
+      objectReference: {fileID: 2023943393}
     - target: {fileID: 7113367368352068019, guid: ed3009c858e9c5140ad6822aa553c134,
         type: 3}
       propertyPath: freeLookCamera
@@ -5711,12 +5719,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LookAt
       value: 
-      objectReference: {fileID: 868284288}
+      objectReference: {fileID: 531348673}
     - target: {fileID: 4568640046104200424, guid: f0da72429cceb9f408e7957219dae00d,
         type: 3}
       propertyPath: m_Follow
       value: 
-      objectReference: {fileID: 868284288}
+      objectReference: {fileID: 531348673}
     - target: {fileID: 4568640047850457533, guid: f0da72429cceb9f408e7957219dae00d,
         type: 3}
       propertyPath: m_Name
@@ -5944,17 +5952,17 @@ PrefabInstance:
     - target: {fileID: 7569459519049093911, guid: 8f7fb21442eb47c4fa5d5a77ad835de0,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.13249825
+      value: -0.13249826
       objectReference: {fileID: 0}
     - target: {fileID: 7569459519049093911, guid: 8f7fb21442eb47c4fa5d5a77ad835de0,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.0000000018957833
+      value: 0.0000000128740005
       objectReference: {fileID: 0}
     - target: {fileID: 7569459519049093911, guid: 8f7fb21442eb47c4fa5d5a77ad835de0,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000014181831
+      value: 0.000000012207453
       objectReference: {fileID: 0}
     - target: {fileID: 7569459519049093911, guid: 8f7fb21442eb47c4fa5d5a77ad835de0,
         type: 3}
@@ -5975,12 +5983,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LookAt
       value: 
-      objectReference: {fileID: 868284288}
+      objectReference: {fileID: 531348673}
     - target: {fileID: 7569459519205287418, guid: 8f7fb21442eb47c4fa5d5a77ad835de0,
         type: 3}
       propertyPath: m_Follow
       value: 
-      objectReference: {fileID: 868284288}
+      objectReference: {fileID: 531348673}
     - target: {fileID: 7569459519205287418, guid: 8f7fb21442eb47c4fa5d5a77ad835de0,
         type: 3}
       propertyPath: m_Orbits.Array.data[2].m_Height

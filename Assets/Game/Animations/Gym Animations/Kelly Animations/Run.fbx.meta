@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: eaf46ff973da6b947922d0aa07d2221e
+guid: cc1c619f13924de4cb04bf5e0a9ca18f
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
-    second: Kelly-SprintFaster
+    second: Kelly-Sprint
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -35,11 +35,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Kelly-SprintFaster
+      name: Kelly-Sprint
       takeName: Take 001
       internalID: 0
       firstFrame: 0
-      lastFrame: 13
+      lastFrame: 16
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -59,14 +59,14 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.24226804
+      - time: 0.2819383
         functionName: StepEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.7525773
+      - time: 0.79735684
         functionName: StepEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
