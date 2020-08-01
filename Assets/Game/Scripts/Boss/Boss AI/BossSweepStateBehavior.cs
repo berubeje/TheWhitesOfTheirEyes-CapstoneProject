@@ -13,11 +13,10 @@ using UnityEngine;
 
 public class BossSweepStateBehavior : StateMachineBehaviour
 {
-    public bool startAttackCloseToPlayer = false;
-
     private Animator _animator;
     private BossController _bossController;
     private Transform _playerTransform;
+    private JimController _player;
 
     private bool _animationStarted;
 
@@ -41,34 +40,35 @@ public class BossSweepStateBehavior : StateMachineBehaviour
         // This determines where the sweep attacks starts, and what animation to play.
         if (relativePosition.x > 0f)
         {
-            if (startAttackCloseToPlayer)
-            {
-                _bossController.SweepAttack(true);
-            }
-            else
-            {
-                _bossController.SweepAttack(false);
-            }
+            _bossController.SweepAttack(false);
         }
         else
         {
-            if (startAttackCloseToPlayer)
-            {
-                _bossController.SweepAttack(false);
-            }
-            else
-            {
-                _bossController.SweepAttack(true);
-            }
+            _bossController.SweepAttack(true);
+        }
+
+        if(_bossController.player.hook.currentRopeState == PlayerGrapplingHook.RopeState.Swing)
+        {
+            _animator.SetFloat("Attack Speed", _bossController.slowedAttackSpeed);
+        }
+        else
+        {
+            _animator.SetFloat("Attack Speed", _bossController.normalAttackSpeed);
         }
     }
 
     public override void OnStateUpdate(Animator fsm, AnimatorStateInfo animatorStateInfo, int layerIndex)
     {
         // If boss health is 0 or less, go to die state.
-        if (_bossController.bossHealth <= 0.0f)
+        if (_bossController.currentBossHealth <= 0.0f)
         {
-            fsm.SetTrigger("Die");
+            fsm.SetTrigger("Fall");
+            return;
+        }
+
+        if (_bossController.flinch)
+        {
+            fsm.SetTrigger("Flinch");
             return;
         }
 

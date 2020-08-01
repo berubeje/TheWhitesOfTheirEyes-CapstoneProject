@@ -7,16 +7,40 @@
 // summary: The boss AI calls certain methosd in he BossController under certain conditions. Used to store general paramenters like health and a reference to the player as well.
 ///-------------------------------------------------------------------------------------------------
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BossController : MonoBehaviour
 {
-    public float bossHealth = 100.0f;
+    public float maxHealth = 100.0f;
+    public float currentBossHealth
+    {
+        get { return _bossHealth; }
+        set
+        {
+            if (_bossHealth == value)
+            {
+                return;
+            }
+            _bossHealth = value;
+
+            if (OnHealthChange != null && _bossHealth != 0)
+            {
+                OnHealthChange(_bossHealth);
+            }
+        }
+    }
+    public delegate void OnHealthChangeDelegate(float health);
+    public event OnHealthChangeDelegate OnHealthChange;
+
+    public BossCoreLogic bossCore;
     public List<Transform> markers = new List<Transform>();
+    public List<Transform> fallMarkers = new List<Transform>();
+
     public Transform currentMarkerTarget;
-    public SweepAttackPlaceholderLogic sweepAttackPivot;
+    //public SweepAttackPlaceholderLogic sweepAttackPivot;
 
 
     public JimController player;
@@ -26,22 +50,45 @@ public class BossController : MonoBehaviour
 
     [Header("Turn Parameters")]
     public float turnTime = 2f;
+    public float flinchTurnTime = 0.5f;
     public float turnAngle = 45f;
+
+    [Header("Attack Parameters")]
+    public float attackDamage = 15.0f;
+    public float normalAttackSpeed = 1.3f;
+    public float slowedAttackSpeed = 1.0f;
+    public AttackColliderLogic leftArmAttackCollider;
+    public AttackColliderLogic rightArmAttackCollider;
 
 
     [HideInInspector]
     public bool turning = false;
 
+    public bool flinch = false;
+
     [HideInInspector]
     public List<RopeAnchorPoint> fallenTreeList = new List<RopeAnchorPoint>();
 
+    public float _bossHealth;
     private Quaternion _startRotation;
     private Quaternion _targetRotation;
 
     private float _t = 0.0f;
     private Animator _animator;
+    private RopeAnchorPoint _bossCoreAnchorPoint;
 
+    private void Awake()
+    {
+        currentBossHealth = maxHealth;
 
+        OnHealthChange += OnHealthChanged;
+
+        if (bossCore != null)
+        {
+            _bossCoreAnchorPoint = bossCore.GetComponent<RopeAnchorPoint>();
+            _bossCoreAnchorPoint.canAttach = false;
+        }
+    }
 
     private void Start()
     {
@@ -65,7 +112,14 @@ public class BossController : MonoBehaviour
         // If turning is true, turn the boss on a Quaternion Slerp.
         if (turning)
         {
-            _t += Time.deltaTime / turnTime;
+            if (flinch == false)
+            {
+                _t += Time.deltaTime / turnTime;
+            }
+            else
+            {
+                _t += Time.deltaTime / flinchTurnTime;
+            }
 
             transform.rotation = Quaternion.Slerp(_startRotation, _targetRotation, _t);
 
@@ -75,21 +129,31 @@ public class BossController : MonoBehaviour
 
                 _startRotation = transform.rotation;
                 _t = 0;
+
+                if (flinch)
+                {
+                    SnapToWaypoint();
+                }
             }
         }
+    }
+
+    public void HitStun()
+    {
+        _animator.SetTrigger("Front Hit Stun");
     }
 
     public void Turn(bool rightTurn)
     {
         // Set the target rotation by 45 degrees, as well as play the appropriate animation.
-        if(rightTurn)
+        if (rightTurn)
         {
-             _targetRotation = Quaternion.Euler(_startRotation.eulerAngles + new Vector3(0f, 45f, 0f));
+            _targetRotation = Quaternion.Euler(_startRotation.eulerAngles + new Vector3(0f, 45f, 0f));
             _animator.SetTrigger("Turn Right");
         }
         else
         {
-             _targetRotation = Quaternion.Euler(_startRotation.eulerAngles + new Vector3(0f, -45f, 0f));
+            _targetRotation = Quaternion.Euler(_startRotation.eulerAngles + new Vector3(0f, -45f, 0f));
             _animator.SetTrigger("Turn Left");
 
         }
@@ -97,21 +161,51 @@ public class BossController : MonoBehaviour
         turning = true;
     }
 
+    public void Turn(bool rightTurn, float rotationAmount)
+    {
+        // Set the target rotation by 45 degrees, as well as play the appropriate animation.
+        if (rightTurn)
+        {
+            _targetRotation = Quaternion.Euler(_startRotation.eulerAngles + new Vector3(0f, rotationAmount, 0f));
+            _animator.SetTrigger("Turn Right");
+        }
+        else
+        {
+            _targetRotation = Quaternion.Euler(_startRotation.eulerAngles + new Vector3(0f, -rotationAmount, 0f));
+            _animator.SetTrigger("Turn Left");
+
+        }
+
+        turning = true;
+    }
 
     // Trigger the animation based on the bool passed in.
     public void SweepAttack(bool rightArmAttack)
     {
-        sweepAttackPivot.gameObject.SetActive(true);
+        //sweepAttackPivot.gameObject.SetActive(true);
 
         if (rightArmAttack)
         {
             _animator.SetTrigger("Right Swipe");
-            sweepAttackPivot.StartAttack(true);
+            rightArmAttackCollider.gameObject.SetActive(true);
+            //sweepAttackPivot.StartAttack(true);
         }
         else
         {
             _animator.SetTrigger("Left Swipe");
-            sweepAttackPivot.StartAttack(false);
+            leftArmAttackCollider.gameObject.SetActive(true);
+            //sweepAttackPivot.StartAttack(false);
+        }
+    }
+
+    private void OnHealthChanged(float health)
+    {
+        //Healthbar stuff can be added here
+        if (health != maxHealth && health > 0.0f)
+        {
+            flinch = true;
+            turning = false;
+            _t = 0.0f;
         }
     }
 
@@ -124,6 +218,54 @@ public class BossController : MonoBehaviour
 
         _startRotation = transform.rotation;
     }
+
+    public void TurnToClosestWaypoint(List<Transform> waypoints)
+    {
+        Transform result = null;
+        float currentResultValue = 0.0f;
+
+        foreach (Transform marker in waypoints)
+        {
+            float resultAngle = Vector3.Angle(transform.forward, marker.position - transform.position);
+
+            if (result == null)
+            {
+                currentResultValue = resultAngle;
+                result = marker;
+            }
+            else
+            {
+                if (resultAngle < currentResultValue)
+                {
+                    currentResultValue = resultAngle;
+                    result = marker;
+                }
+            }
+        }
+
+        //Vector3 relativePosition = transform.InverseTransformPoint(result.position);
+
+        //if (relativePosition.x > 0f)
+        //{
+        //    Turn(true, currentResultValue);
+        //}
+        //else
+        //{
+        //    Turn(false, currentResultValue);
+        //}
+
+        _startRotation = transform.rotation;
+        currentMarkerTarget = result;
+
+        Vector3 direction = currentMarkerTarget.position - transform.position;
+
+        _targetRotation = Quaternion.LookRotation(direction, Vector3.up);
+        _targetRotation.x = 0;
+        _targetRotation.z = 0;
+        turning = true;
+
+    }
+
 
     // Get the closest waypoint to the passed in target.
     public bool NeedToTurn(Transform target)
@@ -147,5 +289,20 @@ public class BossController : MonoBehaviour
             currentMarkerTarget = finalTarget;
             return true;
         }
+    }
+
+    public void DisableLeftArmEvent()
+    {
+        leftArmAttackCollider.gameObject.SetActive(false);
+    }
+
+    public void DisableRightArmEvent()
+    {
+        rightArmAttackCollider.gameObject.SetActive(false);
+    }
+
+    public void EnableCoreAnchorPointEvent()
+    {
+        _bossCoreAnchorPoint.canAttach = true;
     }
 }

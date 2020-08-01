@@ -26,10 +26,11 @@ public class GiantDeathHitboxLogic : MonoBehaviour
 
         if (killPillarScript != null )
         {
-            _bossController.bossHealth -= killPillarScript.damageDelt;
+            _bossController.currentBossHealth -= killPillarScript.damageDelt;
+            _bossController.HitStun();
             Destroy(killPillarScript.gameObject);
 
-            if(_bossController.bossHealth <=  0.0f)
+            if(_bossController.currentBossHealth <=  0.0f)
             {
                 Destroy(this.gameObject);
             }
