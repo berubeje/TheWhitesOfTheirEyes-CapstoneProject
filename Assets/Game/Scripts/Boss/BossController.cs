@@ -26,7 +26,7 @@ public class BossController : MonoBehaviour
             }
             _bossHealth = value;
 
-            if (OnHealthChange != null && _bossHealth != 0)
+            if (OnHealthChange != null)
             {
                 OnHealthChange(_bossHealth);
             }
@@ -64,17 +64,19 @@ public class BossController : MonoBehaviour
     [HideInInspector]
     public bool turning = false;
 
+    [HideInInspector]
     public bool flinch = false;
 
     [HideInInspector]
     public List<RopeAnchorPoint> fallenTreeList = new List<RopeAnchorPoint>();
 
-    public float _bossHealth;
+    private float _bossHealth;
     private Quaternion _startRotation;
     private Quaternion _targetRotation;
 
     private float _t = 0.0f;
     private Animator _animator;
+    private Animator _fsm;
     private RopeAnchorPoint _bossCoreAnchorPoint;
 
     private void Awake()
@@ -88,12 +90,25 @@ public class BossController : MonoBehaviour
             _bossCoreAnchorPoint = bossCore.GetComponent<RopeAnchorPoint>();
             _bossCoreAnchorPoint.canAttach = false;
         }
+
+        Animator[] animators = gameObject.GetComponentsInChildren<Animator>();
+
+        foreach (Animator animator in animators)
+        {
+            if(animator.gameObject == this.gameObject)
+            {
+                _animator = animator;
+            }
+            else
+            {
+                _fsm = animator;
+            }
+        }
     }
 
     private void Start()
     {
         _startRotation = transform.rotation;
-        _animator = GetComponent<Animator>();
 
         if (markers.Count > 0)
         {
@@ -206,6 +221,10 @@ public class BossController : MonoBehaviour
             flinch = true;
             turning = false;
             _t = 0.0f;
+        }
+        else if(health <= 0.0f)
+        {
+            _fsm.SetBool("Fall", true);
         }
     }
 

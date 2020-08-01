@@ -47,13 +47,6 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
 
     public override void OnStateUpdate(Animator fsm, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // Check the boss health. If 0 or less, switch to "Die" state.
-        if (_bossController.currentBossHealth <= 0.0f)
-        {
-            fsm.SetTrigger("Fall");
-            return;
-        }
-
         if (_bossController.flinch)
         {
             fsm.SetTrigger("Flinch");

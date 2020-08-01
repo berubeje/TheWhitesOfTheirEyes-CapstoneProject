@@ -28,7 +28,8 @@ public class BossFallStateBehavior : StateMachineBehaviour
             _bossController = fsm.GetComponentInParent<BossController>();
         }
 
-        _animator.SetTrigger("Fall");
+        _animator.SetBool("Fall", true);
+        fsm.SetBool("Fall", false);
         _bossController.TurnToClosestWaypoint(_bossController.fallMarkers);
     }
 
