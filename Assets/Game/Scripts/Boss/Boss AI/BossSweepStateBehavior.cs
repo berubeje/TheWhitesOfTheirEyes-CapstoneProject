@@ -59,12 +59,7 @@ public class BossSweepStateBehavior : StateMachineBehaviour
 
     public override void OnStateUpdate(Animator fsm, AnimatorStateInfo animatorStateInfo, int layerIndex)
     {
-        // If boss health is 0 or less, go to die state.
-        if (_bossController.currentBossHealth <= 0.0f)
-        {
-            fsm.SetTrigger("Fall");
-            return;
-        }
+
 
         if (_bossController.flinch)
         {

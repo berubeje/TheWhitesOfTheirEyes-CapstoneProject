@@ -28,7 +28,6 @@ public class BossIdleStateBehavior : StateMachineBehaviour
     private PlayerGrapplingHook _hook;
 
 
-
     //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator fsm, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -48,15 +47,8 @@ public class BossIdleStateBehavior : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator fsm, AnimatorStateInfo animatorStateInfo, int layerIndex)
     {
-        // Check the boss health. If 0 or less, switch to "Die" state.
         if (_bossController.bossStart)
         {
-            if(_bossController.currentBossHealth <= 0.0f)
-            {
-                fsm.SetTrigger("Fall");
-                return;
-            }
-
             if (_bossController.flinch)
             {
                 fsm.SetTrigger("Flinch");
