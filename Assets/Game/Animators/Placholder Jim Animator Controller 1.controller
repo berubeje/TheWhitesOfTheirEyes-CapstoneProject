@@ -136,7 +136,7 @@ MonoBehaviour:
   swingArcLimit: 70
   maxSwingSpeed: 1.75
   minSwingSpeed: 0.25
-  swingRadius: 6
+  swingRadius: 5.5
   swingRotationSpeed: 65
   forwardCheckDistance: 0.3
   releaseDirectionMagnitude: 1
@@ -612,7 +612,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bf722d6f87886e48aaaef12c2832985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swingRadius: 6
+  swingRadius: 5.5
   faceAnchorSpeed: 1
   reelInSpeed: 15
   swingArcLimit: 70
@@ -1366,7 +1366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 786b416d57425964ea4deeb6533f722c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundCheckDistance: 0.5
+  groundCheckDistance: 0.7
   sphereCastStartOffset: {x: 0, y: 0.5, z: 0}
 --- !u!114 &1035115039818760525
 MonoBehaviour:
@@ -1843,7 +1843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 786b416d57425964ea4deeb6533f722c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundCheckDistance: 0.5
+  groundCheckDistance: 0.7
   sphereCastStartOffset: {x: 0, y: 0.5, z: 0}
 --- !u!1101 &4762342147785113447
 AnimatorStateTransition:

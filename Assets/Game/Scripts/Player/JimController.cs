@@ -60,7 +60,6 @@ public class JimController : MonoBehaviour
     public PlayerGrapplingHook ropeLogic;
     public RopeAnchorPoint anchor;
     public SplineRoute splineRoute;
-    public float groundCheckDistance;
 
     [Header("Hook logic for animator")]
     public PlayerGrapplingHook hook;
