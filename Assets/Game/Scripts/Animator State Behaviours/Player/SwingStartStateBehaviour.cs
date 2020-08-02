@@ -35,6 +35,8 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // Play the reel in sound effect
+        AudioManager.Instance.PlaySound("ReelIn");
 
         _jimController = animator.GetComponent<JimController>();
         _splineRoute = _jimController.splineRoute;
@@ -112,9 +114,11 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
 
     }
 
-    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //}
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        // Stop the reel in sound effect
+        AudioManager.Instance.StopSound("ReelIn");
+    }
 
     private void SetUpSpline(Animator animator)
     {

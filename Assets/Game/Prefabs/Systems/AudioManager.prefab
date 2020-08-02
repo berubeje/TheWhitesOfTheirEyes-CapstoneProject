@@ -74,3 +74,9 @@ MonoBehaviour:
     pitch: 0.9
     loop: 0
     source: {fileID: 0}
+  - name: ReelIn
+    clip: {fileID: 8300000, guid: cb4aef71d315fc344965af88764b9274, type: 3}
+    volume: 0.1
+    pitch: 1.5
+    loop: 0
+    source: {fileID: 0}
