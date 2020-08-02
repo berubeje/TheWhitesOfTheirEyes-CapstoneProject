@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Net.Sockets;
-using UnityEditor.VersionControl;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class CinematicBars : Singleton<CinematicBars>

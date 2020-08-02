@@ -131,6 +131,7 @@ MonoBehaviour:
   resetting: 0
   angleOfPull: {x: 0, y: 0, z: 0}
   pivot: {fileID: 0}
+  isBossCore: 0
 --- !u!1 &6399923424345481005
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,6 +175,7 @@ GameObject:
   - component: {fileID: 7391913068295049819}
   - component: {fileID: 5983926218683564432}
   - component: {fileID: 6710549523533425628}
+  - component: {fileID: 5935057151434101148}
   m_Layer: 0
   m_Name: Tree
   m_TagString: Untagged
@@ -242,3 +244,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &5935057151434101148
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7674323303911028721}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 2494185979427425891, guid: 6812f3771d0402b488a6825b8d414de0, type: 3}

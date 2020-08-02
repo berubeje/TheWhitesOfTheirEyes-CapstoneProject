@@ -92,8 +92,7 @@ public class JimController : MonoBehaviour
         InputManager.Instance.jimController = this;
         CheckpointManager.Instance.jimController = this;
 
-        InputManager.Instance.BindControls();
-        InputManager.Instance.EnableAllControls();
+        
 
         currentHealth = maxHealth;
         //UICanvas.Instance.ChangeHealthBar(currentHealth);
@@ -113,6 +112,12 @@ public class JimController : MonoBehaviour
 
         // bind callback function
         OnHealthChange += OnHealthChanged;
+    }
+
+    private void Start()
+    {
+        InputManager.Instance.BindControls();
+        InputManager.Instance.EnableAllControls();
     }
 
     void Update()

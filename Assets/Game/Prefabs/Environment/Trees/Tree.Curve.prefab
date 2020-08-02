@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 4340723993771298691}
   - component: {fileID: 6988009571881998498}
   - component: {fileID: 7636928469610467614}
+  - component: {fileID: 7047966881309369711}
   m_Layer: 0
   m_Name: Tree.003
   m_TagString: Untagged
@@ -173,6 +174,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &7047966881309369711
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2200847668273632325}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3920987482455494174, guid: 6d903febb00bbb642bd4c7bbbc7bb962, type: 3}
 --- !u!1 &4280837379873905688
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,6 +340,7 @@ MonoBehaviour:
   resetting: 0
   angleOfPull: {x: 0, y: 0, z: 0}
   pivot: {fileID: 0}
+  isBossCore: 0
 --- !u!65 &8060743970898251381
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -456,6 +472,7 @@ MonoBehaviour:
   resetting: 0
   angleOfPull: {x: 0, y: 0, z: 0}
   pivot: {fileID: 0}
+  isBossCore: 0
 --- !u!65 &6334771722354024168
 BoxCollider:
   m_ObjectHideFlags: 0
