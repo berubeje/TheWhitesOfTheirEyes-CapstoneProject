@@ -112,6 +112,10 @@ public class RopeController : MonoBehaviour
             _playerLogic.isPulling = false;
             _pullObject = false;
             _animator.SetBool("pull", false);
+
+            // Stop the rope pull sound
+            AudioManager.Instance.StopSound("RopeTension");
+
             _animator.SetFloat("pullTime", 0);
         }
 
@@ -210,6 +214,10 @@ public class RopeController : MonoBehaviour
         {
             _pullObject = true;
             _animator.SetBool("pull", true);
+
+            // Play the rope pull sound
+            AudioManager.Instance.PlaySound("RopeTension");
+
             _playerLogic.isPulling = true;
         }
     }
@@ -225,6 +233,10 @@ public class RopeController : MonoBehaviour
                 _pullObject = false;
                 _playerLogic.isPulling = false; 
                 _animator.SetBool("pull", false);
+
+                // Stop the rope pull sound
+                AudioManager.Instance.StopSound("RopeTension");
+
                 _currentPullTime = 0.0f;
             }
         }
