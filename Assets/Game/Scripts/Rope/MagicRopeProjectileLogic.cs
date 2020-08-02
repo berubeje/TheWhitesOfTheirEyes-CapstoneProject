@@ -7,6 +7,7 @@
 // summary: This script is what pushed the magic rope projectile towards the anchor point, as well as bringing the projectile back to the player when they reel in the rope.
 ///-------------------------------------------------------------------------------------------------
 
+using System.Net;
 using UnityEngine;
 
 public class MagicRopeProjectileLogic : MonoBehaviour
@@ -65,6 +66,9 @@ public class MagicRopeProjectileLogic : MonoBehaviour
                     _returning = false;
                     _targetReached = true;
 
+                    //Stop the rope cast sound and play the catch sound
+                    AudioManager.Instance.StopSound("RopeCast");
+                    AudioManager.Instance.PlaySound("Catch");
                 }
             }
 
@@ -74,8 +78,13 @@ public class MagicRopeProjectileLogic : MonoBehaviour
     // Tell the rope to start returning to the base of the rope.
     public void RopeReturn(Transform ropeBase)
     {
-        transform.LookAt(_targetTransform);
         transform.parent = null;
+
+        // get the vector from the ropebase to the snake head and add it to the position of the snake head
+        Vector3 lookPosition = (transform.position - ropeBase.position) + transform.position;
+        transform.LookAt(lookPosition);
+
+        transform.localScale = Vector3.one;
         _targetTransform = ropeBase;
         _targetReached = false;
         _returning = true;
@@ -85,6 +94,7 @@ public class MagicRopeProjectileLogic : MonoBehaviour
     public void Relaunch(Transform targetTransform)
     {
         transform.parent = null;
+        transform.localScale = Vector3.one;
         transform.LookAt(targetTransform);
         _targetTransform = targetTransform;
         _returning = false;

@@ -62,3 +62,9 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: Catch
+    clip: {fileID: 8300000, guid: 2554a02e5052d2246bb77f98bde37c05, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}

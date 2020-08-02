@@ -177,10 +177,10 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
             // Update camera position and dolly track position/rotation
             _jimController.swingCameraTrack.transform.position = _backwardSwingLimit;
             _jimController.swingCameraTrack.transform.rotation = Quaternion.LookRotation(_swingForward);
-            _dollyCamera.m_PathPosition = _interpolant * 2;
-
+            
             
             _interpolant += _speedMultiplier * Time.deltaTime * _direction;
+            _dollyCamera.m_PathPosition = _interpolant * 2;
 
             RotateSwing(animator);
             SetUpSpline(animator);

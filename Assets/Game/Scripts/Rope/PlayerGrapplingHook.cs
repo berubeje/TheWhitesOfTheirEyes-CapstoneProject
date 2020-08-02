@@ -275,9 +275,9 @@ public class PlayerGrapplingHook : MonoBehaviour
             {
                 _jimAnimator.SetTrigger("swingLand");
             }
-
             currentRopeState = RopeState.Idle;
 
+            
         }
 
         targetAnchor = null;

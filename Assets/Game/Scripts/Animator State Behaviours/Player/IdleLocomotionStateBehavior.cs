@@ -11,7 +11,7 @@ public class IdleLocomotionStateBehavior : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!Physics.SphereCast(animator.transform.position + sphereCastStartOffset, 0.4f, Vector3.down, out _, groundCheckDistance, _layerMask))
+        if (!Physics.SphereCast(animator.transform.position + sphereCastStartOffset, 0.3f, Vector3.down, out _, groundCheckDistance, _layerMask))
         {
             animator.SetBool("canRoll", true);
             animator.SetTrigger("fallIdle");
