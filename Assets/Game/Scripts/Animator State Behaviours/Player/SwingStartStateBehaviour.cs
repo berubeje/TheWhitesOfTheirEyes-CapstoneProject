@@ -68,7 +68,7 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
         _reelDirection = (animator.transform.position - _anchor.position).normalized;
 
         // Reverse it and kill the y to get the swing forward
-        _swingForward = _swingForward - _reelDirection;
+        _swingForward = -_reelDirection;
         _swingForward.y = 0;
 
         // Calculate the point to be reeled to
@@ -77,7 +77,7 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
         // Direction player needs to rotate to
         _lookRotation = Quaternion.LookRotation(_lookDirection);
 
-        _lerpRate = (reelInSpeed * Time.deltaTime) / Vector3.Distance(_reelLocation, _initialPosition);
+        _lerpRate = reelInSpeed / Vector3.Distance(_reelLocation, _initialPosition);
         animator.SetFloat("swingDirectionRaw", 1);
     }
 
@@ -98,7 +98,7 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
                 animator.SetTrigger("swingIdle");
             }
 
-            _interpolant += _lerpRate;
+            _interpolant += _lerpRate * Time.deltaTime;
         }
 
 

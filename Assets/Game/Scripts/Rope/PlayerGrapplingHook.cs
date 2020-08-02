@@ -161,18 +161,26 @@ public class PlayerGrapplingHook : MonoBehaviour
             }
             else
             {
-                Debug.LogError("Public parameter RopeHook is null in " + this.gameObject.name);
+                Debug.LogError("Public parameter RopeHook is null in " + gameObject.name);
             }
 
             currentRopeState = RopeState.Launched;
+            
+            // Play cobra sound
+            AudioManager.Instance.PlaySound("CobraStrike");
+
             blueprint.resolution = launchedResolution;
+
             if (_ropeGenerated)
             {
                 _rope.GetComponent<MeshRenderer>().enabled = true;
+                // Play rope cast
+                AudioManager.Instance.PlaySound("RopeCast");
             }
             else
             {
                 StartCoroutine(GenerateRope());
+                AudioManager.Instance.PlaySound("RopeCast");
             }
         }
     }
@@ -191,6 +199,10 @@ public class PlayerGrapplingHook : MonoBehaviour
     public void TargetReached()
     {
         currentRopeState = RopeState.Landed;
+
+        //Stop the rope cast sound and play the impact sound
+        AudioManager.Instance.StopSound("RopeCast");
+        AudioManager.Instance.PlaySound("WoodImpact");
 
         if (targetAnchor.anchorType == RopeAnchorPoint.AnchorType.Swing)
         {

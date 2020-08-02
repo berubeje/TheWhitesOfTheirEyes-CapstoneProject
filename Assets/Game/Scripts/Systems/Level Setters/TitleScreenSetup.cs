@@ -16,8 +16,7 @@ public class TitleScreenSetup : MonoBehaviour
     {
         _mainCamera.transform.position = new Vector3(0.0f, -11.8f, -5f);
         _mainCamera.transform.rotation = Quaternion.identity;
-        _mainCamera.orthographic = true;
-        _mainCamera.orthographicSize = 2;
+        _mainCamera.fieldOfView = 17;
         _mainCamera.farClipPlane = 20;
     }
 }

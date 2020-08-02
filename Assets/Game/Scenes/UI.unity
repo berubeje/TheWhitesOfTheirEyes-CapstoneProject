@@ -280,8 +280,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -430,9 +430,9 @@ MonoBehaviour:
     scenePath: Assets/Game/Scenes/Title Screen.unity
     sceneName: Title Screen
   sceneToUnload:
-    sceneAsset: {fileID: 102900000, guid: 3658a651b1f5eac46a77c83bee8ab53a, type: 3}
-    scenePath: Assets/Game/Scenes/Beta Build.unity
-    sceneName: Beta Build
+    sceneAsset: {fileID: 102900000, guid: 572cf30823938804cb289544e65e4d77, type: 3}
+    scenePath: Assets/Game/Scenes/Beta Build Rishi.unity
+    sceneName: Beta Build Rishi
 --- !u!1 &126313805
 GameObject:
   m_ObjectHideFlags: 0
@@ -519,8 +519,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 65
-  m_fontSizeBase: 65
+  m_fontSize: 70
+  m_fontSizeBase: 70
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -993,8 +993,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2398,8 +2398,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -165.62}
-  m_SizeDelta: {x: 106.01918, y: 60.671844}
+  m_AnchoredPosition: {x: 3.0096, y: -149.884}
+  m_SizeDelta: {x: 106.01918, y: 45.88334}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &583949075
 MonoBehaviour:
@@ -3025,6 +3025,7 @@ RectTransform:
   - {fileID: 108688187}
   - {fileID: 1504852914}
   - {fileID: 1246837258}
+  - {fileID: 931670542}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3045,7 +3046,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da7e2715f88de6d4d9f5daabe226136e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseMenuPanel: {fileID: 0}
   pauseMenu: {fileID: 2135000622}
   controlsMenu: {fileID: 782343377}
   settingsMenu: {fileID: 1034415020}
@@ -3053,6 +3053,7 @@ MonoBehaviour:
   restartConfirmationMenu: {fileID: 376360321}
   gameFinishedMenu: {fileID: 1504852913}
   healthBar: {fileID: 1246837257}
+  cinematicBars: {fileID: 931670543}
   _pauseAction:
     m_Name: Pause
     m_Type: 0
@@ -3308,8 +3309,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3678,9 +3679,9 @@ MonoBehaviour:
   startMenuState: 1
   resetPosition: 1
   sceneToLoad:
-    sceneAsset: {fileID: 102900000, guid: 3658a651b1f5eac46a77c83bee8ab53a, type: 3}
-    scenePath: Assets/Game/Scenes/Beta Build.unity
-    sceneName: Beta Build
+    sceneAsset: {fileID: 102900000, guid: 572cf30823938804cb289544e65e4d77, type: 3}
+    scenePath: Assets/Game/Scenes/Beta Build Rishi.unity
+    sceneName: Beta Build Rishi
   sceneToUnload:
     sceneAsset: {fileID: 102900000, guid: 35a97c96da98e8645b2ad1e0dc168efa, type: 3}
     scenePath: Assets/Game/Scenes/Title Screen.unity
@@ -4258,6 +4259,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 930972915}
   m_CullTransparentMesh: 0
+--- !u!1 &931670541
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 931670542}
+  - component: {fileID: 931670543}
+  m_Layer: 5
+  m_Name: CinematicBars
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &931670542
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931670541}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 744368072}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &931670543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931670541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 650fb077b4cd38341b9fdfd81d6321d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &975771474
 GameObject:
   m_ObjectHideFlags: 0
@@ -5967,8 +6016,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -104.95}
-  m_SizeDelta: {x: 196.9179, y: 60.672623}
+  m_AnchoredPosition: {x: -0.000015259, y: -104}
+  m_SizeDelta: {x: 196.9179, y: 45.882843}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1193587577
 MonoBehaviour:
@@ -6541,8 +6590,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -44.281}
-  m_SizeDelta: {x: 201.79745, y: 60.672775}
+  m_AnchoredPosition: {x: 0, y: -58.116993}
+  m_SizeDelta: {x: 201.79745, y: 45.882782}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1248594060
 MonoBehaviour:
@@ -7511,9 +7560,9 @@ MonoBehaviour:
     scenePath: Assets/Game/Scenes/Title Screen.unity
     sceneName: Title Screen
   sceneToUnload:
-    sceneAsset: {fileID: 102900000, guid: 3658a651b1f5eac46a77c83bee8ab53a, type: 3}
-    scenePath: Assets/Game/Scenes/Beta Build.unity
-    sceneName: Beta Build
+    sceneAsset: {fileID: 102900000, guid: 572cf30823938804cb289544e65e4d77, type: 3}
+    scenePath: Assets/Game/Scenes/Beta Build Rishi.unity
+    sceneName: Beta Build Rishi
 --- !u!1 &1506610125
 GameObject:
   m_ObjectHideFlags: 0
@@ -7756,8 +7805,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -9779,8 +9828,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 19.663}
-  m_SizeDelta: {x: 107.91763, y: 60.67308}
+  m_AnchoredPosition: {x: 0, y: -12.233997}
+  m_SizeDelta: {x: 107.91763, y: 45.882942}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1946804386
 MonoBehaviour:
@@ -10964,13 +11013,13 @@ MonoBehaviour:
   startMenuState: 1
   resetPosition: 1
   sceneToLoad:
-    sceneAsset: {fileID: 102900000, guid: 3658a651b1f5eac46a77c83bee8ab53a, type: 3}
-    scenePath: Assets/Game/Scenes/Beta Build.unity
-    sceneName: Beta Build
+    sceneAsset: {fileID: 102900000, guid: 572cf30823938804cb289544e65e4d77, type: 3}
+    scenePath: Assets/Game/Scenes/Beta Build Rishi.unity
+    sceneName: Beta Build Rishi
   sceneToUnload:
-    sceneAsset: {fileID: 102900000, guid: 3658a651b1f5eac46a77c83bee8ab53a, type: 3}
-    scenePath: Assets/Game/Scenes/Beta Build.unity
-    sceneName: Beta Build
+    sceneAsset: {fileID: 102900000, guid: 572cf30823938804cb289544e65e4d77, type: 3}
+    scenePath: Assets/Game/Scenes/Beta Build Rishi.unity
+    sceneName: Beta Build Rishi
 --- !u!1 &2138790654
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,6 +18,8 @@ public class UICanvas : Singleton<UICanvas>
     [Space]
     public GameObject healthBar;
 
+    [Space]
+    public CinematicBars cinematicBars;
 
     private Canvas _canvas;
     private Slider _healthSlider;

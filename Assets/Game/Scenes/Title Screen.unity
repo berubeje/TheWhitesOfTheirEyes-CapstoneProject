@@ -207,7 +207,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 288457444}
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: -3.87, y: 4.45, z: 9.44}
+  m_LocalPosition: {x: -3.63, y: 4.45, z: 9.44}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 5006512736682173910}
@@ -238,7 +238,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 336214471}
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: 3.87, y: 4.45, z: 9.44}
+  m_LocalPosition: {x: 3.63, y: 4.45, z: 9.44}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 5006512736682173910}
@@ -5696,7 +5696,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8296172667858196421}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: -13.54, z: 10.9}
+  m_LocalPosition: {x: 0, y: -13.9, z: 10.9}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 336214472}
@@ -5882,7 +5882,7 @@ SkinnedMeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 0}
-  - {fileID: 2100000, guid: 9c0e002d9c2ec204e9944c5179b5ae5f, type: 2}
+  - {fileID: 2100000, guid: 140dca9c470e33843aa860786a4e94ce, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -9237,7 +9237,7 @@ MonoBehaviour:
   rightEyeLight: {fileID: 288457445}
   lightIntensityRange: 0.15
   lightNoiseRange: 0.05
-  positionRange: 0.025
+  positionRange: 0.05
   angleRange: 2.5
   lightLerpSpeed: 1.5
   transformLerpSpeed: 0.25

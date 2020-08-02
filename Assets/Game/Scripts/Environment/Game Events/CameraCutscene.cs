@@ -13,13 +13,16 @@ public class CameraCutscene : MonoBehaviour
     private CinemachineTrackedDolly _dollyTrack;
     private BoxCollider _collider;
     private JimController _jimController;
+    private CinemachineBrain _cinemachineBrain;
     private bool _cutsceneStarted = false;
     private float _dollyPosition = 0.0f;
+    private float _elapsedWaitTime = 0.0f;
 
     private void Awake()
     {
         _dollyTrack = cutsceneCamera.GetCinemachineComponent<CinemachineTrackedDolly>();
         _collider = GetComponent<BoxCollider>();
+        _cinemachineBrain = Camera.main.GetComponent<CinemachineBrain>();
     }
     private void Update()
     {
@@ -40,6 +43,12 @@ public class CameraCutscene : MonoBehaviour
             // Disable all player input
             InputManager.Instance.DisableAllControls();
 
+            //Change transitions time for 
+            _cinemachineBrain.m_DefaultBlend.m_Time = 5;
+
+            //Show cinematic bars
+            CinematicBars.Instance.ShowBars(100, 1f);
+
             // Switch to dolly camera
             cutsceneCamera.Priority = 100;
 
@@ -53,19 +62,29 @@ public class CameraCutscene : MonoBehaviour
         _dollyPosition += Time.deltaTime * cameraTrackSpeed;
         _dollyTrack.m_PathPosition = _dollyPosition;
 
-        if(_dollyPosition >= 1 + (cameraWaitTime * Time.deltaTime))
+        if(_dollyPosition >= 1)
         {
-            // Enable all controls again
-            InputManager.Instance.EnableAllControls();
+            _elapsedWaitTime += Time.deltaTime;
 
-            if(_jimController.isReceivingLeftStick || _jimController.isReceivingRightStick)
+            if (_elapsedWaitTime >= cameraWaitTime)
             {
-                // Switch back to normal camera after the player moves
-                cutsceneCamera.Priority = 1;
+                // Enable all controls again
+                InputManager.Instance.EnableAllControls();
 
-                _cutsceneStarted = false;
+                // Hide cinematic bars
+                CinematicBars.Instance.HideBars(1f);
 
-                StartCoroutine(DestroyGameObject());
+                if (_jimController.isReceivingLeftStick || _jimController.isReceivingRightStick)
+                {
+                    _cinemachineBrain.m_DefaultBlend.m_Time = 2;
+
+                    // Switch back to normal camera after the player moves
+                    cutsceneCamera.Priority = 1;
+
+                    _cutsceneStarted = false;
+
+                    StartCoroutine(DestroyGameObject());
+                }
             }
         }
     }

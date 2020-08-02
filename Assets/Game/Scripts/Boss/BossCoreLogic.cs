@@ -35,6 +35,7 @@ public class BossCoreLogic : MonoBehaviour
             if(currentTime >= secondsTillCredits)
             {
                 InputManager.Instance.currentGameState = InputManager.GameStates.GameFinished;
+                this.enabled = false;
             }
         }
     }

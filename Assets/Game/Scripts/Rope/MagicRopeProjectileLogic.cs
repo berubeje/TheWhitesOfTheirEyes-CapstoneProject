@@ -27,6 +27,7 @@ public class MagicRopeProjectileLogic : MonoBehaviour
     {
         _initialPosition = transform.localPosition;
         _initialRotation = transform.localRotation;
+        _initialScale = transform.localScale;
     }
     void Update()
     {
@@ -59,6 +60,7 @@ public class MagicRopeProjectileLogic : MonoBehaviour
                     transform.parent = _grapplingHookLogic.character.transform;
                     transform.localPosition = _initialPosition;
                     transform.localRotation = _initialRotation;
+                    transform.localScale = _initialScale;
 
                     _returning = false;
                     _targetReached = true;
