@@ -148,13 +148,24 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
     {
         if (!animator.GetAnimatorTransitionInfo(0).IsName("SwingIdle -> SwingLand") && !animator.GetAnimatorTransitionInfo(0).IsName("SwingIdle -> SwingCancel"))
         {
+            RotateSwing(animator);
+
             _pendulumArm = _anchor.position - animator.transform.position;
             _angle = Vector3.Angle(Vector3.up, _pendulumArm);
             _angle = Mathf.Round(_angle * 10.0f) / 10.0f;
+
             float anglePercent = _angle / swingArcLimit;
+            animator.SetFloat("angle", anglePercent);
 
             // Calculate speed of swing based on how close we are to the center
             _speedMultiplier = Mathf.Lerp(maxSwingSpeed, minSwingSpeed, anglePercent);
+            animator.SetFloat("swingDirection", _speedMultiplier * _direction);
+
+            // Play the whoosh sound when player is moving the fastest
+            if (anglePercent <= 0.1f)
+            {
+                AudioManager.Instance.PlaySound("SwingWhoosh");
+            }
 
             // Slerp between the current two heights of the swing
             Vector3 targetVector = Vector3.Slerp(_currentSlerpStart, _currentSlerpEnd, _interpolant);
@@ -171,7 +182,6 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 
             // How much of the current swing we have completed
             _percentOfSwing = Vector3.Angle(_swingStartVector, -_pendulumArm) / (swingArcLimit * 2);
-
             animator.SetFloat("percentOfSwing", _percentOfSwing * _direction);
 
             // Update camera position and dolly track position/rotation
@@ -182,11 +192,11 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
             _interpolant += _speedMultiplier * Time.deltaTime * _direction;
             _dollyCamera.m_PathPosition = _interpolant * 2;
 
-            RotateSwing(animator);
             SetUpSpline(animator);
 
-            if (_interpolant > 1.0f)
+            if (_interpolant >= 1.0f)
             {
+                _interpolant = 1;
                 _direction = -1;
                 animator.SetFloat("swingDirectionRaw", _direction);
                 animator.SetBool("canRoll", false);
@@ -199,8 +209,9 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
                 }
                 _swingStartVector = _forwardLimitVector;
             }
-            else if(_interpolant < 0)
+            else if(_interpolant <= 0)
             {
+                _interpolant = 0;
                 _direction = 1;
                 animator.SetFloat("swingDirectionRaw", _direction);
                 
@@ -208,9 +219,6 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
                 animator.SetBool("canRoll", true);
                 _swingStartVector = _backwardLimitVector;
             }
-            animator.SetFloat("angle", anglePercent);
-            animator.SetFloat("swingDirection", _speedMultiplier * _direction);
-
         }
 
         if (Physics.SphereCast(animator.transform.position + new Vector3(0, 1f, 0), 0.4f, _swingForward * _direction, out _, forwardCheckDistance, _layerMask))
@@ -269,7 +277,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 
         if (_percentOfSwing > coyoteTimeThreshold)
         {
-            _splineRoute.controlPoints[3].position = animator.transform.position +
+                _splineRoute.controlPoints[3].position = animator.transform.position +
                 (_swingForward * releaseDistanceX) * _direction +
                 (Vector3.up * releaseDistanceY);
 
