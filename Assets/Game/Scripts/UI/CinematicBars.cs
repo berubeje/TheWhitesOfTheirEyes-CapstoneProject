@@ -19,16 +19,16 @@ public class CinematicBars : Singleton<CinematicBars>
         gameObject.transform.SetParent(transform, false);
         gameObject.GetComponent<Image>().color = Color.black;
         _topBar = gameObject.GetComponent<RectTransform>();
-        _topBar.anchorMin = new Vector2(0, 1);
-        _topBar.anchorMax = new Vector2(1, 1);
+        _topBar.anchorMin = new Vector2(-0.1f, 1);
+        _topBar.anchorMax = new Vector2(1.1f, 1);
         _topBar.sizeDelta = new Vector2(0, 0);
 
         gameObject = new GameObject("BottomBar", typeof(Image));
         gameObject.transform.SetParent(transform, false);
         gameObject.GetComponent<Image>().color = Color.black;
         _bottomBar = gameObject.GetComponent<RectTransform>();
-        _bottomBar.anchorMin = new Vector2(0, 0);
-        _bottomBar.anchorMax = new Vector2(1, 0);
+        _bottomBar.anchorMin = new Vector2(-0.1f, 0);
+        _bottomBar.anchorMax = new Vector2(1.1f, 0);
         _bottomBar.sizeDelta = new Vector2(0, 0);
     }
 
