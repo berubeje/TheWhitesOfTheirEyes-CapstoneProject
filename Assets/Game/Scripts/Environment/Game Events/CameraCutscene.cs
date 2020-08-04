@@ -9,6 +9,7 @@ public class CameraCutscene : MonoBehaviour
     public float cameraTrackSpeed;
     public float cameraWaitTime;
     public float cameraDestroyWaitTime;
+    public bool waitForPlayerInput;
 
     private CinemachineTrackedDolly _dollyTrack;
     private BoxCollider _collider;
@@ -71,13 +72,24 @@ public class CameraCutscene : MonoBehaviour
                 // Enable all controls again
                 InputManager.Instance.EnableAllControls();
 
+                _cinemachineBrain.m_DefaultBlend.m_Time = 2;
+
                 // Hide cinematic bars
                 CinematicBars.Instance.HideBars(1f);
-
-                if (_jimController.isReceivingLeftStick || _jimController.isReceivingRightStick)
+                if (waitForPlayerInput)
                 {
-                    _cinemachineBrain.m_DefaultBlend.m_Time = 2;
+                    if (_jimController.isReceivingLeftStick || _jimController.isReceivingRightStick)
+                    {
+                        // Switch back to normal camera after the player moves
+                        cutsceneCamera.Priority = 1;
 
+                        _cutsceneStarted = false;
+
+                        StartCoroutine(DestroyGameObject());
+                    }
+                }
+                else
+                {
                     // Switch back to normal camera after the player moves
                     cutsceneCamera.Priority = 1;
 

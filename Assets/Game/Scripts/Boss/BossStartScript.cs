@@ -11,7 +11,7 @@ public class BossStartScript : MonoBehaviour
         if(other.gameObject.GetComponent<JimController>() != null)
         {
             boss.bossStart = true;
-            Destroy(this.gameObject);
+            Destroy(this);
         }
     }
 }

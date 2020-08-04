@@ -263,6 +263,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         // Reset the freelook camera behind the player and switch back to it 
         _jimController.freeLookCamera.m_XAxis.Value = animator.transform.eulerAngles.y;
         _jimController.swingCamera.Priority = 5;
+        animator.ResetTrigger("fallIdle");
     }
 
     // Sets that set up the spline path according to user defined parameters and current point in the swing
