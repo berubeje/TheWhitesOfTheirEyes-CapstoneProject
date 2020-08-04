@@ -15,6 +15,7 @@ using UnityEngine;
 public class BossTurnStateBehavior : StateMachineBehaviour
 {
     public float angleDeadzone = 5;
+    public bool treeRepairOn = false;
 
     private Animator _animator;
     private BossController _bossController;
@@ -90,7 +91,7 @@ public class BossTurnStateBehavior : StateMachineBehaviour
 
 
                 // Check if there are any fallen trees.
-                if (_bossController.fallenTreeList.Count > 0)
+                if (_bossController.fallenTreeList.Count > 0 && treeRepairOn)
                 {
                     _bossController.treeRepairInProgress = true;
                 }

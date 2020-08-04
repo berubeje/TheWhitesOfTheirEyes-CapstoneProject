@@ -47,4 +47,10 @@ public class BossFlinchStateBehavior : StateMachineBehaviour
             fsm.SetTrigger("Idle");
         }
     }
+
+
+    public override void OnStateExit(Animator fsm, AnimatorStateInfo animatorStateInfo, int layerIndex)
+    {
+        _animationStarted = false;
+    }
 }

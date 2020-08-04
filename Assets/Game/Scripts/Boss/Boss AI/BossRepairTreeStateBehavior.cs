@@ -13,8 +13,6 @@ using UnityEngine;
 
 public class BossRepairTreeStateBehavior : StateMachineBehaviour
 {
-    public float repairTime = 2.0f;
-
     private Animator _animator;
     private BossController _bossController;
     private bool _firstAnimationStarted;
@@ -65,29 +63,26 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
         //    fsm.SetTrigger("Idle");
         //}
 
-        if (_firstAnimationStarted)
-        {
-            currentTime += Time.deltaTime;
+        //if (_firstAnimationStarted)
+        //{
+        //    currentTime += Time.deltaTime;
 
-            if(currentTime >= repairTime)
-            {
-                _animator.SetTrigger("Heal End");
-                currentTime = 0.0f;
-            }
-        }
+        //    if(currentTime >= repairTime)
+        //    {
+        //        _animator.SetTrigger("Heal End");
+        //        currentTime = 0.0f;
+        //    }
+        //}
 
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Tree Heal Middle"))
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Tree Heal Start"))
         {
             if (_firstAnimationStarted == false)
             {
                 if (_hook.targetAnchor == null || _hook.targetAnchor.transform.root != _bossController.fallenTreeList[0].transform.root)
                 {
-                    _tree.ResetPull(repairTime);
+                    _tree.ResetPull(_tree.pullTime);
                 }
-                else
-                {
-                    _animator.SetTrigger("Heal End");
-                }
+
                 _firstAnimationStarted = true;
             }
         }
@@ -112,6 +107,8 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        _firstAnimationStarted = false;
+        _secondAnimationStarted = false;
     }
 
 }
