@@ -80,8 +80,13 @@ public class JimController : MonoBehaviour
 
     private Animator _jimAnimator;
     private AnimatorStateInfo _stateInfo;
-    private int _locomotionID;
-    private int _idleID;
+    
+    [HideInInspector]
+    public int _locomotionID;
+    [HideInInspector]
+    public int _idleID;
+    [HideInInspector]
+    public int _rollID;
 
     private float _blinkTimer;
     private float _initialBlinkValue;
@@ -104,6 +109,7 @@ public class JimController : MonoBehaviour
 
         _locomotionID = Animator.StringToHash("Base Layer.Locomotion");
         _idleID = Animator.StringToHash("Base Layer.Idle");
+        _rollID = Animator.StringToHash("Base Layer.DodgeRoll");
 
         // Initialize blink timer to 0 and get the initial value for the blend shape
         _blinkTimer = 0.0f;
@@ -239,7 +245,7 @@ public class JimController : MonoBehaviour
     }
 
     // Utility function to see if the animator is in the indicated state
-    private bool IsInState(int stateHash)
+    public bool IsInState(int stateHash)
     {
         return _stateInfo.fullPathHash == stateHash;
     }
