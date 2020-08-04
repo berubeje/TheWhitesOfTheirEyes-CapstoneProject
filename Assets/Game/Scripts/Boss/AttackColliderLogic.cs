@@ -18,10 +18,17 @@ public class AttackColliderLogic : MonoBehaviour
 
         if(jimController != null)
         {
-            Debug.Log(hitCounter);
-            hitCounter++;
-            jimController.currentHealth -= _boss.attackDamage;
-            gameObject.SetActive(false);
+            if (!jimController.IsInState(jimController._rollID))
+            {
+                Debug.Log(hitCounter);
+                hitCounter++;
+                jimController.currentHealth -= _boss.attackDamage;
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                gameObject.SetActive(false);
+            }
         }
     }
 }

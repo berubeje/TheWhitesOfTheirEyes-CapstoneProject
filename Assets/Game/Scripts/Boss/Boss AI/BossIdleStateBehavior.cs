@@ -93,6 +93,7 @@ public class BossIdleStateBehavior : StateMachineBehaviour
             {
                 if (attackImmediatelyAfterTurn)
                 {
+                    _currentTickTime = secondsTillAttackCheck;
                     _currentAttackChance = 100.0f;
                 }
                 fsm.SetTrigger("Turn");

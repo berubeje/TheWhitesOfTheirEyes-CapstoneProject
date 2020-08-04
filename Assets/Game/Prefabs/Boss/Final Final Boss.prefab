@@ -4665,7 +4665,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3809182305978569749}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4882,7 +4882,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3809182307647405506}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -7954,12 +7954,12 @@ MonoBehaviour:
   player: {fileID: 0}
   bossStart: 1
   treeRepairInProgress: 0
-  turnTime: 2
+  turnTime: 1.6
   flinchTurnTime: 0.5
   turnAngle: 45
   attackDamage: 25
   normalAttackSpeed: 1.5
-  slowedAttackSpeed: 1
+  slowedAttackSpeed: 1.2
   leftArmAttackCollider: {fileID: 3809182307647405516}
   rightArmAttackCollider: {fileID: 3809182305978569748}
   turning: 0
