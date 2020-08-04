@@ -81,8 +81,20 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   - name: SwingWhoosh
-    clip: {fileID: 8300000, guid: 327e5bf0e82635843835ad747b59fca0, type: 3}
+    clip: {fileID: 8300000, guid: dae80f8757b77b84baa502ecc0612c91, type: 3}
     volume: 0.1
     pitch: 1.25
+    loop: 0
+    source: {fileID: 0}
+  - name: BossAttack
+    clip: {fileID: 8300000, guid: dae80f8757b77b84baa502ecc0612c91, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: BossHurt
+    clip: {fileID: 8300000, guid: fadebd0a861e2f340a9b49261347892f, type: 3}
+    volume: 1
+    pitch: 1
     loop: 0
     source: {fileID: 0}

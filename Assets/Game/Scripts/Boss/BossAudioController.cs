@@ -16,9 +16,14 @@ public class BossAudioController : MonoBehaviour
     private void StepEvent()
     {
         // Choose a random step sound and play it
-        int index = UnityEngine.Random.Range(0, stepSounds.Length);
+        int index = Random.Range(0, stepSounds.Length);
         _audioSource.clip = stepSounds[index];
 
         _audioSource.Play();
+    }
+
+    private void AttackEvent()
+    {
+        AudioManager.Instance.PlaySound("BossAttack");
     }
 }
