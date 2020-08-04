@@ -5,7 +5,7 @@ using UnityEngine;
 public class AttackColliderLogic : MonoBehaviour
 {
     private BossController _boss;
-
+    private int hitCounter = 0;
     private void Awake()
     {
         _boss = GetComponentInParent<BossController>();
@@ -18,6 +18,8 @@ public class AttackColliderLogic : MonoBehaviour
 
         if(jimController != null)
         {
+            Debug.Log(hitCounter);
+            hitCounter++;
             jimController.currentHealth -= _boss.attackDamage;
             gameObject.SetActive(false);
         }

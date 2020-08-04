@@ -16,6 +16,7 @@ public class BossIdleStateBehavior : StateMachineBehaviour
     public float secondsTillAttackCheck = 2.0f;
     public float startingAttackChance = 30.0f;
     public float attackChanceIncreaseRate = 20.0f;
+    public bool attackImmediatelyAfterTurn = false;
     public bool attackWhenPillarDisturbed = true;
     public bool treeRepairOn = false;
 
@@ -90,6 +91,10 @@ public class BossIdleStateBehavior : StateMachineBehaviour
             // Check if the boss needs to turn to face the player. If so, change to "Turn" state.
             if (_bossController.NeedToTurn(_playerTransform))
             {
+                if (attackImmediatelyAfterTurn)
+                {
+                    _currentAttackChance = 100.0f;
+                }
                 fsm.SetTrigger("Turn");
                 return;
 
