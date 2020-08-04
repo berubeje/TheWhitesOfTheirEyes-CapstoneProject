@@ -16,7 +16,9 @@ public class BossIdleStateBehavior : StateMachineBehaviour
     public float secondsTillAttackCheck = 2.0f;
     public float startingAttackChance = 30.0f;
     public float attackChanceIncreaseRate = 20.0f;
+    public bool attackImmediatelyAfterTurn = false;
     public bool attackWhenPillarDisturbed = true;
+    public bool treeRepairOn = false;
 
 
     private float _currentAttackChance;
@@ -56,35 +58,44 @@ public class BossIdleStateBehavior : StateMachineBehaviour
             }
 
             // Check to see if any trees have fallen over. If so, check to see if the boss needs to turn to it (turn state), otherwise, change to the "Fix Tree" state
-            if (_bossController.fallenTreeList.Count > 0)
+
+            if (treeRepairOn)
             {
-                if (_hook.targetAnchor == null || _hook.targetAnchor.transform.root != _bossController.fallenTreeList[0].transform.root)
+                if (_bossController.fallenTreeList.Count > 0)
                 {
-                    _bossController.treeRepairInProgress = true;
-                    if (_bossController.NeedToTurn(_bossController.fallenTreeList[0].transform))
+                    if (_hook.targetAnchor == null || _hook.targetAnchor.transform.root != _bossController.fallenTreeList[0].transform.root)
                     {
-                        fsm.SetTrigger("Turn");
+                        _bossController.treeRepairInProgress = true;
+                        if (_bossController.NeedToTurn(_bossController.fallenTreeList[0].transform))
+                        {
+                            fsm.SetTrigger("Turn");
+                        }
+                        else
+                        {
+                            fsm.SetTrigger("Fix Tree");
+                        }
+                        return;
                     }
                     else
                     {
-                        fsm.SetTrigger("Fix Tree");
+                        _bossController.treeRepairInProgress = false;
                     }
-                    return;
                 }
                 else
                 {
                     _bossController.treeRepairInProgress = false;
                 }
             }
-            else
-            {
-                _bossController.treeRepairInProgress = false;
-            }
 
 
             // Check if the boss needs to turn to face the player. If so, change to "Turn" state.
             if (_bossController.NeedToTurn(_playerTransform))
             {
+                if (attackImmediatelyAfterTurn)
+                {
+                    _currentTickTime = secondsTillAttackCheck;
+                    _currentAttackChance = 100.0f;
+                }
                 fsm.SetTrigger("Turn");
                 return;
 

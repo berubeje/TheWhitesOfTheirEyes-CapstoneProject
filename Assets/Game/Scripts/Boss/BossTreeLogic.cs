@@ -22,7 +22,14 @@ public class BossTreeLogic : MonoBehaviour
 
     private void Start()
     {
+        if(bossController == null)
+        {
+            this.enabled = false;
+        }
+
+
         _ropeAnchorPoint = GetComponent<RopeAnchorPoint>();
+
     }
     // Update is called once per frame
     void Update()
@@ -47,5 +54,6 @@ public class BossTreeLogic : MonoBehaviour
             bossController.fallenTreeList.Remove(_ropeAnchorPoint);
             _addedToList = false;
         }
+
     }
 }
