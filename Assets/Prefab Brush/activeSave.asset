@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: activeSave
   m_EditorClassIdentifier: 
   prefabList:
-  - {fileID: 35511249806384054, guid: cad8d3fbe68a27d418b0e9cedd3b1d07, type: 3}
+  - {fileID: 35511249806384054, guid: 5cee66a7b3cf8154f9bead17d62b662c, type: 3}
   paintType: 0
   brushSize: 1.52
   minBrushSize: 0.1
