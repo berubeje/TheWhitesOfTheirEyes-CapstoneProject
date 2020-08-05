@@ -14,6 +14,7 @@ using UnityEngine;
 public class BossSweepStateBehavior : StateMachineBehaviour
 {
     private Animator _animator;
+    private Animator _fsm;
     private BossController _bossController;
     private Transform _playerTransform;
     private JimController _player;
@@ -26,6 +27,7 @@ public class BossSweepStateBehavior : StateMachineBehaviour
         if (_animator == null)
         {
             _animator = fsm.transform.parent.GetComponent<Animator>();
+            _fsm = fsm;
         }
 
         if (_bossController == null)
@@ -55,17 +57,17 @@ public class BossSweepStateBehavior : StateMachineBehaviour
         {
             _animator.SetFloat("Attack Speed", _bossController.normalAttackSpeed);
         }
+
+        _bossController.flinchEvent.AddListener(Flinch);
     }
 
     public override void OnStateUpdate(Animator fsm, AnimatorStateInfo animatorStateInfo, int layerIndex)
     {
-
-
-        if (_bossController.flinch)
-        {
-            fsm.SetTrigger("Flinch");
-            return;
-        }
+        //if (_bossController.flinch)
+        //{
+        //    fsm.SetTrigger("Flinch");
+        //    return;
+        //}
 
         var state = _animator.GetCurrentAnimatorStateInfo(0);
 
@@ -85,6 +87,12 @@ public class BossSweepStateBehavior : StateMachineBehaviour
     public override void OnStateExit(Animator fsm, AnimatorStateInfo animatorStateInfo, int layerIndex)
     {
         _animationStarted = false;
+        _bossController.flinchEvent.RemoveListener(Flinch);
+    }
+
+    private void Flinch()
+    {
+        _fsm.SetTrigger("Flinch");
     }
 }
 
