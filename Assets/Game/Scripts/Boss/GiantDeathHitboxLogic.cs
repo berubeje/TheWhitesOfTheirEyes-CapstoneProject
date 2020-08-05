@@ -29,7 +29,7 @@ public class GiantDeathHitboxLogic : MonoBehaviour
             _bossController.currentBossHealth -= killPillarScript.damageDelt;
             _bossController.HitStun();
             Destroy(killPillarScript.gameObject);
-
+            AudioManager.Instance.PlaySound("PillarBreak");
             if(_bossController.currentBossHealth <=  0.0f)
             {
                 Destroy(this.gameObject);

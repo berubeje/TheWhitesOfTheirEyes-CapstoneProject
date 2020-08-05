@@ -110,3 +110,9 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: PillarBreak
+    clip: {fileID: 8300000, guid: 4238029e1b27c354db0c0e1157a1336a, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
