@@ -54,12 +54,12 @@ MonoBehaviour:
   scaleApplicationType: 0
   minScale: 1
   maxScale: 1
-  minXScale: 0.4
-  maxXScale: 0.5
-  minYScale: 0.5
-  maxYScale: 1
-  minZScale: 0.4
-  maxZScale: 0.5
+  minXScale: 1.5
+  maxXScale: 2
+  minYScale: 1.5
+  maxYScale: 2.5
+  minZScale: 1.5
+  maxZScale: 2
   parentList: []
   eraseBrushSize: 5.21
   minEraseBrushSize: 0.1
