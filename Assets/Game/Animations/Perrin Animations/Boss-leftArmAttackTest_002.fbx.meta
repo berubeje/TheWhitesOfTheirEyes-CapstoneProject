@@ -21,7 +21,8 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: Event RockTumbleEvent has a time (0.000000) outside
+      the clip's valid range (0.033333..9.000004). It will never be fired
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -59,6 +60,13 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
+      - time: 0.04272547
+        functionName: WindUpEvent
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 0.50269854
         functionName: AttackEvent
         data: 
@@ -75,6 +83,20 @@ ModelImporter:
         messageOptions: 0
       - time: 0.71739113
         functionName: DisableLeftArmEvent
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0
+        functionName: RockTumbleEvent
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.8686439
+        functionName: StepEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

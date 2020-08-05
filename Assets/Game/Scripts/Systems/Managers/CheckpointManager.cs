@@ -14,7 +14,8 @@ public class CheckpointManager : Singleton<CheckpointManager>
     public static float playerHealth;
     public static Vector3 lastCheckPointPosition;
 
-    //private Animator _jimAnimator;
+    private Animator _jimAnimator;
+
     private void Awake()
     {
         applicationClosing = false; 
@@ -45,7 +46,9 @@ public class CheckpointManager : Singleton<CheckpointManager>
         Vector3 lastCheckpointPosition = new Vector3(data.position[0], data.position[1], data.position[2]);
         jimController.transform.position = lastCheckpointPosition + new Vector3(0, 1, 0);
         jimController.currentHealth = data.health;
-        //_jimAnimator.SetBool("dead", false);
+
+        _jimAnimator = jimController.GetComponent<Animator>();
+        _jimAnimator.SetBool("dead", false);
 
     }
 

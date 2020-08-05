@@ -70,7 +70,7 @@ public class BossController : MonoBehaviour
     [HideInInspector]
     public List<RopeAnchorPoint> fallenTreeList = new List<RopeAnchorPoint>();
 
-    private float _bossHealth;
+    public float _bossHealth;
     private Quaternion _startRotation;
     private Quaternion _targetRotation;
 
@@ -215,12 +215,15 @@ public class BossController : MonoBehaviour
 
     private void OnHealthChanged(float health)
     {
+        UICanvas.Instance.ChangeBossHealthBar(health / maxHealth);
+
         //Healthbar stuff can be added here
         if (health != maxHealth && health > 0.0f)
         {
             flinch = true;
             turning = false;
             _t = 0.0f;
+            AudioManager.Instance.PlaySound("BossHurt");
         }
         else if(health <= 0.0f)
         {

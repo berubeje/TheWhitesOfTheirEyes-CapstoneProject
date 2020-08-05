@@ -69,10 +69,12 @@ public class InputManager : Singleton<InputManager>
         {
             case GameStates.Playing:
                 EnableAllControls();
+                AudioListener.pause = false;
                 break;
 
             case GameStates.Paused:
                 DisableAllControls();
+                AudioListener.pause = true;
                 break;
 
             case GameStates.Reloading:

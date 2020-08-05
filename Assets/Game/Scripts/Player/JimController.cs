@@ -24,11 +24,7 @@ public class JimController : MonoBehaviour
                 return;
             }
             _health = value;
-            if(_health == 0)
-            {
-                // Die stuff here 
-            }
-            if (OnHealthChange != null && _health != 0)
+            if (OnHealthChange != null)
             {
                 OnHealthChange(_health);
             }
@@ -96,8 +92,6 @@ public class JimController : MonoBehaviour
     {
         InputManager.Instance.jimController = this;
         CheckpointManager.Instance.jimController = this;
-
-        
 
         currentHealth = maxHealth;
         //UICanvas.Instance.ChangeHealthBar(currentHealth);
@@ -241,7 +235,11 @@ public class JimController : MonoBehaviour
 
     private void OnHealthChanged(float health)
     {
-        UICanvas.Instance.ChangeHealthBar(health);
+        UICanvas.Instance.ChangeHealthBar(health/maxHealth);
+        if(health <= 0) 
+        {
+            _jimAnimator.SetBool("dead", true);
+        }
     }
 
     // Utility function to see if the animator is in the indicated state
@@ -257,6 +255,11 @@ public class JimController : MonoBehaviour
             ropeLogic.LaunchHook();
         }
     }
+    private void GameOverEvent()
+    {
+        InputManager.Instance.currentGameState = InputManager.GameStates.GameOver;
+    }
+
     private void BlinkEvent()
     {
         _blinkLerpValue += blinkSpeed * Time.deltaTime;

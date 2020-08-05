@@ -98,3 +98,15 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: BossWindUp
+    clip: {fileID: 8300000, guid: c3bf91266f823654c81ce7a1d22462cb, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: BossRockTumble
+    clip: {fileID: 8300000, guid: a3b0b3533ad36c44e9566348549dc784, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}

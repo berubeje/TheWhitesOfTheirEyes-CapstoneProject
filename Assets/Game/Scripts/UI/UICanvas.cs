@@ -17,12 +17,15 @@ public class UICanvas : Singleton<UICanvas>
 
     [Space]
     public GameObject healthBar;
+    public RectTransform healthBarSlider;
+    
+    public GameObject bossHealthBar;
+    public RectTransform bossHealthBarSlider;
 
     [Space]
     public CinematicBars cinematicBars;
 
     private Canvas _canvas;
-    private Slider _healthSlider;
 
     [SerializeField] private InputAction _pauseAction;
 
@@ -37,8 +40,6 @@ public class UICanvas : Singleton<UICanvas>
 
         _canvas.worldCamera = Camera.main;
         _canvas.planeDistance = 0.05f;
-
-        _healthSlider = healthBar.GetComponent<Slider>();
 
         BindControls();
         InputManager.Instance.OnGameStateChange += OnGameStateChanged;
@@ -61,7 +62,6 @@ public class UICanvas : Singleton<UICanvas>
                 gameOverMenu.SetActive(false);
                 gameFinishedMenu.SetActive(false);
                 restartConfirmationMenu.SetActive(false);
-                healthBar.SetActive(true); 
                 Cursor.lockState = CursorLockMode.Locked;
                 Time.timeScale = 1;
                 break;
@@ -69,7 +69,6 @@ public class UICanvas : Singleton<UICanvas>
             case InputManager.GameStates.Paused:
                 Time.timeScale = 0;
                 pauseMenu.SetActive(true);
-                healthBar.SetActive(false);
                 Cursor.lockState = CursorLockMode.Confined;
                 break;
 
@@ -92,12 +91,15 @@ public class UICanvas : Singleton<UICanvas>
             case InputManager.GameStates.GameOver:
                 gameOverMenu.SetActive(true);
                 healthBar.SetActive(false); 
+                bossHealthBar.SetActive(false);
+                Time.timeScale = 0;
                 Cursor.lockState = CursorLockMode.Confined;
                 break;
 
             case InputManager.GameStates.GameFinished:
                 gameFinishedMenu.SetActive(true);
                 healthBar.SetActive(false);
+                bossHealthBar.SetActive(false);
                 Time.timeScale = 0;
                 Cursor.lockState = CursorLockMode.Confined;
                 break;
@@ -124,10 +126,16 @@ public class UICanvas : Singleton<UICanvas>
         Application.Quit();
     }
 
-    public void ChangeHealthBar(float newValue)
+    public void ChangeHealthBar(float normalizedHealth)
     {
-        _healthSlider.value = newValue;
+        healthBarSlider.sizeDelta = new Vector2((-1 + normalizedHealth) * 228, 0);
     }
+
+    public void ChangeBossHealthBar(float normalizedHealth)
+    {
+        bossHealthBarSlider.offsetMax = new Vector2((-1 + normalizedHealth) * 398, 0);
+    }
+
     private void OnPauseButtonDown(InputAction.CallbackContext context)
     {
         if (InputManager.Instance.currentGameState == InputManager.GameStates.Playing)

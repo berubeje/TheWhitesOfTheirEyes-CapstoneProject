@@ -11,7 +11,14 @@ public class BossStartScript : MonoBehaviour
         if(other.gameObject.GetComponent<JimController>() != null)
         {
             boss.bossStart = true;
-            Destroy(this);
+            StartCoroutine(ShowHealthBar());
         }
+    }
+
+    IEnumerator ShowHealthBar()
+    {
+        yield return new WaitForSeconds(2);
+        UICanvas.Instance.bossHealthBar.SetActive(true);
+        Destroy(this);
     }
 }
