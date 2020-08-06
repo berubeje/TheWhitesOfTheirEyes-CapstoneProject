@@ -52,7 +52,7 @@ public class BossController : MonoBehaviour
     public float lightNoiseRange; 
     public float lightLerpSpeed;
 
-    [HideInInspector]
+    [Space]
     public JimController player;
     public bool bossStart;
     public bool treeRepairInProgress = false;
@@ -133,8 +133,6 @@ public class BossController : MonoBehaviour
         {
             Debug.LogError("Boss needs look markers in the Boss Controller script to function properly.");
         }
-
-        player = InputManager.Instance.jimController;
     }
 
     private void Update()
