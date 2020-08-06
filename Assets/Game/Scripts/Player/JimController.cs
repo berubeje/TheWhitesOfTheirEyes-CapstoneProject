@@ -54,11 +54,10 @@ public class JimController : MonoBehaviour
 
     [Header("Rope Settings")]
     public PlayerGrapplingHook ropeLogic;
+    public MagicRopeProjectileLogic snakeHead;
     public RopeAnchorPoint anchor;
     public SplineRoute splineRoute;
-
-    [Header("Hook logic for animator")]
-    public PlayerGrapplingHook hook;
+   
 
     [Header("Blinking settings")]
     public SkinnedMeshRenderer skinnedMeshRenderer;
@@ -238,7 +237,7 @@ public class JimController : MonoBehaviour
         UICanvas.Instance.ChangeHealthBar(health/maxHealth);
         if(health <= 0) 
         {
-            _jimAnimator.SetBool("dead", true);
+            _jimAnimator.SetTrigger("dead");
         }
     }
 

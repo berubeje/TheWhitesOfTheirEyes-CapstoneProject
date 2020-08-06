@@ -48,7 +48,7 @@ public class CheckpointManager : Singleton<CheckpointManager>
         jimController.currentHealth = data.health;
 
         _jimAnimator = jimController.GetComponent<Animator>();
-        _jimAnimator.SetBool("dead", false);
+        _jimAnimator.Rebind();
 
     }
 
