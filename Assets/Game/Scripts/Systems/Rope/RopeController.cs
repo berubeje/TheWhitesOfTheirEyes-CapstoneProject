@@ -238,8 +238,15 @@ public class RopeController : MonoBehaviour
                 AudioManager.Instance.StopSound("RopeTension");
 
                 _currentPullTime = 0.0f;
+
+                if(_isRightTriggerInUse == false)
+                {
+                    ropeLogic.DetachHook();
+                }
             }
         }
+
+
 
     }
 }

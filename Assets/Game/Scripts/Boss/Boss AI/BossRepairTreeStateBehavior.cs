@@ -13,7 +13,10 @@ using UnityEngine;
 
 public class BossRepairTreeStateBehavior : StateMachineBehaviour
 {
+    public bool interuptRepair = false;
+
     private Animator _animator;
+    private Animator _fsm;
     private BossController _bossController;
     private bool _firstAnimationStarted;
     private bool _secondAnimationStarted;
@@ -29,6 +32,7 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
         if (_animator == null)
         {
             _animator = fsm.transform.parent.GetComponent<Animator>();
+            _fsm = fsm;
         }
 
         if (_bossController == null)
@@ -36,6 +40,7 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
             _bossController = fsm.GetComponentInParent<BossController>();
         }
 
+        _bossController.flinchEvent.AddListener(Flinch);
         _tree = _bossController.fallenTreeList[0];
         _animator.SetTrigger("Heal Start");
         _hook = _bossController.player.hook;
@@ -45,33 +50,11 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
 
     public override void OnStateUpdate(Animator fsm, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (_bossController.flinch)
-        {
-            fsm.SetTrigger("Flinch");
-            _tree.PauseRotation();
-            return;
-        }
-
-        // Check to see if point to repait animation is playing. When the animation is finished, change states.
-        //if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Point To Repair"))
+        //if (_bossController.flinch)
         //{
-        //    _animationStarted = true;
-        //}
-        //else if (_animationStarted == true)
-        //{
-        //    _animationStarted = false;
-        //    fsm.SetTrigger("Idle");
-        //}
-
-        //if (_firstAnimationStarted)
-        //{
-        //    currentTime += Time.deltaTime;
-
-        //    if(currentTime >= repairTime)
-        //    {
-        //        _animator.SetTrigger("Heal End");
-        //        currentTime = 0.0f;
-        //    }
+        //    fsm.SetTrigger("Flinch");
+        //    _tree.PauseRotation();
+        //    return;
         //}
 
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Tree Heal Start"))
@@ -105,10 +88,21 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
         }
     }
 
-    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public override void OnStateExit(Animator fsm, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _firstAnimationStarted = false;
         _secondAnimationStarted = false;
+        _bossController.flinchEvent.RemoveListener(Flinch);
+    }
+
+    private void Flinch()
+    {
+        _fsm.SetTrigger("Flinch");
+
+        if(interuptRepair)
+        {
+            _tree.PauseRotation();
+        }
     }
 
 }

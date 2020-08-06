@@ -11,6 +11,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BossController : MonoBehaviour
 {
@@ -35,6 +36,8 @@ public class BossController : MonoBehaviour
     public delegate void OnHealthChangeDelegate(float health);
     public event OnHealthChangeDelegate OnHealthChange;
 
+    public UnityEvent flinchEvent = new UnityEvent();
+
     public BossCoreLogic bossCore;
     public List<Transform> markers = new List<Transform>();
     public List<Transform> fallMarkers = new List<Transform>();
@@ -43,6 +46,7 @@ public class BossController : MonoBehaviour
     //public SweepAttackPlaceholderLogic sweepAttackPivot;
 
 
+    [HideInInspector]
     public JimController player;
     public bool bossStart;
     public bool treeRepairInProgress = false;
@@ -119,39 +123,46 @@ public class BossController : MonoBehaviour
             Debug.LogError("Boss needs look markers in the Boss Controller script to function properly.");
         }
 
+        player = InputManager.Instance.jimController;
     }
 
     private void Update()
     {
-
-        // If turning is true, turn the boss on a Quaternion Slerp.
         if (turning)
         {
-            if (flinch == false)
+            UpdateTurn();
+        }
+    }
+
+
+    // If turning is true, turn the boss on a Quaternion Slerp.
+    private void UpdateTurn()
+    {
+        if (flinch == false)
+        {
+            _t += Time.deltaTime / turnTime;
+        }
+        else
+        {
+            _t += Time.deltaTime / flinchTurnTime;
+        }
+
+        transform.rotation = Quaternion.Slerp(_startRotation, _targetRotation, _t);
+
+        if (_t >= 1.0f)
+        {
+            turning = false;
+
+            _startRotation = transform.rotation;
+            _t = 0;
+
+            if (flinch)
             {
-                _t += Time.deltaTime / turnTime;
-            }
-            else
-            {
-                _t += Time.deltaTime / flinchTurnTime;
-            }
-
-            transform.rotation = Quaternion.Slerp(_startRotation, _targetRotation, _t);
-
-            if (_t >= 1.0f)
-            {
-                turning = false;
-
-                _startRotation = transform.rotation;
-                _t = 0;
-
-                if (flinch)
-                {
-                    SnapToWaypoint();
-                }
+                SnapToWaypoint();
             }
         }
     }
+
 
     public void HitStun()
     {
@@ -224,6 +235,8 @@ public class BossController : MonoBehaviour
             turning = false;
             _t = 0.0f;
             AudioManager.Instance.PlaySound("BossHurt");
+            flinchEvent.Invoke();
+
         }
         else if(health <= 0.0f)
         {

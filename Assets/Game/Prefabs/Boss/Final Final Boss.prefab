@@ -7960,13 +7960,14 @@ MonoBehaviour:
   flinchTurnTime: 0.5
   turnAngle: 45
   attackDamage: 25
-  normalAttackSpeed: 1.5
+  normalAttackSpeed: 1.6
   slowedAttackSpeed: 1.2
   leftArmAttackCollider: {fileID: 3809182307647405516}
   rightArmAttackCollider: {fileID: 3809182305978569748}
   turning: 0
   flinch: 0
   fallenTreeList: []
+  _bossHealth: 0
 --- !u!82 &5370787161677560999
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9226,7 +9227,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7371778533532682790}
   m_LocalRotation: {x: 0.00011835007, y: -0.0000022053719, z: -0.0010854678, w: 0.9999994}
-  m_LocalPosition: {x: 0.1931351, y: 23.9, z: -1.1690359}
+  m_LocalPosition: {x: 0.01, y: 23.9, z: 2.09}
   m_LocalScale: {x: 11.1977005, y: 0.36389512, z: 11.197683}
   m_Children: []
   m_Father: {fileID: 7810124934991672726}

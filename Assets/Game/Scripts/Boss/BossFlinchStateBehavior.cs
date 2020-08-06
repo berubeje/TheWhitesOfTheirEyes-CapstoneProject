@@ -28,8 +28,7 @@ public class BossFlinchStateBehavior : StateMachineBehaviour
             _bossController = fsm.GetComponentInParent<BossController>();
         }
 
-        //_animator.SetTrigger("Front Hit Stun");
-        _animator.Play("Hit Stun", 0);
+        _animator.SetTrigger("Front Hit Stun");
     }
 
     override public void OnStateUpdate(Animator fsm, AnimatorStateInfo stateInfo, int layerIndex)

@@ -14,7 +14,7 @@ using UnityEngine;
 public class BossTreeLogic : MonoBehaviour
 {
     public BossController bossController;
-    public float alertTimer = 1.5f;
+    public float alertBossTimer = 0.5f;
 
     private bool _addedToList = false;
     private RopeAnchorPoint _ropeAnchorPoint;
@@ -41,7 +41,7 @@ public class BossTreeLogic : MonoBehaviour
             {
                 _currentAlertTime += Time.deltaTime;
 
-                if (_currentAlertTime >= alertTimer)
+                if (_currentAlertTime >= alertBossTimer)
                 {
                     _addedToList = true;
                     bossController.fallenTreeList.Add(_ropeAnchorPoint);

@@ -18,6 +18,7 @@ public class BossTurnStateBehavior : StateMachineBehaviour
     public bool treeRepairOn = false;
 
     private Animator _animator;
+    private Animator _fsm;
     private BossController _bossController;
     private Transform _playerTransform;
     private PlayerGrapplingHook _hook;
@@ -33,6 +34,7 @@ public class BossTurnStateBehavior : StateMachineBehaviour
         if (_animator == null)
         {
             _animator = fsm.transform.parent.GetComponent<Animator>();
+            _fsm = fsm;
         }
 
         if (_bossController == null)
@@ -42,6 +44,7 @@ public class BossTurnStateBehavior : StateMachineBehaviour
             _hook = _bossController.player.hook;
         }
 
+        _bossController.flinchEvent.AddListener(Flinch);
         SendTurn();
     }
 
@@ -62,12 +65,12 @@ public class BossTurnStateBehavior : StateMachineBehaviour
 
     public override void OnStateUpdate(Animator fsm, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (_bossController.flinch)
-        {
-            fsm.SetTrigger("Flinch");
-            _bossController.TurnToClosestWaypoint(_bossController.markers);
-            return;
-        }
+        //if (_bossController.flinch)
+        //{
+        //    fsm.SetTrigger("Flinch");
+        //    _bossController.TurnToClosestWaypoint(_bossController.markers);
+        //    return;
+        //}
 
         if (_finalAdjustment == false)
         {
@@ -151,7 +154,12 @@ public class BossTurnStateBehavior : StateMachineBehaviour
         _finalAdjustment = false;
         _checkProgress = false;
         _animationStarted = false;
+        _bossController.flinchEvent.RemoveListener(Flinch);
+
     }
 
-
+    private void Flinch()
+    {
+        _fsm.SetTrigger("Flinch");
+    }
 }
