@@ -46,7 +46,6 @@ public class BossController : MonoBehaviour
     //public SweepAttackPlaceholderLogic sweepAttackPivot;
 
 
-    [HideInInspector]
     public JimController player;
     public bool bossStart;
     public bool treeRepairInProgress = false;
@@ -122,8 +121,6 @@ public class BossController : MonoBehaviour
         {
             Debug.LogError("Boss needs look markers in the Boss Controller script to function properly.");
         }
-
-        player = InputManager.Instance.jimController;
     }
 
     private void Update()

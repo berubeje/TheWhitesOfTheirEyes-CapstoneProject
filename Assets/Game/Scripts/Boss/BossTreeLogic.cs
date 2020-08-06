@@ -18,6 +18,7 @@ public class BossTreeLogic : MonoBehaviour
 
     private bool _addedToList = false;
     private RopeAnchorPoint _ropeAnchorPoint;
+    private RopeAnchorPoint _swingAnchorPoint;
     private float _currentAlertTime = 0.0f;
 
     private void Start()
@@ -27,9 +28,21 @@ public class BossTreeLogic : MonoBehaviour
             this.enabled = false;
         }
 
+        RopeAnchorPoint[] anchorPoints = transform.parent.GetComponentsInChildren<RopeAnchorPoint>();
 
-        _ropeAnchorPoint = GetComponent<RopeAnchorPoint>();
+        foreach(RopeAnchorPoint anchorPoint in anchorPoints)
+        {
+            if(anchorPoint.gameObject == this.gameObject)
+            {
+                _ropeAnchorPoint = anchorPoint;
+            }
+            else
+            {
+                _swingAnchorPoint = anchorPoint;
+            }
+        }
 
+        _swingAnchorPoint.gameObject.SetActive(false);
     }
     // Update is called once per frame
     void Update()
@@ -48,11 +61,20 @@ public class BossTreeLogic : MonoBehaviour
                     _currentAlertTime = 0.0f;
                 }
             }
+
+            if(_swingAnchorPoint.gameObject.activeSelf == false)
+            {
+                _swingAnchorPoint.gameObject.SetActive(true);
+            }
         }
         else if (_ropeAnchorPoint.pullDone == false && _ropeAnchorPoint.resetting == false && _addedToList == true)
         {
             bossController.fallenTreeList.Remove(_ropeAnchorPoint);
             _addedToList = false;
+        }
+        else if(_ropeAnchorPoint.pullDone == false && _swingAnchorPoint.gameObject.activeSelf == true)
+        {
+            _swingAnchorPoint.gameObject.SetActive(false);
         }
 
     }

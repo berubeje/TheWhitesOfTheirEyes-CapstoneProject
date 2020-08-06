@@ -7937,6 +7937,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  flinchEvent:
+    m_PersistentCalls:
+      m_Calls: []
   bossCore: {fileID: 5692565190934710971}
   markers:
   - {fileID: 8119722479201738225}
