@@ -42,7 +42,7 @@ public class BossTreeLogic : MonoBehaviour
             }
         }
 
-        _swingAnchorPoint.gameObject.SetActive(false);
+        _swingAnchorPoint.AllowSwing(false);
     }
     // Update is called once per frame
     void Update()
@@ -62,9 +62,9 @@ public class BossTreeLogic : MonoBehaviour
                 }
             }
 
-            if(_swingAnchorPoint.gameObject.activeSelf == false)
+            if(_swingAnchorPoint.canAttach == false)
             {
-                _swingAnchorPoint.gameObject.SetActive(true);
+                _swingAnchorPoint.AllowSwing(true);
             }
         }
         else if (_ropeAnchorPoint.pullDone == false && _ropeAnchorPoint.resetting == false && _addedToList == true)
@@ -72,9 +72,9 @@ public class BossTreeLogic : MonoBehaviour
             bossController.fallenTreeList.Remove(_ropeAnchorPoint);
             _addedToList = false;
         }
-        else if(_ropeAnchorPoint.pullDone == false && _swingAnchorPoint.gameObject.activeSelf == true)
+        else if(_ropeAnchorPoint.pullDone == false && _swingAnchorPoint.canAttach == true)
         {
-            _swingAnchorPoint.gameObject.SetActive(false);
+            _swingAnchorPoint.AllowSwing(false);
         }
 
     }

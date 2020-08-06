@@ -152,6 +152,10 @@ public class PlayerGrapplingHook : MonoBehaviour
                 RopeReturned();
             }
 
+            if(targetAnchor.canAttach == false)
+            {
+                return;
+            }
             // Check to see if there is already a projectile. If there is, use it, otherwise create a new one.
 
             if (ropeHook != null)
@@ -242,7 +246,12 @@ public class PlayerGrapplingHook : MonoBehaviour
 
         // Set the blueprint.
         _rope.ropeBlueprint = blueprint;
-        _rope.GetComponent<MeshRenderer>().enabled = true;
+
+        if (currentRopeState != PlayerGrapplingHook.RopeState.Idle)
+        {
+            _rope.GetComponent<MeshRenderer>().enabled = true;
+        }
+       
         _ropeGenerated = true;
 
     }

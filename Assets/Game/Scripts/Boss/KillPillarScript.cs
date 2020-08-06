@@ -13,6 +13,17 @@ using UnityEngine;
 
 public class KillPillarScript : MonoBehaviour
 {
+    public GameObject crumblingPillarPrefab;
     public float damageDelt = 25.0f;
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.GetComponent<GiantDeathHitboxLogic>() != null)
+        {
+            Transform copiedTranform = this.transform;
+
+            Instantiate(crumblingPillarPrefab, copiedTranform.position, copiedTranform.rotation);
+            Destroy(this.gameObject);
+        }
+    }
 }

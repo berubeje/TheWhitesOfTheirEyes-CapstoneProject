@@ -127,6 +127,11 @@ public class RopeAnchorPoint : MonoBehaviour
         }
     }
 
+    public void AllowSwing(bool set)
+    {
+        _allowAttach = set;
+    }
+
     // Tell the pull anchor point to allow the object to start falling
     public void StartPull()
     {
@@ -166,6 +171,8 @@ public class RopeAnchorPoint : MonoBehaviour
     {
         _pulling = false;
     }
+
+
 
     // Rotate the object so it has the effect of falling or turning.
     public void RotateObject()

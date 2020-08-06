@@ -12,7 +12,6 @@ using UnityEngine;
 
 public class GiantDeathHitboxLogic : MonoBehaviour
 {
-
     private BossController _bossController;
 
     private void Awake()
@@ -28,7 +27,10 @@ public class GiantDeathHitboxLogic : MonoBehaviour
         {
             _bossController.currentBossHealth -= killPillarScript.damageDelt;
             _bossController.HitStun();
-            Destroy(killPillarScript.gameObject);
+
+            Transform pillarTransform = killPillarScript.transform;
+
+
             AudioManager.Instance.PlaySound("PillarBreak");
             if(_bossController.currentBossHealth <=  0.0f)
             {
