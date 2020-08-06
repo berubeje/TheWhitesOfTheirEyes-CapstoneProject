@@ -608,7 +608,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fallingRockObstacle: {fileID: 6078149580391922730}
-  fallingRock: {fileID: 0}
+  fallingRock: {fileID: 7287642261937660313}
 --- !u!1001 &7392066143535862372
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -689,7 +689,12 @@ PrefabInstance:
     - target: {fileID: 4006132554156119438, guid: 402489225844a6a4e9c1221460c1de76,
         type: 3}
       propertyPath: m_Name
-      value: Rock.Cube.1
+      value: FallingRock
+      objectReference: {fileID: 0}
+    - target: {fileID: 4006132554156119438, guid: 402489225844a6a4e9c1221460c1de76,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 402489225844a6a4e9c1221460c1de76, type: 3}
