@@ -21,6 +21,7 @@ public class TrapTrigger : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
+          
             fallingRock.gameObject.layer = 11;
 
             _fallingRockRigidBody.useGravity = true;

@@ -125,8 +125,8 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 138.5
-  m_Range: 30
+  m_Intensity: 171
+  m_Range: 79.5
   m_SpotAngle: 52.646206
   m_InnerSpotAngle: 0
   m_CookieSize: 10
@@ -216,7 +216,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6078149581619234170}
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: -6967837956898934408, guid: a0dbf0259ba0d294ab7ed07b3cba1203, type: 3}
 --- !u!23 &6078149581619234145
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -235,7 +235,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 99f280b432f99fd47b97dc8a67ebb279, type: 2}
+  - {fileID: 2100000, guid: 95b6e5e8a8815664fbcd3bbc69885992, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -616,6 +616,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6078149580391922773}
     m_Modifications:
+    - target: {fileID: -6166255885935082999, guid: 402489225844a6a4e9c1221460c1de76,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 127223999918532509, guid: 402489225844a6a4e9c1221460c1de76,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -695,6 +700,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4006132554156119438, guid: 402489225844a6a4e9c1221460c1de76,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4006132554156119438, guid: 402489225844a6a4e9c1221460c1de76,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 402489225844a6a4e9c1221460c1de76, type: 3}
