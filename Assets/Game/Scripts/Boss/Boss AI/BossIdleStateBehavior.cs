@@ -46,7 +46,7 @@ public class BossIdleStateBehavior : StateMachineBehaviour
             _bossController = fsm.GetComponentInParent<BossController>();
             _playerTransform = _bossController.player.transform;
             _currentAttackChance = startingAttackChance;
-            _hook = _bossController.player.hook;
+            _hook = _bossController.player.ropeLogic;
         }
 
         _bossController.flinchEvent.AddListener(Flinch);

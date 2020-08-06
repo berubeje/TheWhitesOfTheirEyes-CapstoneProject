@@ -45,6 +45,12 @@ public class BossController : MonoBehaviour
     public Transform currentMarkerTarget;
     //public SweepAttackPlaceholderLogic sweepAttackPivot;
 
+    [Header("Eye light settings")]
+    public Light leftEyeLight;
+    public Light rightEyeLight;
+    public float lightIntensityRange;
+    public float lightNoiseRange; 
+    public float lightLerpSpeed;
 
     [HideInInspector]
     public JimController player;
@@ -83,8 +89,13 @@ public class BossController : MonoBehaviour
     private Animator _fsm;
     private RopeAnchorPoint _bossCoreAnchorPoint;
 
+    private float _minLightInstensity;
+    private float _maxLightInstensity;
     private void Awake()
     {
+        _minLightInstensity = leftEyeLight.intensity;
+        _maxLightInstensity = leftEyeLight.intensity + lightIntensityRange;
+
         currentBossHealth = maxHealth;
 
         OnHealthChange += OnHealthChanged;
@@ -128,6 +139,8 @@ public class BossController : MonoBehaviour
 
     private void Update()
     {
+        LerpLightIntensity();
+
         if (turning)
         {
             UpdateTurn();
@@ -339,5 +352,13 @@ public class BossController : MonoBehaviour
     public void EnableCoreAnchorPointEvent()
     {
         _bossCoreAnchorPoint.canAttach = true;
+    }
+
+    private void LerpLightIntensity()
+    {
+        float newIntensity = Mathf.Lerp(_minLightInstensity, _maxLightInstensity, Mathf.PingPong(Time.time * lightLerpSpeed, 1));
+
+        leftEyeLight.intensity = newIntensity + UnityEngine.Random.Range(-lightNoiseRange, lightNoiseRange);
+        rightEyeLight.intensity = newIntensity + UnityEngine.Random.Range(-lightNoiseRange, lightNoiseRange);
     }
 }

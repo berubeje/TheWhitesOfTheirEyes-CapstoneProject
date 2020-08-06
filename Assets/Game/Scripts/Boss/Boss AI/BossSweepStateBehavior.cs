@@ -49,7 +49,7 @@ public class BossSweepStateBehavior : StateMachineBehaviour
             _bossController.SweepAttack(true);
         }
 
-        if(_bossController.player.hook.currentRopeState == PlayerGrapplingHook.RopeState.Swing)
+        if(_bossController.player.ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.Swing)
         {
             _animator.SetFloat("Attack Speed", _bossController.slowedAttackSpeed);
         }

@@ -43,7 +43,7 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
         _bossController.flinchEvent.AddListener(Flinch);
         _tree = _bossController.fallenTreeList[0];
         _animator.SetTrigger("Heal Start");
-        _hook = _bossController.player.hook;
+        _hook = _bossController.player.ropeLogic;
 
     }
 
