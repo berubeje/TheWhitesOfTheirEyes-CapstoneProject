@@ -24,10 +24,10 @@ public class AttackColliderLogic : MonoBehaviour
         {
             if (!jimController.IsInState(jimController._rollID))
             {
-                // Calculate which direction the player was facing when they were hit
+                //Vector3 contactPoint = collision.GetContact(0).point;
 
                 // Get the direction of the collision
-                Vector3 collisionVector = jimController.transform.position - transform.position;
+                Vector3 collisionVector = transform.position - jimController.transform.position;
                 collisionVector.y = 0;
 
                 // The sign of the y value of the cross product is the direction the player was hit
@@ -36,21 +36,21 @@ public class AttackColliderLogic : MonoBehaviour
                 // Get the angle at which the player was hit
                 float hitAngle = Vector3.Angle(jimController.transform.forward, collisionVector);
 
-                if (hitAngle <= 30)
+                if (hitAngle <= 45)
                 {
                     jimAnimator.SetFloat("hitDirectionX", 0);
-                    jimAnimator.SetFloat("hitDirectionY", -1);
+                    jimAnimator.SetFloat("hitDirectionY", 1);
                 }
-                else if (hitAngle > 30 && hitAngle <= 135)
+                else if (hitAngle > 45 && hitAngle <= 135)
                 {
                     if(hitDirection >= 0)
                     {
-                        jimAnimator.SetFloat("hitDirectionX", -1);
+                        jimAnimator.SetFloat("hitDirectionX", 1);
                         jimAnimator.SetFloat("hitDirectionY", 0);
                     }
                     else
                     {
-                        jimAnimator.SetFloat("hitDirectionX", 1);
+                        jimAnimator.SetFloat("hitDirectionX", -1);
                         jimAnimator.SetFloat("hitDirectionY", 0);
                     }
                     
@@ -58,7 +58,7 @@ public class AttackColliderLogic : MonoBehaviour
                 else if(hitAngle > 135)
                 {
                     jimAnimator.SetFloat("hitDirectionX", 0);
-                    jimAnimator.SetFloat("hitDirectionY", 1);
+                    jimAnimator.SetFloat("hitDirectionY", -1);
                 }
 
                 jimAnimator.SetTrigger("hit");

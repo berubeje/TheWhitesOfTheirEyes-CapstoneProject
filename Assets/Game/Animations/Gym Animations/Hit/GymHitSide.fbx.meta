@@ -41,8 +41,8 @@ ModelImporter:
       name: Gym-HitLeft
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 3
-      lastFrame: 36
+      firstFrame: 9
+      lastFrame: 32
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -62,21 +62,14 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.09348163
+      - time: 0.38737476
         functionName: StepEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.45151478
-        functionName: StepEvent
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.73410666
+      - time: 0.78372496
         functionName: StepEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
@@ -91,8 +84,8 @@ ModelImporter:
       name: Gym-HitRight
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 3
-      lastFrame: 36
+      firstFrame: 9
+      lastFrame: 32
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -104,7 +97,7 @@ ModelImporter:
       loopBlendOrientation: 1
       loopBlendPositionY: 1
       loopBlendPositionXZ: 0
-      keepOriginalOrientation: 1
+      keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
       heightFromFeet: 0
@@ -112,21 +105,14 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.09330272
+      - time: 0.34139434
         functionName: StepEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.4318941
-        functionName: StepEvent
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.7302004
+      - time: 0.77600193
         functionName: StepEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
