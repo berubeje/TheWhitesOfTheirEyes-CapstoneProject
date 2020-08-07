@@ -237,7 +237,7 @@ public class JimController : MonoBehaviour
         UICanvas.Instance.ChangeHealthBar(health/maxHealth);
         if(health <= 0) 
         {
-            _jimAnimator.SetTrigger("dead");
+            _jimAnimator.SetBool("dead", true);
         }
     }
 
