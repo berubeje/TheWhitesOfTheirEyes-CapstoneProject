@@ -63,6 +63,19 @@ public class AttackColliderLogic : MonoBehaviour
 
                 jimAnimator.SetTrigger("hit");
 
+                // Detach hook
+                if (jimController.ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.Pull || jimController.ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.Swing)
+                {
+                    if (jimController.isPulling == false)
+                    {
+                        jimController.ropeLogic.DetachHook();
+                    }
+                }
+                else if (jimController.ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.Launched)
+                {
+                    jimController.ropeLogic.CancelLaunch();
+                }
+
                 hitCounter++;
                 jimController.currentHealth -= _boss.attackDamage;
                 gameObject.SetActive(false);
