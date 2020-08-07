@@ -27,14 +27,6 @@ public class TargetingConeLogic : MonoBehaviour
     private void Start()
     {
         _startSize = transform.parent.localScale;
-        //_startRot = transform.eulerAngles;
-    }
-
-    private void LateUpdate()
-    {
-        //_startRot.y = transform.eulerAngles.y; // keep current rotation about Y
-        // _startRot.z = transform.eulerAngles.z; // keep current rotation about Y
-        //transform.rotation = Quaternion.Euler(_startRot); // restore original rotation with new Y
     }
 
     private void OnEnable()
@@ -137,7 +129,6 @@ public class TargetingConeLogic : MonoBehaviour
         if (_targetedAnchor != null)
         {
             float currentAnchorDistance = Vector3.Distance(player.transform.position, _targetedAnchor.transform.position);
-
 
             if (newAnchorDistance >= currentAnchorDistance)
             {

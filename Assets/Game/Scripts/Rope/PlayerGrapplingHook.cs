@@ -79,7 +79,6 @@ public class PlayerGrapplingHook : MonoBehaviour
 
     void Awake()
     {
-
         // Create both the rope and the solver.
         _rope = gameObject.AddComponent<ObiRope>();
         _ropeRenderer = gameObject.AddComponent<ObiRopeExtrudedRenderer>();
@@ -160,7 +159,7 @@ public class PlayerGrapplingHook : MonoBehaviour
 
             if (ropeHook != null)
             {
-                ropeHook.Relaunch(targetAnchor.transform);
+                ropeHook.Launch(targetAnchor.transform);
                 ropeHook.transform.position = character.transform.position;
             }
             else
@@ -256,37 +255,20 @@ public class PlayerGrapplingHook : MonoBehaviour
 
     }
 
-    // Reset the targets for the rockswing
-    private void DetachSwingRock()
-    {
-        RockSwinging r = targetAnchor.GetComponentInParent<RockSwinging>();
-        if (r != null)
-        {
-            r.currentBaseAnchor = null;
-            r.currentHeadAnchor = null;
-        }
-        baseTargetAnchor = null;
-        targetAnchor = null;
-    }
-
     // Detach the hook from the gameobject it is attatched to and bring it back.
     public void DetachHook()
     {
-
         // Bring the hook back in a swing or pull state.
         if (currentRopeState == RopeState.Swing || currentRopeState == RopeState.Pull)
         {
             ropeHook.RopeReturn(character.transform);
-            DetachSwingRock();
             _ropeReturning = true;
 
             if (currentRopeState == RopeState.Swing)
             {
                 _jimAnimator.SetTrigger("swingLand");
             }
-            currentRopeState = RopeState.Idle;
-
-            
+            currentRopeState = RopeState.Idle;   
         }
 
         targetAnchor = null;
