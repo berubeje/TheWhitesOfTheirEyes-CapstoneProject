@@ -97,23 +97,17 @@ public class RopeAnchorPoint : MonoBehaviour
             }
             else
             {
-                PullObject();
+                PullCore();
             }
         }
     }
 
-    private void PullObject()
+    private void PullCore()
     {
-        transform.parent = null;
+        BossCoreLogic core = GetComponent<BossCoreLogic>();
+        core.enabled = true;
 
-        Rigidbody rigidbody = GetComponent<Rigidbody>();
-
-        rigidbody.isKinematic = false;
-
-        rigidbody.AddRelativeForce(0, 0, 20, ForceMode.Acceleration);
-        pullDone = true;
         _allowAttach = false;
-
     }
 
     // Mainly used when loading a checkpoint, resets the anchor points so they can be pulled down again.
