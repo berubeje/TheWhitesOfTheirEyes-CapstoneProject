@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1887100366117167382}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -294.8, y: 23.4, z: 709.5}
+  m_LocalPosition: {x: -294.8, y: 34.15, z: 709.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2497315751013962598}
@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 2497315751013962598}
   - component: {fileID: 6661883408997070093}
   - component: {fileID: 6041174454444485375}
+  - component: {fileID: 4278349788853215592}
   m_Layer: 0
   m_Name: Pillar.Top
   m_TagString: Untagged
@@ -58,8 +59,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4892349250322610818}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0.39999962, y: 27.68, z: -0.4999981}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: 0.3999939, y: 16.93, z: -0.5}
   m_LocalScale: {x: 306.0001, y: 306.0001, z: 306.0001}
   m_Children: []
   m_Father: {fileID: 3200663024255537925}
@@ -112,6 +113,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &4278349788853215592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4892349250322610818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba973c24918eafc4eabf91b1560a22bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeTillDestroy: 3
 --- !u!1 &6887334020171928476
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,6 +137,7 @@ GameObject:
   - component: {fileID: 8199102891738161751}
   - component: {fileID: 3586205205080028947}
   - component: {fileID: 8107369604011609805}
+  - component: {fileID: 6540129708013182333}
   m_Layer: 0
   m_Name: Pillar.Bottom
   m_TagString: Untagged
@@ -137,8 +152,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6887334020171928476}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0.39999998, y: 11.7, z: -0.5}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: 0.3999939, y: 0.94999695, z: -0.5}
   m_LocalScale: {x: 306.00003, y: 306.00003, z: 306.00003}
   m_Children: []
   m_Father: {fileID: 3200663024255537925}
@@ -191,6 +206,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &6540129708013182333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6887334020171928476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba973c24918eafc4eabf91b1560a22bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeTillDestroy: 3
 --- !u!1 &8264441998236613163
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,6 +230,7 @@ GameObject:
   - component: {fileID: 5994395969946236458}
   - component: {fileID: 877740008125796382}
   - component: {fileID: 8938255256008029503}
+  - component: {fileID: 4216484779087265096}
   m_Layer: 0
   m_Name: Pillar.Mid
   m_TagString: Untagged
@@ -216,8 +245,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8264441998236613163}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0.39999962, y: 27.46, z: -0.4999981}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: 0.3999939, y: 16.71, z: -0.5}
   m_LocalScale: {x: 306.0001, y: 306.0001, z: 306.0001}
   m_Children: []
   m_Father: {fileID: 3200663024255537925}
@@ -270,3 +299,16 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &4216484779087265096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8264441998236613163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba973c24918eafc4eabf91b1560a22bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeTillDestroy: 3
