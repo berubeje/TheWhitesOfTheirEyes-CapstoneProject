@@ -11,6 +11,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody))]
 public class RopeAnchorPoint : MonoBehaviour
@@ -54,6 +55,9 @@ public class RopeAnchorPoint : MonoBehaviour
 
     [Header("If Boss Core")]
     public bool isBossCore;
+
+
+    public UnityEvent pullStartEvent = new UnityEvent();
 
     private MeshRenderer _meshRenderer;
 
@@ -147,6 +151,7 @@ public class RopeAnchorPoint : MonoBehaviour
 
         _targetAngle = Quaternion.Euler(_targetTransform.rotation.eulerAngles + angleOfPull);
 
+        pullStartEvent.Invoke();
         //GetComponentInParent<FallingPillarObstacle>().isTriggered = true;
     }
 
