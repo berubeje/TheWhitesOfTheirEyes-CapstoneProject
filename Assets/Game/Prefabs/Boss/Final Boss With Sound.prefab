@@ -4679,6 +4679,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92df1d7fe27e855408867c71c9dd2111, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bossTransform: {fileID: 0}
 --- !u!54 &8517072244301898630
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7203,6 +7204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92df1d7fe27e855408867c71c9dd2111, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bossTransform: {fileID: 0}
 --- !u!54 &8517072244725266593
 Rigidbody:
   m_ObjectHideFlags: 0

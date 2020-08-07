@@ -8,6 +8,7 @@ public class AttackColliderLogic : MonoBehaviour
 
     private BossController _boss;
     private int hitCounter = 0;
+
     private void Awake()
     {
         _boss = GetComponentInParent<BossController>();
@@ -17,18 +18,51 @@ public class AttackColliderLogic : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         JimController jimController = collision.gameObject.GetComponent<JimController>();
-        Animator animator = collision.gameObject.GetComponent<Animator>();
+        Animator jimAnimator = collision.gameObject.GetComponent<Animator>();
 
-        if(jimController != null && animator != null)
+        if(jimController != null && jimAnimator != null)
         {
             if (!jimController.IsInState(jimController._rollID))
             {
                 // Calculate which direction the player was facing when they were hit
-                Debug.Log(Vector3.Angle(jimController.transform.forward, bossTransform.forward));
-                Debug.Log(Vector3.Cross(jimController.transform.forward, bossTransform.forward));
-                
-                //animator.SetTrigger("hit");
-                //Debug.Log(hitCounter);
+
+                // Get the direction of the collision
+                Vector3 collisionVector = jimController.transform.position - transform.position;
+                collisionVector.y = 0;
+
+                // The sign of the y value of the cross product is the direction the player was hit
+                float hitDirection = Vector3.Cross(jimController.transform.forward, collisionVector).y;
+
+                // Get the angle at which the player was hit
+                float hitAngle = Vector3.Angle(jimController.transform.forward, collisionVector);
+
+                if (hitAngle <= 30)
+                {
+                    jimAnimator.SetFloat("hitDirectionX", 0);
+                    jimAnimator.SetFloat("hitDirectionY", -1);
+                }
+                else if (hitAngle > 30 && hitAngle <= 135)
+                {
+                    if(hitDirection >= 0)
+                    {
+                        jimAnimator.SetFloat("hitDirectionX", -1);
+                        jimAnimator.SetFloat("hitDirectionY", 0);
+                    }
+                    else
+                    {
+                        jimAnimator.SetFloat("hitDirectionX", 1);
+                        jimAnimator.SetFloat("hitDirectionY", 0);
+                    }
+                    
+                }
+                else if(hitAngle > 135)
+                {
+                    jimAnimator.SetFloat("hitDirectionX", 0);
+                    jimAnimator.SetFloat("hitDirectionY", 1);
+                }
+
+                jimAnimator.SetTrigger("hit");
+
                 hitCounter++;
                 jimController.currentHealth -= _boss.attackDamage;
                 gameObject.SetActive(false);
