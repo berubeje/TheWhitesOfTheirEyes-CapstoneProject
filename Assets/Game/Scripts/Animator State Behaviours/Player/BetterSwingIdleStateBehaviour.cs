@@ -64,12 +64,12 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         // Reset all triggers for sanity
-        animator.ResetTrigger("swingStart");
-        animator.ResetTrigger("swingIdle");
-        animator.ResetTrigger("swingLand");
-        animator.ResetTrigger("swingCancel");
-        animator.ResetTrigger("fallLand");
-        animator.ResetTrigger("dodgeRoll");
+        //animator.ResetTrigger("swingStart");
+        //animator.ResetTrigger("swingIdle");
+        //animator.ResetTrigger("swingLand");
+        //animator.ResetTrigger("swingCancel");
+        //animator.ResetTrigger("fallLand");
+        //animator.ResetTrigger("dodgeRoll");
 
         _grapplingHook = animator.GetComponentInChildren<PlayerGrapplingHook>();
         _rigidbody = animator.GetComponent<Rigidbody>();
@@ -130,9 +130,12 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         // Vectors from the anchor point to the swing limits
         _backwardLimitVector = _backwardSwingLimit - _anchor.position; 
         _forwardLimitVector = _forwardSwingLimit - _anchor.position;
-        _interpolant = 0;
 
-        _currentSlerpStart = animator.transform.position - _anchor.position;
+        // Calculate the interpolant we're starting at
+        float angle = Vector3.Angle(_backwardLimitVector, animator.transform.position - _anchor.position);
+        _interpolant = angle/(swingArcLimit * 2);
+
+        _currentSlerpStart = _backwardLimitVector;
         _currentSlerpEnd = _forwardLimitVector;
         _swingStartVector = _backwardLimitVector;
 
@@ -200,13 +203,6 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
                 _direction = -1;
                 animator.SetFloat("swingDirectionRaw", _direction);
                 animator.SetBool("canRoll", false);
-
-                if (!_firstSwingComplete)
-                {
-                    _currentSlerpStart = _backwardLimitVector;
-                    _currentSlerpEnd = _forwardLimitVector;
-                    _firstSwingComplete = true;
-                }
                 _swingStartVector = _forwardLimitVector;
             }
             else if(_interpolant <= 0)
@@ -307,10 +303,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         // Create new forward vector 
         _swingForward = _forwardSwingRotation.normalized;
 
-        if (_firstSwingComplete)
-        {
-            _currentSlerpStart = _backwardLimitVector;
-        }
+        _currentSlerpStart = _backwardLimitVector;
         _currentSlerpEnd = _forwardLimitVector;
     }
 }

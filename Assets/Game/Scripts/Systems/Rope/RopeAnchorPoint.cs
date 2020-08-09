@@ -137,7 +137,7 @@ public class RopeAnchorPoint : MonoBehaviour
         {
             canAttach = false;
         }
-
+        AudioManager.Instance.PlaySound("TreeFall");
         _startRotation = _targetTransform.rotation;
 
         _pulling = true;

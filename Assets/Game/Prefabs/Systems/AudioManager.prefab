@@ -116,3 +116,15 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: TreeFall
+    clip: {fileID: 8300000, guid: 5f7a52597e9def74786e95694cca1519, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: TreeRepair
+    clip: {fileID: 8300000, guid: 4c86a1264227c6c408097a606d2834b2, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}

@@ -45,6 +45,7 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
         _animator.SetTrigger("Heal Start");
         _hook = _bossController.player.ropeLogic;
 
+        AudioManager.Instance.PlaySound("TreeRepair");
     }
 
 
@@ -67,6 +68,7 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
                 }
 
                 _firstAnimationStarted = true;
+
             }
         }
         else if (_firstAnimationStarted == true)
