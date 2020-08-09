@@ -1830,13 +1830,16 @@ MonoBehaviour:
   swingCamera: {fileID: 0}
   swingCameraTrack: {fileID: 0}
   ropeLogic: {fileID: 1373180869222125525}
+  snakeHead: {fileID: 0}
   anchor: {fileID: 0}
   splineRoute: {fileID: 0}
-  hook: {fileID: 1373180869222125525}
   skinnedMeshRenderer: {fileID: 3297830859128472640}
   blinkRate: 2.5
   blinkSpeed: 8
   blinkAngleThreshold: 15
+  _locomotionID: 0
+  _idleID: 0
+  _rollID: 0
 --- !u!114 &7295585070876113793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2225,7 +2228,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6464649461230100075}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: -0.00012207036, y: 1, z: 0.00024414062}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5462374545414021785}
