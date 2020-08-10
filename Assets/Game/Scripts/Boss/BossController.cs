@@ -219,19 +219,15 @@ public class BossController : MonoBehaviour
     // Trigger the animation based on the bool passed in.
     public void SweepAttack(bool rightArmAttack)
     {
-        //sweepAttackPivot.gameObject.SetActive(true);
-
         if (rightArmAttack)
         {
             _animator.SetTrigger("Right Swipe");
             rightArmAttackCollider.gameObject.SetActive(true);
-            //sweepAttackPivot.StartAttack(true);
         }
         else
         {
             _animator.SetTrigger("Left Swipe");
             leftArmAttackCollider.gameObject.SetActive(true);
-            //sweepAttackPivot.StartAttack(false);
         }
     }
 
@@ -239,7 +235,6 @@ public class BossController : MonoBehaviour
     {
         UICanvas.Instance.ChangeBossHealthBar(health / maxHealth);
 
-        //Healthbar stuff can be added here
         if (health != maxHealth && health > 0.0f)
         {
             flinch = true;
@@ -289,17 +284,6 @@ public class BossController : MonoBehaviour
             }
         }
 
-        //Vector3 relativePosition = transform.InverseTransformPoint(result.position);
-
-        //if (relativePosition.x > 0f)
-        //{
-        //    Turn(true, currentResultValue);
-        //}
-        //else
-        //{
-        //    Turn(false, currentResultValue);
-        //}
-
         _startRotation = transform.rotation;
         currentMarkerTarget = result;
 
@@ -309,7 +293,6 @@ public class BossController : MonoBehaviour
         _targetRotation.x = 0;
         _targetRotation.z = 0;
         turning = true;
-
     }
 
 

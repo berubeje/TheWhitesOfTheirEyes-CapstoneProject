@@ -14,29 +14,30 @@ using UnityEngine;
 public class BossCoreLogic : MonoBehaviour
 {
     public float secondsTillCredits = 3.0f;
+    public Vector3 impulseForce = new Vector3(0, 0, 10);
 
     private float currentTime = 0.0f;
-    private RopeAnchorPoint ropeAnchorPoint;
 
-
-    // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
-        ropeAnchorPoint = GetComponent<RopeAnchorPoint>();
+        transform.parent = null;
+
+        Rigidbody rigidbody = GetComponent<Rigidbody>();
+
+        rigidbody.isKinematic = false;
+
+        rigidbody.AddRelativeForce(impulseForce, ForceMode.Impulse);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(ropeAnchorPoint.pullDone)
-        {
-            currentTime += Time.deltaTime;
+        currentTime += Time.deltaTime;
 
-            if(currentTime >= secondsTillCredits)
-            {
-                InputManager.Instance.currentGameState = InputManager.GameStates.GameFinished;
-                this.enabled = false;
-            }
+        if (currentTime >= secondsTillCredits)
+        {
+            InputManager.Instance.currentGameState = InputManager.GameStates.GameFinished;
+            this.enabled = false;
         }
     }
 }

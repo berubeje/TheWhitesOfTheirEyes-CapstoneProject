@@ -7,7 +7,6 @@ public class AttackColliderLogic : MonoBehaviour
     public Transform bossTransform;
 
     private BossController _boss;
-    private int hitCounter = 0;
 
     private void Awake()
     {
@@ -76,7 +75,6 @@ public class AttackColliderLogic : MonoBehaviour
                     jimController.ropeLogic.CancelLaunch();
                 }
 
-                hitCounter++;
                 jimController.currentHealth -= _boss.attackDamage;
                 gameObject.SetActive(false);
             }

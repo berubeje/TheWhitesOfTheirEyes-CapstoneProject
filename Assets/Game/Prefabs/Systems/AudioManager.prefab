@@ -81,7 +81,7 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   - name: SwingWhoosh
-    clip: {fileID: 8300000, guid: dae80f8757b77b84baa502ecc0612c91, type: 3}
+    clip: {fileID: 8300000, guid: 327e5bf0e82635843835ad747b59fca0, type: 3}
     volume: 0.1
     pitch: 1.25
     loop: 0
@@ -106,13 +106,31 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: BossRockTumble
     clip: {fileID: 8300000, guid: a3b0b3533ad36c44e9566348549dc784, type: 3}
-    volume: 1
+    volume: 0.5
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: PillarBreak
     clip: {fileID: 8300000, guid: 4238029e1b27c354db0c0e1157a1336a, type: 3}
     volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: TreeFall
+    clip: {fileID: 8300000, guid: 5f7a52597e9def74786e95694cca1519, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: TreeRepair
+    clip: {fileID: 8300000, guid: 4c86a1264227c6c408097a606d2834b2, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: PillarFall
+    clip: {fileID: 8300000, guid: 00166a541ccd2db45a6ec2695865325c, type: 3}
+    volume: 0.25
     pitch: 1
     loop: 0
     source: {fileID: 0}

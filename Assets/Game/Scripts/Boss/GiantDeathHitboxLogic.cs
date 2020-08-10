@@ -30,7 +30,6 @@ public class GiantDeathHitboxLogic : MonoBehaviour
 
             Transform pillarTransform = killPillarScript.transform;
 
-
             AudioManager.Instance.PlaySound("PillarBreak");
             if(_bossController.currentBossHealth <=  0.0f)
             {

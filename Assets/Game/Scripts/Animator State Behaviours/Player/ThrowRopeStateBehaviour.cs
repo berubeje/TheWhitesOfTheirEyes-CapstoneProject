@@ -17,16 +17,4 @@ public class ThrowRopeStateBehaviour : StateMachineBehaviour
         animator.ResetTrigger("swingLand");
         animator.ResetTrigger("swingStart");
     }
-
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        //if(_jimController.anchor.anchorType == RopeAnchorPoint.AnchorType.Swing)
-        //{
-        //    animator.SetTrigger("swingStart");
-        //}
-    }
-
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-    }
 }

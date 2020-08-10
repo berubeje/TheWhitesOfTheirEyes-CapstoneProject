@@ -17,7 +17,7 @@ public class BossStartScript : MonoBehaviour
 
     IEnumerator ShowHealthBar()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(13);
         UICanvas.Instance.bossHealthBar.SetActive(true);
         Destroy(this);
     }

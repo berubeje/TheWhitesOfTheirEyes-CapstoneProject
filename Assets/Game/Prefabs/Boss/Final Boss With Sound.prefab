@@ -2158,12 +2158,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8517072243905072573}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5056a0d7c88fe747a9baa08a1f28f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   secondsTillCredits: 3
+  impulseForce: {x: 0, y: 0, z: 10}
 --- !u!135 &8517072243905072569
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2171,7 +2172,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8517072243905072573}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 5b9b8af096f5d1e4b858b23296415c9e, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -2186,12 +2187,12 @@ Rigidbody:
   m_GameObject: {fileID: 8517072243905072573}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 1
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &8517072243905072571
 MonoBehaviour:
@@ -2214,6 +2215,9 @@ MonoBehaviour:
   angleOfPull: {x: 0, y: 0, z: 0}
   pivot: {fileID: 0}
   isBossCore: 1
+  pullStartEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8517072243905237743
 GameObject:
   m_ObjectHideFlags: 0
@@ -5859,13 +5863,13 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 2
+  m_Intensity: 5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -5898,7 +5902,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -8676,13 +8680,13 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 2
+  m_Intensity: 5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -8715,7 +8719,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -10995,7 +10999,7 @@ MonoBehaviour:
   lightNoiseRange: 0.1
   lightLerpSpeed: 1.5
   player: {fileID: 0}
-  bossStart: 0
+  bossStart: 1
   treeRepairInProgress: 0
   turnTime: 1.6
   flinchTurnTime: 0.5

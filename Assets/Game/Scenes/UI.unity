@@ -431,9 +431,9 @@ MonoBehaviour:
     scenePath: Assets/Game/Scenes/Title Screen.unity
     sceneName: Title Screen
   sceneToUnload:
-    sceneAsset: {fileID: 0}
-    scenePath: 
-    sceneName: 
+    sceneAsset: {fileID: 102900000, guid: 439775296220f3b438ea0bb8a21b5635, type: 3}
+    scenePath: Assets/Game/Scenes/Beta Build (Rishi).unity
+    sceneName: Beta Build (Rishi)
 --- !u!1 &126313805
 GameObject:
   m_ObjectHideFlags: 0
@@ -3685,9 +3685,9 @@ MonoBehaviour:
   startMenuState: 1
   resetPosition: 1
   sceneToLoad:
-    sceneAsset: {fileID: 0}
-    scenePath: 
-    sceneName: 
+    sceneAsset: {fileID: 102900000, guid: 439775296220f3b438ea0bb8a21b5635, type: 3}
+    scenePath: Assets/Game/Scenes/Beta Build (Rishi).unity
+    sceneName: Beta Build (Rishi)
   sceneToUnload:
     sceneAsset: {fileID: 102900000, guid: 35a97c96da98e8645b2ad1e0dc168efa, type: 3}
     scenePath: Assets/Game/Scenes/Title Screen.unity
@@ -5537,6 +5537,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1160653689}
   - component: {fileID: 1160653691}
+  - component: {fileID: 1160653692}
   - component: {fileID: 1160653690}
   m_Layer: 5
   m_Name: BossHealthBar
@@ -5544,7 +5545,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1160653689
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5601,6 +5602,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1160653688}
   m_CullTransparentMesh: 0
+--- !u!114 &1160653692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160653688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a34e88e121ed104699cf37cf9ec03b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boss: {fileID: 0}
+  healthAnimationSpeed: 0.25
 --- !u!1 &1182081523
 GameObject:
   m_ObjectHideFlags: 0
@@ -7536,9 +7551,9 @@ MonoBehaviour:
     scenePath: Assets/Game/Scenes/Title Screen.unity
     sceneName: Title Screen
   sceneToUnload:
-    sceneAsset: {fileID: 0}
-    scenePath: 
-    sceneName: 
+    sceneAsset: {fileID: 102900000, guid: 439775296220f3b438ea0bb8a21b5635, type: 3}
+    scenePath: Assets/Game/Scenes/Beta Build (Rishi).unity
+    sceneName: Beta Build (Rishi)
 --- !u!1 &1506610125
 GameObject:
   m_ObjectHideFlags: 0
@@ -11098,13 +11113,13 @@ MonoBehaviour:
   startMenuState: 1
   resetPosition: 1
   sceneToLoad:
-    sceneAsset: {fileID: 0}
-    scenePath: 
-    sceneName: 
+    sceneAsset: {fileID: 102900000, guid: 439775296220f3b438ea0bb8a21b5635, type: 3}
+    scenePath: Assets/Game/Scenes/Beta Build (Rishi).unity
+    sceneName: Beta Build (Rishi)
   sceneToUnload:
-    sceneAsset: {fileID: 0}
-    scenePath: 
-    sceneName: 
+    sceneAsset: {fileID: 102900000, guid: 439775296220f3b438ea0bb8a21b5635, type: 3}
+    scenePath: Assets/Game/Scenes/Beta Build (Rishi).unity
+    sceneName: Beta Build (Rishi)
 --- !u!1 &2138790654
 GameObject:
   m_ObjectHideFlags: 0

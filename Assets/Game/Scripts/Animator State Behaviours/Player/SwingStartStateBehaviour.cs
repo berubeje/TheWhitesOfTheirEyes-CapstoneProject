@@ -89,11 +89,11 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
         Debug.DrawRay(_initialPosition, _lookDirection, Color.red);
         if (!animator.GetAnimatorTransitionInfo(0).IsName("SwingStart -> SwingIdle"))
         {
-            Vector3 targetPosition = Vector3.Lerp(_initialPosition, _reelLocation, _interpolant);
+            Vector3 targetPosition = Vector3.Lerp(_initialPosition, _reelLocation, _interpolant) - animator.transform.position;
             Quaternion targetRotation = Quaternion.Lerp(_initialRotation, _lookRotation, _interpolant);
 
-            _rigidbody.MovePosition(targetPosition);
-            _rigidbody.MoveRotation(targetRotation);
+            animator.transform.Translate(targetPosition, Space.World);
+            animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, targetRotation, _jimController.rotationSpeed);
 
             if (_interpolant >= 1.0f)
             {

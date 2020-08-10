@@ -76,6 +76,20 @@ public class MagicRopeProjectileLogic : MonoBehaviour
     }
 
     // Tell the rope to start returning to the base of the rope.
+
+
+    // Launch the projectile at a target.
+    public void Launch(Transform targetTransform)
+    {
+        transform.parent = null;
+        transform.localScale = Vector3.one;
+        transform.LookAt(targetTransform);
+        _targetTransform = targetTransform;
+        _returning = false;
+        _targetReached = false;
+    }
+
+    // This is for the rope base to come back to the player's hand.
     public void RopeReturn(Transform ropeBase)
     {
         transform.parent = null;
@@ -88,34 +102,6 @@ public class MagicRopeProjectileLogic : MonoBehaviour
         _targetTransform = ropeBase;
         _targetReached = false;
         _returning = true;
-    }
-
-    // Launch the projectile at a target.
-    public void Relaunch(Transform targetTransform)
-    {
-        transform.parent = null;
-        transform.localScale = Vector3.one;
-        transform.LookAt(targetTransform);
-        _targetTransform = targetTransform;
-        _returning = false;
-        _targetReached = false;
-    }
-
-    // This is for the rope base to come back to the player's hand after a tie action.
-    public void RopeReturn()
-    {
-        transform.LookAt(_targetTransform);
-        _targetTransform = ropeBaseReturnTransform;
-        _targetReached = false;
-        _returning = true;
-    }
-
-    public void InstantReturn()
-    {
-        transform.parent = null;
-        transform.position = ropeBaseReturnTransform.position;
-        _targetReached = true;
-        _returning = false;
     }
 
     // Setup the magic projectile to have a reference to the grappling hook.
