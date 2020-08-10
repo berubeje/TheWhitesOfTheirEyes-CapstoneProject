@@ -56,6 +56,7 @@ public class BossController : MonoBehaviour
     public JimController player;
     public bool bossStart;
     public bool treeRepairInProgress = false;
+    public GameObject bossHealParticleEffect;
 
 
     [Header("Turn Parameters")]
@@ -78,7 +79,7 @@ public class BossController : MonoBehaviour
     public bool flinch = false;
 
     [HideInInspector]
-    public List<RopeAnchorPoint> fallenTreeList = new List<RopeAnchorPoint>();
+    public List<BossTreeLogic> fallenTreeList = new List<BossTreeLogic>();
 
     public float _bossHealth;
     private Quaternion _startRotation;
@@ -333,6 +334,18 @@ public class BossController : MonoBehaviour
     public void EnableCoreAnchorPointEvent()
     {
         _bossCoreAnchorPoint.canAttach = true;
+    }
+
+    public void ToggleHealParticles(bool set)
+    {
+        if (bossHealParticleEffect != null)
+        {
+            bossHealParticleEffect.SetActive(set);
+        }
+        else
+        {
+            Debug.LogError("Gameobject missing from " + this.name + " in " + this.gameObject.name);
+        }
     }
 
     private void LerpLightIntensity()
