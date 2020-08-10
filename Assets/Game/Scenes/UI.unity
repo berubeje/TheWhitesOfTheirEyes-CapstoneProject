@@ -431,7 +431,7 @@ MonoBehaviour:
     scenePath: Assets/Game/Scenes/Title Screen.unity
     sceneName: Title Screen
   sceneToUnload:
-    sceneAsset: {fileID: 102900000, guid: 439775296220f3b438ea0bb8a21b5635, type: 3}
+    sceneAsset: {fileID: 102900000, guid: f246bc446497ce24d89187d361f80bbd, type: 3}
     scenePath: Assets/Game/Scenes/Beta Build (Rishi).unity
     sceneName: Beta Build (Rishi)
 --- !u!1 &126313805
@@ -3685,7 +3685,7 @@ MonoBehaviour:
   startMenuState: 1
   resetPosition: 1
   sceneToLoad:
-    sceneAsset: {fileID: 102900000, guid: 439775296220f3b438ea0bb8a21b5635, type: 3}
+    sceneAsset: {fileID: 102900000, guid: f246bc446497ce24d89187d361f80bbd, type: 3}
     scenePath: Assets/Game/Scenes/Beta Build (Rishi).unity
     sceneName: Beta Build (Rishi)
   sceneToUnload:
@@ -5545,7 +5545,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1160653689
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5615,7 +5615,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boss: {fileID: 0}
-  healthAnimationSpeed: 0.25
+  healthAnimationSpeed: 0.5
 --- !u!1 &1182081523
 GameObject:
   m_ObjectHideFlags: 0
@@ -7551,7 +7551,7 @@ MonoBehaviour:
     scenePath: Assets/Game/Scenes/Title Screen.unity
     sceneName: Title Screen
   sceneToUnload:
-    sceneAsset: {fileID: 102900000, guid: 439775296220f3b438ea0bb8a21b5635, type: 3}
+    sceneAsset: {fileID: 102900000, guid: f246bc446497ce24d89187d361f80bbd, type: 3}
     scenePath: Assets/Game/Scenes/Beta Build (Rishi).unity
     sceneName: Beta Build (Rishi)
 --- !u!1 &1506610125
@@ -11113,11 +11113,11 @@ MonoBehaviour:
   startMenuState: 1
   resetPosition: 1
   sceneToLoad:
-    sceneAsset: {fileID: 102900000, guid: 439775296220f3b438ea0bb8a21b5635, type: 3}
+    sceneAsset: {fileID: 102900000, guid: f246bc446497ce24d89187d361f80bbd, type: 3}
     scenePath: Assets/Game/Scenes/Beta Build (Rishi).unity
     sceneName: Beta Build (Rishi)
   sceneToUnload:
-    sceneAsset: {fileID: 102900000, guid: 439775296220f3b438ea0bb8a21b5635, type: 3}
+    sceneAsset: {fileID: 102900000, guid: f246bc446497ce24d89187d361f80bbd, type: 3}
     scenePath: Assets/Game/Scenes/Beta Build (Rishi).unity
     sceneName: Beta Build (Rishi)
 --- !u!1 &2138790654
