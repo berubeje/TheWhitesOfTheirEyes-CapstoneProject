@@ -166,10 +166,12 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
             // Calculate the right direction of the swing 
             Vector3 swingRight = Vector3.Cross(_swingCenterAxis, _backwardSwingRotation).normalized;
 
+            // Cross product of the direction of the anchor point with the swing right gives us the direction we want to face
+            Quaternion targetRotation = Quaternion.LookRotation(Vector3.Cross(_pendulumArm, swingRight));
+
             // Move and rotate the player
-            //_rigidbody.MovePosition(_anchor.position + targetVector);
             animator.transform.Translate(((_anchor.position + targetVector) - animator.transform.position), Space.World);
-            _rigidbody.MoveRotation(Quaternion.LookRotation(Vector3.Cross(_pendulumArm, swingRight)));
+            animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, targetRotation, _jimController.rotationSpeed);
 
             // Calculate the release direction based on where we are in the swing arc 
             _releaseDirection = Vector3.Cross(_pendulumArm, swingRight * _direction).normalized * releaseDirectionMagnitude;
