@@ -106,7 +106,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: BossRockTumble
     clip: {fileID: 8300000, guid: a3b0b3533ad36c44e9566348549dc784, type: 3}
-    volume: 1
+    volume: 0.5
     pitch: 1
     loop: 0
     source: {fileID: 0}
@@ -130,7 +130,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: PillarFall
     clip: {fileID: 8300000, guid: 00166a541ccd2db45a6ec2695865325c, type: 3}
-    volume: 0.5
+    volume: 0.25
     pitch: 1
     loop: 0
     source: {fileID: 0}

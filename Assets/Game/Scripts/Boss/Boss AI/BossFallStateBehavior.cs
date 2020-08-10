@@ -29,6 +29,7 @@ public class BossFallStateBehavior : StateMachineBehaviour
         }
 
         _animator.SetBool("Fall", true);
+        AudioManager.Instance.PlaySound("BossDie");
         fsm.SetBool("Fall", false);
         _bossController.TurnToClosestWaypoint(_bossController.fallMarkers);
     }
