@@ -10,6 +10,8 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class JimController : MonoBehaviour
 {
+    public BossController boss;
+
     public float maxHealth;
     private float _health;
 

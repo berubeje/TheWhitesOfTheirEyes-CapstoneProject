@@ -36,15 +36,12 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
     private JimController _jimController;
     private CinemachineTrackedDolly _dollyCamera;
 
-    private Vector3 _initialSwingPosition;
     private Vector3 _swingForward;
     private Vector3 _releaseDirection;
     private Vector3 _backwardSwingLimit;
     private Vector3 _forwardSwingLimit;
     private Vector3 _backwardLimitVector;
     private Vector3 _forwardLimitVector;
-    private Vector3 _currentSlerpStart;
-    private Vector3 _currentSlerpEnd;
     private Vector3 _pendulumArm;
     private Vector3 _swingStartVector;
 
@@ -53,7 +50,6 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
     private Vector3 _swingCenterAxis;
     private Vector3 _forwardSwingRotation;
     private Vector3 _backwardSwingRotation;
-    private bool _firstSwingComplete;
 
     private float _percentOfSwing;
     private float _speedMultiplier;
@@ -64,12 +60,13 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         // Reset all triggers for sanity
-        animator.ResetTrigger("swingStart");
-        animator.ResetTrigger("swingIdle");
-        animator.ResetTrigger("swingLand");
-        animator.ResetTrigger("swingCancel");
-        animator.ResetTrigger("fallLand");
-        animator.ResetTrigger("dodgeRoll");
+        //animator.ResetTrigger("swingStart");
+        //animator.ResetTrigger("swingIdle");
+        //animator.ResetTrigger("swingLand");
+        //animator.ResetTrigger("swingCancel");
+        //animator.ResetTrigger("fallLand");
+        animator.ResetTrigger("fallIdle");
+        //animator.ResetTrigger("dodgeRoll");
 
         _grapplingHook = animator.GetComponentInChildren<PlayerGrapplingHook>();
         _rigidbody = animator.GetComponent<Rigidbody>();
@@ -91,9 +88,6 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         }
         _dollyCamera = _jimController.swingCamera.GetCinemachineComponent<CinemachineTrackedDolly>();
 
-        // Cache initial position
-        _initialSwingPosition = animator.transform.position;
-
         // Get reference to current anchor point
         _anchor = _grapplingHook.targetAnchor.transform;
 
@@ -105,7 +99,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         float yLimit = Mathf.Cos(swingArcLimit * Mathf.Deg2Rad) * swingRadius;
 
         // Create forward vector because player is rotated
-        _swingForward = _anchor.position - _initialSwingPosition;
+        _swingForward = _anchor.position - animator.transform.position;
         _swingForward.y = 0;
         _swingForward = _swingForward.normalized;
 
@@ -130,13 +124,12 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         // Vectors from the anchor point to the swing limits
         _backwardLimitVector = _backwardSwingLimit - _anchor.position; 
         _forwardLimitVector = _forwardSwingLimit - _anchor.position;
-        _interpolant = 0;
 
-        _currentSlerpStart = animator.transform.position - _anchor.position;
-        _currentSlerpEnd = _forwardLimitVector;
+        // Calculate the interpolant we're starting at
+        float angle = Vector3.Angle(_backwardLimitVector, animator.transform.position - _anchor.position);
+        _interpolant = angle/(swingArcLimit * 2);
+
         _swingStartVector = _backwardLimitVector;
-
-        _firstSwingComplete = false;
         
         // Initialize _direction to forward
         _direction = 1; 
@@ -168,14 +161,17 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
             }
 
             // Slerp between the current two heights of the swing
-            Vector3 targetVector = Vector3.Slerp(_currentSlerpStart, _currentSlerpEnd, _interpolant);
+            Vector3 targetVector = Vector3.Slerp(_backwardLimitVector, _forwardLimitVector, _interpolant);
 
             // Calculate the right direction of the swing 
             Vector3 swingRight = Vector3.Cross(_swingCenterAxis, _backwardSwingRotation).normalized;
 
+            // Cross product of the direction of the anchor point with the swing right gives us the direction we want to face
+            Quaternion targetRotation = Quaternion.LookRotation(Vector3.Cross(_pendulumArm, swingRight));
+
             // Move and rotate the player
-            _rigidbody.MovePosition(_anchor.position + targetVector);
-            _rigidbody.MoveRotation(Quaternion.LookRotation(Vector3.Cross(_pendulumArm, swingRight)));
+            animator.transform.Translate(((_anchor.position + targetVector) - animator.transform.position), Space.World);
+            animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, targetRotation, _jimController.rotationSpeed);
 
             // Calculate the release direction based on where we are in the swing arc 
             _releaseDirection = Vector3.Cross(_pendulumArm, swingRight * _direction).normalized * releaseDirectionMagnitude;
@@ -200,13 +196,6 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
                 _direction = -1;
                 animator.SetFloat("swingDirectionRaw", _direction);
                 animator.SetBool("canRoll", false);
-
-                if (!_firstSwingComplete)
-                {
-                    _currentSlerpStart = _backwardLimitVector;
-                    _currentSlerpEnd = _forwardLimitVector;
-                    _firstSwingComplete = true;
-                }
                 _swingStartVector = _forwardLimitVector;
             }
             else if(_interpolant <= 0)
@@ -232,13 +221,6 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
             else if (_direction == -1)
             {
                 _swingStartVector = _forwardLimitVector;
-
-                if (!_firstSwingComplete)
-                {
-                    _currentSlerpStart = _backwardLimitVector;
-                    _currentSlerpEnd = _forwardLimitVector;
-                    _firstSwingComplete = true;
-                }
             }
 
             animator.SetFloat("swingDirectionRaw", _direction);
@@ -263,7 +245,6 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         // Reset the freelook camera behind the player and switch back to it 
         _jimController.freeLookCamera.m_XAxis.Value = animator.transform.eulerAngles.y;
         _jimController.swingCamera.Priority = 5;
-        animator.ResetTrigger("fallIdle");
     }
 
     // Sets that set up the spline path according to user defined parameters and current point in the swing
@@ -306,11 +287,5 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 
         // Create new forward vector 
         _swingForward = _forwardSwingRotation.normalized;
-
-        if (_firstSwingComplete)
-        {
-            _currentSlerpStart = _backwardLimitVector;
-        }
-        _currentSlerpEnd = _forwardLimitVector;
     }
 }

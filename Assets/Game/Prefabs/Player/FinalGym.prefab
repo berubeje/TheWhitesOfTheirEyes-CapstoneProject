@@ -1815,6 +1815,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9da92ef688179844a70da06e9803bd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boss: {fileID: 0}
   maxHealth: 100
   rotationSpeed: 20
   speedDampTime: 0.1
@@ -1830,13 +1831,16 @@ MonoBehaviour:
   swingCamera: {fileID: 0}
   swingCameraTrack: {fileID: 0}
   ropeLogic: {fileID: 1373180869222125525}
+  snakeHead: {fileID: 0}
   anchor: {fileID: 0}
   splineRoute: {fileID: 0}
-  hook: {fileID: 1373180869222125525}
   skinnedMeshRenderer: {fileID: 3297830859128472640}
   blinkRate: 2.5
   blinkSpeed: 8
   blinkAngleThreshold: 15
+  _locomotionID: 0
+  _idleID: 0
+  _rollID: 0
 --- !u!114 &7295585070876113793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2097,8 +2101,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6457260781913203248}
-  m_LocalRotation: {x: 0.70105714, y: 0.09229654, z: 0.7010577, w: -0.09229568}
-  m_LocalPosition: {x: 1.0659641, y: 1.3330028, z: -1.1959993}
+  m_LocalRotation: {x: 0.7010571, y: 0.092296526, z: 0.7010577, w: -0.09229571}
+  m_LocalPosition: {x: 1.0711727, y: 1.6955549, z: -0.60603046}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children: []
   m_Father: {fileID: 371108411328785216}
@@ -2225,7 +2229,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6464649461230100075}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: -0.00012207036, y: 1, z: 0.00024414062}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5462374545414021785}
@@ -2390,7 +2394,7 @@ Transform:
   m_GameObject: {fileID: 6893783954255535329}
   m_LocalRotation: {x: -0.00000004097818, y: -0.0000000020954751, z: 0.00000007226478,
     w: 1}
-  m_LocalPosition: {x: 0, y: -0.076, z: 0.153}
+  m_LocalPosition: {x: -0, y: -0.112, z: 0.094}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children:
   - {fileID: 8028563900142823122}
