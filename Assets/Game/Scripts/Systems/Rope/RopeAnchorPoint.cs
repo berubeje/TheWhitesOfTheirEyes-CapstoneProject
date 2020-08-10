@@ -37,6 +37,8 @@ public class RopeAnchorPoint : MonoBehaviour
         Pull
     }
 
+    public bool isPillar;
+
     [Header("If pull type")]
     public float timeToStartPull;
 
@@ -137,7 +139,14 @@ public class RopeAnchorPoint : MonoBehaviour
         {
             canAttach = false;
         }
-        AudioManager.Instance.PlaySound("TreeFall");
+        if (isPillar)
+        {
+            AudioManager.Instance.PlaySound("PillarFall");
+        }
+        else
+        {
+            AudioManager.Instance.PlaySound("TreeFall");
+        }
         _startRotation = _targetTransform.rotation;
 
         _pulling = true;

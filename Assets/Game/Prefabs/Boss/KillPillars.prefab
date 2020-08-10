@@ -233,6 +233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anchorType: 1
+  isPillar: 1
   timeToStartPull: 6
   pullTime: 3
   canRepeatPull: 0
@@ -368,6 +369,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anchorType: 1
+  isPillar: 1
   timeToStartPull: 6
   pullTime: 3
   canRepeatPull: 0
@@ -612,6 +614,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anchorType: 1
+  isPillar: 1
   timeToStartPull: 6
   pullTime: 3
   canRepeatPull: 0
@@ -888,6 +891,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anchorType: 1
+  isPillar: 1
   timeToStartPull: 6
   pullTime: 3
   canRepeatPull: 0

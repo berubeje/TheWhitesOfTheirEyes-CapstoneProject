@@ -128,3 +128,9 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: PillarFall
+    clip: {fileID: 8300000, guid: 00166a541ccd2db45a6ec2695865325c, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
