@@ -60,6 +60,8 @@ public class RopeAnchorPoint : MonoBehaviour
 
 
     public UnityEvent pullStartEvent = new UnityEvent();
+    public UnityEvent pullDoneEvent = new UnityEvent();
+    public UnityEvent resetDoneEvent = new UnityEvent();
 
     private MeshRenderer _meshRenderer;
 
@@ -147,6 +149,7 @@ public class RopeAnchorPoint : MonoBehaviour
         {
             AudioManager.Instance.PlaySound("TreeFall");
         }
+
         _startRotation = _targetTransform.rotation;
 
         _pulling = true;
@@ -205,10 +208,12 @@ public class RopeAnchorPoint : MonoBehaviour
                 canAttach = true;
                 _meshRenderer.enabled = true;
                 resetting = false;
+                resetDoneEvent.Invoke();
             }
             else
             {
                 pullDone = true;
+                pullDoneEvent.Invoke();
             }
             _t = 0.0f;
         }

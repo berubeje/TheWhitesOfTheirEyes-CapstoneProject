@@ -23,7 +23,7 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
 
     private float currentTime = 0.0f;
 
-    private RopeAnchorPoint _tree;
+    private BossTreeLogic _tree;
     private PlayerGrapplingHook _hook;
 
     //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -51,20 +51,14 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
 
     public override void OnStateUpdate(Animator fsm, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        //if (_bossController.flinch)
-        //{
-        //    fsm.SetTrigger("Flinch");
-        //    _tree.PauseRotation();
-        //    return;
-        //}
-
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Tree Heal Start"))
         {
             if (_firstAnimationStarted == false)
             {
                 if (_hook.targetAnchor == null || _hook.targetAnchor.transform.root != _bossController.fallenTreeList[0].transform.root)
                 {
-                    _tree.ResetPull(_tree.pullTime);
+                    _tree.StartHeal();
+                    _bossController.bossHealParticleEffect.SetActive(true);
                 }
 
                 _firstAnimationStarted = true;
@@ -74,6 +68,7 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
         else if (_firstAnimationStarted == true)
         {
             _firstAnimationStarted = false;
+
         }
 
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Tree Heal End"))
@@ -81,6 +76,7 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
             if (_secondAnimationStarted == false)
             {
                 _secondAnimationStarted = true;
+                _bossController.bossHealParticleEffect.SetActive(false);
             }
         }
         else if (_secondAnimationStarted == true)
@@ -100,10 +96,11 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
     private void Flinch()
     {
         _fsm.SetTrigger("Flinch");
+        _bossController.bossHealParticleEffect.SetActive(false);
 
-        if(interuptRepair)
+        if (interuptRepair)
         {
-            _tree.PauseRotation();
+            //_tree.PauseHeal();
         }
     }
 
