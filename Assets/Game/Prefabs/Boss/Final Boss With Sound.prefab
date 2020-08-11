@@ -2164,7 +2164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   secondsTillCredits: 3
-  impulseForce: {x: 0, y: 0, z: 10}
+  impulseForce: {x: 0, y: 0, z: 5}
 --- !u!135 &8517072243905072569
 SphereCollider:
   m_ObjectHideFlags: 0
