@@ -52,7 +52,7 @@ public class EventCutscene : MonoBehaviour
 
         // Move the track to the appropriate position
         float bossYRotation = jimController.boss.transform.eulerAngles.y;
-        Debug.LogError(jimController.boss.transform.eulerAngles);
+
         if (bossYRotation > 240 && bossYRotation <= 330)
         {
             transform.position = jimController.boss.transform.position + (Vector3.left * _positionOffset);
