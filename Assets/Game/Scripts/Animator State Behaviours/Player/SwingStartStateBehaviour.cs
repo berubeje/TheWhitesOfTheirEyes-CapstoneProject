@@ -57,6 +57,7 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
             Debug.LogError("Unable to find Rigidbody component");
         }
 
+        _rigidbody.velocity = Vector3.zero;
         _interpolant = 0.0f;
 
         _initialPosition = animator.transform.position;
