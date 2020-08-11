@@ -8,6 +8,7 @@ public class BossFallAnimatorStateBehavior : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.SetBool("Fall", false);
+        animator.SetBool("Dead", true);
     }
 
 }
