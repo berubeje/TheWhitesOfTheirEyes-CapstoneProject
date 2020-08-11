@@ -2163,7 +2163,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5056a0d7c88fe747a9baa08a1f28f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  secondsTillCredits: 3
+  secondsforFade: 3
+  secondsTillCreditsAfterFade: 2
+  bossCoreMaterial: {fileID: 2100000, guid: 8c2eb4303f5c91649b53be7fd450b384, type: 2}
   impulseForce: {x: 0, y: 0, z: 5}
 --- !u!135 &8517072243905072569
 SphereCollider:

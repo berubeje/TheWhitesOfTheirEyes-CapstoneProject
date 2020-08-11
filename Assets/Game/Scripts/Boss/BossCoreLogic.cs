@@ -13,10 +13,15 @@ using UnityEngine;
 
 public class BossCoreLogic : MonoBehaviour
 {
-    public float secondsTillCredits = 3.0f;
+    public float secondsforFade = 3.0f;
+    public float secondsTillCreditsAfterFade = 2.0f;
+
+    public Material bossCoreMaterial;
+
     public Vector3 impulseForce = new Vector3(0, 0, 10);
 
-    private float currentTime = 0.0f;
+    private float _currentTime = 0.0f;
+    private bool _faded = false;
 
     void Start()
     {
@@ -32,12 +37,38 @@ public class BossCoreLogic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        currentTime += Time.deltaTime;
-
-        if (currentTime >= secondsTillCredits)
+        if (_faded == false)
         {
-            InputManager.Instance.currentGameState = InputManager.GameStates.GameFinished;
-            this.enabled = false;
+            Color newColor = bossCoreMaterial.color;
+
+            if (secondsforFade > 0.0f)
+            {
+                newColor.a -= Time.deltaTime / secondsforFade;
+            }
+            else
+            {
+                newColor.a -= Time.deltaTime;
+            }
+
+            bossCoreMaterial.color = newColor;
+
+
+            if (newColor.a <= 0.0f)
+            {
+                _faded = true;
+                _currentTime = 0.0f;
+            }
+
+        }
+        else
+        {
+            _currentTime += Time.deltaTime;
+
+            if (_currentTime >= secondsTillCreditsAfterFade)
+            {
+                InputManager.Instance.currentGameState = InputManager.GameStates.GameFinished;
+                this.enabled = false;
+            }
         }
     }
 }
