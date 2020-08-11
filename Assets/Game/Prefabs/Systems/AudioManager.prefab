@@ -95,7 +95,7 @@ MonoBehaviour:
   - name: BossHurt
     clip: {fileID: 8300000, guid: fadebd0a861e2f340a9b49261347892f, type: 3}
     volume: 1
-    pitch: 1
+    pitch: 0.75
     loop: 0
     source: {fileID: 0}
   - name: BossWindUp
@@ -131,6 +131,24 @@ MonoBehaviour:
   - name: PillarFall
     clip: {fileID: 8300000, guid: 00166a541ccd2db45a6ec2695865325c, type: 3}
     volume: 0.25
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: BossFacePlant
+    clip: {fileID: 8300000, guid: 486d8eb5aa3406341995bca45cc99a9f, type: 3}
+    volume: 0.5
+    pitch: 0.85
+    loop: 0
+    source: {fileID: 0}
+  - name: BossDie
+    clip: {fileID: 8300000, guid: 10bc313b295b8c74887463ad8b985df9, type: 3}
+    volume: 1
+    pitch: 0.75
+    loop: 0
+    source: {fileID: 0}
+  - name: BossFall
+    clip: {fileID: 8300000, guid: ca3cbbda2cfa87943b1edde1a950e206, type: 3}
+    volume: 0.4
     pitch: 1
     loop: 0
     source: {fileID: 0}

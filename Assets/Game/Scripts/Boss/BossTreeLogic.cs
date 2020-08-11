@@ -14,25 +14,25 @@ using UnityEngine;
 public class BossTreeLogic : MonoBehaviour
 {
     public BossController bossController;
-    public float alertBossTimer = 0.5f;
+    public GameObject treeHealParticleEffect;
+    public GameObject groundUprootParticleEffect;
 
-    private bool _addedToList = false;
     private RopeAnchorPoint _ropeAnchorPoint;
     private RopeAnchorPoint _swingAnchorPoint;
-    private float _currentAlertTime = 0.0f;
+
 
     private void Start()
     {
-        if(bossController == null)
+        if (bossController == null)
         {
             this.enabled = false;
         }
 
         RopeAnchorPoint[] anchorPoints = transform.parent.GetComponentsInChildren<RopeAnchorPoint>();
 
-        foreach(RopeAnchorPoint anchorPoint in anchorPoints)
+        foreach (RopeAnchorPoint anchorPoint in anchorPoints)
         {
-            if(anchorPoint.gameObject == this.gameObject)
+            if (anchorPoint.gameObject == this.gameObject)
             {
                 _ropeAnchorPoint = anchorPoint;
             }
@@ -43,39 +43,44 @@ public class BossTreeLogic : MonoBehaviour
         }
 
         _swingAnchorPoint.AllowSwing(false);
+
+        _ropeAnchorPoint.pullStartEvent.AddListener(TreeStartedFall);
+        _ropeAnchorPoint.pullDoneEvent.AddListener(TreeFalledEnded);
+        _ropeAnchorPoint.resetDoneEvent.AddListener(HealEnded);
+
+        treeHealParticleEffect.SetActive(false);
+        groundUprootParticleEffect.SetActive(false);
     }
     // Update is called once per frame
     void Update()
     {
-        // Checks to see if the anchor point has been pulled down, if so, tell the boss it has been knocked down after a delay.
-        if (_ropeAnchorPoint.pullDone && _addedToList == false)
-        {
-            if (bossController.treeRepairInProgress == false)
-            {
-                _currentAlertTime += Time.deltaTime;
-
-                if (_currentAlertTime >= alertBossTimer)
-                {
-                    _addedToList = true;
-                    bossController.fallenTreeList.Add(_ropeAnchorPoint);
-                    _currentAlertTime = 0.0f;
-                }
-            }
-
-            if(_swingAnchorPoint.canAttach == false)
-            {
-                _swingAnchorPoint.AllowSwing(true);
-            }
-        }
-        else if (_ropeAnchorPoint.pullDone == false && _ropeAnchorPoint.resetting == false && _addedToList == true)
-        {
-            bossController.fallenTreeList.Remove(_ropeAnchorPoint);
-            _addedToList = false;
-        }
-        else if(_ropeAnchorPoint.pullDone == false && _swingAnchorPoint.canAttach == true)
-        {
-            _swingAnchorPoint.AllowSwing(false);
-        }
 
     }
+
+    public void StartHeal()
+    {
+        _swingAnchorPoint.AllowSwing(false);
+        _ropeAnchorPoint.ResetPull(_ropeAnchorPoint.pullTime);
+
+        bossController.fallenTreeList.Remove(this);
+        treeHealParticleEffect.SetActive(true);
+    }
+
+    private void HealEnded()
+    {
+        treeHealParticleEffect.SetActive(false);
+    }
+
+    private void TreeStartedFall()
+    {
+        groundUprootParticleEffect.SetActive(true);
+    }
+
+    private void TreeFalledEnded()
+    {
+        bossController.fallenTreeList.Add(this);
+        groundUprootParticleEffect.SetActive(false);
+        _swingAnchorPoint.AllowSwing(true);
+    }
+
 }

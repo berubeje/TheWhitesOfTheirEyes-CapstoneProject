@@ -35,4 +35,17 @@ public class BossAudioController : MonoBehaviour
     {
         AudioManager.Instance.PlaySound("BossRockTumble");
     }
+    private void FallEvent()
+    {
+        AudioManager.Instance.PlaySound("BossFall");
+    }
+    private void DieEvent()
+    {
+        AudioManager.Instance.PlaySound("BossDie");
+    }
+
+    private void FacePlantEvent()
+    {
+        AudioManager.Instance.PlaySound("BossFacePlant");
+    }
 }

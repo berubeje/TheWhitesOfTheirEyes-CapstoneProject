@@ -73,7 +73,6 @@ public class SwingLandStateBehaviour : StateMachineBehaviour
             {
 
                 splineSpeed += splineAcceleration;
-                _t += splineSpeed * Time.deltaTime;
 
 
                 Vector3 targetPosition = Mathf.Pow(1 - _t, 3) * _p0 +
@@ -90,6 +89,8 @@ public class SwingLandStateBehaviour : StateMachineBehaviour
                     animator.SetTrigger("fallIdle");
                     _splineComplete = true;
                 }
+
+                _t += splineSpeed * Time.deltaTime;
             }
         }
 

@@ -71,7 +71,7 @@ LightmapSettings:
     m_FinalGatherFiltering: 1
     m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
-    m_MixedBakeMode: 2
+    m_MixedBakeMode: 1
     m_BakeBackend: 1
     m_PVRSampling: 1
     m_PVRDirectSampleCount: 32
@@ -99,7 +99,7 @@ LightmapSettings:
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000004, guid: 40e412fb052b8ac4b9c6896625b86c84,
     type: 2}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -431,9 +431,9 @@ MonoBehaviour:
     scenePath: Assets/Game/Scenes/Title Screen.unity
     sceneName: Title Screen
   sceneToUnload:
-    sceneAsset: {fileID: 102900000, guid: 3658a651b1f5eac46a77c83bee8ab53a, type: 3}
-    scenePath: Assets/Game/Scenes/Beta Build.unity
-    sceneName: Beta Build
+    sceneAsset: {fileID: 102900000, guid: f246bc446497ce24d89187d361f80bbd, type: 3}
+    scenePath: Assets/Game/Scenes/Beta Build (Rishi).unity
+    sceneName: Beta Build (Rishi)
 --- !u!1 &126313805
 GameObject:
   m_ObjectHideFlags: 0
@@ -1536,15 +1536,15 @@ RectTransform:
   m_GameObject: {fileID: 380816300}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1425, y: 1.1425, z: 1.1425}
   m_Children:
   - {fileID: 1635305666}
-  m_Father: {fileID: 744368072}
-  m_RootOrder: 6
+  m_Father: {fileID: 1208222401}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -130, y: 25}
+  m_AnchoredPosition: {x: -148.52502, y: 28.5625}
   m_SizeDelta: {x: 230, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &380816302
@@ -2943,7 +2943,7 @@ GameObject:
   - component: {fileID: 744368069}
   - component: {fileID: 744368073}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Pause Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3007,7 +3007,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!224 &744368072
 RectTransform:
@@ -3026,11 +3026,8 @@ RectTransform:
   - {fileID: 376360322}
   - {fileID: 108688187}
   - {fileID: 1504852914}
-  - {fileID: 380816301}
-  - {fileID: 1160653689}
-  - {fileID: 931670542}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3685,9 +3682,9 @@ MonoBehaviour:
   startMenuState: 1
   resetPosition: 1
   sceneToLoad:
-    sceneAsset: {fileID: 102900000, guid: 3658a651b1f5eac46a77c83bee8ab53a, type: 3}
-    scenePath: Assets/Game/Scenes/Beta Build.unity
-    sceneName: Beta Build
+    sceneAsset: {fileID: 102900000, guid: f246bc446497ce24d89187d361f80bbd, type: 3}
+    scenePath: Assets/Game/Scenes/Beta Build (Rishi).unity
+    sceneName: Beta Build (Rishi)
   sceneToUnload:
     sceneAsset: {fileID: 102900000, guid: 35a97c96da98e8645b2ad1e0dc168efa, type: 3}
     scenePath: Assets/Game/Scenes/Title Screen.unity
@@ -3863,7 +3860,7 @@ GameObject:
   - component: {fileID: 896781649}
   - component: {fileID: 896781648}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Title Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3944,7 +3941,7 @@ RectTransform:
   - {fileID: 682636387}
   - {fileID: 704514377}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4289,17 +4286,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 931670541}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1425, y: 1.1425, z: 1.1425}
   m_Children: []
-  m_Father: {fileID: 744368072}
-  m_RootOrder: 8
+  m_Father: {fileID: 1158138155}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -114, y: -64.109436}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &931670543
 MonoBehaviour:
@@ -5527,6 +5524,105 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1124637060}
   m_CullTransparentMesh: 0
+--- !u!1 &1158138154
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1158138155}
+  - component: {fileID: 1158138158}
+  - component: {fileID: 1158138157}
+  - component: {fileID: 1158138156}
+  m_Layer: 5
+  m_Name: Cinematic Canvas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1158138155
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1158138154}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_Children:
+  - {fileID: 931670542}
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &1158138156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1158138154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &1158138157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1158138154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+--- !u!223 &1158138158
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1158138154}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 1
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 1
+  m_TargetDisplay: 0
 --- !u!1 &1160653688
 GameObject:
   m_ObjectHideFlags: 0
@@ -5555,15 +5651,15 @@ RectTransform:
   m_GameObject: {fileID: 1160653688}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1425, y: 1.1425, z: 1.1425}
   m_Children:
   - {fileID: 1968979385}
-  m_Father: {fileID: 744368072}
-  m_RootOrder: 7
+  m_Father: {fileID: 1208222401}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 215, y: -25}
+  m_AnchoredPosition: {x: 245.6375, y: -28.5625}
   m_SizeDelta: {x: 400, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1160653690
@@ -5615,7 +5711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boss: {fileID: 0}
-  healthAnimationSpeed: 0.25
+  healthAnimationSpeed: 0.5
 --- !u!1 &1182081523
 GameObject:
   m_ObjectHideFlags: 0
@@ -6230,6 +6326,119 @@ MonoBehaviour:
   text: {fileID: 106664199}
   defaultFont: {fileID: 11400000, guid: 900a19f059f4bbb46969f405f0c652f8, type: 2}
   selectedFont: {fileID: 11400000, guid: 63f36761ce34f194389769f75e371499, type: 2}
+--- !u!1 &1208222400
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1208222401}
+  - component: {fileID: 1208222404}
+  - component: {fileID: 1208222403}
+  - component: {fileID: 1208222402}
+  - component: {fileID: 1208222405}
+  m_Layer: 5
+  m_Name: Healthbar Canvas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1208222401
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208222400}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_Children:
+  - {fileID: 380816301}
+  - {fileID: 1160653689}
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &1208222402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208222400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &1208222403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208222400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+--- !u!223 &1208222404
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208222400}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 1
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!114 &1208222405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208222400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a281455336958f4e9ba008946341553, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1231449728
 GameObject:
   m_ObjectHideFlags: 0
@@ -7551,9 +7760,9 @@ MonoBehaviour:
     scenePath: Assets/Game/Scenes/Title Screen.unity
     sceneName: Title Screen
   sceneToUnload:
-    sceneAsset: {fileID: 102900000, guid: 3658a651b1f5eac46a77c83bee8ab53a, type: 3}
-    scenePath: Assets/Game/Scenes/Beta Build.unity
-    sceneName: Beta Build
+    sceneAsset: {fileID: 102900000, guid: f246bc446497ce24d89187d361f80bbd, type: 3}
+    scenePath: Assets/Game/Scenes/Beta Build (Rishi).unity
+    sceneName: Beta Build (Rishi)
 --- !u!1 &1506610125
 GameObject:
   m_ObjectHideFlags: 0
@@ -11113,11 +11322,11 @@ MonoBehaviour:
   startMenuState: 1
   resetPosition: 1
   sceneToLoad:
-    sceneAsset: {fileID: 102900000, guid: 439775296220f3b438ea0bb8a21b5635, type: 3}
+    sceneAsset: {fileID: 102900000, guid: f246bc446497ce24d89187d361f80bbd, type: 3}
     scenePath: Assets/Game/Scenes/Beta Build (Rishi).unity
     sceneName: Beta Build (Rishi)
   sceneToUnload:
-    sceneAsset: {fileID: 102900000, guid: 439775296220f3b438ea0bb8a21b5635, type: 3}
+    sceneAsset: {fileID: 102900000, guid: f246bc446497ce24d89187d361f80bbd, type: 3}
     scenePath: Assets/Game/Scenes/Beta Build (Rishi).unity
     sceneName: Beta Build (Rishi)
 --- !u!1 &2138790654

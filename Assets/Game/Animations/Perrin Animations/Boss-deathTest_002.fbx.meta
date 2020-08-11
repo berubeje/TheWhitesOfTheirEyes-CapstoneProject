@@ -59,15 +59,29 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.97170657
-        functionName: EnableCoreAnchorPointEvent
+      - time: 0.010354005
+        functionName: DieEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.78260916
-        functionName: StepEvent
+      - time: 0.78938884
+        functionName: FallEvent
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.9347831
+        functionName: FacePlantEvent
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.97170657
+        functionName: EnableCoreAnchorPointEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

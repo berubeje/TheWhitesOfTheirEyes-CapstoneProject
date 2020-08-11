@@ -48,7 +48,7 @@ public class UICanvas : Singleton<UICanvas>
     private void Start()
     {
         // Start with controls disabled
-        DisableAllControls();
+        //DisableAllControls();
     }
 
     private void OnGameStateChanged(InputManager.GameStates state)
@@ -61,7 +61,14 @@ public class UICanvas : Singleton<UICanvas>
                 settingsMenu.SetActive(false);
                 gameOverMenu.SetActive(false);
                 gameFinishedMenu.SetActive(false);
-                restartConfirmationMenu.SetActive(false);
+                restartConfirmationMenu.SetActive(false); 
+                healthBar.SetActive(true);
+
+                if (InputManager.instance.jimController.boss.bossCutsceneFinished)
+                {
+                    bossHealthBar.SetActive(true);
+                }
+
                 Cursor.lockState = CursorLockMode.Locked;
                 Time.timeScale = 1;
                 break;
