@@ -57,7 +57,10 @@ public class BossController : MonoBehaviour
     public bool bossStart;
     public bool treeRepairInProgress = false;
     public GameObject bossHealParticleEffect;
+    public EventCutscene deathCutscene;
 
+    [HideInInspector]
+    public bool bossCutsceneFinished;
 
     [Header("Turn Parameters")]
     public float turnTime = 2f;
@@ -247,6 +250,7 @@ public class BossController : MonoBehaviour
         }
         else if(health <= 0.0f)
         {
+            deathCutscene.ActivateCutscene();
             _fsm.SetBool("Fall", true);
         }
     }
