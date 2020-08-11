@@ -124,6 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anchorType: 0
+  isPillar: 0
   timeToStartPull: 0
   pullTime: 0
   canRepeatPull: 0
@@ -132,6 +133,9 @@ MonoBehaviour:
   angleOfPull: {x: 0, y: 0, z: 0}
   pivot: {fileID: 0}
   isBossCore: 0
+  pullStartEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7821751843434587186
 GameObject:
   m_ObjectHideFlags: 0

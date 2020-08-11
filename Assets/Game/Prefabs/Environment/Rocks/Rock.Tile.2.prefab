@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8065718791783997629}
   - component: {fileID: 1347761831706712715}
   - component: {fileID: 4722234583381091954}
-  - component: {fileID: -6604675574294013387}
+  - component: {fileID: 4430673275220539194}
   m_Layer: 0
   m_Name: Rock.Tile.2
   m_TagString: Untagged
@@ -40,7 +40,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6463907197195424430}
-  m_Mesh: {fileID: 8281133680815573567, guid: c7d4291765897a240bcc6d791f8e300c, type: 3}
+  m_Mesh: {fileID: 8281133680815573567, guid: 46dbaa09ced65f946ab97b51929c0e38, type: 3}
 --- !u!23 &4722234583381091954
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -80,7 +80,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &-6604675574294013387
+--- !u!64 &4430673275220539194
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,4 +93,4 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 8281133680815573567, guid: c7d4291765897a240bcc6d791f8e300c, type: 3}
+  m_Mesh: {fileID: 8281133680815573567, guid: 46dbaa09ced65f946ab97b51929c0e38, type: 3}

@@ -431,9 +431,9 @@ MonoBehaviour:
     scenePath: Assets/Game/Scenes/Title Screen.unity
     sceneName: Title Screen
   sceneToUnload:
-    sceneAsset: {fileID: 102900000, guid: 439775296220f3b438ea0bb8a21b5635, type: 3}
-    scenePath: Assets/Game/Scenes/Beta Build (Rishi).unity
-    sceneName: Beta Build (Rishi)
+    sceneAsset: {fileID: 102900000, guid: 3658a651b1f5eac46a77c83bee8ab53a, type: 3}
+    scenePath: Assets/Game/Scenes/Beta Build.unity
+    sceneName: Beta Build
 --- !u!1 &126313805
 GameObject:
   m_ObjectHideFlags: 0
@@ -3685,9 +3685,9 @@ MonoBehaviour:
   startMenuState: 1
   resetPosition: 1
   sceneToLoad:
-    sceneAsset: {fileID: 102900000, guid: 439775296220f3b438ea0bb8a21b5635, type: 3}
-    scenePath: Assets/Game/Scenes/Beta Build (Rishi).unity
-    sceneName: Beta Build (Rishi)
+    sceneAsset: {fileID: 102900000, guid: 3658a651b1f5eac46a77c83bee8ab53a, type: 3}
+    scenePath: Assets/Game/Scenes/Beta Build.unity
+    sceneName: Beta Build
   sceneToUnload:
     sceneAsset: {fileID: 102900000, guid: 35a97c96da98e8645b2ad1e0dc168efa, type: 3}
     scenePath: Assets/Game/Scenes/Title Screen.unity
@@ -5545,7 +5545,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1160653689
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7551,9 +7551,9 @@ MonoBehaviour:
     scenePath: Assets/Game/Scenes/Title Screen.unity
     sceneName: Title Screen
   sceneToUnload:
-    sceneAsset: {fileID: 102900000, guid: 439775296220f3b438ea0bb8a21b5635, type: 3}
-    scenePath: Assets/Game/Scenes/Beta Build (Rishi).unity
-    sceneName: Beta Build (Rishi)
+    sceneAsset: {fileID: 102900000, guid: 3658a651b1f5eac46a77c83bee8ab53a, type: 3}
+    scenePath: Assets/Game/Scenes/Beta Build.unity
+    sceneName: Beta Build
 --- !u!1 &1506610125
 GameObject:
   m_ObjectHideFlags: 0

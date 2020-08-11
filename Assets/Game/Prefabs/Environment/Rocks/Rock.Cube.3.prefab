@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5125639028141288556}
   - component: {fileID: 4213939014659626586}
   - component: {fileID: 7585858779648469667}
-  - component: {fileID: 4001427477691258984}
+  - component: {fileID: 7588085912558646206}
   m_Layer: 0
   m_Name: Rock.Cube.3
   m_TagString: Untagged
@@ -40,7 +40,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8177046341494218367}
-  m_Mesh: {fileID: -4738029697309621301, guid: dba443bd136f01045a47c6cc293e9ab6, type: 3}
+  m_Mesh: {fileID: -4738029697309621301, guid: d7f865f48c20d4d4495c30df049cf597, type: 3}
 --- !u!23 &7585858779648469667
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -80,7 +80,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &4001427477691258984
+--- !u!64 &7588085912558646206
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,4 +93,4 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: -4738029697309621301, guid: dba443bd136f01045a47c6cc293e9ab6, type: 3}
+  m_Mesh: {fileID: -4738029697309621301, guid: d7f865f48c20d4d4495c30df049cf597, type: 3}
