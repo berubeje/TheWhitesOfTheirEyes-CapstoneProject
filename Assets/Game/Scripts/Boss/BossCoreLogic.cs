@@ -23,6 +23,16 @@ public class BossCoreLogic : MonoBehaviour
     private float _currentTime = 0.0f;
     private bool _faded = false;
 
+
+    private void Awake()
+    {
+        Color newColor = bossCoreMaterial.color;
+
+        newColor.a = 1;
+
+        bossCoreMaterial.color = newColor;
+    }
+
     void Start()
     {
         transform.parent = null;
@@ -70,5 +80,14 @@ public class BossCoreLogic : MonoBehaviour
                 this.enabled = false;
             }
         }
+    }
+
+    private void OnApplicationQuit()
+    {
+        Color newColor = bossCoreMaterial.color;
+
+        newColor.a = 1;
+
+        bossCoreMaterial.color = newColor;
     }
 }
