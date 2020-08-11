@@ -18,7 +18,7 @@ public class BossCoreLogic : MonoBehaviour
 
     private float currentTime = 0.0f;
 
-    void OnEnable()
+    void Start()
     {
         transform.parent = null;
 
