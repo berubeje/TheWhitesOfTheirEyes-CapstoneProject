@@ -6,6 +6,7 @@ public class CinematicBars : Singleton<CinematicBars>
     private RectTransform _topBar;
     private RectTransform _bottomBar;
 
+    private Canvas _canvas;
     private float _scrollSpeed;
     private float _barSize;
     private float _initialSize;
@@ -15,6 +16,10 @@ public class CinematicBars : Singleton<CinematicBars>
 
     private void Awake()
     {
+        _canvas = GetComponentInParent<Canvas>();
+        _canvas.worldCamera = Camera.main;
+        _canvas.planeDistance = 0.05f;
+
         GameObject gameObject = new GameObject("TopBar", typeof(Image));
         gameObject.transform.SetParent(transform, false);
         gameObject.GetComponent<Image>().color = Color.black;

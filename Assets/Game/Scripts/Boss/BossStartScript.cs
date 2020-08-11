@@ -19,6 +19,7 @@ public class BossStartScript : MonoBehaviour
     {
         yield return new WaitForSeconds(13);
         UICanvas.Instance.bossHealthBar.SetActive(true);
+        boss.bossCutsceneFinished = true;
         Destroy(this);
     }
 }

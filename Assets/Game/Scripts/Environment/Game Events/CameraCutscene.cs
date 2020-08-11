@@ -43,6 +43,7 @@ public class CameraCutscene : MonoBehaviour
 
             // Disable all player input
             InputManager.Instance.DisableAllControls();
+            UICanvas.Instance.DisableAllControls();
 
             //Change transitions time for 
             _cinemachineBrain.m_DefaultBlend.m_Time = 5;
@@ -71,6 +72,7 @@ public class CameraCutscene : MonoBehaviour
             {
                 // Enable all controls again
                 InputManager.Instance.EnableAllControls();
+                UICanvas.Instance.EnableAllControls();
 
                 _cinemachineBrain.m_DefaultBlend.m_Time = 2;
 

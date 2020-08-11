@@ -56,7 +56,10 @@ public class BossController : MonoBehaviour
     public JimController player;
     public bool bossStart;
     public bool treeRepairInProgress = false;
+    public EventCutscene deathCutscene;
 
+    [HideInInspector]
+    public bool bossCutsceneFinished;
 
     [Header("Turn Parameters")]
     public float turnTime = 2f;
@@ -247,6 +250,7 @@ public class BossController : MonoBehaviour
         else if(health <= 0.0f)
         {
             _fsm.SetBool("Fall", true);
+            deathCutscene.ActivateCutscene();
         }
     }
 

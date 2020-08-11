@@ -7,8 +7,10 @@ public class HealthBarOnEnable : MonoBehaviour
     public BossController boss;
     public float healthAnimationSpeed;
 
+    
     private bool _healthBarStarted;
     private float _interpolant;
+
     private void Update()
     {
         if (_healthBarStarted && boss != null)
@@ -28,6 +30,7 @@ public class HealthBarOnEnable : MonoBehaviour
     {
         boss = InputManager.Instance.jimController.boss;
         _interpolant = 0;
+        UICanvas.Instance.ChangeBossHealthBar(0);
         _healthBarStarted = true;
     }
 

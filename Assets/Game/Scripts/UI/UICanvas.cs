@@ -48,7 +48,7 @@ public class UICanvas : Singleton<UICanvas>
     private void Start()
     {
         // Start with controls disabled
-        DisableAllControls();
+        //DisableAllControls();
     }
 
     private void OnGameStateChanged(InputManager.GameStates state)
@@ -64,7 +64,7 @@ public class UICanvas : Singleton<UICanvas>
                 restartConfirmationMenu.SetActive(false); 
                 healthBar.SetActive(true);
 
-                if (InputManager.instance.jimController.boss.bossStart)
+                if (InputManager.instance.jimController.boss.bossCutsceneFinished)
                 {
                     bossHealthBar.SetActive(true);
                 }

@@ -85,6 +85,10 @@ public class InputManager : Singleton<InputManager>
                 DisableAllControls();
                 break;
 
+            case GameStates.Cinematic:
+                DisableAllControls();
+                break;
+
             case GameStates.GameOver:
                 DisableAllControls();
                 break;

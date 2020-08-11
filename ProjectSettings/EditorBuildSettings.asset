@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Game/Scenes/UI.unity
     guid: 451b32f898d20e6419d43a2d39bf3ce8
   - enabled: 1
-    path: Assets/Game/Scenes/Beta Build (Rishi).unity
+    path: 
     guid: 439775296220f3b438ea0bb8a21b5635
+  - enabled: 1
+    path: Assets/Game/Scenes/Beta Build (Rishi).unity
+    guid: f246bc446497ce24d89187d361f80bbd
   m_configObjects: {}
