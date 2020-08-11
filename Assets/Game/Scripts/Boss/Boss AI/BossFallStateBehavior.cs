@@ -13,9 +13,18 @@ using UnityEngine;
 
 public class BossFallStateBehavior : StateMachineBehaviour
 {
+    public float fallPositionOffset = 5.0f;
+    public float positionLerpTime = 3.0f;
+
     private Animator _animator;
     private BossController _bossController;
     private bool _animationStarted;
+
+    private Vector3 _startPosition;
+    private Vector3 _targetPosition;
+
+    private float _currentTime = 0.0f;
+
     override public void OnStateEnter(Animator fsm, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (_animator == null)
@@ -30,6 +39,22 @@ public class BossFallStateBehavior : StateMachineBehaviour
 
         _animator.SetBool("Fall", true);
         _bossController.TurnToClosestWaypoint(_bossController.fallMarkers);
+
+        _startPosition = _bossController.transform.position;
+
+        _targetPosition = _startPosition + _bossController.transform.forward * fallPositionOffset;
+    }
+
+    public override void OnStateUpdate(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
+    {
+        if (positionLerpTime > 0.0f && _currentTime < 1.0f)
+        {
+            _currentTime += Time.deltaTime / positionLerpTime;
+
+
+            _bossController.transform.position = Vector3.Lerp(_startPosition, _targetPosition, _currentTime);
+
+        }
     }
 
 
