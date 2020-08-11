@@ -61,7 +61,14 @@ public class UICanvas : Singleton<UICanvas>
                 settingsMenu.SetActive(false);
                 gameOverMenu.SetActive(false);
                 gameFinishedMenu.SetActive(false);
-                restartConfirmationMenu.SetActive(false);
+                restartConfirmationMenu.SetActive(false); 
+                healthBar.SetActive(true);
+
+                if (InputManager.instance.jimController.boss.bossStart)
+                {
+                    bossHealthBar.SetActive(true);
+                }
+
                 Cursor.lockState = CursorLockMode.Locked;
                 Time.timeScale = 1;
                 break;

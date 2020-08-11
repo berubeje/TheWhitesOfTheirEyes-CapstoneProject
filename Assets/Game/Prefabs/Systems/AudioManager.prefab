@@ -134,3 +134,15 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: BossFacePlant
+    clip: {fileID: 8300000, guid: 486d8eb5aa3406341995bca45cc99a9f, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: BossDie
+    clip: {fileID: 8300000, guid: 10bc313b295b8c74887463ad8b985df9, type: 3}
+    volume: 1
+    pitch: 0.5
+    loop: 0
+    source: {fileID: 0}

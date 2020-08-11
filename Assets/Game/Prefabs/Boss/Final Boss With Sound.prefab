@@ -2207,6 +2207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anchorType: 1
+  isPillar: 0
   timeToStartPull: 3
   pullTime: 0
   canRepeatPull: 0
