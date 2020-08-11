@@ -2219,6 +2219,12 @@ MonoBehaviour:
   pullStartEvent:
     m_PersistentCalls:
       m_Calls: []
+  pullDoneEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  resetDoneEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8517072243905237743
 GameObject:
   m_ObjectHideFlags: 0
@@ -10940,6 +10946,7 @@ Transform:
   - {fileID: 8517072244415352987}
   - {fileID: 8517072243888404225}
   - {fileID: 8517072243697366470}
+  - {fileID: 6919171535178476045}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -165.158, z: 0}
@@ -11000,8 +11007,11 @@ MonoBehaviour:
   lightNoiseRange: 0.1
   lightLerpSpeed: 1.5
   player: {fileID: 0}
-  bossStart: 1
+  bossStart: 0
   treeRepairInProgress: 0
+  bossHealParticleEffect: {fileID: 0}
+  deathCutscene: {fileID: 0}
+  bossCutsceneFinished: 0
   turnTime: 1.6
   flinchTurnTime: 0.5
   turnAngle: 45
@@ -11328,3 +11338,83 @@ Transform:
   m_Father: {fileID: 8517072243929093262}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &2526478820003669278
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8517072245576934820}
+    m_Modifications:
+    - target: {fileID: 4830689784220569363, guid: 719fbdefc99e37348ac1d21bdbf8156a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4830689784220569363, guid: 719fbdefc99e37348ac1d21bdbf8156a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4830689784220569363, guid: 719fbdefc99e37348ac1d21bdbf8156a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4830689784220569363, guid: 719fbdefc99e37348ac1d21bdbf8156a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4830689784220569363, guid: 719fbdefc99e37348ac1d21bdbf8156a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.8752858
+      objectReference: {fileID: 0}
+    - target: {fileID: 4830689784220569363, guid: 719fbdefc99e37348ac1d21bdbf8156a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4830689784220569363, guid: 719fbdefc99e37348ac1d21bdbf8156a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.48360613
+      objectReference: {fileID: 0}
+    - target: {fileID: 4830689784220569363, guid: 719fbdefc99e37348ac1d21bdbf8156a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4830689784220569363, guid: 719fbdefc99e37348ac1d21bdbf8156a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4830689784220569363, guid: 719fbdefc99e37348ac1d21bdbf8156a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -4802.158
+      objectReference: {fileID: 0}
+    - target: {fileID: 4830689784220569363, guid: 719fbdefc99e37348ac1d21bdbf8156a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4830689784220569366, guid: 719fbdefc99e37348ac1d21bdbf8156a,
+        type: 3}
+      propertyPath: m_Name
+      value: Healing Base Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 4830689784220569366, guid: 719fbdefc99e37348ac1d21bdbf8156a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 719fbdefc99e37348ac1d21bdbf8156a, type: 3}
+--- !u!4 &6919171535178476045 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4830689784220569363, guid: 719fbdefc99e37348ac1d21bdbf8156a,
+    type: 3}
+  m_PrefabInstance: {fileID: 2526478820003669278}
+  m_PrefabAsset: {fileID: 0}

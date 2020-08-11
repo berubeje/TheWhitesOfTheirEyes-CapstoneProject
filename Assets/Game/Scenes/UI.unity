@@ -431,7 +431,7 @@ MonoBehaviour:
     scenePath: Assets/Game/Scenes/Title Screen.unity
     sceneName: Title Screen
   sceneToUnload:
-    sceneAsset: {fileID: 102900000, guid: f246bc446497ce24d89187d361f80bbd, type: 3}
+    sceneAsset: {fileID: 102900000, guid: e471655591e185a4d9f5f89451f23b91, type: 3}
     scenePath: Assets/Game/Scenes/Beta Build (Rishi).unity
     sceneName: Beta Build (Rishi)
 --- !u!1 &126313805
@@ -3682,7 +3682,7 @@ MonoBehaviour:
   startMenuState: 1
   resetPosition: 1
   sceneToLoad:
-    sceneAsset: {fileID: 102900000, guid: f246bc446497ce24d89187d361f80bbd, type: 3}
+    sceneAsset: {fileID: 102900000, guid: e471655591e185a4d9f5f89451f23b91, type: 3}
     scenePath: Assets/Game/Scenes/Beta Build (Rishi).unity
     sceneName: Beta Build (Rishi)
   sceneToUnload:
@@ -5641,7 +5641,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1160653689
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7760,7 +7760,7 @@ MonoBehaviour:
     scenePath: Assets/Game/Scenes/Title Screen.unity
     sceneName: Title Screen
   sceneToUnload:
-    sceneAsset: {fileID: 102900000, guid: f246bc446497ce24d89187d361f80bbd, type: 3}
+    sceneAsset: {fileID: 102900000, guid: e471655591e185a4d9f5f89451f23b91, type: 3}
     scenePath: Assets/Game/Scenes/Beta Build (Rishi).unity
     sceneName: Beta Build (Rishi)
 --- !u!1 &1506610125
@@ -11322,11 +11322,11 @@ MonoBehaviour:
   startMenuState: 1
   resetPosition: 1
   sceneToLoad:
-    sceneAsset: {fileID: 102900000, guid: f246bc446497ce24d89187d361f80bbd, type: 3}
+    sceneAsset: {fileID: 102900000, guid: e471655591e185a4d9f5f89451f23b91, type: 3}
     scenePath: Assets/Game/Scenes/Beta Build (Rishi).unity
     sceneName: Beta Build (Rishi)
   sceneToUnload:
-    sceneAsset: {fileID: 102900000, guid: f246bc446497ce24d89187d361f80bbd, type: 3}
+    sceneAsset: {fileID: 102900000, guid: e471655591e185a4d9f5f89451f23b91, type: 3}
     scenePath: Assets/Game/Scenes/Beta Build (Rishi).unity
     sceneName: Beta Build (Rishi)
 --- !u!1 &2138790654

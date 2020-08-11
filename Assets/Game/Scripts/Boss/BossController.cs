@@ -251,7 +251,7 @@ public class BossController : MonoBehaviour
         else if(health <= 0.0f)
         {
             deathCutscene.ActivateCutscene();
-            _fsm.SetBool("Fall", true);
+            _fsm.SetTrigger("Fall");
         }
     }
 
