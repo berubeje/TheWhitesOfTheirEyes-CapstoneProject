@@ -18,7 +18,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 81
   m_IsActive: 1
 --- !u!4 &5598550548522609409
 Transform:
@@ -130,7 +130,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 81
   m_IsActive: 1
 --- !u!4 &7239678134307813443
 Transform:
@@ -235,6 +235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anchorType: 1
+  isPillar: 0
   timeToStartPull: 3
   pullTime: 1
   canRepeatPull: 0
@@ -243,6 +244,15 @@ MonoBehaviour:
   angleOfPull: {x: -90, y: 20, z: 5}
   pivot: {fileID: 0}
   isBossCore: 0
+  pullStartEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  pullDoneEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  resetDoneEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &6485361510226753605
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,7 +267,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 81
   m_IsActive: 1
 --- !u!4 &7808107290570558038
 Transform:
