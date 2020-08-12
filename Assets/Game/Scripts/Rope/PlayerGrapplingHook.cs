@@ -182,6 +182,7 @@ public class PlayerGrapplingHook : MonoBehaviour
             }
             else
             {
+                // The rope is generated on the first throw. We tried to generate it on awake/start, but the results where less than desireable. 
                 StartCoroutine(GenerateRope());
                 AudioManager.Instance.PlaySound("RopeCast");
             }
@@ -278,7 +279,6 @@ public class PlayerGrapplingHook : MonoBehaviour
     public void RopeReturned()
     {
         _ropeReturning = false;
-        //_rope.ropeBlueprint = null;
         _rope.GetComponent<MeshRenderer>().enabled = false;
         currentRopeState = RopeState.Idle;
         blueprint.resolution = reeledInResolution;

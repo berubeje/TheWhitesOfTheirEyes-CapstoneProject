@@ -4,7 +4,7 @@
 // author: Jesse Berube
 // date: 2020/07/17
 //
-// summary: This script is reqired for the pillars to deal damage to the boss. 
+// summary: This script is reqired for the pillars to deal damage to the boss. The pillar will also spawn a segmented version of its self to show the pillar breaking apart.
 ///-------------------------------------------------------------------------------------------------
 
 using System.Collections;

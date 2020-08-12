@@ -47,6 +47,7 @@ public class BossCoreLogic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Fade the core out once its pulled. Once the core is faded, show credits after a few seconds.
         if (_faded == false)
         {
             Color newColor = bossCoreMaterial.color;

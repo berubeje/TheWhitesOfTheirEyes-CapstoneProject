@@ -265,6 +265,7 @@ public class BossController : MonoBehaviour
         _startRotation = transform.rotation;
     }
 
+    // Makes the boss turn to the closest waypoint using angles. Usually used for flinching and falling.
     public void TurnToClosestWaypoint(List<Transform> waypoints)
     {
         Transform result = null;
@@ -340,6 +341,7 @@ public class BossController : MonoBehaviour
         _bossCoreAnchorPoint.canAttach = true;
     }
 
+    // Toggle the boss heal particle effects
     public void ToggleHealParticles(bool set)
     {
         if (bossHealParticleEffect != null)
