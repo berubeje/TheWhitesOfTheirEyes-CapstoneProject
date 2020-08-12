@@ -256,6 +256,12 @@ public class JimController : MonoBehaviour
             ropeLogic.LaunchHook();
         }
     }
+
+    private void FinishPullEvent()
+    {
+        _jimAnimator.SetBool("pull", false);
+    }
+
     private void GameOverEvent()
     {
         InputManager.Instance.currentGameState = InputManager.GameStates.GameOver;

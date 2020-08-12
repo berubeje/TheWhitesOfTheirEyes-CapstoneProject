@@ -100,7 +100,7 @@ public class RopeController : MonoBehaviour
         _playerTransform.LookAt(lookVector);
 
 
-        _animator.SetFloat("pullTime", _currentPullTime / ropeLogic.targetAnchor.timeToStartPull);
+        _animator.SetFloat("pullTime", 3.3f / ropeLogic.targetAnchor.timeToStartPull);
         _currentPullTime += Time.deltaTime;
 
         if (_currentPullTime >= ropeLogic.targetAnchor.timeToStartPull)
@@ -111,12 +111,11 @@ public class RopeController : MonoBehaviour
             ropeLogic.DetachHook();
             _playerLogic.isPulling = false;
             _pullObject = false;
-            _animator.SetBool("pull", false);
 
+
+            _animator.SetFloat("pullTime", 1);
             // Stop the rope pull sound
             AudioManager.Instance.StopSound("RopeTension");
-
-            _animator.SetFloat("pullTime", 0);
         }
 
     }
