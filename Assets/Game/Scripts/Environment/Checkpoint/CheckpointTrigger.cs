@@ -17,6 +17,7 @@ public class CheckpointTrigger : IObstacle
     public Renderer eyeRenderer;
     public Material activatedMaterial;
     public Material unactivatedMaterial;
+    public GameObject checkpointParticleEffect;
 
     private SphereCollider _sphereCollider;
     private JimController _jimController;
@@ -37,6 +38,7 @@ public class CheckpointTrigger : IObstacle
             CheckpointManager.Instance.SaveCheckpoint(transform.position, _jimController.currentHealth);
 
             eyeRenderer.material = activatedMaterial;
+            checkpointParticleEffect.SetActive(true);
 
             _sphereCollider.enabled = false;
 
@@ -47,6 +49,7 @@ public class CheckpointTrigger : IObstacle
     {
         isTriggered = false;
         eyeRenderer.material = unactivatedMaterial;
+        checkpointParticleEffect.SetActive(false);
         _sphereCollider.enabled = true;
     }
 
@@ -54,6 +57,7 @@ public class CheckpointTrigger : IObstacle
     {
         isTriggered = true;
         eyeRenderer.material = activatedMaterial;
+        checkpointParticleEffect.SetActive(true);
         _sphereCollider.enabled = false;
     }
 }
