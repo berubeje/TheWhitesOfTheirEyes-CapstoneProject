@@ -58,7 +58,7 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
                 if (_hook.targetAnchor == null || _hook.targetAnchor.transform.root != _bossController.fallenTreeList[0].transform.root)
                 {
                     _tree.StartHeal();
-                    _bossController.bossHealParticleEffect.SetActive(true);
+                    _bossController.ToggleHealParticles(true);
                 }
 
                 _firstAnimationStarted = true;
@@ -76,7 +76,7 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
             if (_secondAnimationStarted == false)
             {
                 _secondAnimationStarted = true;
-                _bossController.bossHealParticleEffect.SetActive(false);
+                _bossController.ToggleHealParticles(false);
             }
         }
         else if (_secondAnimationStarted == true)
@@ -96,7 +96,7 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
     private void Flinch()
     {
         _fsm.SetTrigger("Flinch");
-        _bossController.bossHealParticleEffect.SetActive(false);
+        _bossController.ToggleHealParticles(false);
 
         if (interuptRepair)
         {

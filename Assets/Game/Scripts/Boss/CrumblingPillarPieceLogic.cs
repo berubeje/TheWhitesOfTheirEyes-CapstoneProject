@@ -1,5 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿//-------------------------------------------------------------------------------------------------
+// file: CrumblingPillarPieceLogic.cs
+//
+// author: Jesse Berube
+// date: 2020/08/07
+//
+// summary: The pillars will start to fade away a few seconds after they are spawned into the game.
+///-------------------------------------------------------------------------------------------------
 using UnityEngine;
 
 public class CrumblingPillarPieceLogic : MonoBehaviour
@@ -31,6 +37,7 @@ public class CrumblingPillarPieceLogic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // If fade is false, use a timer to determine when to start fading. Once the color alpha is 0, delete the gameobject.
         if (fade == false)
         {
             currentTime += Time.deltaTime;
@@ -65,6 +72,7 @@ public class CrumblingPillarPieceLogic : MonoBehaviour
         }
     }
 
+    // Last child will destroy the parent
     private void OnDestroy()
     {
         if (transform.parent != null)

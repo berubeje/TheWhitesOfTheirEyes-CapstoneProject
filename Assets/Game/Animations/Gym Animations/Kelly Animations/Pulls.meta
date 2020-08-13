@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Game/Animations/Gym Animations/Kelly Animations/Pulls.meta
 guid: e62362d5b432d84479cfe12b7a33536b
+=======
+guid: 845cf9271f678634abcc7514cb8b6d77
+>>>>>>> Win_FinalWeeks2:Assets/Game/Prefabs/Environment/Texture/TreeTxt.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

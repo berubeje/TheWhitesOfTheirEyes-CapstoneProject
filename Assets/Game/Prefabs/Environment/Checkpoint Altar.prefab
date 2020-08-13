@@ -17,7 +17,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 81
   m_IsActive: 1
 --- !u!4 &2988384618399607613
 Transform:
@@ -111,7 +111,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 81
   m_IsActive: 1
 --- !u!4 &1475064664109224192
 Transform:
@@ -244,6 +244,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9097160950649198788}
     m_Modifications:
+    - target: {fileID: 708714564976663259, guid: 7a53dbed4b5c6624e982b73d708b2a04,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 85
+      objectReference: {fileID: 0}
+    - target: {fileID: 1002764544870238956, guid: 7a53dbed4b5c6624e982b73d708b2a04,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 85
+      objectReference: {fileID: 0}
+    - target: {fileID: 3137419741103225192, guid: 7a53dbed4b5c6624e982b73d708b2a04,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 85
+      objectReference: {fileID: 0}
+    - target: {fileID: 4597387844441375085, guid: 7a53dbed4b5c6624e982b73d708b2a04,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 85
+      objectReference: {fileID: 0}
     - target: {fileID: 5612570234181934277, guid: 7a53dbed4b5c6624e982b73d708b2a04,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -299,15 +319,35 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5788087679213347186, guid: 7a53dbed4b5c6624e982b73d708b2a04,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 85
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143781127388529736, guid: 7a53dbed4b5c6624e982b73d708b2a04,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 85
+      objectReference: {fileID: 0}
     - target: {fileID: 7794621866647784258, guid: 7a53dbed4b5c6624e982b73d708b2a04,
         type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7794621866647784258, guid: 7a53dbed4b5c6624e982b73d708b2a04,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 85
+      objectReference: {fileID: 0}
     - target: {fileID: 8915019759369498326, guid: 7a53dbed4b5c6624e982b73d708b2a04,
         type: 3}
       propertyPath: m_Name
       value: Checkpoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 8915019759369498326, guid: 7a53dbed4b5c6624e982b73d708b2a04,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 85
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a53dbed4b5c6624e982b73d708b2a04, type: 3}

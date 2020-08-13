@@ -45,18 +45,14 @@ public class BossTreeLogic : MonoBehaviour
         _swingAnchorPoint.AllowSwing(false);
 
         _ropeAnchorPoint.pullStartEvent.AddListener(TreeStartedFall);
-        _ropeAnchorPoint.pullDoneEvent.AddListener(TreeFalledEnded);
+        _ropeAnchorPoint.pullDoneEvent.AddListener(TreeFallEnded);
         _ropeAnchorPoint.resetDoneEvent.AddListener(HealEnded);
 
         treeHealParticleEffect.SetActive(false);
         groundUprootParticleEffect.SetActive(false);
     }
-    // Update is called once per frame
-    void Update()
-    {
 
-    }
-
+    // Tell the anchor point to reverse the pull, as well as play a particle effect
     public void StartHeal()
     {
         _swingAnchorPoint.AllowSwing(false);
@@ -76,11 +72,10 @@ public class BossTreeLogic : MonoBehaviour
         groundUprootParticleEffect.SetActive(true);
     }
 
-    private void TreeFalledEnded()
+    private void TreeFallEnded()
     {
         bossController.fallenTreeList.Add(this);
         groundUprootParticleEffect.SetActive(false);
         _swingAnchorPoint.AllowSwing(true);
     }
-
 }

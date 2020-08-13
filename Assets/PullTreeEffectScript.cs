@@ -1,5 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿//-------------------------------------------------------------------------------------------------
+// file: PullTreeEffectScript.cs
+//
+// author: Jesse Berube
+// date: 2020/08/12
+//
+// summary: The scripts detects when the tree has been pulled down, which then triggers a particle effect.
+///-------------------------------------------------------------------------------------------------
+
 using UnityEngine;
 
 public class PullTreeEffectScript : MonoBehaviour
