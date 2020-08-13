@@ -41,7 +41,17 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
         }
 
         _bossController.flinchEvent.AddListener(Flinch);
-        _tree = _bossController.fallenTreeList[0];
+
+        if (_bossController.fallenTreeList.Count > 0)
+        {
+            _tree = _bossController.fallenTreeList[0];
+        }
+        else
+        {
+            fsm.SetTrigger("Idle");
+            return;
+        }
+
         _animator.SetTrigger("Heal Start");
         _hook = _bossController.player.ropeLogic;
 
@@ -58,6 +68,8 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
                 if (_hook.targetAnchor == null || _hook.targetAnchor.transform.root != _bossController.fallenTreeList[0].transform.root)
                 {
                     _tree.StartHeal();
+                    _bossController.fallenTreeList.Remove(_tree);
+                    _tree = null;
                     _bossController.ToggleHealParticles(true);
                 }
 

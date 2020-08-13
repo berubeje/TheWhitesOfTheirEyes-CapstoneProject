@@ -58,7 +58,6 @@ public class BossTreeLogic : MonoBehaviour
         _swingAnchorPoint.AllowSwing(false);
         _ropeAnchorPoint.ResetPull(_ropeAnchorPoint.pullTime);
 
-        bossController.fallenTreeList.Remove(this);
         treeHealParticleEffect.SetActive(true);
     }
 
