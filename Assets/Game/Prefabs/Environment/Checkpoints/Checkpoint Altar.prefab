@@ -238,6 +238,7 @@ MonoBehaviour:
   eyeRenderer: {fileID: 4730046885162963235}
   activatedMaterial: {fileID: 2100000, guid: 7304e5cf3707b7f44beb60c3a532ce18, type: 2}
   unactivatedMaterial: {fileID: 2100000, guid: 2417328644186d3448da213090ca3609, type: 2}
+  checkpointParticleEffect: {fileID: 7879827966207557767}
 --- !u!64 &3078698039155211509
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -476,6 +477,12 @@ PrefabInstance:
 --- !u!4 &2149969641718136702 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5612570234181934277, guid: 7a53dbed4b5c6624e982b73d708b2a04,
+    type: 3}
+  m_PrefabInstance: {fileID: 5779775404741223355}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7879827966207557767 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4426799646037140284, guid: 7a53dbed4b5c6624e982b73d708b2a04,
     type: 3}
   m_PrefabInstance: {fileID: 5779775404741223355}
   m_PrefabAsset: {fileID: 0}
