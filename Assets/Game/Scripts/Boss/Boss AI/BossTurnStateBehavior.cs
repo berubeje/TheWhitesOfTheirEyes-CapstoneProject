@@ -134,7 +134,7 @@ public class BossTurnStateBehavior : StateMachineBehaviour
                     }
                     else
                     {
-                        if (_hook.targetAnchor == null ||  _hook.targetAnchor.transform.root != _bossController.fallenTreeList[0].transform.root)
+                        if (_hook.targetAnchor == null ||  _hook.targetAnchor.transform.parent != _bossController.fallenTreeList[0].transform.parent)
                         {
                             fsm.SetTrigger("Fix Tree");
                         }
