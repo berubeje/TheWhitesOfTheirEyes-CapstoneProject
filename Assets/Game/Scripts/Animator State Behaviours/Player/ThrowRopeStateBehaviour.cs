@@ -13,7 +13,6 @@ public class ThrowRopeStateBehaviour : StateMachineBehaviour
         animator.ResetTrigger("returnToIdle");
         animator.ResetTrigger("ropeLaunch");
         animator.ResetTrigger("swingCancel");
-        animator.ResetTrigger("swingIdle");
         animator.ResetTrigger("swingLand");
         animator.ResetTrigger("swingStart");
     }

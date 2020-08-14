@@ -17,7 +17,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 71
+  m_StaticEditorFlags: 85
   m_IsActive: 1
 --- !u!4 &8105117259901334613
 Transform:
@@ -26,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5053162942650418758}
-  m_LocalRotation: {x: 0.10695417, y: 0.33028886, z: 0.015612982, w: 0.9376707}
+  m_LocalRotation: {x: 0.10695271, y: 0.3302859, z: 0.015611205, w: 0.9376719}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -3.12, y: -3.12, z: -3.12}
+  m_LocalScale: {x: -3.1199996, y: -3.12, z: -3.12}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 10.968, y: 39.370003, z: 5.8420005}
 --- !u!33 &945808198303043171
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -91,6 +91,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -366694169770571964, guid: 7002e3f230807c7498452516d4ddd81c, type: 3}

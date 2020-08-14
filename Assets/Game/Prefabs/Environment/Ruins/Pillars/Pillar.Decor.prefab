@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7301964568074386472}
   - component: {fileID: 1733547933950854686}
   - component: {fileID: 5418470001349442279}
+  - component: {fileID: 364257624603420344}
   m_Layer: 0
   m_Name: Pillar.Decor
   m_TagString: Untagged
@@ -79,3 +80,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &364257624603420344
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5984883470967049787}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8347838013647470331, guid: 74514362edfcbca4a9c6a6eb6c0a0a60, type: 3}
