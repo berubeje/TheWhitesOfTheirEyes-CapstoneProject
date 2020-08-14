@@ -112,7 +112,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: PillarBreak
     clip: {fileID: 8300000, guid: 4238029e1b27c354db0c0e1157a1336a, type: 3}
-    volume: 0.5
+    volume: 0.25
     pitch: 1
     loop: 0
     source: {fileID: 0}
@@ -142,13 +142,25 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: BossDie
     clip: {fileID: 8300000, guid: 10bc313b295b8c74887463ad8b985df9, type: 3}
-    volume: 1
+    volume: 0.5
     pitch: 0.75
     loop: 0
     source: {fileID: 0}
   - name: BossFall
     clip: {fileID: 8300000, guid: ca3cbbda2cfa87943b1edde1a950e206, type: 3}
-    volume: 0.4
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: TheAncientGate
+    clip: {fileID: 8300000, guid: 05c803ef2a504c246b1926858f664c45, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: FallOfTheGiant
+    clip: {fileID: 8300000, guid: 56bf10e38bc3a4b45a84c3492f345415, type: 3}
+    volume: 1
     pitch: 1
     loop: 0
     source: {fileID: 0}

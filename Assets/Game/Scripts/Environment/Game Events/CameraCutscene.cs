@@ -9,6 +9,7 @@ public class CameraCutscene : MonoBehaviour
     public float cameraTrackSpeed;
     public float cameraWaitTime;
     public float cameraDestroyWaitTime;
+    public string trackToPlay;
     public bool waitForPlayerInput;
 
     private CinemachineTrackedDolly _dollyTrack;
@@ -56,6 +57,12 @@ public class CameraCutscene : MonoBehaviour
 
             // Start the cutscene
             _cutsceneStarted = true;
+            
+            // Play the music
+            if(trackToPlay != "")
+            {
+                AudioManager.Instance.PlaySound(trackToPlay);
+            }
         }
     }
 
