@@ -17,6 +17,7 @@ public class KillPillarScript : MonoBehaviour
     public float damageDelt = 25.0f;
 
     private RopeAnchorPoint _anchorPoint;
+    private KillPillarReset _checkpointTrigger;
     
 
     private void Awake()
@@ -24,6 +25,7 @@ public class KillPillarScript : MonoBehaviour
         _anchorPoint = transform.parent.GetComponentInChildren<RopeAnchorPoint>();
 
         _anchorPoint.pullStartEvent.AddListener(PullStarted);
+        _checkpointTrigger = GetComponentInParent<KillPillarReset>();
     }
 
 
@@ -32,6 +34,7 @@ public class KillPillarScript : MonoBehaviour
         Collider playerCollider = InputManager.Instance.jimController.GetComponent<Collider>();
 
         Physics.IgnoreCollision(playerCollider, GetComponent<Collider>(), true);
+        _checkpointTrigger.isTriggered = true;
     }
 
 
@@ -42,7 +45,8 @@ public class KillPillarScript : MonoBehaviour
             Transform copiedTranform = this.transform.parent;
 
             Instantiate(crumblingPillarPrefab, copiedTranform.position, copiedTranform.rotation);
-            Destroy(this.gameObject);
+            
+            gameObject.SetActive(false);
         }
     }
 
