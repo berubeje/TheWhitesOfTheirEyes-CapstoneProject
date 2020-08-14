@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Fungus/Scripts/Commands/Collection.meta
 guid: 7d7820abad934b747ae1797c3aa82197
+=======
+guid: cb2f50f1ca081fc488c7930968c39cbd
+>>>>>>> Patric_Design:Assets/Story Wildlands Nature/prefabs/environment/Materials.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
