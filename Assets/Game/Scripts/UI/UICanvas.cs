@@ -48,7 +48,7 @@ public class UICanvas : Singleton<UICanvas>
     private void Start()
     {
         // Start with controls disabled
-        //DisableAllControls();
+        DisableAllControls();
     }
 
     private void OnGameStateChanged(InputManager.GameStates state)
