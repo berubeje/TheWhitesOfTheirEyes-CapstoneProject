@@ -42,6 +42,8 @@ public class CheckpointTrigger : IObstacle
 
             _sphereCollider.enabled = false;
 
+            // Play the sound effect
+            AudioManager.Instance.PlaySound("Checkpoint");
         }
     }
 
