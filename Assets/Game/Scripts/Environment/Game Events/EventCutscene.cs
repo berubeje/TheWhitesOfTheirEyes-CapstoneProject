@@ -11,6 +11,7 @@ public class EventCutscene : MonoBehaviour
     public float cameraWaitTime;
     public float cameraDestroyWaitTime;
     public bool waitForPlayerInput;
+    public TutorialTrigger tutorial;
 
     private CinemachineTrackedDolly _dollyTrack;
     private CinemachineBrain _cinemachineBrain;
@@ -103,6 +104,11 @@ public class EventCutscene : MonoBehaviour
                 {
                     if (jimController.isReceivingLeftStick || jimController.isReceivingRightStick)
                     {
+                        if (tutorial != null)
+                        {
+                            tutorial._triggered = true;
+                        }
+
                         // Switch back to normal camera after the player moves
                         cutsceneCamera.Priority = 1;
 
@@ -113,7 +119,10 @@ public class EventCutscene : MonoBehaviour
                 }
                 else
                 {
-                    // Switch back to normal camera after the player moves
+                    if(tutorial != null)
+                    {
+                        tutorial._triggered = true;
+                    }
                     cutsceneCamera.Priority = 1;
 
                     _cutsceneStarted = false;
