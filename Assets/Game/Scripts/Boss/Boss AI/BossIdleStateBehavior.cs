@@ -70,7 +70,7 @@ public class BossIdleStateBehavior : StateMachineBehaviour
             {
                 if (_bossController.fallenTreeList.Count > 0)
                 {
-                    if (_hook.targetAnchor == null || _hook.targetAnchor.transform.root != _bossController.fallenTreeList[0].transform.root)
+                    if (_hook.targetAnchor == null || _hook.targetAnchor.transform.parent != _bossController.fallenTreeList[0].transform.parent)
                     {
                         _bossController.treeRepairInProgress = true;
                         if (_bossController.NeedToTurn(_bossController.fallenTreeList[0].transform))

@@ -65,7 +65,7 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
         {
             if (_firstAnimationStarted == false)
             {
-                if (_hook.targetAnchor == null || _hook.targetAnchor.transform.root != _bossController.fallenTreeList[0].transform.root)
+                if (_hook.targetAnchor == null || _hook.targetAnchor.transform.parent != _tree.transform.parent)
                 {
                     _tree.StartHeal();
                     _bossController.fallenTreeList.Remove(_tree);
