@@ -29,14 +29,20 @@ public class PlayerGrapplingHook : MonoBehaviour
     [Header("Swing Strain")]
     public float currentRopeLengthOffset;
 
+    [Header("Blueprint Resolution")]
+    public float reeledInResolution = 0.0f;
+    public float launchedResolution = 0.05f;
+
     private bool _adjustSwingLength = false;
     private float _ropeMass = 0.1f;
     private ObiRope _rope;
     private ObiRopeExtrudedRenderer _ropeRenderer;
+    private MeshRenderer _ropeMeshRenderer;
 
     private ObiRopeCursor _cursor;
     private JimController _jimController;
     private Animator _jimAnimator;
+    private bool _ropeGenerated = false;
 
 
     private bool _ropeReturning;
@@ -73,7 +79,6 @@ public class PlayerGrapplingHook : MonoBehaviour
 
     void Awake()
     {
-
         // Create both the rope and the solver.
         _rope = gameObject.AddComponent<ObiRope>();
         _ropeRenderer = gameObject.AddComponent<ObiRopeExtrudedRenderer>();
@@ -81,7 +86,9 @@ public class PlayerGrapplingHook : MonoBehaviour
         _ropeRenderer.uvScale = new Vector2(1, 5);
         _ropeRenderer.normalizeV = false;
         _ropeRenderer.uvAnchor = 1;
-        _rope.GetComponent<MeshRenderer>().material = material;
+        _ropeMeshRenderer = GetComponent<MeshRenderer>();
+        _ropeMeshRenderer.material = material;
+        _ropeMeshRenderer.enabled = false;
 
         // Tweak rope parameters.
         _rope.maxBending = 0.02f;
@@ -112,7 +119,7 @@ public class PlayerGrapplingHook : MonoBehaviour
             ropeBaseLogic.SetupGrappleHook(this);
         }
 
-        if(ropeHook != null)
+        if (ropeHook != null)
         {
             ropeHook.SetupGrappleHook(this);
         }
@@ -123,6 +130,8 @@ public class PlayerGrapplingHook : MonoBehaviour
 
 
     }
+
+
 
     // Attempt to launch the rope at the target the target zone has found.
     public void LaunchHook()
@@ -142,23 +151,44 @@ public class PlayerGrapplingHook : MonoBehaviour
                 RopeReturned();
             }
 
+            if(targetAnchor.canAttach == false)
+            {
+                return;
+            }
             // Check to see if there is already a projectile. If there is, use it, otherwise create a new one.
 
             if (ropeHook != null)
             {
-                ropeHook.Relaunch(targetAnchor.transform);
+                ropeHook.Launch(targetAnchor.transform);
                 ropeHook.transform.position = character.transform.position;
             }
             else
             {
-                Debug.LogError("Public parameter RopeHook is null in " + this.gameObject.name);
+                Debug.LogError("Public parameter RopeHook is null in " + gameObject.name);
             }
 
             currentRopeState = RopeState.Launched;
-            StartCoroutine(GenerateRope());
+            
+            // Play cobra sound
+            AudioManager.Instance.PlaySound("CobraStrike");
 
+            blueprint.resolution = launchedResolution;
+
+            if (_ropeGenerated)
+            {
+                _rope.GetComponent<MeshRenderer>().enabled = true;
+                // Play rope cast
+                AudioManager.Instance.PlaySound("RopeCast");
+            }
+            else
+            {
+                // The rope is generated on the first throw. We tried to generate it on awake/start, but the results where less than desireable. 
+                StartCoroutine(GenerateRope());
+                AudioManager.Instance.PlaySound("RopeCast");
+            }
         }
     }
+
 
     // Pull the rope back if the playe cancels the launch.
     public void CancelLaunch()
@@ -174,6 +204,10 @@ public class PlayerGrapplingHook : MonoBehaviour
     {
         currentRopeState = RopeState.Landed;
 
+        //Stop the rope cast sound and play the impact sound
+        AudioManager.Instance.StopSound("RopeCast");
+        AudioManager.Instance.PlaySound("WoodImpact");
+
         if (targetAnchor.anchorType == RopeAnchorPoint.AnchorType.Swing)
         {
             currentRopeState = RopeState.Swing;
@@ -182,41 +216,11 @@ public class PlayerGrapplingHook : MonoBehaviour
         }
         else if (targetAnchor.anchorType == RopeAnchorPoint.AnchorType.Pull)
         {
-            currentRopeState = RopeState.Pull; 
+            currentRopeState = RopeState.Pull;
             //_jimAnimator.SetTrigger("returnToIdle");
         }
-        //else
-        //{
-        //    currentRopeState = RopeState.OneEndTied;
-        //    targetCone.TieSizeToggle(true);
-        //}
-
     }
 
-    // The logic to tie the rope to another gameobject, as well as set the rope state to 'Tied' 
-    //public void TieRope()
-    //{
-    //    if (currentRopeState != RopeState.OneEndTied)
-    //    {
-    //        return;
-    //    }
-
-    //    RopeAnchorPoint tieTarget = targetCone.GetTarget();
-
-    //    if (tieTarget != null && tieTarget != targetAnchor)
-    //    {
-    //        character.transform.position = tieTarget.transform.position;
-    //        character.transform.parent = tieTarget.transform;
-
-    //        baseTargetAnchor = tieTarget;
-    //        if (targetAnchor.GetComponentInParent<RockSwinging>() != null)
-    //        {
-    //            targetAnchor.GetComponentInParent<RockSwinging>().currentBaseAnchor = baseTargetAnchor;
-    //            targetAnchor.GetComponentInParent<RockSwinging>().currentHeadAnchor = targetAnchor;
-    //        }
-    //        currentRopeState = RopeState.Tied;
-    //    }
-    //}
 
     // This is needed to add the control points and pin constraints to the rope blueprint when it is launched.
     public IEnumerator GenerateRope()
@@ -242,76 +246,42 @@ public class PlayerGrapplingHook : MonoBehaviour
 
         // Set the blueprint.
         _rope.ropeBlueprint = blueprint;
-        _rope.GetComponent<MeshRenderer>().enabled = true;
-    }
 
-    // Reset the targets for the rockswing
-    private void DetachSwingRock()
-    {
-        RockSwinging r = targetAnchor.GetComponentInParent<RockSwinging>();
-        if (r != null)
+        if (currentRopeState != PlayerGrapplingHook.RopeState.Idle)
         {
-            r.currentBaseAnchor = null;
-            r.currentHeadAnchor = null;
+            _rope.GetComponent<MeshRenderer>().enabled = true;
         }
-        baseTargetAnchor = null;
-        targetAnchor = null;
+       
+        _ropeGenerated = true;
+
     }
 
     // Detach the hook from the gameobject it is attatched to and bring it back.
     public void DetachHook()
     {
-
         // Bring the hook back in a swing or pull state.
         if (currentRopeState == RopeState.Swing || currentRopeState == RopeState.Pull)
         {
             ropeHook.RopeReturn(character.transform);
-            DetachSwingRock();
             _ropeReturning = true;
 
             if (currentRopeState == RopeState.Swing)
             {
                 _jimAnimator.SetTrigger("swingLand");
             }
-
-            currentRopeState = RopeState.Idle;
-
+            currentRopeState = RopeState.Idle;   
         }
-        // Bring the base of the rope back in a tied state.
-        //else if (currentRopeState == RopeState.Tied)
-        //{
-        //    MagicRopeProjectileLogic ropeBaseLogic = character.GetComponent<MagicRopeProjectileLogic>();
 
-        //    ropeHook.InstantReturn();
-
-        //    if (ropeBaseLogic != null)
-        //    {
-        //        ropeBaseLogic.RopeReturn();
-        //        DetachSwingRock();
-        //        _rope.ropeBlueprint = null;
-        //        _rope.GetComponent<MeshRenderer>().enabled = false;
-        //    }
-        //    baseTargetAnchor = null;
-
-        //}
-
-        targetCone.TieSizeToggle(false);
         targetAnchor = null;
     }
 
     // When the rope is returned, set the rope state to idle as well as make the rope go away.
     public void RopeReturned()
     {
-        //if (currentRopeState == RopeState.Tied)
-        //{
-        //    character.transform.parent = _startingBaseParent;
-        //    character.transform.localPosition = _startingBasePosition;
-        //}
-
         _ropeReturning = false;
-        _rope.ropeBlueprint = null;
         _rope.GetComponent<MeshRenderer>().enabled = false;
         currentRopeState = RopeState.Idle;
+        blueprint.resolution = reeledInResolution;
     }
 
     // Calculate the length of the rope.

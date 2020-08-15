@@ -44,6 +44,8 @@ public class RopeController : MonoBehaviour
 
     private void Awake()
     {
+        InputManager.Instance.ropeController = this;
+
         _playerRigidBody = GetComponentInParent<Rigidbody>();
         _playerLogic = _playerRigidBody.GetComponent<JimController>();
         _playerTransform = _playerRigidBody.transform;
@@ -98,7 +100,7 @@ public class RopeController : MonoBehaviour
         _playerTransform.LookAt(lookVector);
 
 
-        _animator.SetFloat("pullTime", _currentPullTime / ropeLogic.targetAnchor.timeToStartPull);
+        _animator.SetFloat("pullTime", 3.3f / ropeLogic.targetAnchor.timeToStartPull);
         _currentPullTime += Time.deltaTime;
 
         if (_currentPullTime >= ropeLogic.targetAnchor.timeToStartPull)
@@ -109,8 +111,11 @@ public class RopeController : MonoBehaviour
             ropeLogic.DetachHook();
             _playerLogic.isPulling = false;
             _pullObject = false;
-            _animator.SetBool("pull", false);
-            _animator.SetFloat("pullTime", 0);
+
+
+            _animator.SetFloat("pullTime", 1);
+            // Stop the rope pull sound
+            AudioManager.Instance.StopSound("RopeTension");
         }
 
     }
@@ -165,7 +170,7 @@ public class RopeController : MonoBehaviour
     }
 
 
-    // Launch out the rope if there is a target in sight. If the rope is tied, the button will need to be pressed again to bring it back.
+    // Launch out the rope if there is a target in sight.
     public void OnRightTriggerDown(InputAction.CallbackContext context)
     {
         _rightTriggerInput = context.ReadValue<float>();
@@ -178,15 +183,6 @@ public class RopeController : MonoBehaviour
             }
 
         }
-        //else if (ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.Tied)
-        //{
-        //    if (_isRightTriggerInUse == false)
-        //    {
-        //        ropeLogic.DetachHook();
-        //        _isRightTriggerInUse = true;
-        //    }
-
-        //}
     }
 
     // Let go of the trigger to bring the rope back to the player. 
@@ -217,11 +213,15 @@ public class RopeController : MonoBehaviour
         {
             _pullObject = true;
             _animator.SetBool("pull", true);
+
+            // Play the rope pull sound
+            AudioManager.Instance.PlaySound("RopeTension");
+
             _playerLogic.isPulling = true;
         }
     }
 
-    //Tap the left trigger to tie the base of the rope to another anchor point.
+    //Hold left trigger while the rope is attatched to a pull anchor to pull.
     public void OnLeftTriggerCancel(InputAction.CallbackContext context)
     {
         // For some reason, this will trigger regardless if you hold the trigger long enough or not
@@ -232,13 +232,20 @@ public class RopeController : MonoBehaviour
                 _pullObject = false;
                 _playerLogic.isPulling = false; 
                 _animator.SetBool("pull", false);
+
+                // Stop the rope pull sound
+                AudioManager.Instance.StopSound("RopeTension");
+
                 _currentPullTime = 0.0f;
+
+                if(_isRightTriggerInUse == false)
+                {
+                    ropeLogic.DetachHook();
+                }
             }
         }
-        //else if (ropeLogic.currentRopeState == PlayerGrapplingHook.RopeState.OneEndTied)
-        //{
-        //    ropeLogic.TieRope();
-        //}
+
+
 
     }
 }

@@ -35,6 +35,8 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // Play the reel in sound effect
+        AudioManager.Instance.PlaySound("ReelIn");
 
         _jimController = animator.GetComponent<JimController>();
         _splineRoute = _jimController.splineRoute;
@@ -55,6 +57,7 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
             Debug.LogError("Unable to find Rigidbody component");
         }
 
+        _rigidbody.velocity = Vector3.zero;
         _interpolant = 0.0f;
 
         _initialPosition = animator.transform.position;
@@ -68,7 +71,7 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
         _reelDirection = (animator.transform.position - _anchor.position).normalized;
 
         // Reverse it and kill the y to get the swing forward
-        _swingForward = _swingForward - _reelDirection;
+        _swingForward = -_reelDirection;
         _swingForward.y = 0;
 
         // Calculate the point to be reeled to
@@ -77,8 +80,8 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
         // Direction player needs to rotate to
         _lookRotation = Quaternion.LookRotation(_lookDirection);
 
-        _lerpRate = (reelInSpeed * Time.deltaTime) / Vector3.Distance(_reelLocation, _initialPosition);
-
+        _lerpRate = reelInSpeed / Vector3.Distance(_reelLocation, _initialPosition);
+        animator.SetFloat("swingDirectionRaw", 1);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -87,30 +90,38 @@ public class SwingStartStateBehaviour : StateMachineBehaviour
         Debug.DrawRay(_initialPosition, _lookDirection, Color.red);
         if (!animator.GetAnimatorTransitionInfo(0).IsName("SwingStart -> SwingIdle"))
         {
-            Vector3 targetPosition = Vector3.Lerp(_initialPosition, _reelLocation, _interpolant);
+            Vector3 targetPosition = Vector3.Lerp(_initialPosition, _reelLocation, _interpolant) - animator.transform.position;
             Quaternion targetRotation = Quaternion.Lerp(_initialRotation, _lookRotation, _interpolant);
 
-            _rigidbody.MovePosition(targetPosition);
-            _rigidbody.MoveRotation(targetRotation);
+            animator.transform.Translate(targetPosition, Space.World);
+            animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, targetRotation, _jimController.rotationSpeed);
 
             if (_interpolant >= 1.0f)
             {
                 animator.SetTrigger("swingIdle");
             }
 
-            _interpolant += _lerpRate;
+            _interpolant += _lerpRate * Time.deltaTime;
         }
 
 
-        if (Physics.SphereCast(animator.transform.position + new Vector3(0, 1, 0), 0.3f, _swingForward, out _, forwardCheckDistance, _layerMask))
+        if (Physics.SphereCast(animator.transform.position + new Vector3(0, 1, 0), 0.1f, _swingForward, out _, forwardCheckDistance, _layerMask))
         {
             //_rigidbody.MoveRotation(Quaternion.LookRotation(Vector3.Cross(Vector3.up, animator.transform.right)));
             animator.SetTrigger("swingCancel");
         }
 
+        SetUpSpline(animator);
+
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        // Stop the reel in sound effect
+        AudioManager.Instance.StopSound("ReelIn");
+    }
+
+    private void SetUpSpline(Animator animator)
     {
         _splineRoute.controlPoints[0].position = animator.transform.position;
         _splineRoute.controlPoints[1].position = animator.transform.position + (-_reelDirection * releaseMagnitude) + (Vector3.up * releaseDirectionOffset);

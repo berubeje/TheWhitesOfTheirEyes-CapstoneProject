@@ -29,6 +29,8 @@ public class SwingLandStateBehaviour : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        _targetRotation = Quaternion.LookRotation(Vector3.Cross(Vector3.up, -animator.transform.right));
+
         _rigidbody = animator.GetComponent<Rigidbody>();
 
         if (_rigidbody == null)
@@ -46,7 +48,6 @@ public class SwingLandStateBehaviour : StateMachineBehaviour
 
         // Cache the spline speed so we can reset it later
         _initialSplineSpeed = splineSpeed;
-        _targetRotation = Quaternion.LookRotation(Vector3.Cross(Vector3.up, -animator.transform.right));
         _splineComplete = false;
         _t = 0.0f;
 
@@ -72,7 +73,16 @@ public class SwingLandStateBehaviour : StateMachineBehaviour
             {
 
                 splineSpeed += splineAcceleration;
-                _t += splineSpeed * Time.deltaTime;
+
+
+                Vector3 targetPosition = Mathf.Pow(1 - _t, 3) * _p0 +
+                        3 * Mathf.Pow(1 - _t, 2) * _t * _p1 +
+                        3 * (1 - _t) * Mathf.Pow(_t, 2) * _p2 +
+                        Mathf.Pow(_t, 3) * _p3;
+
+                animator.transform.Translate(targetPosition - animator.transform.position, Space.World);
+                //_rigidbody.MoveRotation(_targetRotation);
+                animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, _targetRotation, _jimController.rotationSpeed);
 
                 if (_t >= 1)
                 {
@@ -80,13 +90,7 @@ public class SwingLandStateBehaviour : StateMachineBehaviour
                     _splineComplete = true;
                 }
 
-                Vector3 targetPosition = Mathf.Pow(1 - _t, 3) * _p0 +
-                        3 * Mathf.Pow(1 - _t, 2) * _t * _p1 +
-                        3 * (1 - _t) * Mathf.Pow(_t, 2) * _p2 +
-                        Mathf.Pow(_t, 3) * _p3;
-
-                _rigidbody.MovePosition(targetPosition);
-                animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, _targetRotation, _jimController.rotationSpeed);
+                _t += splineSpeed * Time.deltaTime;
             }
         }
 

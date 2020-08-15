@@ -1,0 +1,172 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8587279157914821325
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8587279158838423892}
+  - component: {fileID: 8587279157914821324}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8587279158838423892
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8587279157914821325}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8587279157914821324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8587279157914821325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cf82720f4a864849bc3c58d671db0a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: CobraStrike
+    clip: {fileID: 8300000, guid: eb783478829f7764792011df8de7fc1d, type: 3}
+    volume: 0.25
+    pitch: 0.9
+    loop: 0
+    source: {fileID: 0}
+  - name: RopeCast
+    clip: {fileID: 8300000, guid: 999a76029d333d9458438a5395dacfed, type: 3}
+    volume: 0.5
+    pitch: 0.5
+    loop: 1
+    source: {fileID: 0}
+  - name: WoodImpact
+    clip: {fileID: 8300000, guid: 6ca3d91693db7014cbb75a97ce686e87, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Catch
+    clip: {fileID: 8300000, guid: 2554a02e5052d2246bb77f98bde37c05, type: 3}
+    volume: 0.1
+    pitch: 0.8
+    loop: 0
+    source: {fileID: 0}
+  - name: RopeTension
+    clip: {fileID: 8300000, guid: 2a145306ba79d8941b13e62f7cbeec16, type: 3}
+    volume: 0.25
+    pitch: 0.9
+    loop: 0
+    source: {fileID: 0}
+  - name: ReelIn
+    clip: {fileID: 8300000, guid: cb4aef71d315fc344965af88764b9274, type: 3}
+    volume: 0.1
+    pitch: 1.5
+    loop: 0
+    source: {fileID: 0}
+  - name: SwingWhoosh
+    clip: {fileID: 8300000, guid: 327e5bf0e82635843835ad747b59fca0, type: 3}
+    volume: 0.1
+    pitch: 1.25
+    loop: 0
+    source: {fileID: 0}
+  - name: BossAttack
+    clip: {fileID: 8300000, guid: dae80f8757b77b84baa502ecc0612c91, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: BossHurt
+    clip: {fileID: 8300000, guid: fadebd0a861e2f340a9b49261347892f, type: 3}
+    volume: 1
+    pitch: 0.75
+    loop: 0
+    source: {fileID: 0}
+  - name: BossWindUp
+    clip: {fileID: 8300000, guid: c3bf91266f823654c81ce7a1d22462cb, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: BossRockTumble
+    clip: {fileID: 8300000, guid: a3b0b3533ad36c44e9566348549dc784, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: PillarBreak
+    clip: {fileID: 8300000, guid: 4238029e1b27c354db0c0e1157a1336a, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: TreeFall
+    clip: {fileID: 8300000, guid: 5f7a52597e9def74786e95694cca1519, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: TreeRepair
+    clip: {fileID: 8300000, guid: 4c86a1264227c6c408097a606d2834b2, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: PillarFall
+    clip: {fileID: 8300000, guid: 00166a541ccd2db45a6ec2695865325c, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: BossFacePlant
+    clip: {fileID: 8300000, guid: 486d8eb5aa3406341995bca45cc99a9f, type: 3}
+    volume: 0.5
+    pitch: 0.85
+    loop: 0
+    source: {fileID: 0}
+  - name: BossDie
+    clip: {fileID: 8300000, guid: 10bc313b295b8c74887463ad8b985df9, type: 3}
+    volume: 0.5
+    pitch: 0.75
+    loop: 0
+    source: {fileID: 0}
+  - name: BossFall
+    clip: {fileID: 8300000, guid: ca3cbbda2cfa87943b1edde1a950e206, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: TheAncientGate
+    clip: {fileID: 8300000, guid: 05c803ef2a504c246b1926858f664c45, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: FallOfTheGiant
+    clip: {fileID: 8300000, guid: 56bf10e38bc3a4b45a84c3492f345415, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Checkpoint
+    clip: {fileID: 8300000, guid: aa320eed945ba664fbb5bd532859c095, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}

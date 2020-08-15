@@ -6,9 +6,12 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.PostProcessing;
 
 public class JimController : MonoBehaviour
 {
+    public BossController boss;
+
     public float maxHealth;
     private float _health;
 
@@ -23,11 +26,7 @@ public class JimController : MonoBehaviour
                 return;
             }
             _health = value;
-            if(_health == 0)
-            {
-                // Die stuff here 
-            }
-            if (OnHealthChange != null && _health != 0)
+            if (OnHealthChange != null)
             {
                 OnHealthChange(_health);
             }
@@ -43,23 +42,32 @@ public class JimController : MonoBehaviour
     public float directionSpeed;
     public float leftStickDeadzone;
     public bool isPulling = false;
+    public bool isReceivingLeftStick = false;
+    public bool isReceivingRightStick = false;
 
     [Header("Camera Settings")]
-    [Range(0.1f, 5.0f)]
-    public float cameraSensitivity;
-    public CameraFollowTarget cameraFollowTarget;
+    [Range(0.0f, 1.0f)]
+    public float rightStickXDeadZone;
+    [Range(0.0f, 1.0f)]
+    public float rightStickYDeadZone;
     public CinemachineFreeLook freeLookCamera;
     public CinemachineVirtualCamera swingCamera;
     public DollyTrackFollow swingCameraTrack;
 
     [Header("Rope Settings")]
     public PlayerGrapplingHook ropeLogic;
+    public MagicRopeProjectileLogic snakeHead;
     public RopeAnchorPoint anchor;
     public SplineRoute splineRoute;
-    public float groundCheckDistance;
+   
 
-    [Header("Hook logic for animator")]
-    public PlayerGrapplingHook hook;
+    [Header("Blinking settings")]
+    public SkinnedMeshRenderer skinnedMeshRenderer;
+    public float blinkRate;
+    public float blinkSpeed;
+    public float blinkAngleThreshold; 
+
+    private Camera _mainCamera;
 
     private Vector2 _leftStickInput;
     private Vector2 _rightStickInput;
@@ -69,25 +77,54 @@ public class JimController : MonoBehaviour
 
     private Animator _jimAnimator;
     private AnimatorStateInfo _stateInfo;
-    private int _locomotionID;
-    private int _idleID;
+    
+    [HideInInspector]
+    public int _locomotionID;
+    [HideInInspector]
+    public int _idleID;
+    [HideInInspector]
+    public int _rollID;
+
+    private float _blinkTimer;
+    private float _initialBlinkValue;
+    private float _blinkLerpValue;
 
     void Awake()
     {
+        InputManager.Instance.jimController = this;
+        CheckpointManager.Instance.jimController = this;
+
         currentHealth = maxHealth;
+        //UICanvas.Instance.ChangeHealthBar(currentHealth);
 
         _jimAnimator = GetComponent<Animator>();
 
+        // Cache the main camera
+        _mainCamera = Camera.main;
+
         _locomotionID = Animator.StringToHash("Base Layer.Locomotion");
         _idleID = Animator.StringToHash("Base Layer.Idle");
+        _rollID = Animator.StringToHash("Base Layer.DodgeRoll");
+
+        // Initialize blink timer to 0 and get the initial value for the blend shape
+        _blinkTimer = 0.0f;
+        _initialBlinkValue = skinnedMeshRenderer.GetBlendShapeWeight(0);
+        _blinkLerpValue = 0;
 
         // bind callback function
         OnHealthChange += OnHealthChanged;
     }
 
+    private void Start()
+    {
+        InputManager.Instance.BindControls();
+        InputManager.Instance.EnableAllControls();
+    }
+
     void Update()
     {
         _stateInfo = _jimAnimator.GetCurrentAnimatorStateInfo(0);
+        BlinkTimer();
     }
 
     private void FixedUpdate()
@@ -100,6 +137,15 @@ public class JimController : MonoBehaviour
         _jimAnimator.SetFloat("leftInputX", _leftStickInput.x);
         _jimAnimator.SetFloat("leftInputY", _leftStickInput.y);
 
+        if(_leftStickInput.x == 0 && _leftStickInput.y == 0)
+        {
+            isReceivingLeftStick = false;
+        }
+        else
+        {
+            isReceivingLeftStick = true;
+        }
+
         _jimAnimator.SetFloat("leftInputMagnitude", _leftStickInput.sqrMagnitude, speedDampTime, Time.deltaTime);
 
         _leftStickDirection = new Vector3(_leftStickInput.x, 0.0f, _leftStickInput.y);
@@ -109,7 +155,7 @@ public class JimController : MonoBehaviour
         playerDirection.y = 0.0f;
 
         // Get camera's forward and kill the y value
-        Vector3 cameraDirection = Camera.main.transform.forward;
+        Vector3 cameraDirection = _mainCamera.transform.forward;
         cameraDirection.y = 0.0f;
 
         // Create rotation from the players forward to the direction the camera is facing
@@ -130,6 +176,12 @@ public class JimController : MonoBehaviour
         // this block will be unnecessary, as it is unwise to use root motion and physical rotation
         if (_leftStickInput.sqrMagnitude >= leftStickDeadzone)
         {
+            // If the player rotates a certain amount then make the avatar blink immediately
+            if(Vector3.Angle(_moveDirection, playerDirection) >= blinkAngleThreshold)
+            {
+                _blinkTimer = blinkRate;
+            }
+
             // Directly rotate the player if the joystick is moving and they are in the idle or locomotion state
             if (IsInState(_idleID) || IsInState(_locomotionID)) 
             {
@@ -161,7 +213,19 @@ public class JimController : MonoBehaviour
     public void OnRightStick(InputAction.CallbackContext context)
     {
         _rightStickInput = context.ReadValue<Vector2>();
-        freeLookCamera.m_XAxis.m_InputAxisValue = _rightStickInput.x * cameraSensitivity;
+
+        if(_rightStickInput == Vector2.zero)
+        {
+            isReceivingRightStick = false;
+        }
+        else
+        {
+            isReceivingRightStick = true;
+        }
+        
+        freeLookCamera.m_XAxis.m_InputAxisValue = _rightStickInput.x;
+        freeLookCamera.m_YAxis.m_InputAxisValue = _rightStickInput.y;
+        
         
     }
 
@@ -172,11 +236,15 @@ public class JimController : MonoBehaviour
 
     private void OnHealthChanged(float health)
     {
-        UICanvas.Instance.ChangeHealthBar(health);
+        UICanvas.Instance.ChangeHealthBar(health/maxHealth);
+        if(health <= 0) 
+        {
+            _jimAnimator.SetBool("dead", true);
+        }
     }
 
     // Utility function to see if the animator is in the indicated state
-    private bool IsInState(int stateHash)
+    public bool IsInState(int stateHash)
     {
         return _stateInfo.fullPathHash == stateHash;
     }
@@ -189,6 +257,43 @@ public class JimController : MonoBehaviour
         }
     }
 
+    private void FinishPullEvent()
+    {
+        _jimAnimator.SetBool("pull", false);
+    }
+
+    private void GameOverEvent()
+    {
+        InputManager.Instance.currentGameState = InputManager.GameStates.GameOver;
+    }
+
+    private void BlinkEvent()
+    {
+        _blinkLerpValue += blinkSpeed * Time.deltaTime;
+        float blinkValue = Mathf.Lerp(_initialBlinkValue, 100.0f, _blinkLerpValue);
+
+        skinnedMeshRenderer.SetBlendShapeWeight(0, blinkValue);
+
+        if (_blinkLerpValue >= 1)
+        {
+            blinkSpeed *= -1;
+            _blinkLerpValue = 1;
+        }
+        else if (_blinkLerpValue < 0)
+        {
+            blinkSpeed *= -1;
+            _blinkLerpValue = 0;
+            _blinkTimer = 0;
+        }
+    }
+    private void BlinkTimer()
+    {
+        if(_blinkTimer >= blinkRate)
+        {
+            BlinkEvent();
+        }
+        _blinkTimer += Time.deltaTime;
+    }
     private void OnDrawGizmos()
     {
         Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), _moveDirection, Color.red);

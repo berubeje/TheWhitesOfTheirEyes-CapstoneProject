@@ -4,7 +4,7 @@
 // author: Jesse Berube
 // date: 2020-06-23
 //
-// summary: A script to kill the boss in aplha build when a certain thing drops on the giants head.
+// summary: Detects when the pillars collide with the trigger to deal damage.
 ///-------------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
@@ -12,7 +12,6 @@ using UnityEngine;
 
 public class GiantDeathHitboxLogic : MonoBehaviour
 {
-
     private BossController _bossController;
 
     private void Awake()
@@ -26,10 +25,13 @@ public class GiantDeathHitboxLogic : MonoBehaviour
 
         if (killPillarScript != null )
         {
-            _bossController.bossHealth -= killPillarScript.damageDelt;
-            Destroy(killPillarScript.gameObject);
+            _bossController.currentBossHealth -= killPillarScript.damageDelt;
+            _bossController.HitStun();
 
-            if(_bossController.bossHealth <=  0.0f)
+            Transform pillarTransform = killPillarScript.transform;
+
+            AudioManager.Instance.PlaySound("PillarBreak");
+            if(_bossController.currentBossHealth <=  0.0f)
             {
                 Destroy(this.gameObject);
             }

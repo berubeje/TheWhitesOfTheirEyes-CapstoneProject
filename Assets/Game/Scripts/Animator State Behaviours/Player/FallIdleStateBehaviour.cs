@@ -5,10 +5,10 @@ using UnityEngine;
 public class FallIdleStateBehaviour : StateMachineBehaviour
 {
     public float groundCheckDistance;
+    public Vector3 sphereCastStartOffset;
 
     public float softLandingTime;
     public float mediumLandingTime;
-    public float hardLandingTime;
 
     [Range(0.0f, 1.0f)]
     public float colliderSizeMultiplier;
@@ -20,6 +20,7 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
     private float _capsuleColliderHeight;
     private Vector3 _capsuleColliderCenter;
     private CapsuleCollider _capsuleCollider;
+    private LayerMask _layerMask = ~(1 << 8);
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -43,7 +44,7 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
         newCenter.y += (animator.GetFloat("colliderCurve") * colliderYOffsetMultiplier);
         _capsuleCollider.center = newCenter;
 
-        if (Physics.SphereCast(animator.transform.position, 0.3f, Vector3.down, out _, groundCheckDistance))
+        if (Physics.SphereCast(animator.transform.position + sphereCastStartOffset, 0.4f, Vector3.down, out _, groundCheckDistance, _layerMask))
         {
             if (_fallTime < softLandingTime)
             {
@@ -53,7 +54,7 @@ public class FallIdleStateBehaviour : StateMachineBehaviour
             {
                 animator.SetFloat("fallSpeed", 0.5f);
             }
-            else if(_fallTime < hardLandingTime)
+            else
             {
                 animator.SetFloat("fallSpeed", 1.0f);
             }

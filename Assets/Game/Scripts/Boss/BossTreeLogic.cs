@@ -1,40 +1,80 @@
-﻿using System.Collections;
+﻿//-------------------------------------------------------------------------------------------------
+// file: BossTreeLogic.cs
+//
+// author: Jesse Berube
+// date: 2020/07/17
+//
+// summary: The scripts detects when it has been pulled down, then alerts the boss that it has been knocked down.
+///-------------------------------------------------------------------------------------------------
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BossTreeLogic : MonoBehaviour
 {
     public BossController bossController;
-    public float alertTimer = 1.5f;
+    public GameObject treeHealParticleEffect;
+    public GameObject groundUprootParticleEffect;
 
-    private bool _addedToList = false;
     private RopeAnchorPoint _ropeAnchorPoint;
-    private float _currentAlertTime = 0.0f;
+    private RopeAnchorPoint _swingAnchorPoint;
+
 
     private void Start()
     {
-        _ropeAnchorPoint = GetComponent<RopeAnchorPoint>();
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        if(_ropeAnchorPoint.pullDone && _addedToList == false)
+        if (bossController == null)
         {
-            if (bossController.treeRepairInProgress == false)
-            {
-                _currentAlertTime += Time.deltaTime;
+            this.enabled = false;
+        }
 
-                if (_currentAlertTime >= alertTimer)
-                {
-                    _addedToList = true;
-                    bossController.fallenTreeList.Add(_ropeAnchorPoint);
-                    _currentAlertTime = 0.0f;
-                }
+        RopeAnchorPoint[] anchorPoints = transform.parent.GetComponentsInChildren<RopeAnchorPoint>();
+
+        foreach (RopeAnchorPoint anchorPoint in anchorPoints)
+        {
+            if (anchorPoint.gameObject == this.gameObject)
+            {
+                _ropeAnchorPoint = anchorPoint;
+            }
+            else
+            {
+                _swingAnchorPoint = anchorPoint;
             }
         }
-        else if(_ropeAnchorPoint.pullDone == false && _addedToList == true)
-        {
-            _addedToList = false;
-        }
+
+        _swingAnchorPoint.AllowSwing(false);
+
+        _ropeAnchorPoint.pullStartEvent.AddListener(TreeStartedFall);
+        _ropeAnchorPoint.pullDoneEvent.AddListener(TreeFallEnded);
+        _ropeAnchorPoint.resetDoneEvent.AddListener(HealEnded);
+
+        treeHealParticleEffect.SetActive(false);
+        groundUprootParticleEffect.SetActive(false);
+    }
+
+    // Tell the anchor point to reverse the pull, as well as play a particle effect
+    public void StartHeal()
+    {
+        _swingAnchorPoint.AllowSwing(false);
+        _ropeAnchorPoint.ResetPull(_ropeAnchorPoint.pullTime);
+
+        treeHealParticleEffect.SetActive(true);
+    }
+
+    private void HealEnded()
+    {
+        treeHealParticleEffect.SetActive(false);
+    }
+
+    private void TreeStartedFall()
+    {
+        groundUprootParticleEffect.SetActive(true);
+    }
+
+    private void TreeFallEnded()
+    {
+        bossController.fallenTreeList.Add(this);
+        groundUprootParticleEffect.SetActive(false);
+        _swingAnchorPoint.AllowSwing(true);
     }
 }

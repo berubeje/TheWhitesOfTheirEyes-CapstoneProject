@@ -1,12 +1,30 @@
-﻿using System.Collections;
+﻿///-------------------------------------------------------------------------------------------------
+// file: BossRepairTreeStateBehavior.cs
+//
+// author: Jesse Berube
+// date: 2020-07-13
+//
+// summary: The repair tree state behavior. Once the boss is facing a fallen tree, they will repair them one at a time.
+///-------------------------------------------------------------------------------------------------
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BossRepairTreeStateBehavior : StateMachineBehaviour
 {
+    public bool interuptRepair = false;
+
     private Animator _animator;
+    private Animator _fsm;
     private BossController _bossController;
-    private bool _animationStarted;
+    private bool _firstAnimationStarted;
+    private bool _secondAnimationStarted;
+
+    private float currentTime = 0.0f;
+
+    private BossTreeLogic _tree;
+    private PlayerGrapplingHook _hook;
 
     //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator fsm, AnimatorStateInfo stateInfo, int layerIndex)
@@ -14,6 +32,7 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
         if (_animator == null)
         {
             _animator = fsm.transform.parent.GetComponent<Animator>();
+            _fsm = fsm;
         }
 
         if (_bossController == null)
@@ -21,35 +40,80 @@ public class BossRepairTreeStateBehavior : StateMachineBehaviour
             _bossController = fsm.GetComponentInParent<BossController>();
         }
 
-        _animator.SetTrigger("Repair");
-        _bossController.fallenTreeList[0].ResetPull();
+        _bossController.flinchEvent.AddListener(Flinch);
+
+        if (_bossController.fallenTreeList.Count > 0)
+        {
+            _tree = _bossController.fallenTreeList[0];
+        }
+        else
+        {
+            fsm.SetTrigger("Idle");
+            return;
+        }
+
+        _animator.SetTrigger("Heal Start");
+        _hook = _bossController.player.ropeLogic;
+
+        AudioManager.Instance.PlaySound("TreeRepair");
     }
 
 
     public override void OnStateUpdate(Animator fsm, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (_bossController.bossHealth <= 0.0f)
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Tree Heal Start"))
         {
-            fsm.SetTrigger("Die");
-            return;
+            if (_firstAnimationStarted == false)
+            {
+                if (_hook.targetAnchor == null || _hook.targetAnchor.transform.parent != _tree.transform.parent)
+                {
+                    _tree.StartHeal();
+                    _bossController.fallenTreeList.Remove(_tree);
+                    _tree = null;
+                    _bossController.ToggleHealParticles(true);
+                }
+
+                _firstAnimationStarted = true;
+
+            }
+        }
+        else if (_firstAnimationStarted == true)
+        {
+            _firstAnimationStarted = false;
+
         }
 
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Point To Repair"))
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Tree Heal End"))
         {
-            _animationStarted = true;
+            if (_secondAnimationStarted == false)
+            {
+                _secondAnimationStarted = true;
+                _bossController.ToggleHealParticles(false);
+            }
         }
-        else if (_animationStarted == true)
+        else if (_secondAnimationStarted == true)
         {
-            _animationStarted = false;
-            _bossController.fallenTreeList.RemoveAt(0);
+            _secondAnimationStarted = false;
             fsm.SetTrigger("Idle");
         }
     }
 
-
-    //OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    override public void OnStateExit(Animator fsm, AnimatorStateInfo stateInfo, int layerIndex)
+    public override void OnStateExit(Animator fsm, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        _firstAnimationStarted = false;
+        _secondAnimationStarted = false;
+        _bossController.flinchEvent.RemoveListener(Flinch);
     }
+
+    private void Flinch()
+    {
+        _fsm.SetTrigger("Flinch");
+        _bossController.ToggleHealParticles(false);
+
+        if (interuptRepair)
+        {
+            //_tree.PauseHeal();
+        }
+    }
+
 }

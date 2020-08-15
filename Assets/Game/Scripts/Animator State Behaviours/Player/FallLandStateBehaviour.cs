@@ -41,13 +41,14 @@ public class FallLandStateBehaviour : StateMachineBehaviour
         _capsuleCollider.height = 1.75f;
 
         animator.SetFloat("fallSpeed", 0.0f);
+        
+        animator.ResetTrigger("dodgeRoll");
+        animator.ResetTrigger("fallIdle");
+        animator.ResetTrigger("fallLand");
         animator.ResetTrigger("swingStart");
         animator.ResetTrigger("swingIdle");
         animator.ResetTrigger("swingLand");
         animator.ResetTrigger("swingCancel"); 
-        animator.ResetTrigger("fallIdle");
-        animator.ResetTrigger("fallLand");
-        animator.ResetTrigger("dodgeRoll");
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

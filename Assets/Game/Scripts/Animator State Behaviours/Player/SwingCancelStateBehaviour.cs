@@ -16,7 +16,7 @@ public class SwingCancelStateBehaviour : StateMachineBehaviour
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _jimController = animator.GetComponent<JimController>();
-        _playerGrapplingHook = _jimController.hook;
+        _playerGrapplingHook = _jimController.ropeLogic;
         _playerGrapplingHook.DetachHook();
 
         _swingForward = -animator.transform.forward;

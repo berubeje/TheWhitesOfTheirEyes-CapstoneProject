@@ -31,8 +31,6 @@ public class BossTitleScreenController : MonoBehaviour
         _minPosition.z -= positionRange;
 
         _maxPosition = transform.position;
-        _maxPosition.y += positionRange;
-        _maxPosition.z += positionRange;
 
 
     }

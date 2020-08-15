@@ -12,14 +12,20 @@ public class UICanvas : Singleton<UICanvas>
     public GameObject controlsMenu;
     public GameObject settingsMenu;
     public GameObject gameOverMenu;
+    public GameObject restartConfirmationMenu;
     public GameObject gameFinishedMenu;
 
     [Space]
     public GameObject healthBar;
+    public RectTransform healthBarSlider;
+    
+    public GameObject bossHealthBar;
+    public RectTransform bossHealthBarSlider;
 
+    [Space]
+    public CinematicBars cinematicBars;
 
     private Canvas _canvas;
-    private Slider _healthSlider;
 
     [SerializeField] private InputAction _pauseAction;
 
@@ -35,14 +41,14 @@ public class UICanvas : Singleton<UICanvas>
         _canvas.worldCamera = Camera.main;
         _canvas.planeDistance = 0.05f;
 
-        _healthSlider = healthBar.GetComponent<Slider>();
-
-        _pauseAction.started += OnPauseButtonDown;
+        BindControls();
+        InputManager.Instance.OnGameStateChange += OnGameStateChanged;
     }
 
     private void Start()
     {
-        InputManager.Instance.OnGameStateChange += OnGameStateChanged;
+        // Start with controls disabled
+        DisableAllControls();
     }
 
     private void OnGameStateChanged(InputManager.GameStates state)
@@ -55,14 +61,22 @@ public class UICanvas : Singleton<UICanvas>
                 settingsMenu.SetActive(false);
                 gameOverMenu.SetActive(false);
                 gameFinishedMenu.SetActive(false);
+                restartConfirmationMenu.SetActive(false); 
                 healthBar.SetActive(true);
+
+                if (InputManager.instance.jimController.boss.bossCutsceneFinished)
+                {
+                    bossHealthBar.SetActive(true);
+                }
+
+                Cursor.lockState = CursorLockMode.Locked;
                 Time.timeScale = 1;
                 break;
 
             case InputManager.GameStates.Paused:
                 Time.timeScale = 0;
                 pauseMenu.SetActive(true);
-                healthBar.SetActive(false);
+                Cursor.lockState = CursorLockMode.Confined;
                 break;
 
             case InputManager.GameStates.Reloading:
@@ -76,15 +90,25 @@ public class UICanvas : Singleton<UICanvas>
                 InputManager.Instance.currentGameState = InputManager.GameStates.Playing;
                 break;
 
+            case InputManager.GameStates.Resetting:
+                Time.timeScale = 1;
+                InputManager.Instance.currentGameState = InputManager.GameStates.Playing;
+                break;
+
             case InputManager.GameStates.GameOver:
                 gameOverMenu.SetActive(true);
-                healthBar.SetActive(false);
+                healthBar.SetActive(false); 
+                bossHealthBar.SetActive(false);
+                Time.timeScale = 0;
+                Cursor.lockState = CursorLockMode.Confined;
                 break;
 
             case InputManager.GameStates.GameFinished:
                 gameFinishedMenu.SetActive(true);
                 healthBar.SetActive(false);
+                bossHealthBar.SetActive(false);
                 Time.timeScale = 0;
+                Cursor.lockState = CursorLockMode.Confined;
                 break;
         }
     }
@@ -92,13 +116,6 @@ public class UICanvas : Singleton<UICanvas>
     public void LoadLastCheckpoint()
     {
         InputManager.Instance.currentGameState = InputManager.GameStates.Reloading;
-    }
-
-    public void ResetLevel()
-    {
-        InputManager.Instance.currentGameState = InputManager.GameStates.Playing;
-        SceneManager.LoadScene(1);
-        Time.timeScale = 1;
     }
 
     public void PauseGame()
@@ -111,20 +128,21 @@ public class UICanvas : Singleton<UICanvas>
         InputManager.Instance.currentGameState = InputManager.GameStates.Playing;
     }
 
-    public void ReturnToMenu()
-    {
-        SceneManager.LoadScene(0);
-    }
-
     public void QuitGame()
     {
         Application.Quit();
     }
 
-    public void ChangeHealthBar(float newValue)
+    public void ChangeHealthBar(float normalizedHealth)
     {
-        _healthSlider.value = newValue;
+        healthBarSlider.sizeDelta = new Vector2((-1 + normalizedHealth) * 228, 0);
     }
+
+    public void ChangeBossHealthBar(float normalizedHealth)
+    {
+        bossHealthBarSlider.offsetMax = new Vector2((-1 + normalizedHealth) * 398, 0);
+    }
+
     private void OnPauseButtonDown(InputAction.CallbackContext context)
     {
         if (InputManager.Instance.currentGameState == InputManager.GameStates.Playing)
@@ -137,13 +155,31 @@ public class UICanvas : Singleton<UICanvas>
         }
     }
 
-    private void OnEnable()
+    public void BindControls()
+    {
+        _pauseAction.started += OnPauseButtonDown;
+    }
+
+    public void UnbindControls()
+    {
+        _pauseAction.started -= OnPauseButtonDown;
+    }
+    public void EnableAllControls()
     {
         _pauseAction.Enable();
+    }
+    public void DisableAllControls()
+    {
+        _pauseAction.Disable();
+    }
+
+    private void OnEnable()
+    {
+        EnableAllControls();
     }
 
     private void OnDisable()
     {
-        _pauseAction.Disable();
+        DisableAllControls();
     }
 }

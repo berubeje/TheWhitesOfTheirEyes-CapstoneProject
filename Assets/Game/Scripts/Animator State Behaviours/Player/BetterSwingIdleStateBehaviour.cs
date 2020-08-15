@@ -9,7 +9,11 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
     public float maxSwingSpeed;
     public float minSwingSpeed;
     public float swingRadius;
+    public float swingRotationSpeed;
     public float forwardCheckDistance;
+
+    [Space]
+    [Header("Spline Settings")]
     [Range(1.0f, 10.0f)]
     public float releaseDirectionMagnitude;
     public float releaseDirectionOffset;
@@ -21,7 +25,9 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
     public float maxReleaseDistanceY;
 
     [Space]
-    public float swingRotationSpeed;
+    [Header("Coyote Time Settings")]
+    [Range(0.0f, 1.0f)]
+    public float coyoteTimeThreshold;
 
     private Rigidbody _rigidbody;
     private PlayerGrapplingHook _grapplingHook;
@@ -30,15 +36,12 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
     private JimController _jimController;
     private CinemachineTrackedDolly _dollyCamera;
 
-    private Vector3 _initialSwingPosition;
     private Vector3 _swingForward;
     private Vector3 _releaseDirection;
     private Vector3 _backwardSwingLimit;
     private Vector3 _forwardSwingLimit;
     private Vector3 _backwardLimitVector;
     private Vector3 _forwardLimitVector;
-    private Vector3 _currentSlerpStart;
-    private Vector3 _currentSlerpEnd;
     private Vector3 _pendulumArm;
     private Vector3 _swingStartVector;
 
@@ -47,7 +50,6 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
     private Vector3 _swingCenterAxis;
     private Vector3 _forwardSwingRotation;
     private Vector3 _backwardSwingRotation;
-    private bool _firstSwingComplete;
 
     private float _percentOfSwing;
     private float _speedMultiplier;
@@ -58,12 +60,13 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         // Reset all triggers for sanity
-        animator.ResetTrigger("swingStart");
-        animator.ResetTrigger("swingIdle");
-        animator.ResetTrigger("swingLand");
-        animator.ResetTrigger("swingCancel");
-        animator.ResetTrigger("fallLand");
-        animator.ResetTrigger("dodgeRoll");
+        //animator.ResetTrigger("swingStart");
+        //animator.ResetTrigger("swingIdle");
+        //animator.ResetTrigger("swingLand");
+        //animator.ResetTrigger("swingCancel");
+        //animator.ResetTrigger("fallLand");
+        animator.ResetTrigger("fallIdle");
+        //animator.ResetTrigger("dodgeRoll");
 
         _grapplingHook = animator.GetComponentInChildren<PlayerGrapplingHook>();
         _rigidbody = animator.GetComponent<Rigidbody>();
@@ -85,9 +88,6 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         }
         _dollyCamera = _jimController.swingCamera.GetCinemachineComponent<CinemachineTrackedDolly>();
 
-        // Cache initial position
-        _initialSwingPosition = animator.transform.position;
-
         // Get reference to current anchor point
         _anchor = _grapplingHook.targetAnchor.transform;
 
@@ -99,7 +99,7 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         float yLimit = Mathf.Cos(swingArcLimit * Mathf.Deg2Rad) * swingRadius;
 
         // Create forward vector because player is rotated
-        _swingForward = _anchor.position - _initialSwingPosition;
+        _swingForward = _anchor.position - animator.transform.position;
         _swingForward.y = 0;
         _swingForward = _swingForward.normalized;
 
@@ -124,13 +124,12 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         // Vectors from the anchor point to the swing limits
         _backwardLimitVector = _backwardSwingLimit - _anchor.position; 
         _forwardLimitVector = _forwardSwingLimit - _anchor.position;
-        _interpolant = 0;
 
-        _currentSlerpStart = animator.transform.position - _anchor.position;
-        _currentSlerpEnd = _forwardLimitVector;
+        // Calculate the interpolant we're starting at
+        float angle = Vector3.Angle(_backwardLimitVector, animator.transform.position - _anchor.position);
+        _interpolant = angle/(swingArcLimit * 2);
+
         _swingStartVector = _backwardLimitVector;
-
-        _firstSwingComplete = false;
         
         // Initialize _direction to forward
         _direction = 1; 
@@ -142,57 +141,66 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
     {
         if (!animator.GetAnimatorTransitionInfo(0).IsName("SwingIdle -> SwingLand") && !animator.GetAnimatorTransitionInfo(0).IsName("SwingIdle -> SwingCancel"))
         {
+            RotateSwing(animator);
+
             _pendulumArm = _anchor.position - animator.transform.position;
             _angle = Vector3.Angle(Vector3.up, _pendulumArm);
             _angle = Mathf.Round(_angle * 10.0f) / 10.0f;
+
             float anglePercent = _angle / swingArcLimit;
+            animator.SetFloat("angle", anglePercent);
 
             // Calculate speed of swing based on how close we are to the center
             _speedMultiplier = Mathf.Lerp(maxSwingSpeed, minSwingSpeed, anglePercent);
+            animator.SetFloat("swingDirection", _speedMultiplier * _direction);
+
+            // Play the whoosh sound when player is moving the fastest
+            if (anglePercent <= 0.1f)
+            {
+                AudioManager.Instance.PlaySound("SwingWhoosh");
+            }
 
             // Slerp between the current two heights of the swing
-            Vector3 targetVector = Vector3.Slerp(_currentSlerpStart, _currentSlerpEnd, _interpolant);
+            Vector3 targetVector = Vector3.Slerp(_backwardLimitVector, _forwardLimitVector, _interpolant);
 
             // Calculate the right direction of the swing 
             Vector3 swingRight = Vector3.Cross(_swingCenterAxis, _backwardSwingRotation).normalized;
 
+            // Cross product of the direction of the anchor point with the swing right gives us the direction we want to face
+            Quaternion targetRotation = Quaternion.LookRotation(Vector3.Cross(_pendulumArm, swingRight));
+
             // Move and rotate the player
-            _rigidbody.MovePosition(_anchor.position + targetVector);
-            _rigidbody.MoveRotation(Quaternion.LookRotation(Vector3.Cross(_pendulumArm, swingRight)));
+            animator.transform.Translate(((_anchor.position + targetVector) - animator.transform.position), Space.World);
+            animator.transform.rotation = Quaternion.RotateTowards(animator.transform.rotation, targetRotation, _jimController.rotationSpeed);
 
             // Calculate the release direction based on where we are in the swing arc 
-            _releaseDirection = Vector3.Cross(-_pendulumArm, swingRight * _direction).normalized * releaseDirectionMagnitude;
+            _releaseDirection = Vector3.Cross(_pendulumArm, swingRight * _direction).normalized * releaseDirectionMagnitude;
+
             // How much of the current swing we have completed
             _percentOfSwing = Vector3.Angle(_swingStartVector, -_pendulumArm) / (swingArcLimit * 2);
-
             animator.SetFloat("percentOfSwing", _percentOfSwing * _direction);
 
             // Update camera position and dolly track position/rotation
             _jimController.swingCameraTrack.transform.position = _backwardSwingLimit;
             _jimController.swingCameraTrack.transform.rotation = Quaternion.LookRotation(_swingForward);
-            _dollyCamera.m_PathPosition = _interpolant * 2;
-
+            
             
             _interpolant += _speedMultiplier * Time.deltaTime * _direction;
+            _dollyCamera.m_PathPosition = _interpolant * 2;
 
-            RotateSwing(animator);
+            SetUpSpline(animator);
 
-            if (_interpolant > 1.0f)
+            if (_interpolant >= 1.0f)
             {
+                _interpolant = 1;
                 _direction = -1;
                 animator.SetFloat("swingDirectionRaw", _direction);
                 animator.SetBool("canRoll", false);
-
-                if (!_firstSwingComplete)
-                {
-                    _currentSlerpStart = _backwardLimitVector;
-                    _currentSlerpEnd = _forwardLimitVector;
-                    _firstSwingComplete = true;
-                }
                 _swingStartVector = _forwardLimitVector;
             }
-            else if(_interpolant < 0)
+            else if(_interpolant <= 0)
             {
+                _interpolant = 0;
                 _direction = 1;
                 animator.SetFloat("swingDirectionRaw", _direction);
                 
@@ -200,16 +208,23 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
                 animator.SetBool("canRoll", true);
                 _swingStartVector = _backwardLimitVector;
             }
-            animator.SetFloat("angle", anglePercent);
-            animator.SetFloat("swingDirection", _speedMultiplier * _direction);
-
-            SetUpSpline(animator);
-
         }
 
-        if (Physics.SphereCast(animator.transform.position + new Vector3(0, 1, 0), 0.3f, _swingForward * _direction, out _, forwardCheckDistance, _layerMask))
+        if (Physics.SphereCast(animator.transform.position + new Vector3(0, 1f, 0), 0.4f, _swingForward * _direction, out _, forwardCheckDistance, _layerMask))
         {
-            animator.SetTrigger("swingCancel");
+            _direction *= -1;
+
+            if(_direction == 1)
+            {
+                _swingStartVector = _backwardLimitVector;
+            }
+            else if (_direction == -1)
+            {
+                _swingStartVector = _forwardLimitVector;
+            }
+
+            animator.SetFloat("swingDirectionRaw", _direction);
+
         }
 
         Debug.DrawLine(_anchor.position, _forwardSwingLimit, Color.yellow);
@@ -242,13 +257,18 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
         _splineRoute.controlPoints[0].position = animator.transform.position;
         _splineRoute.controlPoints[1].position = animator.transform.position + _releaseDirection + (Vector3.up * releaseDirectionOffset);
 
-        _splineRoute.controlPoints[3].position = animator.transform.position +
-            (_swingForward * releaseDistanceX) * _direction +
-            (Vector3.up * releaseDistanceY);
+        if (_percentOfSwing > coyoteTimeThreshold)
+        {
+                _splineRoute.controlPoints[3].position = animator.transform.position +
+                (_swingForward * releaseDistanceX) * _direction +
+                (Vector3.up * releaseDistanceY);
 
 
-        _splineRoute.controlPoints[2].position = (Quaternion.AngleAxis(releaseDestinationAngle * -_direction, animator.transform.right) * Vector3.up) +
-            _splineRoute.controlPoints[3].position;
+            _splineRoute.controlPoints[2].position = (Quaternion.AngleAxis(releaseDestinationAngle * -_direction, animator.transform.right) * Vector3.up) +
+                _splineRoute.controlPoints[3].position;
+        }
+
+        
     }
 
     private void RotateSwing(Animator animator)
@@ -267,11 +287,5 @@ public class BetterSwingIdleStateBehaviour : StateMachineBehaviour
 
         // Create new forward vector 
         _swingForward = _forwardSwingRotation.normalized;
-
-        if (_firstSwingComplete)
-        {
-            _currentSlerpStart = _backwardLimitVector;
-        }
-        _currentSlerpEnd = _forwardLimitVector;
     }
 }
